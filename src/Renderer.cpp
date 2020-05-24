@@ -103,6 +103,42 @@ void Renderer::Draw(Shader& cameraShader)
     }
 }
 
+void Renderer::DrawGizmoCube(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, Shader& cameraShader, Mesh* componentMesh, const Texture* componentTexture, const Shader* componentShader)
+{
+    GLint polygonMode;
+    glGetIntegerv(GL_POLYGON_MODE, &polygonMode);
+
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    componentShader->SetInt("texture1", 0);
+    componentTexture->Use();
+
+    std::vector<float> verts = componentMesh->GetVertices();
+    std::vector<unsigned int> inds = componentMesh->GetIndices();
+
+    BindMesh(verts.data(), verts.size() * sizeof(float));
+    cameraShader.Use();
+
+    glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+    //float sinCalc = cos(timeValue);
+    model = glm::translate(model, pos);
+    model = glm::rotate(model, glm::radians(rot.x * 360), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(rot.y * 360), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(rot.z * 360), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::scale(model, scale);
+    componentShader->SetMat4("model", model);
+
+    glDrawArrays(GL_TRIANGLES, 0, verts.size());
+    // optional: de-allocate all resources once they've outlived their purpose:
+    // ----------------------------------------------------------------------ss--
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+
+    glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
+
+    std::cout << "Draw gizmo\n";
+}
+
 void Renderer::AddSpriteToDraw(SpriteComponent* comp)
 {
     spriteComponents.push_back(comp);

@@ -21,6 +21,7 @@ public:
 	GameObject& operator=(const GameObject& other);
 
 	void ShowOnInspector(GameObject* selectedObj, Component* selectedComp);
+	virtual void ShowOnGizmos();
 	virtual void Update(const float& deltaTime);
 
 	void Move(const glm::vec3& offset);

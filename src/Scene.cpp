@@ -29,6 +29,8 @@ Scene::Scene()
     ResourceManager::LoadTexture("Stairs.jpg");
     ResourceManager::LoadTexture("Tree.png");
     ResourceManager::LoadTexture("Gun_Cyberpunk Gun_BaseColor.jpg");
+    ResourceManager::LoadTexture("Cube.jpg");
+    ResourceManager::LoadTexture("green.jpg");
 
     ////HumanAnim
     ResourceManager::LoadTexture("Human/Human_Walk_1.png");
@@ -45,6 +47,7 @@ Scene::Scene()
     ResourceManager::LoadMesh("Human/Human.obj");
     ResourceManager::LoadMesh("Stairs.obj");
     ResourceManager::LoadMesh("weapon.obj");
+    ResourceManager::LoadMesh("Cube.obj");
     
     //Shaders
     ResourceManager::LoadShader("StandardShader");
@@ -205,6 +208,15 @@ void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _project
 
     DestroyPostponed();
     Renderer::Draw(camShader);
+
+    //Draw gizmos
+    for (std::unique_ptr<GameObject>& obj : objects)
+    {
+        if (!obj->IsActive())
+            continue;
+
+        obj->ShowOnGizmos();
+    }
 }
 
 Camera& Scene::GetCamera()

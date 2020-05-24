@@ -46,6 +46,10 @@ GameObject* const Component::GetParent() const
 	return parent;
 }
 
+void Component::ShowOnGizmos()
+{
+}
+
 void Component::ShowInInspectorBase()
 {
 	ImGui::Checkbox("Is Component Active", &isActive);

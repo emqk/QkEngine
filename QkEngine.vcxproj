@@ -163,6 +163,7 @@
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Game\GameManager.cpp" />
     <ClCompile Include="src\Game\Human.cpp" />
+    <ClCompile Include="src\Gizmos.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\imgui\imgui.cpp" />
     <ClCompile Include="src\imgui\imgui_demo.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\Game\GameManager.h" />
     <ClInclude Include="src\Game\Human.h" />
+    <ClInclude Include="src\Gizmos.h" />
     <ClInclude Include="src\imgui\imconfig.h" />
     <ClInclude Include="src\imgui\imgui.h" />
     <ClInclude Include="src\imgui\imgui_impl_glfw.h" />
@@ -217,6 +219,7 @@
     <None Include="src\Shaders\StandardShader.vs" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resources\green.jpg" />
     <Image Include="src\Building Area 1_Albedo.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

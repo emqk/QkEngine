@@ -14,6 +14,7 @@ public:
 
 	void Update(const float& deltaTime) override;
 	void ShowOnInspector() override;
+	void ShowOnGizmos() override;
 	std::unique_ptr<Component> MakeCopy(GameObject* newParent) const override;
 
 	glm::vec3 GetExtents() const;

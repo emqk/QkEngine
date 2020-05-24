@@ -2,6 +2,7 @@
 #include "SpriteComponent.h"
 #include "../GameObject.h"
 #include "../Physics.h"
+#include "../Gizmos.h"
 
 #include <iostream>
 
@@ -45,6 +46,11 @@ void BoxColliderComponent::ShowOnInspector()
 	glm::vec3 boundsExtents = bounds.Extents();
 	ImGui::InputFloat3("Extents", &boundsExtents.x, 3);
 	//bounds = Bounds(boundsExtents);
+}
+
+void BoxColliderComponent::ShowOnGizmos()
+{
+	Gizmos::DrawCubeWireframe(parent->GetPosition(), parent->GetRotation(), bounds.Extents());
 }
 
 std::unique_ptr<Component> BoxColliderComponent::MakeCopy(GameObject* newParent) const

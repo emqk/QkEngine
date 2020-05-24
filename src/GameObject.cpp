@@ -139,6 +139,14 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 	}
 }
 
+void GameObject::ShowOnGizmos()
+{
+	for (std::unique_ptr<Component>& comp : components)
+	{
+		comp->ShowOnGizmos();
+	}
+}
+
 void GameObject::Update(const float& deltaTime)
 {
 	UpdateComponents(deltaTime);
