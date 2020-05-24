@@ -1,0 +1,25 @@
+﻿C:\Programy\Visual Studio 2019\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(459,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (OpenGLRenderer.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Application.cpp
+  Camera.cpp
+  Component.cpp
+  MoveComponent.cpp
+  SpriteComponent.cpp
+  Editor.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(54,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(121,70): warning C4018: '<': signed/unsigned mismatch
+  GameObject.cpp
+  GameManager.cpp
+  Human.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Game\Human.cpp(26,25): warning C4018: '>': signed/unsigned mismatch
+  Renderer.cpp
+  Scene.cpp
+  Window.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Window.cpp(49,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     Creating library C:\Users\emis\source\repos\QkEngine\Release\QkEngine.lib and object C:\Users\emis\source\repos\QkEngine\Release\QkEngine.exp
+  Generating code
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\GameObject.cpp(66): warning C4172: returning address of local variable or temporary
+  636 of 2527 functions (25.2%) were compiled, the rest were copied from previous compilation.
+    161 functions were new in current compilation
+    128 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Release\QkEngine.exe

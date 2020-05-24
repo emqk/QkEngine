@@ -1,0 +1,25 @@
+﻿  Application.cpp
+  Bounds.cpp
+  Camera.cpp
+  GameObject.cpp
+  GameManager.cpp
+  Human.cpp
+C:\Users\emis\source\repos\QkEngine\OpenGLRenderer\src\Game\Human.cpp(26,25): warning C4018: '>': signed/unsigned mismatch
+  InputManager.cpp
+  Mesh.cpp
+  ModelLoader.cpp
+  Renderer.cpp
+  ResourceManager.cpp
+  Scene.cpp
+  Shader.cpp
+  Texture.cpp
+  Window.cpp
+C:\Users\emis\source\repos\QkEngine\OpenGLRenderer\src\Window.cpp(42,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\emis\source\repos\QkEngine\OpenGLRenderer\src\Window.cpp(58,25): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  glad.c
+     Creating library C:\Users\emis\source\repos\QkEngine\Release\OpenGLRenderer.lib and object C:\Users\emis\source\repos\QkEngine\Release\OpenGLRenderer.exp
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 1215 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  OpenGLRenderer.vcxproj -> C:\Users\emis\source\repos\QkEngine\Release\OpenGLRenderer.exe
