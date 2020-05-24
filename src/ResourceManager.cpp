@@ -10,7 +10,7 @@ std::unordered_map<std::string, std::unique_ptr<Shader>> ResourceManager::shader
 void ResourceManager::LoadTexture(const char* texturePath)
 {
 	std::unique_ptr<Texture> texture = std::make_unique<Texture>();
-	std::string fullPath = std::string( "../QkEngine/Models/") + std::string(texturePath);
+	std::string fullPath = std::string( "../QkEngine/Resources/") + std::string(texturePath);
 	std::cout << "Loading texture: " << fullPath.c_str() << "\n";
 	texture->LoadTextureFromFile(fullPath.c_str());
 
@@ -40,7 +40,7 @@ std::vector<std::string> ResourceManager::GetTexturesName()
 void ResourceManager::LoadMesh(const char* meshPath)
 {
 	std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>();
-	std::string fullPath = std::string("../QkEngine/Models/") + std::string(meshPath);
+	std::string fullPath = std::string("../QkEngine/Resources/") + std::string(meshPath);
 	std::cout << "Loading mesh: " << fullPath.c_str() << "\n";
 
 	MeshData data = ModelLoader::LoadObj(fullPath.c_str());
