@@ -58,7 +58,7 @@ void BoxColliderComponent::ShowOnInspector()
 
 void BoxColliderComponent::ShowOnGizmos()
 {
-	Gizmos::DrawCubeWireframe(GetPosition(), parent->GetRotation(), bounds.Extents());
+	Gizmos::DrawCubeWireframe(GetPosition(), glm::vec3(0,0,0), bounds.Extents());
 }
 
 std::unique_ptr<Component> BoxColliderComponent::MakeCopy(GameObject* newParent) const
