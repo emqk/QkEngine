@@ -9,5 +9,5 @@ void Gizmos::DrawCubeWireframe(const glm::vec3& pos, const glm::vec3& rot, const
     Shader* componentShader = ResourceManager::GetShader("StandardShader");
 
     Camera* cam = &Scene::GetCurrentScene().GetCamera();
-    Renderer::DrawGizmoCube(pos, rot, scale, cam->GetShader(), componentMesh, componentTexture, componentShader);
+    Renderer::DrawMeshAtLocation(pos, rot, scale, cam->GetShader(), componentMesh, componentTexture, componentShader);
 }

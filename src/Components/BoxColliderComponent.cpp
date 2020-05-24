@@ -45,7 +45,7 @@ void BoxColliderComponent::ShowOnInspector()
 
 	glm::vec3 boundsExtents = bounds.Extents();
 	ImGui::InputFloat3("Extents", &boundsExtents.x, 3);
-	//bounds = Bounds(boundsExtents);
+	bounds.SetExtents(boundsExtents);
 }
 
 void BoxColliderComponent::ShowOnGizmos()

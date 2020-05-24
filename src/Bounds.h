@@ -10,15 +10,12 @@ public:
 	~Bounds();
 	Bounds(const Bounds& otherBounds);
 
-	friend Bounds operator + (const Bounds& c1, const Bounds& c2);
 	Bounds& operator = (const Bounds& other);
 
+	void SetExtents(const glm::vec3& newExtents);
 	glm::vec3 Extents() const;
 	bool Intersects(const glm::vec3& point, const glm::vec3& offset) const;
 
 private:
 	glm::vec3 extents;
-	float minX, maxX;
-	float minY, maxY;
-	float minZ, maxZ;
 };

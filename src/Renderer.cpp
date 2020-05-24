@@ -103,7 +103,7 @@ void Renderer::Draw(Shader& cameraShader)
     }
 }
 
-void Renderer::DrawGizmoCube(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, Shader& cameraShader, Mesh* componentMesh, const Texture* componentTexture, const Shader* componentShader)
+void Renderer::DrawMeshAtLocation(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, Shader& cameraShader, Mesh* componentMesh, const Texture* componentTexture, const Shader* componentShader)
 {
     GLint polygonMode;
     glGetIntegerv(GL_POLYGON_MODE, &polygonMode);
