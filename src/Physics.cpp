@@ -25,10 +25,10 @@ void Physics::Perform()
 			if (!otherBoxColl->IsActive() || otherBoxColl == currentBoxColl)
 				continue;
 		
-			glm::vec3 currentPosition = currentBoxColl->GetParent()->GetPosition();
+			glm::vec3 currentPosition = currentBoxColl->GetPosition();
 			glm::vec3 extents = currentBoxColl->GetExtents();
 
-			glm::vec3 otherObjectPosition = otherBoxColl->GetParent()->GetPosition();
+			glm::vec3 otherObjectPosition = otherBoxColl->GetPosition();
 			glm::vec3 otherExtents = otherBoxColl->GetExtents();
 		
 			glm::vec3 delta = currentPosition - otherObjectPosition;

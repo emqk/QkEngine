@@ -1,23 +1,8 @@
-﻿  Application.cpp
-  Bounds.cpp
-  Camera.cpp
-  BoxColliderComponent.cpp
-  Component.cpp
-  MoveComponent.cpp
-  SpriteComponent.cpp
-  Editor.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(118,76): warning C4018: '<': signed/unsigned mismatch
+﻿  BoxColliderComponent.cpp
   GameObject.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\GameObject.cpp(117,60): warning C4018: '<': signed/unsigned mismatch
   GameManager.cpp
-  Human.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Game\Human.cpp(26,25): warning C4018: '>': signed/unsigned mismatch
-  Gizmos.cpp
-  Mesh.cpp
-  ModelLoader.cpp
   Physics.cpp
-  Renderer.cpp
-  ResourceManager.cpp
   Scene.cpp
   Window.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Window.cpp(49,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data

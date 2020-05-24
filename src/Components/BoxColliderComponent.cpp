@@ -14,6 +14,10 @@ BoxColliderComponent::BoxColliderComponent(GameObject* _parent) : Component(_par
 	{
 		bounds = spriteComponent->GetMesh()->GetBounds();
 	}
+	else
+	{
+		bounds.SetExtents(glm::vec3(1, 1, 1));
+	}
 
 	Physics::RegisterCollider(this);
 }
@@ -24,7 +28,7 @@ BoxColliderComponent::~BoxColliderComponent()
 	std::cout << "Box Collider Component destructor\n";
 }
 
-BoxColliderComponent::BoxColliderComponent(const BoxColliderComponent& comp) : Component(comp), bounds(comp.bounds)
+BoxColliderComponent::BoxColliderComponent(const BoxColliderComponent& comp) : Component(comp), bounds(comp.bounds), center(comp.center)
 {
 	std::cout << "BoxColliderComp copy constuctor\n";
 	Physics::RegisterCollider(this);
@@ -43,14 +47,18 @@ void BoxColliderComponent::ShowOnInspector()
 {
 	ImGui::Text("Properties");
 
+	//Bounds
 	glm::vec3 boundsExtents = bounds.Extents();
 	ImGui::InputFloat3("Extents", &boundsExtents.x, 3);
 	bounds.SetExtents(boundsExtents);
+
+	//Position offset
+	ImGui::InputFloat3("Center", &center.x, 3);
 }
 
 void BoxColliderComponent::ShowOnGizmos()
 {
-	Gizmos::DrawCubeWireframe(parent->GetPosition(), parent->GetRotation(), bounds.Extents());
+	Gizmos::DrawCubeWireframe(GetPosition(), parent->GetRotation(), bounds.Extents());
 }
 
 std::unique_ptr<Component> BoxColliderComponent::MakeCopy(GameObject* newParent) const
@@ -60,6 +68,16 @@ std::unique_ptr<Component> BoxColliderComponent::MakeCopy(GameObject* newParent)
 	comp->parent = newParent;
 
 	return std::move(comp);
+}
+
+glm::vec3 BoxColliderComponent::GetPosition() const
+{
+	return parent->GetPosition() + center;
+}
+
+glm::vec3 BoxColliderComponent::GetCenter() const
+{
+	return center;
 }
 
 glm::vec3 BoxColliderComponent::GetExtents() const
