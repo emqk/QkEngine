@@ -13,6 +13,7 @@
 unsigned int Renderer::VAO;
 unsigned int Renderer::VBO;
 size_t Renderer::drawCallsLastFrame = 0;
+size_t Renderer::drawTrianglesLastFrame = 0;
 std::vector<SpriteComponent*> Renderer::spriteComponents;
 
 void Renderer::BindMesh(float vert[], const unsigned int& vertSize)
@@ -44,6 +45,7 @@ void Renderer::BindMesh(float vert[], const unsigned int& vertSize)
 void Renderer::Draw(Shader& cameraShader)
 {
     drawCallsLastFrame = 0;
+    drawTrianglesLastFrame = 0;
 
     for (SpriteComponent* comp : spriteComponents)
     {
@@ -100,6 +102,7 @@ void Renderer::Draw(Shader& cameraShader)
         glDeleteBuffers(1, &VBO);
 
         ++drawCallsLastFrame;
+        drawTrianglesLastFrame += verts.size();
     }
 }
 
@@ -163,4 +166,9 @@ size_t Renderer::GetToDrawContainerSize()
 size_t Renderer::GetDrawCallsLastFrame()
 {
     return drawCallsLastFrame;
+}
+
+size_t Renderer::GetDrawnTrianglesLastFrame()
+{
+    return drawTrianglesLastFrame;
 }

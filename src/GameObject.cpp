@@ -34,6 +34,7 @@ bool GameObject::operator==(const GameObject& other) const
 GameObject& GameObject::operator=(const GameObject& other)
 {
 	position = other.position;
+	rotation = other.rotation;
 	scale = other.scale;
 	name = std::string(other.name);
 	isActive = other.isActive;

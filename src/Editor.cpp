@@ -203,6 +203,7 @@ void Editor::Update()
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)\n", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         ImGui::Text("Number of GameObjects: %u", currentScene.GetObjectsPtr()->size());
         ImGui::Text("Last frame draw calls: %u | To draw container size: %u", Renderer::GetDrawCallsLastFrame(), Renderer::GetToDrawContainerSize());
+        ImGui::Text("Last frame triangles: %u", Renderer::GetDrawnTrianglesLastFrame());
         ImGui::End();
     }
 

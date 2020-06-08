@@ -19,12 +19,14 @@ public:
 
 	static size_t GetToDrawContainerSize();
 	static size_t GetDrawCallsLastFrame();
+	static size_t GetDrawnTrianglesLastFrame();
 
 private:
 	static void BindMesh(float vert[], const unsigned int& vertSize);
 	static unsigned int VBO, VAO;
 	
 	static size_t drawCallsLastFrame;
+	static size_t drawTrianglesLastFrame;
 
 	static std::vector<SpriteComponent*> spriteComponents;
 };
