@@ -44,7 +44,7 @@ void Shader::Use()
     glUseProgram(ID);
 }
 
-void Shader::SetVec4(const char* name, float r, float g, float b, float a)
+void Shader::SetVec4(const char* name, float r, float g, float b, float a) const
 {
     glUniform4f(glGetUniformLocation(ID, name), r, g, b, a);
 }

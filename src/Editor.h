@@ -19,11 +19,14 @@ public:
 	static void Update();
 	static void Select(GameObject* obj);
 
+	static bool IsAnyWindowOrItemHovered();
+
 	static void ShowSelectAssetWindow(const AssetWindowType& AssetWindowType, const std::function<void(std::string)>& fun);
 
 private:
 	static bool showSelectAssetWindow;
 	static AssetWindowType currAssetWindowType;
+	static bool isAnyWindowOrItemHovered;
 
 	static GameObject* selectedObj;
 	static Component* selectedComp;

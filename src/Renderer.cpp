@@ -77,6 +77,7 @@ void Renderer::Draw(Shader& cameraShader)
             continue;
         }
 
+        componentShader->SetVec4("_FragColor", comp->color.r, comp->color.g, comp->color.b, comp->color.a);
         componentShader->SetInt("texture1", 0);
         componentTexture->Use();
 
@@ -106,18 +107,19 @@ void Renderer::Draw(Shader& cameraShader)
     }
 }
 
-void Renderer::DrawMeshAtLocation(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, Shader& cameraShader, Mesh* componentMesh, const Texture* componentTexture, const Shader* componentShader)
+void Renderer::DrawMeshAtLocation(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, Shader& cameraShader, Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color)
 {
     GLint polygonMode;
     glGetIntegerv(GL_POLYGON_MODE, &polygonMode);
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    componentShader->SetInt("texture1", 0);
-    componentTexture->Use();
+    componentShader.SetVec4("_FragColor", color.r, color.g, color.b, color.a);
+    componentShader.SetInt("texture1", 0);
+    componentTexture.Use();
 
-    std::vector<float> verts = componentMesh->GetVertices();
-    std::vector<unsigned int> inds = componentMesh->GetIndices();
+    std::vector<float> verts = componentMesh.GetVertices();
+    std::vector<unsigned int> inds = componentMesh.GetIndices();
 
     BindMesh(verts.data(), verts.size() * sizeof(float));
     cameraShader.Use();
@@ -129,7 +131,7 @@ void Renderer::DrawMeshAtLocation(const glm::vec3& pos, const glm::vec3& rot, co
     model = glm::rotate(model, glm::radians(rot.y * 360), glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::rotate(model, glm::radians(rot.z * 360), glm::vec3(0.0f, 0.0f, 1.0f));
     model = glm::scale(model, scale);
-    componentShader->SetMat4("model", model);
+    componentShader.SetMat4("model", model);
 
     glDrawArrays(GL_TRIANGLES, 0, verts.size());
     // optional: de-allocate all resources once they've outlived their purpose:
@@ -139,7 +141,7 @@ void Renderer::DrawMeshAtLocation(const glm::vec3& pos, const glm::vec3& rot, co
 
     glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
 
-    std::cout << "Draw gizmo\n";
+   // std::cout << "Draw gizmo\n";
 }
 
 void Renderer::AddSpriteToDraw(SpriteComponent* comp)

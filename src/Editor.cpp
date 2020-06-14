@@ -5,6 +5,7 @@
 #include "Editor.h"
 #include "Scene.h"
 #include "Window.h"
+#include "Gizmos.h"
 
 #include <vector>
 #include <memory>
@@ -14,6 +15,7 @@ Component* Editor::selectedComp;
 std::function<void(const std::string&)> Editor::currSelectAssetFun;
 AssetWindowType Editor::currAssetWindowType;
 bool Editor::showSelectAssetWindow;
+bool Editor::isAnyWindowOrItemHovered;
 
 Editor::Editor()
 {
@@ -40,7 +42,6 @@ void Editor::Update()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    //ImGui::ShowDemoWindow();
 
     Scene& currentScene = Scene::GetCurrentScene();
 
@@ -91,22 +92,31 @@ void Editor::Update()
     if(showSelectAssetWindow)
     {
         ImGui::Begin("Select Asset", &showSelectAssetWindow, ImGuiWindowFlags_MenuBar);
-    
         static int selectedAsset = -1;
-        std::vector<std::string> vec;
+        std::string assetTypeStr;
+        std::vector<std::string> assetsName;
         if (currAssetWindowType == AssetWindowType::Textures)
-            vec = ResourceManager::GetTexturesName();
-        else if(currAssetWindowType == AssetWindowType::Meshes)
-            vec = ResourceManager::GetMeshesName();
-        else if (currAssetWindowType == AssetWindowType::Shaders)
-            vec = ResourceManager::GetShadersName();
-
-        if (ImGui::TreeNode("World"))
         {
-            for (size_t n = 0; n < vec.size(); n++)
+            assetsName = ResourceManager::GetTexturesName();
+            assetTypeStr = "Textures";
+        }
+        else if (currAssetWindowType == AssetWindowType::Meshes)
+        {
+            assetsName = ResourceManager::GetMeshesName();
+            assetTypeStr = "Meshes";
+        }
+        else if (currAssetWindowType == AssetWindowType::Shaders)
+        {
+            assetsName = ResourceManager::GetShadersName();
+            assetTypeStr = "Shaders";
+        }
+
+        if (ImGui::TreeNode(assetTypeStr.c_str()))
+        {
+            for (size_t n = 0; n < assetsName.size(); n++)
             {
                 char buf[128];
-                sprintf_s(buf, "%d. %s", n, vec[n].c_str());
+                sprintf_s(buf, "%d. %s", n, assetsName[n].c_str());
                 if (ImGui::Selectable(buf, selectedAsset == n))
                 {
                     selectedAsset = n;
@@ -115,10 +125,10 @@ void Editor::Update()
             ImGui::TreePop();
         }
 
-        if (ImGui::Button("Select") && selectedAsset >= 0 && selectedAsset < vec.size())
+        if (ImGui::Button("Select") && selectedAsset >= 0 && selectedAsset < assetsName.size())
         {
-            std::cout << "Selected: " << vec[selectedAsset] << std::endl;
-            currSelectAssetFun(vec[selectedAsset].c_str());
+            std::cout << "Selected: " << assetsName[selectedAsset] << std::endl;
+            currSelectAssetFun(assetsName[selectedAsset].c_str());
         }
 
         ImGui::End();
@@ -207,13 +217,35 @@ void Editor::Update()
         ImGui::End();
     }
 
+    if (selectedObj != nullptr)
+    {
+        SpriteComponent* spriteComp = selectedObj->GetComponent<SpriteComponent>();
+        if (spriteComp)
+        {
+            Mesh* mesh = spriteComp->GetMesh();
+            if (mesh != nullptr)
+            {
+                glm::vec3 position = selectedObj->GetPosition();
+                Bounds bounds = mesh->GetBounds();
+                Gizmos::DrawMeshWireframe(position, selectedObj->GetRotation(), selectedObj->GetScale() * 1.001f, *mesh);
+            }
+        }
+    }
+
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    isAnyWindowOrItemHovered = ImGui::IsAnyWindowOrItemHovered() || ImGui::IsAnyItemHovered();
 }
 
 void Editor::Select(GameObject* obj)
 {
     selectedObj = obj;
+}
+
+bool Editor::IsAnyWindowOrItemHovered()
+{
+    return isAnyWindowOrItemHovered;
 }
 
 void Editor::ShowSelectAssetWindow(const AssetWindowType& assetWindowType, const std::function<void(std::string)>& fun)

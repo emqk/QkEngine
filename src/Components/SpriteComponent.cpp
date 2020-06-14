@@ -7,7 +7,7 @@
 #include <iostream>
 
 
-SpriteComponent::SpriteComponent(GameObject* _parent) : Component(_parent)
+SpriteComponent::SpriteComponent(GameObject* _parent) : Component(_parent), color(1.0f, 1.0f, 1.0f, 1.0f)
 {
 	name = "SpriteComponent";
 	Renderer::AddSpriteToDraw(this);
@@ -23,7 +23,7 @@ SpriteComponent::~SpriteComponent()
 	std::cout << "SpriteComponent destructor\n";
 }
 
-SpriteComponent::SpriteComponent(const SpriteComponent& comp) : Component(comp), mesh(comp.mesh), texture(comp.texture), shader(comp.shader)
+SpriteComponent::SpriteComponent(const SpriteComponent& comp) : Component(comp), mesh(comp.mesh), texture(comp.texture), shader(comp.shader), color(comp.color)
 {
 	std::cout << "SpriteComp copy constuctor\n";
 
@@ -76,6 +76,10 @@ void SpriteComponent::ShowOnInspector()
 		std::function<void(std::string)> fun = [&](const std::string& texName) { this->SetShader(texName.c_str()); };
 		Editor::ShowSelectAssetWindow(AssetWindowType::Shaders, fun);
 	}
+
+	ImGui::Text("Base color:");
+	ImGui::SameLine();
+	ImGui::ColorEdit4("MyColor##3", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
 }
 
 void SpriteComponent::SetMesh(const char* meshPath)

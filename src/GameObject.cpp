@@ -59,7 +59,7 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 	char* objName = name.data();
 	ImGui::InputText("Name", objName, 64);
 	name = std::string(objName);
-
+	
 	//Position
 	ImGui::Text("Position");
 	glm::vec3 pos = GetPosition();

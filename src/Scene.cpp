@@ -30,7 +30,7 @@ Scene::Scene()
     ResourceManager::LoadTexture("Tree.png");
     ResourceManager::LoadTexture("Gun_Cyberpunk Gun_BaseColor.jpg");
     ResourceManager::LoadTexture("Cube.jpg");
-    ResourceManager::LoadTexture("green.jpg");
+    ResourceManager::LoadTexture("gizmoSelectTexture.jpg");
 
     ////HumanAnim
     ResourceManager::LoadTexture("Human/Human_Walk_1.png");
@@ -117,16 +117,16 @@ GameObject* Scene::Raycast()
         {
             //std::cout << "\tYes! Ray is hitting object!\n";
 
-            if(objShader != nullptr)
-                objShader->SetVec4("_FragColor", 0.0f, 0.2f, 0.0f, 0.0f);
+      /*      if(objShader != nullptr)
+                objShader->SetVec4("_FragColor", 0.0f, 0.2f, 0.0f, 0.0f);*/
 
             return targetObj.get();
         }
         else
         {
             //std::cout << "\No! Ray is not hitting object!\n";
-            if (objShader != nullptr)
-                objShader->SetVec4("_FragColor", 0.0f, 0.0f, 0.0f, 0.0f);
+            //if (objShader != nullptr)
+            //    objShader->SetVec4("_FragColor", 0.0f, 0.0f, 0.0f, 0.0f);
         }
     }
 

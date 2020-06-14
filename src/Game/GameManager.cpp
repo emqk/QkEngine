@@ -4,6 +4,7 @@
 #include "../ResourceManager.h"
 #include "Human.h"
 #include "../Components/BoxColliderComponent.h"
+#include "../Components/MoveComponent.h"
 #include <iostream>
 
 GameManager::GameManager()

@@ -28,11 +28,12 @@ public:
 	void SetTexture(Texture* tex);
 	const Texture* GetTexture();
 
+	glm::vec4 color;
+
 	std::unique_ptr<Component> MakeCopy(GameObject* newParent) const override;
 
 private:
 	Mesh* mesh = nullptr;
 	Shader* shader = nullptr;
 	Texture* texture = nullptr;
-
 };
