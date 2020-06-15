@@ -5,6 +5,7 @@
 #include "Human.h"
 #include "../Components/BoxColliderComponent.h"
 #include "../Components/MoveComponent.h"
+#include "../Components/PlayerComponent.h"
 #include <iostream>
 
 GameManager::GameManager()
@@ -22,6 +23,7 @@ GameManager::GameManager()
 		glm::vec3 terrainBounds = terrainSprite->GetMesh()->GetBounds().Extents();
 		terrainObj->SetPosition(glm::vec3(0.0f, -terrainBounds.y, -terrainBounds.z));
 	}
+	terrainObj->AddComponent<BoxColliderComponent>();
 
 	float currX = 0;
 	float currY = 2;
@@ -49,11 +51,19 @@ GameManager::GameManager()
 			areaSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 		}
 
+		instance->AddComponent<BoxColliderComponent>();
+
 		buildAreas[i] = instance;
 	}
 
 	/*Human* human = Scene::GetCurrentScene().Instantiate<Human>(glm::vec3(0, 1, 0), "Human/Human.obj");
 	human->name = "Human";*/
+
+	//Player
+	GameObject* playerObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(-3, 1, -2));
+	PlayerComponent* playerComp = playerObj->AddComponent<PlayerComponent>();
+	playerObj->name = "Player";
+
 
 	GameObject* stairs = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(4, 2.5f, -1));
 	stairs->name = "Stairs";

@@ -16,7 +16,7 @@ BoxColliderComponent::BoxColliderComponent(GameObject* _parent) : Component(_par
 	}
 	else
 	{
-		bounds.SetExtents(glm::vec3(1, 1, 1));
+		SetExtents(glm::vec3(1, 1, 1));
 	}
 
 	Physics::RegisterCollider(this);
@@ -83,4 +83,9 @@ glm::vec3 BoxColliderComponent::GetCenter() const
 glm::vec3 BoxColliderComponent::GetExtents() const
 {
 	return bounds.Extents();
+}
+
+void BoxColliderComponent::SetExtents(const glm::vec3& newExtents)
+{
+	bounds.SetExtents(newExtents);
 }

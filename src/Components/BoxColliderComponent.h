@@ -21,6 +21,8 @@ public:
 	glm::vec3 GetCenter() const;
 	glm::vec3 GetExtents() const;
 
+	void SetExtents(const glm::vec3& newExtents);
+
 private:
 	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
 	Bounds bounds;

@@ -158,6 +158,7 @@
     <ClCompile Include="src\Components\BoxColliderComponent.cpp" />
     <ClCompile Include="src\Components\Component.cpp" />
     <ClCompile Include="src\Components\MoveComponent.cpp" />
+    <ClCompile Include="src\Components\PlayerComponent.cpp" />
     <ClCompile Include="src\Components\SpriteComponent.cpp" />
     <ClCompile Include="src\Editor.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="src\Components\BoxColliderComponent.h" />
     <ClInclude Include="src\Components\Component.h" />
     <ClInclude Include="src\Components\MoveComponent.h" />
+    <ClInclude Include="src\Components\PlayerComponent.h" />
     <ClInclude Include="src\Components\SpriteComponent.h" />
     <ClInclude Include="src\Editor.h" />
     <ClInclude Include="src\GameObject.h" />

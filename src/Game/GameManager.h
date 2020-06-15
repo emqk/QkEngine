@@ -11,6 +11,6 @@ public:
 
 	
 private:
-	std::array<GameObject*, 100> buildAreas;
+	std::array<GameObject*, 10> buildAreas;
 	std::array<glm::vec3, 10> buildAreasPos;
 };

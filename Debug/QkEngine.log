@@ -1,7 +1,2 @@
-﻿  Camera.cpp
-  GameManager.cpp
-  Scene.cpp
-  Window.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Window.cpp(49,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
+﻿  PlayerComponent.cpp
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe

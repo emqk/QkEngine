@@ -2,7 +2,7 @@
 
 #include "../GameObject.h"
 
-MoveComponent::MoveComponent(GameObject* _parent) : Component(_parent), moveVec(glm::vec3(0, -9.81f, 0))
+MoveComponent::MoveComponent(GameObject* _parent) : Component(_parent), moveVec(glm::vec3(0, 0, 0))
 {
 	name = "MoveComponent";
 }
