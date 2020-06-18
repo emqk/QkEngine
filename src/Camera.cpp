@@ -108,19 +108,19 @@ void Camera::ProcessInput(const float& deltaTime)
 	{
 		//Movement
 		glm::vec3 moveVec(0.0f, 0.0f, 0.0f);
-		if (InputManager::GetKeyPressed(GLFW_KEY_A))
+		if (InputManager::GetKey(GLFW_KEY_A))
 			moveVec += -Right;
-		if (InputManager::GetKeyPressed(GLFW_KEY_D))
+		if (InputManager::GetKey(GLFW_KEY_D))
 			moveVec += Right;
 	
-		if (InputManager::GetKeyPressed(GLFW_KEY_W))
+		if (InputManager::GetKey(GLFW_KEY_W))
 			moveVec +=  Front;
-		if (InputManager::GetKeyPressed(GLFW_KEY_S))
+		if (InputManager::GetKey(GLFW_KEY_S))
 			moveVec += -Front;
 	
-		if (InputManager::GetKeyPressed(GLFW_KEY_E))
+		if (InputManager::GetKey(GLFW_KEY_E))
 			moveVec +=  Up;
-		if (InputManager::GetKeyPressed(GLFW_KEY_Q))
+		if (InputManager::GetKey(GLFW_KEY_Q))
 			moveVec += -Up;
 
 		position += moveVec * movementSpeed * deltaTime;

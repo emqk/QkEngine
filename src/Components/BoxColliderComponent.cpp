@@ -58,6 +58,7 @@ void BoxColliderComponent::ShowOnInspector()
 
 void BoxColliderComponent::ShowOnGizmos()
 {
+	Gizmos::SetCurrentColor(Gizmos::collisionColor);
 	Gizmos::DrawCubeWireframe(GetPosition(), glm::vec3(0,0,0), bounds.Extents());
 }
 

@@ -4,6 +4,8 @@
 #include "../InputManager.h"
 #include "../Scene.h"
 #include "../Camera.h"
+#include "../Gizmos.h"
+#include "../Physics.h"
 
 #include <iostream>
 
@@ -32,6 +34,8 @@ PlayerComponent::PlayerComponent(const PlayerComponent& comp) : Component(comp)
 	std::cout << "PlayerComp copy constuctor\n";
 	moveSpeed = comp.moveSpeed;
 	currentGravity = comp.currentGravity;
+	groundDetectorOffset = comp.groundDetectorOffset;
+	groundDetectorScale = comp.groundDetectorScale;
 
 	spriteComponent = parent->GetComponent<SpriteComponent>();
 	boxColliderComponent = parent->GetComponent<BoxColliderComponent>();
@@ -45,17 +49,28 @@ void PlayerComponent::Update(const float& deltaTime)
 		std::cout << "MoveComp is nullptr!\n";
 	}
 
+	bool isGrounded = false;
+	std::vector<BoxColliderComponent*> collidingWith = Physics::BoxCast(parent->GetPosition() + groundDetectorOffset, groundDetectorScale / 2.0f);
+	for (const BoxColliderComponent* col : collidingWith)
+	{
+		if (col->GetParent()->GetComponent<PlayerComponent>() == nullptr)
+		{
+			isGrounded = true;
+			std::cout << "Colliding with: " << col->GetParent()->name << std::endl;
+		}
+	}
+
 	glm::vec3 moveVec(0,0,0);
 
 	//Horizontal
-	if (InputManager::GetKeyPressed(GLFW_KEY_D))
+	if (InputManager::GetKey(GLFW_KEY_D))
 		moveVec += glm::vec3(1, 0, 0);
-	if (InputManager::GetKeyPressed(GLFW_KEY_A))
+	if (InputManager::GetKey(GLFW_KEY_A))
 		moveVec += glm::vec3(-1, 0, 0);
 	//Verical
-	if (InputManager::GetKeyPressed(GLFW_KEY_W))
+	if (InputManager::GetKey(GLFW_KEY_W))
 		moveVec += glm::vec3(0, 0, -1);
-	if (InputManager::GetKeyPressed(GLFW_KEY_S))
+	if (InputManager::GetKey(GLFW_KEY_S))
 		moveVec += glm::vec3(0, 0, 1);
 
 
@@ -63,18 +78,25 @@ void PlayerComponent::Update(const float& deltaTime)
 		moveVec = glm::normalize(moveVec);
 	
 	//movement
-	if (InputManager::GetKeyPressed(GLFW_KEY_LEFT_SHIFT))
+	if (InputManager::GetKey(GLFW_KEY_LEFT_SHIFT))
 		moveVec *= 2.0f;
 	parent->Move(moveVec * moveSpeed * deltaTime);
 
 	//gravity
-	currentGravity += deltaTime * minGravity;
-	if (currentGravity < minGravity)
-		currentGravity = minGravity;
-
-	if (InputManager::GetKeyPressed(GLFW_KEY_SPACE))
+	if (isGrounded)
 	{
-		currentGravity += 25.0f * deltaTime;
+		currentGravity = 0;
+	}
+	else
+	{
+		currentGravity += deltaTime * minGravity;
+		if (currentGravity < minGravity)
+			currentGravity = minGravity;
+	}
+
+	if (InputManager::GetKeyDown(GLFW_KEY_SPACE) && isGrounded)
+	{
+		currentGravity += 6;
 	}
 
 	parent->Move(glm::vec3(0, currentGravity, 0) * deltaTime);
@@ -90,6 +112,12 @@ void PlayerComponent::Update(const float& deltaTime)
 void PlayerComponent::ShowOnInspector()
 {
 	ImGui::InputFloat("Move speed", &moveSpeed);
+}
+
+void PlayerComponent::ShowOnGizmos()
+{
+	Gizmos::SetCurrentColor(Gizmos::defaultColor);
+	Gizmos::DrawCubeWireframe(parent->GetPosition() + groundDetectorOffset, glm::vec3(0, 0, 0), groundDetectorScale);
 }
 
 std::unique_ptr<Component> PlayerComponent::MakeCopy(GameObject* newParent) const

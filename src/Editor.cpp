@@ -16,15 +16,7 @@ std::function<void(const std::string&)> Editor::currSelectAssetFun;
 AssetWindowType Editor::currAssetWindowType;
 bool Editor::showSelectAssetWindow;
 bool Editor::isAnyWindowOrItemHovered;
-
-Editor::Editor()
-{
-   
-}
-
-Editor::~Editor()
-{
-}
+bool Editor::drawGizmos = true;
 
 void Editor::Init(GLFWwindow* window)
 {
@@ -193,6 +185,8 @@ void Editor::Update()
         {
             glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
         }
+        ImGui::SameLine();
+        ImGui::Checkbox("Draw Gizmos", &drawGizmos);
 
         if (Scene::IsInGameMode())
             ImGui::Text("IN PlayMode");
@@ -227,6 +221,7 @@ void Editor::Update()
             {
                 glm::vec3 position = selectedObj->GetPosition();
                 Bounds bounds = mesh->GetBounds();
+                Gizmos::SetCurrentColor(Gizmos::meshWireframeColor);
                 Gizmos::DrawMeshWireframe(position, selectedObj->GetRotation(), selectedObj->GetScale() * 1.001f, *mesh);
             }
         }
@@ -241,6 +236,11 @@ void Editor::Update()
 void Editor::Select(GameObject* obj)
 {
     selectedObj = obj;
+}
+
+bool Editor::CanDrawGizmos()
+{
+    return drawGizmos;
 }
 
 bool Editor::IsAnyWindowOrItemHovered()

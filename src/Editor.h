@@ -12,18 +12,20 @@ enum class AssetWindowType
 class Editor
 {
 public:
-	Editor();
-	~Editor();
+	Editor() = delete;
+	~Editor() = delete;
 
 	static void Init(GLFWwindow* window);
 	static void Update();
 	static void Select(GameObject* obj);
 
+	static bool CanDrawGizmos();
 	static bool IsAnyWindowOrItemHovered();
 
 	static void ShowSelectAssetWindow(const AssetWindowType& AssetWindowType, const std::function<void(std::string)>& fun);
 
 private:
+	static bool drawGizmos;
 	static bool showSelectAssetWindow;
 	static AssetWindowType currAssetWindowType;
 	static bool isAnyWindowOrItemHovered;

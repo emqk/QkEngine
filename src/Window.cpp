@@ -45,7 +45,8 @@ void Window::Run()
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
-     
+        InputManager::Update();
+
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
