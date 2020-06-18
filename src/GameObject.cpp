@@ -153,6 +153,11 @@ void GameObject::Update(const float& deltaTime)
 	UpdateComponents(deltaTime);
 }
 
+void GameObject::LateUpdate(const float& deltaTime)
+{
+	LateUpdateComponents(deltaTime);
+}
+
 void GameObject::Move(const glm::vec3& offset)
 {
 	position += offset;
@@ -229,5 +234,14 @@ void GameObject::UpdateComponents(const float& deltaTime)
 	{
 		if(comp->IsActiveSelf())
 			comp->Update(deltaTime);
+	}
+}
+
+void GameObject::LateUpdateComponents(const float& deltaTime)
+{
+	for (std::unique_ptr<Component>& comp : components)
+	{
+		if (comp->IsActiveSelf())
+			comp->LateUpdate(deltaTime);
 	}
 }

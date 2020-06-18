@@ -16,9 +16,6 @@ void Gizmos::ResetDefaultColor()
 
 void Gizmos::DrawMeshWireframe(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, Mesh& mesh)
 {
-    if (!Editor::CanDrawGizmos())
-        return;
-
     const Texture* componentTexture = ResourceManager::GetTexture("gizmoSelectTexture.jpg");
     Shader* componentShader = ResourceManager::GetShader("StandardShader");
 
@@ -28,9 +25,6 @@ void Gizmos::DrawMeshWireframe(const glm::vec3& pos, const glm::vec3& rot, const
 
 void Gizmos::DrawCubeWireframe(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale)
 {
-    if (!Editor::CanDrawGizmos())
-        return;
-    
     Mesh* componentMesh = ResourceManager::GetMesh("Cube.obj");
     const Texture* componentTexture = ResourceManager::GetTexture("gizmoSelectTexture.jpg");
     Shader* componentShader = ResourceManager::GetShader("StandardShader");

@@ -43,6 +43,10 @@ void BoxColliderComponent::Update(const float& deltaTime)
 {
 }
 
+void BoxColliderComponent::LateUpdate(const float& deltaTime)
+{
+}
+
 void BoxColliderComponent::ShowOnInspector()
 {
 	ImGui::Text("Properties");

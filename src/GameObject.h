@@ -23,6 +23,7 @@ public:
 	void ShowOnInspector(GameObject* selectedObj, Component* selectedComp);
 	virtual void ShowOnGizmos();
 	virtual void Update(const float& deltaTime);
+	virtual void LateUpdate(const float& deltaTime);
 
 	void Move(const glm::vec3& offset);
 	void SetPosition(const glm::vec3& pos);
@@ -73,6 +74,7 @@ public:
 
 protected:
 	void UpdateComponents(const float& deltaTime);
+	void LateUpdateComponents(const float& deltaTime);
 
 
 private:

@@ -100,7 +100,10 @@ void PlayerComponent::Update(const float& deltaTime)
 	}
 
 	parent->Move(glm::vec3(0, currentGravity, 0) * deltaTime);
+}
 
+void PlayerComponent::LateUpdate(const float& deltaTime)
+{
 	//Camera
 	Camera* camera = &Scene::GetCurrentScene().GetCamera();
 	glm::vec3 camPos = camera->GetPosition();

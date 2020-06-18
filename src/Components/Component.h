@@ -15,6 +15,8 @@ public:
 	Component& operator=(const Component& comp) = delete;
 
 	virtual void Update(const float& deltaTime) = 0;
+	virtual void LateUpdate(const float& deltaTime) = 0;
+
 	virtual void ShowOnGizmos();
 	void ShowInInspectorBase();
 	virtual void ShowOnInspector() = 0;

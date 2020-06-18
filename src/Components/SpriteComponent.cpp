@@ -34,6 +34,10 @@ void SpriteComponent::Update(const float& deltaTime)
 {
 }
 
+void SpriteComponent::LateUpdate(const float& deltaTime)
+{
+}
+
 void SpriteComponent::ShowOnInspector()
 {
 	ImGui::Text("Properties");

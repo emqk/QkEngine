@@ -195,6 +195,7 @@ void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _project
     //Update GameObjects
     if (inGameMode)
     {
+        //Update
         for (std::unique_ptr<GameObject>& obj : objects)
         {
             if (!obj->IsActive())
@@ -204,18 +205,30 @@ void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _project
         }
 
         Physics::Perform();
+        
+        //LateUpdate
+        for (std::unique_ptr<GameObject>& obj : objects)
+        {
+            if (!obj->IsActive())
+                continue;
+
+            obj->LateUpdate(deltaTime);
+        }
     }
 
     DestroyPostponed();
     Renderer::Draw(camShader);
 
     //Draw gizmos
-    for (std::unique_ptr<GameObject>& obj : objects)
+    if (Editor::CanDrawGizmos())
     {
-        if (!obj->IsActive())
-            continue;
+        for (std::unique_ptr<GameObject>& obj : objects)
+        {
+            if (!obj->IsActive())
+                continue;
 
-        obj->ShowOnGizmos();
+            obj->ShowOnGizmos();
+        }
     }
 }
 

@@ -24,6 +24,10 @@ void MoveComponent::Update(const float& deltaTime)
 	parent->Move(moveVec * deltaTime);
 }
 
+void MoveComponent::LateUpdate(const float& deltaTime)
+{
+}
+
 void MoveComponent::ShowOnInspector()
 {
 	ImGui::Text("Properties");

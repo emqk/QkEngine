@@ -12,6 +12,8 @@ public:
 	MoveComponent& operator=(const MoveComponent& comp) = delete;
 
 	void Update(const float& deltaTime) override;
+	void LateUpdate(const float& deltaTime) override;
+	
 	void ShowOnInspector() override;
 	std::unique_ptr<Component> MakeCopy(GameObject* newParent) const override;
 

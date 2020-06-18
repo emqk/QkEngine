@@ -13,6 +13,8 @@ public:
 	bool operator==(const BoxColliderComponent& other) const;
 
 	void Update(const float& deltaTime) override;
+	void LateUpdate(const float& deltaTime) override;
+	
 	void ShowOnInspector() override;
 	void ShowOnGizmos() override;
 	std::unique_ptr<Component> MakeCopy(GameObject* newParent) const override;
