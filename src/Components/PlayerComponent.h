@@ -3,6 +3,7 @@
 #include "SpriteComponent.h"
 #include "BoxColliderComponent.h"
 #include "MoveComponent.h"
+#include <array>
 
 class PlayerComponent : public Component
 {
@@ -26,6 +27,14 @@ private:
 	float currentGravity = 0;
 	glm::vec3 groundDetectorOffset{ 0, -1, 0 };
 	glm::vec3 groundDetectorScale{ 0.5f, 0.1f, 0.5f };
+
+	glm::vec3 lastFramePosition;
+
+	//Animation
+	std::array<Texture*, 4> runAnim;
+	int currAnimFrame = 0;
+	float animTimer = 0;
+	const float timeToChangeFrame = 0.25f;
 
 	SpriteComponent* spriteComponent = nullptr;
 	BoxColliderComponent* boxColliderComponent = nullptr;

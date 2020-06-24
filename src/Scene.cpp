@@ -11,7 +11,6 @@
 #include "ResourceManager.h"
 #include "Physics.h"
 
-
 Scene* Scene::currentScene = nullptr;
 bool Scene::inGameMode = false;
 
@@ -31,6 +30,14 @@ Scene::Scene()
     ResourceManager::LoadTexture("Gun_Cyberpunk Gun_BaseColor.jpg");
     ResourceManager::LoadTexture("Cube.jpg");
     ResourceManager::LoadTexture("gizmoSelectTexture.jpg");
+    ResourceManager::LoadTexture("MagicaVoxelExports/abc.png");
+
+    //backpack
+    ResourceManager::LoadTexture("backpack/diffuse.jpg");
+    ResourceManager::LoadTexture("backpack/normal.png");
+    ResourceManager::LoadTexture("backpack/roughness.jpg");
+    ResourceManager::LoadTexture("backpack/specular.jpg");
+
 
     ////HumanAnim
     ResourceManager::LoadTexture("Human/Human_Walk_1.png");
@@ -48,6 +55,7 @@ Scene::Scene()
     ResourceManager::LoadMesh("Stairs.obj");
     ResourceManager::LoadMesh("weapon.obj");
     ResourceManager::LoadMesh("Cube.obj");
+    ResourceManager::LoadMesh("MagicaVoxelExports/abc.obj");
     
     //Shaders
     ResourceManager::LoadShader("StandardShader");
@@ -55,10 +63,13 @@ Scene::Scene()
 
     camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f), "StandardShader");
     GameManager gameManager = GameManager();
+
+    ourModel = new Model(std::string("C:/Users/emis/source/repos/QkEngine/QkEngine/Resources/backpack/backpack.obj"));
 }
 
 Scene::~Scene()
 {
+    delete ourModel;
 }
 
 void Scene::OnLoad()
@@ -218,7 +229,8 @@ void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _project
 
     DestroyPostponed();
     Renderer::Draw(camShader);
-
+    ourModel->Draw(*ResourceManager::GetShader("StandardShader"));
+    
     //Draw gizmos
     if (Editor::CanDrawGizmos())
     {

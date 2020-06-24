@@ -9,7 +9,7 @@
 #include "GameObject.h"
 #include "Camera.h"
 #include "ResourceManager.h"
-
+#include "NewModel.h"
 
 class Scene
 {
@@ -51,6 +51,8 @@ public:
 private:
 	static Scene* currentScene;
 	static bool inGameMode;
+
+	Model* ourModel = nullptr;
 
 	void DestroyPostponed();
 

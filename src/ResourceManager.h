@@ -2,10 +2,18 @@
 #include <unordered_map>
 #include <memory>
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
 #include "Texture.h"
 #include "Mesh.h"
 #include "Shader.h"
 #include "Editor.h"
+
+#include "NewModel.h"
+
+class MeshData;
 
 class ResourceManager
 {
@@ -18,6 +26,7 @@ public:
 	static std::vector<std::string> GetTexturesName();
 
 	static void LoadMesh(const char* meshPath);
+	static void LoadMeshNew(const char* meshPath);
 	static Mesh* GetMesh(const char* meshPath);
 	static std::vector<std::string> GetMeshesName();
 
@@ -29,4 +38,6 @@ private:
 	static std::unordered_map<std::string, std::unique_ptr<Texture>> textureMap;
 	static std::unordered_map<std::string, std::unique_ptr<Mesh>> meshMap;
 	static std::unordered_map<std::string, std::unique_ptr<Shader>> shaderMap;
+
+	static MeshData ProcessMesh(aiMesh* mesh, const aiScene* scene);
 };

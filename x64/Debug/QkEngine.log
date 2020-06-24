@@ -1,0 +1,52 @@
+﻿  Application.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Window.h(3,10): fatal error C1083: Cannot open include file: 'glm/gtc/matrix_transform.hpp': No such file or directory
+  Bounds.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Bounds.h(3,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  Camera.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Camera.h(3,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  BoxColliderComponent.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Bounds.h(3,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  Component.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\GameObject.h(2,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  MoveComponent.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Components\MoveComponent.h(3,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  PlayerComponent.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Bounds.h(3,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  SpriteComponent.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Bounds.h(3,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  Editor.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\GameObject.h(2,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  GameObject.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\GameObject.h(2,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  GameManager.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\GameObject.h(2,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  Gizmos.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Gizmos.h(2,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_glfw.cpp
+  imgui_impl_opengl3.cpp
+  imgui_widgets.cpp
+  InputManager.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Window.h(3,10): fatal error C1083: Cannot open include file: 'glm/gtc/matrix_transform.hpp': No such file or directory
+  Mesh.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Bounds.h(3,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  Generating Code...
+  Compiling...
+  ModelLoader.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Bounds.h(3,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  Physics.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Bounds.h(3,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  Renderer.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Bounds.h(3,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  ResourceManager.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Bounds.h(3,10): fatal error C1083: Cannot open include file: 'glm\ext\vector_float3.hpp': No such file or directory
+  Scene.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Shader.h(4,10): fatal error C1083: Cannot open include file: 'glm\ext\matrix_float4x4.hpp': No such file or directory
+  Shader.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Shader.h(4,10): fatal error C1083: Cannot open include file: 'glm\ext\matrix_float4x4.hpp': No such file or directory
+  Texture.cpp
+  Window.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Window.h(3,10): fatal error C1083: Cannot open include file: 'glm/gtc/matrix_transform.hpp': No such file or directory
+  Generating Code...

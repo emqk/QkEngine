@@ -31,8 +31,8 @@ void Renderer::BindMesh(float vert[], const unsigned int& vertSize)
     glEnableVertexAttribArray(0);
 
     //Texture coords
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(2);
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
     //glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -82,7 +82,6 @@ void Renderer::Draw(Shader& cameraShader)
         componentTexture->Use();
 
         std::vector<float> verts = componentMesh->GetVertices();
-        std::vector<unsigned int> inds = componentMesh->GetIndices();
 
         BindMesh(verts.data(), verts.size() * sizeof(float));
         cameraShader.Use();
@@ -95,6 +94,7 @@ void Renderer::Draw(Shader& cameraShader)
         model = glm::rotate(model, glm::radians(comp->GetParent()->GetRotation().z * 360), glm::vec3(0.0f, 0.0f, 1.0f));
         model = glm::scale(model, comp->GetParent()->GetScale());
         componentShader->SetMat4("model", model);
+
 
         glDrawArrays(GL_TRIANGLES, 0, verts.size());
         // optional: de-allocate all resources once they've outlived their purpose:
@@ -115,11 +115,10 @@ void Renderer::DrawMeshAtLocation(const glm::vec3& pos, const glm::vec3& rot, co
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     componentShader.SetVec4("_FragColor", color.r, color.g, color.b, color.a);
-    componentShader.SetInt("texture1", 0);
+    componentShader.SetInt("texture_diffuse1", 0);
     componentTexture.Use();
 
     std::vector<float> verts = componentMesh.GetVertices();
-    std::vector<unsigned int> inds = componentMesh.GetIndices();
 
     BindMesh(verts.data(), verts.size() * sizeof(float));
     cameraShader.Use();
