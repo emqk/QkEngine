@@ -2,6 +2,7 @@
 
 #include "Shader.h"
 #include "Texture.h"
+#include "Bounds.h"
 
 #include <string>
 #include <vector>
@@ -20,28 +21,26 @@ struct Vertex {
     glm::vec3 Bitangent;
 };
 
-//struct TextureNew {
-//    unsigned int id;
-//    string type;
-//    string path;
-//};
-
 class MeshNew {
 public:
     // mesh Data
     vector<Vertex>       vertices;
     vector<unsigned int> indices;
     vector<Texture*>      textures;
-    unsigned int VAO;
+
+    std::string name;
+    Bounds bounds;
+    glm::vec3 offset;
 
     // constructor
-    MeshNew(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture*> textures);
+    MeshNew(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture*> textures, const Bounds& _bounds, const glm::vec3& _offset, const std::string& _name);
 
     // render the mesh
     void Draw(Shader& shader);
 
 private:
     // render data 
+    unsigned int VAO;
     unsigned int VBO, EBO;
 
     // initializes all the buffer objects/arrays

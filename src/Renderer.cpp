@@ -12,6 +12,7 @@
 
 unsigned int Renderer::VAO;
 unsigned int Renderer::VBO;
+unsigned int Renderer::EBO;
 size_t Renderer::drawCallsLastFrame = 0;
 size_t Renderer::drawTrianglesLastFrame = 0;
 std::vector<SpriteComponent*> Renderer::spriteComponents;
@@ -40,6 +41,44 @@ void Renderer::BindMesh(float vert[], const unsigned int& vertSize)
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
     //glBindVertexArray(0);
+}
+
+void Renderer::BindMeshNew(const MeshNew& mesh)
+{
+    // create buffers/arrays
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
+
+    glBindVertexArray(VAO);
+    // load data into vertex buffers
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    // A great thing about structs is that their memory layout is sequential for all its items.
+    // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
+    // again translates to 3/2 floats which translates to a byte array.
+    glBufferData(GL_ARRAY_BUFFER, mesh.vertices.size() * sizeof(Vertex), &mesh.vertices[0], GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.indices.size() * sizeof(unsigned int), &mesh.indices[0], GL_STATIC_DRAW);
+
+    //set the vertex attribute pointers
+    //vertex Positions
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+    // vertex normals
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
+    // vertex texture coords
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
+    // vertex tangent
+    //glEnableVertexAttribArray(3);
+    //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Tangent));
+    //// vertex bitangent
+    //glEnableVertexAttribArray(4);
+    //glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
+
+    glBindVertexArray(0);
 }
 
 void Renderer::Draw(Shader& cameraShader)
@@ -104,6 +143,69 @@ void Renderer::Draw(Shader& cameraShader)
 
         ++drawCallsLastFrame;
         drawTrianglesLastFrame += verts.size();
+    }
+}
+
+void Renderer::DrawNew(Shader& cameraShader)
+{
+    for (SpriteComponent* comp : spriteComponents)
+    {
+        if (!comp->IsActive())
+            continue;
+
+        MeshNew* componentMeshNew = comp->GetMeshNew();
+        const Texture* componentTexture = comp->GetTexture();
+        Shader* componentShader = comp->GetShader();
+
+        if (componentMeshNew == nullptr)
+        {
+            std::cout << "Can't render SpriteComponent: MeshNew is null!\n";
+            continue;
+        }
+        if (componentTexture == nullptr)
+        {
+            std::cout << "Can't render SpriteComponent: Texture is null!\n";
+            continue;
+        }
+        if (componentShader == nullptr)
+        {
+            std::cout << "Can't render SpriteComponent: Shader is null!\n";
+            continue;
+        }
+        if (comp->GetParent() == nullptr)
+        {
+            std::cout << "Can't render SpriteComponent: Parent is null!\n";
+            continue;
+        }
+
+        componentShader->SetVec4("_FragColor", comp->color.r, comp->color.g, comp->color.b, comp->color.a);
+        componentShader->SetInt("texture_diffuse1", 0);
+        componentTexture->Use();
+
+        BindMeshNew(*componentMeshNew);
+        cameraShader.Use();
+
+        glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+        //float sinCalc = cos(timeValue);
+        model = glm::translate(model, comp->GetParent()->GetPosition());
+        model = glm::rotate(model, glm::radians(comp->GetParent()->GetRotation().x * 360), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(comp->GetParent()->GetRotation().y * 360), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(comp->GetParent()->GetRotation().z * 360), glm::vec3(0.0f, 0.0f, 1.0f));
+        model = glm::scale(model, comp->GetParent()->GetScale());
+        componentShader->SetMat4("model", model);
+
+
+        // draw mesh
+        glBindVertexArray(VAO);
+        glDrawElements(GL_TRIANGLES, componentMeshNew->indices.size(), GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+
+        // always good practice to set everything back to defaults once configured.
+        glActiveTexture(GL_TEXTURE0);
+
+        glDeleteVertexArrays(1, &VAO);
+        glDeleteBuffers(1, &VBO);
+        glDeleteBuffers(1, &EBO);
     }
 }
 

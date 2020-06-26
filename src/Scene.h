@@ -52,7 +52,7 @@ private:
 	static Scene* currentScene;
 	static bool inGameMode;
 
-	Model* ourModel = nullptr;
+	//Model* ourModel = nullptr;
 
 	void DestroyPostponed();
 

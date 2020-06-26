@@ -3,6 +3,7 @@
 #include "../Mesh.h"
 #include "../Shader.h"
 #include "../Texture.h"
+#include "../MeshNew.h"
 
 
 class SpriteComponent : public Component
@@ -18,7 +19,9 @@ public:
 	void LateUpdate(const float& deltaTime) override;
 
 	void ShowOnInspector() override;
-
+	
+	void SetMeshNew(const char* meshPath);
+	MeshNew* GetMeshNew();
 	void SetMesh(const char* meshPath);
 	Mesh* GetMesh();
 
@@ -35,6 +38,7 @@ public:
 	std::unique_ptr<Component> MakeCopy(GameObject* newParent) const override;
 
 private:
+	MeshNew* meshNew = nullptr;
 	Mesh* mesh = nullptr;
 	Shader* shader = nullptr;
 	Texture* texture = nullptr;

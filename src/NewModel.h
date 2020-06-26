@@ -18,9 +18,8 @@ class Model
 {
 public:
     // model data 
-    vector<Texture*> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
+    //vector<Texture*> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
     vector<MeshNew>    meshes;
-    string directory;
     bool gammaCorrection;
 
     // constructor, expects a filepath to a 3D model.
@@ -40,5 +39,7 @@ private:
 
     // checks all material textures of a given type and loads the textures if they're not loaded yet.
     // the required info is returned as a Texture struct.
-    vector<Texture*> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
+    //vector<Texture*> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
+
+    Bounds bounds;
 };

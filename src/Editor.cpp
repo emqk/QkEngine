@@ -92,6 +92,11 @@ void Editor::Update()
             assetsName = ResourceManager::GetTexturesName();
             assetTypeStr = "Textures";
         }
+        else if (currAssetWindowType == AssetWindowType::MeshesNew)
+        {
+            assetsName = ResourceManager::GetMeshesNewName();
+            assetTypeStr = "MeshesNew";
+        }
         else if (currAssetWindowType == AssetWindowType::Meshes)
         {
             assetsName = ResourceManager::GetMeshesName();
@@ -102,6 +107,7 @@ void Editor::Update()
             assetsName = ResourceManager::GetShadersName();
             assetTypeStr = "Shaders";
         }
+       
 
         if (ImGui::TreeNode(assetTypeStr.c_str()))
         {

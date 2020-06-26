@@ -14,9 +14,8 @@ public:
 
 	std::string type;
 	std::string path;
-	unsigned int ID;
 
 private:
-	//unsigned int ID;
+	unsigned int ID;
 
 };

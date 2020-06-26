@@ -34,7 +34,6 @@ bool Texture::LoadTextureFromFile(const char* path)
         std::string pathStr = std::string(path);
         std::cout << "Texture Loaded" << std::endl;
 
-        //unsigned int alphaType = GL_RGB;
         GLenum format;
         if (nrChannels == 1)
             format = GL_RED;
@@ -42,13 +41,6 @@ bool Texture::LoadTextureFromFile(const char* path)
             format = GL_RGB;
         else if (nrChannels == 4)
             format = GL_RGBA;
-     //  if (pathStr.substr(pathStr.find_last_of(".") + 1) == "png")
-      //      alphaType = GL_RGBA;
-        //if (pathStr.find("png") != std::string::npos)
-        //{
-        //    std::cout<< "PNG" << std::endl;
-        //        //alphaType = GL_RGBA;
-        //}
 
         glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);

@@ -12,7 +12,12 @@ BoxColliderComponent::BoxColliderComponent(GameObject* _parent) : Component(_par
 	SpriteComponent* spriteComponent = parent->GetComponent<SpriteComponent>();
 	if (spriteComponent != nullptr)
 	{
-		bounds = spriteComponent->GetMesh()->GetBounds();
+		if(spriteComponent->GetMesh() != nullptr)
+			bounds = spriteComponent->GetMesh()->GetBounds();
+		else if (spriteComponent->GetMeshNew() != nullptr)
+			bounds = spriteComponent->GetMeshNew()->bounds;
+		else
+			SetExtents(glm::vec3(1, 1, 1));
 	}
 	else
 	{

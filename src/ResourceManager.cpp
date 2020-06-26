@@ -8,6 +8,9 @@ std::unordered_map<std::string, std::unique_ptr<Texture>> ResourceManager::textu
 std::unordered_map<std::string, std::unique_ptr<Mesh>> ResourceManager::meshMap;
 std::unordered_map<std::string, std::unique_ptr<Shader>> ResourceManager::shaderMap;
 
+std::unordered_map<std::string, std::unique_ptr<Model>> ResourceManager::modelMap;
+std::unordered_map<std::string, std::unique_ptr<MeshNew>> ResourceManager::meshNewMap;
+
 //struct Vertex {
 //	// position
 //	glm::vec3 Position;
@@ -76,31 +79,21 @@ void ResourceManager::LoadMesh(const char* meshPath)
 	meshMap[meshPath] = std::move(mesh);
 }
 
-void ResourceManager::LoadMeshNew(const char* meshPath)
+void ResourceManager::LoadModel(const char* meshPath)
 {
-    std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>();
     std::string fullPath = std::string("../QkEngine/Resources/") + std::string(meshPath);
-    std::cout << "Loading mesh NEW: " << fullPath.c_str() << "\n";
+    std::cout << "ResourceManager Loading model: " << fullPath.c_str() << "\n";
+    std::unique_ptr<Model> model = std::make_unique<Model>(fullPath);
 
-    Assimp::Importer importer;
+ /*   MeshData data = ModelLoader::LoadObj(fullPath.c_str());
+    mesh->SetVertices(data.vertices);
+    mesh->SetIndices(data.indices);
+    mesh->SetBounds(data.bounds);*/
 
-    const aiScene* scene = importer.ReadFile(fullPath.c_str(), aiProcess_Triangulate | aiProcess_CalcTangentSpace);
-    // check for errors
-    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
-    {
-        std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
-        return;
-    }    aiMesh* model = scene->mMeshes[0];
-    std::cout << "Start loading meshes: " << scene->mNumMeshes << std::endl;
-    MeshData meshData = ProcessMesh(model, scene);
-    mesh->SetVertices(meshData.vertices);
-    mesh->SetIndices(meshData.indices);
-    mesh->SetBounds(meshData.bounds);
+    //std::cout << "Mesh loaded. Vert size: " << mesh->GetVertices().size() << "\n";
 
-    std::cout << "MeshNEW loaded. Vert size: " << mesh->GetVertices().size() << "\n";
-
-    mesh->name = meshPath;
-    meshMap[meshPath] = std::move(mesh);
+    //mesh->name = meshPath;
+    modelMap[meshPath] = std::move(model);
 }
 
 Mesh* ResourceManager::GetMesh(const char* meshPath)
@@ -109,6 +102,48 @@ Mesh* ResourceManager::GetMesh(const char* meshPath)
 		std::cout << "Can't find mesh: " << meshPath << "\n";
 
 	return meshMap[meshPath].get();
+}
+
+Model* ResourceManager::GetModel(const char* meshPath)
+{
+    if (modelMap.find(meshPath) == modelMap.end())
+        std::cout << "Can't find model: " << meshPath << "\n";
+
+    return modelMap[meshPath].get();
+}
+
+void ResourceManager::LoadMeshNew(Model* model)
+{
+    for (size_t i = 0; i < model->meshes.size(); i++)
+    {
+        MeshNew* currMesh = &model->meshes[i];
+        std::string id = currMesh->name;
+        std::unique_ptr<MeshNew> mesh = std::make_unique<MeshNew>(currMesh->vertices, currMesh->indices, currMesh->textures, currMesh->bounds, currMesh->offset, id);
+
+        std::cout << "\tMeshNew loaded. name: " << id << "\n";
+
+        meshNewMap[id] = std::move(mesh);
+    }
+}
+
+MeshNew* ResourceManager::GetMeshNew(const char* meshPath)
+{
+    if (meshNewMap.find(meshPath) == meshNewMap.end())
+        std::cout << "Can't find meshNew: " << meshPath << "\n";
+
+    return meshNewMap[meshPath].get();
+}
+
+std::vector<std::string> ResourceManager::GetMeshesNewName()
+{
+    std::vector<std::string> names;
+    for (const std::pair<const std::string, std::unique_ptr<MeshNew>>& p : meshNewMap)
+    {
+        names.push_back(p.first);
+    }
+    std::cout << "MeshesNew Size: " << meshNewMap.size() << std::endl;
+
+    return std::move(names);
 }
 
 std::vector<std::string> ResourceManager::GetMeshesName()

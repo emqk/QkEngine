@@ -31,6 +31,7 @@ Scene::Scene()
     ResourceManager::LoadTexture("Cube.jpg");
     ResourceManager::LoadTexture("gizmoSelectTexture.jpg");
     ResourceManager::LoadTexture("MagicaVoxelExports/abc.png");
+    ResourceManager::LoadTexture("Chair/diffuse.png");
 
     //backpack
     ResourceManager::LoadTexture("backpack/diffuse.jpg");
@@ -38,6 +39,8 @@ Scene::Scene()
     ResourceManager::LoadTexture("backpack/roughness.jpg");
     ResourceManager::LoadTexture("backpack/specular.jpg");
 
+    //Chair
+    ResourceManager::LoadTexture("Chair/diffuse.png");
 
     ////HumanAnim
     ResourceManager::LoadTexture("Human/Human_Walk_1.png");
@@ -57,6 +60,11 @@ Scene::Scene()
     ResourceManager::LoadMesh("Cube.obj");
     ResourceManager::LoadMesh("MagicaVoxelExports/abc.obj");
     
+    //Models
+    ResourceManager::LoadModel("backpack/backpack.obj");
+    ResourceManager::LoadModel("Grocery.obj");
+    ResourceManager::LoadModel("Chair/School Chair Offset.fbx");
+
     //Shaders
     ResourceManager::LoadShader("StandardShader");
 
@@ -64,12 +72,13 @@ Scene::Scene()
     camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f), "StandardShader");
     GameManager gameManager = GameManager();
 
-    ourModel = new Model(std::string("C:/Users/emis/source/repos/QkEngine/QkEngine/Resources/backpack/backpack.obj"));
+    //ourModel = new Model(std::string("C:/Users/emis/source/repos/QkEngine/QkEngine/Resources/backpack/backpack.obj"));
+    //ourModel = new Model(std::string("backpack/backpack.obj"));
 }
 
 Scene::~Scene()
 {
-    delete ourModel;
+    //delete ourModel;
 }
 
 void Scene::OnLoad()
@@ -229,7 +238,16 @@ void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _project
 
     DestroyPostponed();
     Renderer::Draw(camShader);
-    ourModel->Draw(*ResourceManager::GetShader("StandardShader"));
+    Renderer::DrawNew(camShader);
+    Model* model = ResourceManager::GetModel("Chair/School Chair Offset.fbx");
+    if (model != nullptr)
+    {
+        model->Draw(*ResourceManager::GetShader("StandardShader"));
+    }
+    else
+    {
+        std::cout << "DON'T Have model\n";
+    }
     
     //Draw gizmos
     if (Editor::CanDrawGizmos())

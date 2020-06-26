@@ -25,8 +25,13 @@ public:
 	static Texture* GetTexture(const char* texturePath);
 	static std::vector<std::string> GetTexturesName();
 
+	static void LoadModel(const char* meshPath);
+	static Model* GetModel(const char* meshPath);
+	static void LoadMeshNew(Model* model);
+	static MeshNew* GetMeshNew(const char* meshPath);
+	static std::vector<std::string> GetMeshesNewName();
+
 	static void LoadMesh(const char* meshPath);
-	static void LoadMeshNew(const char* meshPath);
 	static Mesh* GetMesh(const char* meshPath);
 	static std::vector<std::string> GetMeshesName();
 
@@ -38,6 +43,9 @@ private:
 	static std::unordered_map<std::string, std::unique_ptr<Texture>> textureMap;
 	static std::unordered_map<std::string, std::unique_ptr<Mesh>> meshMap;
 	static std::unordered_map<std::string, std::unique_ptr<Shader>> shaderMap;
+
+	static std::unordered_map<std::string, std::unique_ptr<Model>> modelMap;
+	static std::unordered_map<std::string, std::unique_ptr<MeshNew>> meshNewMap;
 
 	static MeshData ProcessMesh(aiMesh* mesh, const aiScene* scene);
 };

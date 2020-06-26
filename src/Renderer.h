@@ -12,6 +12,7 @@ public:
 	~Renderer() = delete;
 
 	static void Draw(Shader& cameraShader);
+	static void DrawNew(Shader& cameraShader);
 	static void DrawMeshAtLocation(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, Shader& cameraShader, Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color);
 
 	static void AddSpriteToDraw(SpriteComponent* comp);
@@ -23,7 +24,8 @@ public:
 
 private:
 	static void BindMesh(float vert[], const unsigned int& vertSize);
-	static unsigned int VBO, VAO;
+	static void BindMeshNew(const MeshNew& mesh);
+	static unsigned int VBO, VAO, EBO;
 	
 	static size_t drawCallsLastFrame;
 	static size_t drawTrianglesLastFrame;

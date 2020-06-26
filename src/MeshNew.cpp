@@ -1,15 +1,21 @@
 #include "MeshNew.h"
-#include <glad/glad.h> // holds all OpenGL type declarations
+
+#include <glad/glad.h>
 #include <iostream>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <string>
+#include "Gizmos.h"
+#include "ResourceManager.h"
 
-MeshNew::MeshNew(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture*> textures)
+MeshNew::MeshNew(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture*> textures, const Bounds& _bounds, const glm::vec3& _offset, const std::string& _name)
 {
     this->vertices = vertices;
     this->indices = indices;
     this->textures = textures;
+    bounds = _bounds;
+    offset = _offset;
+    name = _name;
 
     std::cout << "Mesh loaded!\n";
     std::cout << "vertices: " << this->vertices.size() << std::endl;
@@ -19,35 +25,50 @@ MeshNew::MeshNew(vector<Vertex> vertices, vector<unsigned int> indices, vector<T
 
 void MeshNew::Draw(Shader& shader)
 {
+    glm::vec3 extents = bounds.Extents();
+    Gizmos::DrawCubeWireframe(offset, glm::vec3(0, 0, 0), extents);
+
+    // render the loaded model
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+    model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
+    shader.SetMat4("model", model);
+
+    //Auto 
     //std::cout << "draw textures: " << textures.size() << std::endl;
-        // bind appropriate textures
-        unsigned int diffuseNr = 1;
-        unsigned int specularNr = 1;
-        unsigned int normalNr = 1;
-        unsigned int heightNr = 1;
-        for (unsigned int i = 0; i < textures.size(); i++)
-        {
-            //glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
-            // retrieve texture number (the N in diffuse_textureN)
-            string number;
-            string name = textures[i]->type;
-            if (name == "texture_diffuse")
-                number = std::to_string(diffuseNr++);
-            else if (name == "texture_specular")
-                number = std::to_string(specularNr++); // transfer unsigned int to stream
-            else if (name == "texture_normal")
-                number = std::to_string(normalNr++); // transfer unsigned int to stream
-            else if (name == "texture_height")
-                number = std::to_string(heightNr++); // transfer unsigned int to stream
+    // bind appropriate textures
+    //unsigned int diffuseNr = 1;
+    //unsigned int specularNr = 1;
+    //unsigned int normalNr = 1;
+    //unsigned int heightNr = 1;
+    //for (unsigned int i = 0; i < textures.size(); i++)
+    //{
+    //    //glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+    //    // retrieve texture number (the N in diffuse_textureN)
+    //    string number;
+    //    string name = textures[i]->type;
+    //    if (name == "texture_diffuse")
+    //        number = std::to_string(diffuseNr++);
+    //    else if (name == "texture_specular")
+    //        number = std::to_string(specularNr++); // transfer unsigned int to stream
+    //    else if (name == "texture_normal")
+    //        number = std::to_string(normalNr++); // transfer unsigned int to stream
+    //    else if (name == "texture_height")
+    //        number = std::to_string(heightNr++); // transfer unsigned int to stream
+    //
+    //    // now set the sampler to the correct texture unit
+    //    shader.SetInt((name + number).c_str(), 0);     // <---------------------- To display textures different than diffuse change 0 to other number
+    //    textures[0]->Use();                            // <---------------------- To display textures different than diffuse change 0 to other number
+    //}
 
-            // now set the sampler to the correct texture unit
-            shader.SetInt((name + number).c_str(), 0);     // <---------------------- To display textures different than diffuse change 0 to other number
-            textures[0]->Use();                            // <---------------------- To display textures different than diffuse change 0 to other number
-        }
+    //Manual texture set
+    shader.SetInt("texture_diffuse1", 0);     // <---------------------- To display textures different than diffuse change 0 to other number
+    //Texture* diffTexture = ResourceManager::GetTexture("backpack/diffuse.jpg");
+    Texture* diffTexture = ResourceManager::GetTexture("Chair/diffuse.png");
+    diffTexture->Use();
 
-    //    shader.Use();
     shader.SetVec4("_FragColor", 1.0f, 1.0f, 1.0f, 1.0f);
-    shader.SetInt("texture1", 0);
+    //shader.SetInt("texture1", 0);
     shader.Use();
 
     setupMesh();

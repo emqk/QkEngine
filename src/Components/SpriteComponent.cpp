@@ -17,6 +17,7 @@ SpriteComponent::~SpriteComponent()
 {
 	Renderer::RemoveSpriteToDraw(this);
 	mesh = nullptr;
+	meshNew = nullptr;
 	texture = nullptr;
 	shader = nullptr;
 
@@ -55,6 +56,19 @@ void SpriteComponent::ShowOnInspector()
 		Editor::ShowSelectAssetWindow(AssetWindowType::Meshes, fun);
 	}
 
+	//MeshNEW
+	buttonStr = "No MeshNew";
+	if (meshNew != nullptr)
+		buttonStr = meshNew->name;
+
+	ImGui::Text("MeshNew:");
+	ImGui::SameLine();
+	if (ImGui::Button(buttonStr.c_str()))
+	{
+		std::function<void(std::string)> fun = [&](const std::string& texName) { this->SetMeshNew(texName.c_str()); };
+		Editor::ShowSelectAssetWindow(AssetWindowType::MeshesNew, fun);
+	}
+
 	//Texture
 	buttonStr = "No Texture";
 	if (texture != nullptr)
@@ -84,6 +98,16 @@ void SpriteComponent::ShowOnInspector()
 	ImGui::Text("Base color:");
 	ImGui::SameLine();
 	ImGui::ColorEdit4("MyColor##3", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+}
+
+void SpriteComponent::SetMeshNew(const char* meshPath)
+{
+	meshNew = ResourceManager::GetMeshNew(meshPath);
+}
+
+MeshNew* SpriteComponent::GetMeshNew()
+{
+	return meshNew;
 }
 
 void SpriteComponent::SetMesh(const char* meshPath)
