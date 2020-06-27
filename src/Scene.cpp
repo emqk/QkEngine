@@ -60,7 +60,7 @@ Scene::Scene()
     ResourceManager::LoadModel("weapon.obj");
     ResourceManager::LoadModel("MagicaVoxelExports/abc.obj");
     ResourceManager::LoadModel("Chair/School Chair Offset.fbx");
-    //ResourceManager::LoadModel("backpack/backpack.obj");
+    ResourceManager::LoadModel("backpack/backpack.obj");
 
     //Shaders
     ResourceManager::LoadShader("StandardShader");
@@ -99,7 +99,7 @@ GameObject* Scene::Raycast()
     for (std::unique_ptr<GameObject>& targetObj : objects)
     {
         SpriteComponent* objSpriteComponent = targetObj->GetComponent<SpriteComponent>();
-        MeshNew* meshNewFromComponent = nullptr;
+        Mesh* meshNewFromComponent = nullptr;
         if (objSpriteComponent != nullptr)
         {
             meshNewFromComponent = objSpriteComponent->GetMeshNew();

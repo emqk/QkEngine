@@ -8,7 +8,7 @@
 #include "Gizmos.h"
 #include "ResourceManager.h"
 
-MeshNew::MeshNew(std::vector<Vertex> vertices, std::vector<unsigned int> indices, const Bounds& _bounds, const std::string& _name)
+Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, const Bounds& _bounds, const std::string& _name)
 {
     this->vertices = vertices;
     this->indices = indices;
@@ -16,17 +16,17 @@ MeshNew::MeshNew(std::vector<Vertex> vertices, std::vector<unsigned int> indices
     name = _name;
 }
 
-const std::vector<Vertex>& MeshNew::GetVertices() const
+const std::vector<Vertex>& Mesh::GetVertices() const
 {
     return vertices;
 }
 
-const std::vector<unsigned int>& MeshNew::GetIndices() const
+const std::vector<unsigned int>& Mesh::GetIndices() const
 {
     return indices;
 }
 
-const Bounds& MeshNew::GetBounds() const
+const Bounds& Mesh::GetBounds() const
 {
     return bounds;
 }

@@ -18,7 +18,7 @@ size_t Renderer::drawVerticesLastFrame = 0;
 std::vector<SpriteComponent*> Renderer::spriteComponents;
 
 
-void Renderer::BindMeshNew(const MeshNew& mesh)
+void Renderer::BindMeshNew(const Mesh& mesh)
 {
     // create buffers/arrays
     glGenVertexArrays(1, &VAO);
@@ -66,23 +66,23 @@ void Renderer::DrawNew(Shader& cameraShader)
         if (!comp->IsActive())
             continue;
 
-        MeshNew* componentMeshNew = comp->GetMeshNew();
+        Mesh* componentMeshNew = comp->GetMeshNew();
         const Texture* componentTexture = comp->GetTexture();
         Shader* componentShader = comp->GetShader();
 
         if (componentMeshNew == nullptr)
         {
-            std::cout << "Can't render SpriteComponent: MeshNew is null!\n";
+            //std::cout << "Can't render SpriteComponent: Mesh is null!\n";
             continue;
         }
         if (componentTexture == nullptr)
         {
-            std::cout << "Can't render SpriteComponent: Texture is null!\n";
+            //std::cout << "Can't render SpriteComponent: Texture is null!\n";
             continue;
         }
         if (componentShader == nullptr)
         {
-            std::cout << "Can't render SpriteComponent: Shader is null!\n";
+            //std::cout << "Can't render SpriteComponent: Shader is null!\n";
             continue;
         }
         if (comp->GetParent() == nullptr)
@@ -124,7 +124,7 @@ void Renderer::DrawNew(Shader& cameraShader)
     }
 }
 
-void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, Shader& cameraShader, const MeshNew& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color)
+void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, Shader& cameraShader, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color)
 {
     //Set wireframe mode only for this mesh
     GLint polygonMode;

@@ -103,16 +103,26 @@ void Editor::Update()
             assetTypeStr = "Shaders";
         }
        
-
         if (ImGui::TreeNode(assetTypeStr.c_str()))
         {
             for (size_t n = 0; n < assetsName.size(); n++)
             {
+                if (currAssetWindowType == AssetWindowType::Textures)
+                {
+                    Texture* tex = ResourceManager::GetTexture(assetsName[n].c_str());
+                    ImGui::Image((void*)(intptr_t)tex->GetID(), ImVec2(128, 128), ImVec2(0, 1), ImVec2(1, 0));
+                }
+
                 char buf[128];
                 sprintf_s(buf, "%d. %s", n, assetsName[n].c_str());
-                if (ImGui::Selectable(buf, selectedAsset == n))
+                if (ImGui::Selectable(buf, selectedAsset == n, ImGuiSelectableFlags_AllowDoubleClick))
                 {
                     selectedAsset = n;
+                    if (ImGui::IsMouseDoubleClicked(0))
+                    {
+                        currSelectAssetFun(assetsName[selectedAsset].c_str());
+                        showSelectAssetWindow = false;
+                    }
                 }
             }
             ImGui::TreePop();
@@ -120,8 +130,8 @@ void Editor::Update()
 
         if (ImGui::Button("Select") && selectedAsset >= 0 && selectedAsset < assetsName.size())
         {
-            std::cout << "Selected: " << assetsName[selectedAsset] << std::endl;
             currSelectAssetFun(assetsName[selectedAsset].c_str());
+            showSelectAssetWindow = false;
         }
 
         ImGui::End();
@@ -201,7 +211,7 @@ void Editor::Update()
         SpriteComponent* spriteComp = selectedObj->GetComponent<SpriteComponent>();
         if (spriteComp)
         {
-            MeshNew* mesh = spriteComp->GetMeshNew();
+            Mesh* mesh = spriteComp->GetMeshNew();
             if (mesh != nullptr)
             {
                 glm::vec3 position = selectedObj->GetPosition();

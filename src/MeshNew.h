@@ -15,9 +15,9 @@ struct Vertex {
     glm::vec3 Bitangent;
 };
 
-class MeshNew {
+class Mesh {
 public:
-    MeshNew(std::vector<Vertex> vertices, std::vector<unsigned int> indices, const Bounds& _bounds, const std::string& _name);
+    Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, const Bounds& _bounds, const std::string& _name);
 
     const std::vector<Vertex>& GetVertices() const;
     const std::vector<unsigned int>& GetIndices() const;

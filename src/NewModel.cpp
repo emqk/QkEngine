@@ -12,9 +12,7 @@
 
 Model::Model(const std::string& path, const std::string& shortPath) : directory(path), shortDirectory(shortPath)
 {
-    std::cout << "Loading model!\n";
     loadModel(path);
-    std::cout << "Model loaded!\n";
 }
 
 const std::string& Model::GetDirectory() const
@@ -33,7 +31,6 @@ void Model::loadModel(const std::string& path)
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(path.c_str(), aiProcess_Triangulate | aiProcess_CalcTangentSpace);
     //std::cout << "meshes in model: " << scene->mNumMeshes << std::endl;
-    std::cout << "Loading mesh from: " << path;
     // check for errors
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
     {
@@ -44,7 +41,8 @@ void Model::loadModel(const std::string& path)
     // process ASSIMP's root node recursively
     processNode(scene->mRootNode, scene);
 
-    ResourceManager::LoadMeshNew(this);
+    ResourceManager::LoadMesh(this);
+    std::cout << "Model loaded!\n";
 }
 
 void Model::processNode(aiNode* node, const aiScene* scene)
@@ -65,7 +63,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 
 }
 
-MeshNew Model::processMesh(aiMesh* mesh, const aiScene* scene)
+Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
     // data to fill
     std::vector<Vertex> vertices;
@@ -168,7 +166,7 @@ MeshNew Model::processMesh(aiMesh* mesh, const aiScene* scene)
     bounds = Bounds(minX, maxX, minY, maxY, minZ, maxZ);
     // return a mesh object created from the extracted mesh data
     std::string name = std::string(mesh->mName.C_Str());
-    return MeshNew(vertices, indices, bounds, name);
+    return Mesh(vertices, indices, bounds, name);
 }
 
 //vector<Texture*> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)

@@ -20,7 +20,7 @@ public:
 	void ShowOnInspector() override;
 	
 	void SetMeshNew(const char* meshPath);
-	MeshNew* GetMeshNew();
+	Mesh* GetMeshNew();
 
 	void SetShader(Shader* _shader);
 	void SetShader(const char* shaderPath);
@@ -35,7 +35,7 @@ public:
 	std::unique_ptr<Component> MakeCopy(GameObject* newParent) const override;
 
 private:
-	MeshNew* meshNew = nullptr;
+	Mesh* meshNew = nullptr;
 	Shader* shader = nullptr;
 	Texture* texture = nullptr;
 };

@@ -26,8 +26,8 @@ public:
 
 	static void LoadModel(const char* meshPath);
 	static Model* GetModel(const char* meshPath);
-	static void LoadMeshNew(Model* model);
-	static MeshNew* GetMeshNew(const char* meshPath);
+	static void LoadMesh(Model* model);
+	static Mesh* GetMeshNew(const char* meshPath);
 	static std::vector<std::string> GetMeshesNewName();
 
 	static void LoadShader(const char* shaderPath);
@@ -39,5 +39,5 @@ private:
 	static std::unordered_map<std::string, std::unique_ptr<Shader>> shaderMap;
 
 	static std::unordered_map<std::string, std::unique_ptr<Model>> modelMap;
-	static std::unordered_map<std::string, std::unique_ptr<MeshNew>> meshNewMap;
+	static std::unordered_map<std::string, std::unique_ptr<Mesh>> meshNewMap;
 };

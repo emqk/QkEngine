@@ -43,11 +43,11 @@ void SpriteComponent::ShowOnInspector()
 	ImGui::Text("Properties");
 
 	//MeshNEW
-	std::string buttonStr = "No MeshNew";
+	std::string buttonStr = "No Mesh";
 	if (meshNew != nullptr)
 		buttonStr = meshNew->name;
 
-	ImGui::Text("MeshNew:");
+	ImGui::Text("Mesh:");
 	ImGui::SameLine();
 	if (ImGui::Button(buttonStr.c_str()))
 	{
@@ -88,10 +88,11 @@ void SpriteComponent::ShowOnInspector()
 
 void SpriteComponent::SetMeshNew(const char* meshPath)
 {
+	std::cout << "Mesh set: " << meshPath << std::endl;
 	meshNew = ResourceManager::GetMeshNew(meshPath);
 }
 
-MeshNew* SpriteComponent::GetMeshNew()
+Mesh* SpriteComponent::GetMeshNew()
 {
 	return meshNew;
 }
@@ -122,11 +123,13 @@ std::unique_ptr<Component> SpriteComponent::MakeCopy(GameObject* newParent) cons
 
 void SpriteComponent::SetShader(const char* shaderPath)
 {
+	std::cout << "Shader set: " << shaderPath << std::endl;
 	SetShader(ResourceManager::GetShader(shaderPath));
 }
 
 void SpriteComponent::SetTexture(const char* texPath)
 {
+	std::cout << "Texture set: " << texPath << std::endl;
 	SetTexture(ResourceManager::GetTexture(texPath));
 }
 

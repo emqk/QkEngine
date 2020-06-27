@@ -12,8 +12,9 @@ public:
 	bool LoadTextureFromFile(const char* path);
 	void Use() const;
 
+	unsigned int GetID() const;
+
 	std::string type;
-	std::string path;
 
 private:
 	unsigned int ID;

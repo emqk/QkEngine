@@ -18,7 +18,7 @@ class Model
 public:
     // model data 
     //vector<Texture*> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
-    std::vector<MeshNew>    meshes;
+    std::vector<Mesh>    meshes;
     bool gammaCorrection;
 
     // constructor, expects a filepath to a 3D model.
@@ -33,7 +33,7 @@ private:
     // processes a node in a recursive fashion. Processes each individual mesh located at the node and repeats this process on its children nodes (if any).
     void processNode(aiNode* node, const aiScene* scene);
 
-    MeshNew processMesh(aiMesh* mesh, const aiScene* scene);
+    Mesh processMesh(aiMesh* mesh, const aiScene* scene);
 
     // checks all material textures of a given type and loads the textures if they're not loaded yet.
     // the required info is returned as a Texture struct.
