@@ -10,21 +10,24 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/glm.hpp>
 
-Model::Model(string const& path)
+Model::Model(const std::string& path, const std::string& shortPath) : directory(path), shortDirectory(shortPath)
 {
-    std::cout << "\t Loading model!\n";
+    std::cout << "Loading model!\n";
     loadModel(path);
+    std::cout << "Model loaded!\n";
 }
 
-void Model::Draw(Shader& shader)
+const std::string& Model::GetDirectory() const
 {
-    for (unsigned int i = 0; i < meshes.size(); i++)
-    {
-        meshes[i].Draw(shader);
-    }
+    return directory;
 }
 
-void Model::loadModel(string const& path)
+const std::string& Model::GetShortDirectory() const
+{
+    return shortDirectory;
+}
+
+void Model::loadModel(const std::string& path)
 {
     // read file via ASSIMP
     Assimp::Importer importer;
@@ -34,7 +37,7 @@ void Model::loadModel(string const& path)
     // check for errors
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
     {
-        cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << endl;
+        std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
         return;
     }
 
@@ -65,9 +68,9 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 MeshNew Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
     // data to fill
-    vector<Vertex> vertices;
-    vector<unsigned int> indices;
-    vector<Texture*> textures;
+    std::vector<Vertex> vertices;
+    std::vector<unsigned int> indices;
+    std::vector<Texture*> textures;
 
     int texCoordsSize = 0;
 
@@ -165,7 +168,7 @@ MeshNew Model::processMesh(aiMesh* mesh, const aiScene* scene)
     bounds = Bounds(minX, maxX, minY, maxY, minZ, maxZ);
     // return a mesh object created from the extracted mesh data
     std::string name = std::string(mesh->mName.C_Str());
-    return MeshNew(vertices, indices, textures, bounds, glm::vec3((minX + maxX) / 2.0f, (minY + maxY) / 2.0f, (minZ + maxZ) / 2.0f), name);
+    return MeshNew(vertices, indices, bounds, name);
 }
 
 //vector<Texture*> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)

@@ -172,9 +172,7 @@
     <ClCompile Include="src\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\InputManager.cpp" />
-    <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\MeshNew.cpp" />
-    <ClCompile Include="src\ModelLoader.cpp" />
     <ClCompile Include="src\NewModel.cpp" />
     <ClCompile Include="src\Physics.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
@@ -205,9 +203,7 @@
     <ClInclude Include="src\imgui\imstb_textedit.h" />
     <ClInclude Include="src\imgui\imstb_truetype.h" />
     <ClInclude Include="src\InputManager.h" />
-    <ClInclude Include="src\Mesh.h" />
     <ClInclude Include="src\MeshNew.h" />
-    <ClInclude Include="src\ModelLoader.h" />
     <ClInclude Include="src\NewModel.h" />
     <ClInclude Include="src\Physics.h" />
     <ClInclude Include="src\Renderer.h" />

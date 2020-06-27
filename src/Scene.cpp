@@ -48,37 +48,30 @@ Scene::Scene()
     ResourceManager::LoadTexture("Human/Human_Walk_3.png");
     ResourceManager::LoadTexture("Human/Human_Walk_4.png");
     ResourceManager::LoadTexture("kenney_medievalrtspack/PNG/Retina/Tile/asd.png");
-    
-    ////Meshes
-    ResourceManager::LoadMesh("Terrain.obj");
-    ResourceManager::LoadMesh("Buiilding Area.obj");
-    ResourceManager::LoadMesh("Grocery.obj");
-    ResourceManager::LoadMesh("rectangleOBJ.obj");
-    ResourceManager::LoadMesh("Human/Human.obj");
-    ResourceManager::LoadMesh("Stairs.obj");
-    ResourceManager::LoadMesh("weapon.obj");
-    ResourceManager::LoadMesh("Cube.obj");
-    ResourceManager::LoadMesh("MagicaVoxelExports/abc.obj");
-    
+        
     //Models
-    ResourceManager::LoadModel("backpack/backpack.obj");
+    ResourceManager::LoadModel("Cube.obj");
+    ResourceManager::LoadModel("Terrain.obj");
+    ResourceManager::LoadModel("Buiilding Area.obj");
     ResourceManager::LoadModel("Grocery.obj");
+    ResourceManager::LoadModel("rectangleOBJ.obj");
+    ResourceManager::LoadModel("Human/Human.obj");
+    ResourceManager::LoadModel("Stairs.obj");
+    ResourceManager::LoadModel("weapon.obj");
+    ResourceManager::LoadModel("MagicaVoxelExports/abc.obj");
     ResourceManager::LoadModel("Chair/School Chair Offset.fbx");
+    //ResourceManager::LoadModel("backpack/backpack.obj");
 
     //Shaders
     ResourceManager::LoadShader("StandardShader");
 
 
     camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f), "StandardShader");
-    GameManager gameManager = GameManager();
-
-    //ourModel = new Model(std::string("C:/Users/emis/source/repos/QkEngine/QkEngine/Resources/backpack/backpack.obj"));
-    //ourModel = new Model(std::string("backpack/backpack.obj"));
+    //GameManager gameManager = GameManager();
 }
 
 Scene::~Scene()
 {
-    //delete ourModel;
 }
 
 void Scene::OnLoad()
@@ -106,14 +99,13 @@ GameObject* Scene::Raycast()
     for (std::unique_ptr<GameObject>& targetObj : objects)
     {
         SpriteComponent* objSpriteComponent = targetObj->GetComponent<SpriteComponent>();
-        Mesh* meshFromComponent = nullptr;
+        MeshNew* meshNewFromComponent = nullptr;
         if (objSpriteComponent != nullptr)
         {
-            meshFromComponent = objSpriteComponent->GetMesh();
+            meshNewFromComponent = objSpriteComponent->GetMeshNew();
         }
-        if (meshFromComponent == nullptr)
+        if (meshNewFromComponent == nullptr)
             continue;
-
 
         glm::vec3 camPos = camera.GetPosition();
         glm::vec3 targetObjPos = targetObj->GetPosition();
@@ -133,7 +125,7 @@ GameObject* Scene::Raycast()
         //if (glm::abs(rayToTargetObjVec.x) < 2 && glm::abs(rayToTargetObjVec.y) < 2 && glm::abs(rayToTargetObjVec.z) < 2)
 
         Shader* objShader = objSpriteComponent->GetShader();
-        if (meshFromComponent->GetBounds().Intersects(rayToTargetObjVec, targetObjPos))
+        if (meshNewFromComponent->GetBounds().Intersects(rayToTargetObjVec, targetObjPos))
         {
             //std::cout << "\tYes! Ray is hitting object!\n";
 
@@ -237,17 +229,7 @@ void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _project
     }
 
     DestroyPostponed();
-    Renderer::Draw(camShader);
     Renderer::DrawNew(camShader);
-    Model* model = ResourceManager::GetModel("Chair/School Chair Offset.fbx");
-    if (model != nullptr)
-    {
-        model->Draw(*ResourceManager::GetShader("StandardShader"));
-    }
-    else
-    {
-        std::cout << "DON'T Have model\n";
-    }
     
     //Draw gizmos
     if (Editor::CanDrawGizmos())

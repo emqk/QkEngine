@@ -15,11 +15,11 @@ GameManager::GameManager()
 	SpriteComponent* terrainSprite = terrainObj->AddComponent<SpriteComponent>();
 	if (terrainSprite != nullptr)
 	{
-		terrainSprite->SetMesh("Terrain.obj");
+		terrainSprite->SetMeshNew("Terrain.obj");
 		terrainSprite->SetTexture(ResourceManager::GetTexture("Terrain_Albedo.jpg"));
 		terrainSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 	
-		glm::vec3 terrainBounds = terrainSprite->GetMesh()->GetBounds().Extents();
+		glm::vec3 terrainBounds = terrainSprite->GetMeshNew()->GetBounds().Extents();
 		terrainObj->SetPosition(glm::vec3(0.0f, -terrainBounds.y, -terrainBounds.z));
 	}
 	terrainObj->AddComponent<BoxColliderComponent>();
@@ -45,7 +45,7 @@ GameManager::GameManager()
 		SpriteComponent* areaSprite = instance->AddComponent<SpriteComponent>();
 		if (areaSprite != nullptr)
 		{
-			areaSprite->SetMesh("Buiilding Area.obj");
+			areaSprite->SetMeshNew("Buiilding Area.obj");
 			areaSprite->SetTexture(ResourceManager::GetTexture("Building Area 1_Albedo.jpg"));
 			areaSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 		}
@@ -66,7 +66,7 @@ GameManager::GameManager()
 	SpriteComponent* stairsSprite = stairs->AddComponent<SpriteComponent>();
 	if (stairsSprite != nullptr)
 	{
-		stairsSprite->SetMesh("Stairs.obj");
+		stairsSprite->SetMeshNew("Stairs.obj");
 		stairsSprite->SetTexture(ResourceManager::GetTexture("Stairs.jpg"));
 		stairsSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 	}

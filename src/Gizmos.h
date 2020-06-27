@@ -12,7 +12,7 @@ public:
 	static void SetCurrentColor(const glm::vec4& color);
 	static void ResetDefaultColor();
 
-	static void DrawMeshWireframe(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, Mesh& mesh);
+	static void DrawMeshNewWireframe(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, const MeshNew& mesh);
 	static void DrawCubeWireframe(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale);
 
 	static constexpr glm::vec4 meshWireframeColor = glm::vec4(1, 0, 0, 1);

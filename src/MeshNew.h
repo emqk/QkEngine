@@ -6,43 +6,27 @@
 
 #include <string>
 #include <vector>
-using namespace std;
 
 struct Vertex {
-    // position
     glm::vec3 Position;
-    // normal
     glm::vec3 Normal;
-    // texCoords
     glm::vec2 TexCoords;
-    // tangent
     glm::vec3 Tangent;
-    // bitangent
     glm::vec3 Bitangent;
 };
 
 class MeshNew {
 public:
-    // mesh Data
-    vector<Vertex>       vertices;
-    vector<unsigned int> indices;
-    vector<Texture*>      textures;
+    MeshNew(std::vector<Vertex> vertices, std::vector<unsigned int> indices, const Bounds& _bounds, const std::string& _name);
+
+    const std::vector<Vertex>& GetVertices() const;
+    const std::vector<unsigned int>& GetIndices() const;
+    const Bounds& GetBounds() const;
 
     std::string name;
-    Bounds bounds;
-    glm::vec3 offset;
-
-    // constructor
-    MeshNew(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture*> textures, const Bounds& _bounds, const glm::vec3& _offset, const std::string& _name);
-
-    // render the mesh
-    void Draw(Shader& shader);
 
 private:
-    // render data 
-    unsigned int VAO;
-    unsigned int VBO, EBO;
-
-    // initializes all the buffer objects/arrays
-    void setupMesh();
+    std::vector<Vertex> vertices;
+    std::vector<unsigned int> indices;
+    Bounds bounds;
 };

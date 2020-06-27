@@ -17,5 +17,5 @@ public:
 	bool Intersects(const glm::vec3& point, const glm::vec3& offset) const;
 
 private:
-	glm::vec3 extents;
+	glm::vec3 extents = glm::vec3(0, 0, 0);
 };

@@ -20,8 +20,6 @@ Bounds::Bounds(const Bounds& otherBounds)
     *this = otherBounds;
 }
 
-
-
 Bounds& Bounds::operator=(const Bounds& other)
 {
     extents = other.extents;

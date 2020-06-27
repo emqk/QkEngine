@@ -52,8 +52,6 @@ private:
 	static Scene* currentScene;
 	static bool inGameMode;
 
-	//Model* ourModel = nullptr;
-
 	void DestroyPostponed();
 
 	std::vector<std::unique_ptr<GameObject>> objects;

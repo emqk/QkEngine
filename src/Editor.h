@@ -6,7 +6,7 @@
 
 enum class AssetWindowType
 {
-	Textures, Meshes, Shaders, MeshesNew
+	Textures, Shaders, MeshesNew
 };
 
 class Editor

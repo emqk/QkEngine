@@ -1,6 +1,5 @@
 #pragma once
 #include "Component.h"
-#include "../Mesh.h"
 #include "../Shader.h"
 #include "../Texture.h"
 #include "../MeshNew.h"
@@ -22,8 +21,6 @@ public:
 	
 	void SetMeshNew(const char* meshPath);
 	MeshNew* GetMeshNew();
-	void SetMesh(const char* meshPath);
-	Mesh* GetMesh();
 
 	void SetShader(Shader* _shader);
 	void SetShader(const char* shaderPath);
@@ -39,7 +36,6 @@ public:
 
 private:
 	MeshNew* meshNew = nullptr;
-	Mesh* mesh = nullptr;
 	Shader* shader = nullptr;
 	Texture* texture = nullptr;
 };

@@ -97,11 +97,6 @@ void Editor::Update()
             assetsName = ResourceManager::GetMeshesNewName();
             assetTypeStr = "MeshesNew";
         }
-        else if (currAssetWindowType == AssetWindowType::Meshes)
-        {
-            assetsName = ResourceManager::GetMeshesName();
-            assetTypeStr = "Meshes";
-        }
         else if (currAssetWindowType == AssetWindowType::Shaders)
         {
             assetsName = ResourceManager::GetShadersName();
@@ -141,26 +136,10 @@ void Editor::Update()
         {
             if (ImGui::BeginMenu("Create"))
             {
-                if (ImGui::MenuItem("GameObject", "Ctrl+G"))
-                { 
-                    GameObject* newObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(-10, 10, 0));
-                    SpriteComponent* spriteComp = newObj->AddComponent<SpriteComponent>();
-                    spriteComp->SetShader(ResourceManager::GetShader("StandardShader"));
-                    spriteComp->SetTexture(ResourceManager::GetTexture("Grocery.png"));
-                    spriteComp->SetMesh("Grocery.obj");
-                }
                 if (ImGui::MenuItem("Empty", "Ctrl+E"))
                 {
-                    GameObject* newObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(-10, 10, 0));
+                    GameObject* newObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
                     newObj->name = "empty";
-                }
-                if (ImGui::MenuItem("Ground"))
-                {
-                    GameObject* newObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(-10, 10, 0));
-                    SpriteComponent* spriteComp = newObj->AddComponent<SpriteComponent>();
-                    spriteComp->SetShader(ResourceManager::GetShader("StandardShader"));
-                    spriteComp->SetTexture(ResourceManager::GetTexture("kenney_medievalrtspack/PNG/Retina/Tile/asd.png"));
-                    spriteComp->SetMesh("Human/Human.obj");
                 }
                 ImGui::EndMenu();
             }
@@ -213,7 +192,7 @@ void Editor::Update()
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)\n", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         ImGui::Text("Number of GameObjects: %u", currentScene.GetObjectsPtr()->size());
         ImGui::Text("Last frame draw calls: %u | To draw container size: %u", Renderer::GetDrawCallsLastFrame(), Renderer::GetToDrawContainerSize());
-        ImGui::Text("Last frame triangles: %u", Renderer::GetDrawnTrianglesLastFrame());
+        ImGui::Text("Last frame vertices: %u", Renderer::GetDrawnVerticesLastFrame());
         ImGui::End();
     }
 
@@ -222,13 +201,13 @@ void Editor::Update()
         SpriteComponent* spriteComp = selectedObj->GetComponent<SpriteComponent>();
         if (spriteComp)
         {
-            Mesh* mesh = spriteComp->GetMesh();
+            MeshNew* mesh = spriteComp->GetMeshNew();
             if (mesh != nullptr)
             {
                 glm::vec3 position = selectedObj->GetPosition();
                 Bounds bounds = mesh->GetBounds();
                 Gizmos::SetCurrentColor(Gizmos::meshWireframeColor);
-                Gizmos::DrawMeshWireframe(position, selectedObj->GetRotation(), selectedObj->GetScale() * 1.001f, *mesh);
+                Gizmos::DrawMeshNewWireframe(position, selectedObj->GetRotation(), selectedObj->GetScale() * 1.001f, *mesh);
             }
         }
     }

@@ -13,7 +13,7 @@ PlayerComponent::PlayerComponent(GameObject* _parent) : Component(_parent)
 {
 	name = "PlayerComponent";
 	spriteComponent = parent->AddComponent<SpriteComponent>();
-	spriteComponent->SetMesh("Cube.obj");
+	spriteComponent->SetMeshNew("Cube.obj");
 	spriteComponent->SetTexture(ResourceManager::GetTexture("Cube.jpg"));
 	//spriteComponent->SetTexture(ResourceManager::GetTexture("Human/Human_Walk_1.png"));
 	spriteComponent->SetShader(ResourceManager::GetShader("StandardShader"));

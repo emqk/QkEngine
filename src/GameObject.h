@@ -1,7 +1,6 @@
 #pragma once
 #include <glm\ext\vector_float3.hpp>
 
-#include "Mesh.h"
 #include "Shader.h"
 #include "Texture.h"
 #include "Components/Component.h"

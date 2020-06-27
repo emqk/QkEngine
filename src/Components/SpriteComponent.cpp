@@ -16,7 +16,6 @@ SpriteComponent::SpriteComponent(GameObject* _parent) : Component(_parent), colo
 SpriteComponent::~SpriteComponent()
 {
 	Renderer::RemoveSpriteToDraw(this);
-	mesh = nullptr;
 	meshNew = nullptr;
 	texture = nullptr;
 	shader = nullptr;
@@ -24,7 +23,7 @@ SpriteComponent::~SpriteComponent()
 	std::cout << "SpriteComponent destructor\n";
 }
 
-SpriteComponent::SpriteComponent(const SpriteComponent& comp) : Component(comp), mesh(comp.mesh), texture(comp.texture), shader(comp.shader), color(comp.color)
+SpriteComponent::SpriteComponent(const SpriteComponent& comp) : Component(comp), meshNew(comp.meshNew), texture(comp.texture), shader(comp.shader), color(comp.color)
 {
 	std::cout << "SpriteComp copy constuctor\n";
 
@@ -43,21 +42,8 @@ void SpriteComponent::ShowOnInspector()
 {
 	ImGui::Text("Properties");
 
-	//Mesh
-	std::string buttonStr = "No Mesh";
-	if (mesh != nullptr)
-		buttonStr = mesh->name;
-
-	ImGui::Text("Mesh:");
-	ImGui::SameLine();
-	if (ImGui::Button(buttonStr.c_str()))
-	{
-		std::function<void(std::string)> fun = [&](const std::string& texName) { this->SetMesh(texName.c_str()); };
-		Editor::ShowSelectAssetWindow(AssetWindowType::Meshes, fun);
-	}
-
 	//MeshNEW
-	buttonStr = "No MeshNew";
+	std::string buttonStr = "No MeshNew";
 	if (meshNew != nullptr)
 		buttonStr = meshNew->name;
 
@@ -108,16 +94,6 @@ void SpriteComponent::SetMeshNew(const char* meshPath)
 MeshNew* SpriteComponent::GetMeshNew()
 {
 	return meshNew;
-}
-
-void SpriteComponent::SetMesh(const char* meshPath)
-{
-	mesh = ResourceManager::GetMesh(meshPath);
-}
-
-Mesh* SpriteComponent::GetMesh()
-{
-	return mesh;
 }
 
 void SpriteComponent::SetShader(Shader* _shader)
