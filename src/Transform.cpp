@@ -62,7 +62,7 @@ glm::vec3 Transform::GetScale() const
 	return scale;
 }
 
-glm::vec3 Transform::GetFront() const
+glm::vec3 Transform::GetForward() const
 {
 	return Front;
 }

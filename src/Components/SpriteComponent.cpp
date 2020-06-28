@@ -87,11 +87,6 @@ void SpriteComponent::ShowOnInspector()
 	ImGui::ColorEdit4("MyColor##3", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
 }
 
-void SpriteComponent::ShowOnGizmos()
-{
-	Gizmos::DrawCubeWireframe(parent->GetPosition(), parent->GetRotation(), meshNew->GetBounds().Extents());
-}
-
 void SpriteComponent::SetMeshNew(const char* meshPath)
 {
 	std::cout << "Mesh set: " << meshPath << std::endl;

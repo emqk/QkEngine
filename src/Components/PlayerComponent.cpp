@@ -62,16 +62,19 @@ void PlayerComponent::Update(const float& deltaTime)
 
 	glm::vec3 moveVec(0,0,0);
 
+	glm::vec3 localRight = parent->GetTransform().GetRight();
+	glm::vec3 localForward = parent->GetTransform().GetForward();
+
 	//Horizontal
 	if (InputManager::GetKey(GLFW_KEY_D))
-		moveVec += glm::vec3(1, 0, 0);
+		moveVec += localRight;
 	if (InputManager::GetKey(GLFW_KEY_A))
-		moveVec += glm::vec3(-1, 0, 0);
+		moveVec += -localRight;
 	//Verical
 	if (InputManager::GetKey(GLFW_KEY_W))
-		moveVec += glm::vec3(0, 0, -1);
+		moveVec += localForward;
 	if (InputManager::GetKey(GLFW_KEY_S))
-		moveVec += glm::vec3(0, 0, 1);
+		moveVec += -localForward;
 
 
 	if (glm::length(moveVec) > 0.0f)
@@ -108,10 +111,9 @@ void PlayerComponent::LateUpdate(const float& deltaTime)
 	Camera* camera = &Scene::GetCurrentScene().GetCamera();
 	glm::vec3 camPos = camera->GetPosition();
 	glm::vec3 playerPos = parent->GetPosition();
-	//camera->SetPosition(glm::vec3(playerPos.x, playerPos.y + 10, playerPos.z + 10));
-	//camera->SetRotation(glm::vec3(-45, -90, 0));
+
 	camera->SetPosition(parent->GetPosition());
-	camera->SetRotation(glm::vec3(0,0,0));
+	camera->SetRotation(parent->GetRotation());
 }
 
 void PlayerComponent::ShowOnInspector()

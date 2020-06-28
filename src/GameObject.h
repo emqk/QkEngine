@@ -38,6 +38,8 @@ public:
 	void SetEulerAngles(const glm::vec3& newRotation);
 	glm::vec3 GetEulerAngles() const;
 
+	const Transform& GetTransform() const;
+
 	void SetActive(const bool& value);
 	bool IsActive() const;
 

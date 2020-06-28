@@ -201,6 +201,11 @@ glm::vec3 GameObject::GetEulerAngles() const
 	return transform.GetRotation() * 360.0f;
 }
 
+const Transform& GameObject::GetTransform() const
+{
+	return transform;
+}
+
 void GameObject::SetActive(const bool& value)
 {
 	isActive = value;

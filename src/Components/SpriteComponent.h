@@ -18,7 +18,6 @@ public:
 	void LateUpdate(const float& deltaTime) override;
 
 	void ShowOnInspector() override;
-	void ShowOnGizmos() override;
 	
 	void SetMeshNew(const char* meshPath);
 	Mesh* GetMeshNew();

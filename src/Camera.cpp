@@ -27,7 +27,7 @@ Camera::~Camera()
 
 glm::mat4 Camera::GetMatrix()
 {
-	return glm::lookAt(transform.GetPosition(), transform.GetPosition() + transform.GetFront(), transform.GetUp());
+	return glm::lookAt(transform.GetPosition(), transform.GetPosition() + transform.GetForward(), transform.GetUp());
 }
 
 float Camera::GetFOV() const
@@ -112,9 +112,9 @@ void Camera::ProcessInput(const float& deltaTime)
 			moveVec += transform.GetRight();
 	
 		if (InputManager::GetKey(GLFW_KEY_W))
-			moveVec += transform.GetFront();
+			moveVec += transform.GetForward();
 		if (InputManager::GetKey(GLFW_KEY_S))
-			moveVec += -transform.GetFront();
+			moveVec += -transform.GetForward();
 	
 		if (InputManager::GetKey(GLFW_KEY_E))
 			moveVec += transform.GetUp();
@@ -141,7 +141,7 @@ void Camera::ProcessInput(const float& deltaTime)
 
 void Camera::ReceiveScrollInput(double xoffset, double yoffset)
 {
-	transform.Translate(transform.GetFront() * (float)yoffset);
+	transform.Translate(transform.GetForward() * (float)yoffset);
 }
 
 void Camera::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
