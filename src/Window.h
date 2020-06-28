@@ -20,6 +20,7 @@ public:
 	static Window* GetCurrentWindow();
 	GLFWwindow& GetGLFWWindow();
 
+	void SetCursorMode(const int& mode);
 
 private:
 	void RefreshMousePosition(GLFWwindow* window);

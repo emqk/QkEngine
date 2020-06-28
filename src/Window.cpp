@@ -110,3 +110,8 @@ GLFWwindow& Window::GetGLFWWindow()
 {
     return *window;
 }
+
+void Window::SetCursorMode(const int& mode)
+{
+    glfwSetInputMode(window, GLFW_CURSOR, mode);
+}

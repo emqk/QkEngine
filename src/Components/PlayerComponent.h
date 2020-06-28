@@ -28,7 +28,10 @@ private:
 	glm::vec3 groundDetectorOffset{ 0, -1, 0 };
 	glm::vec3 groundDetectorScale{ 0.5f, 0.1f, 0.5f };
 
-	SpriteComponent* spriteComponent = nullptr;
+	float cameraSensitivity = 3;
+	glm::vec2 previousMousePos{0.0f, 0.0f};
+	float targetRotY = 0;
+
 	BoxColliderComponent* boxColliderComponent = nullptr;
 	MoveComponent* moveComponent = nullptr;
 };

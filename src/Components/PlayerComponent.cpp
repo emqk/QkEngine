@@ -12,10 +12,6 @@
 PlayerComponent::PlayerComponent(GameObject* _parent) : Component(_parent)
 {
 	name = "PlayerComponent";
-	spriteComponent = parent->AddComponent<SpriteComponent>();
-	spriteComponent->SetMeshNew("Cube.obj->Cube");
-	spriteComponent->SetTexture(ResourceManager::GetTexture("Cube.jpg"));
-	spriteComponent->SetShader(ResourceManager::GetShader("StandardShader"));
 
 	boxColliderComponent = parent->AddComponent<BoxColliderComponent>();
 	boxColliderComponent->SetExtents(glm::vec3(1, 1, 1));
@@ -36,8 +32,8 @@ PlayerComponent::PlayerComponent(const PlayerComponent& comp) : Component(comp)
 	currentGravity = comp.currentGravity;
 	groundDetectorOffset = comp.groundDetectorOffset;
 	groundDetectorScale = comp.groundDetectorScale;
+	cameraSensitivity = comp.cameraSensitivity;
 
-	spriteComponent = parent->GetComponent<SpriteComponent>();
 	boxColliderComponent = parent->GetComponent<BoxColliderComponent>();
 	moveComponent = parent->GetComponent<MoveComponent>();
 }
@@ -56,7 +52,7 @@ void PlayerComponent::Update(const float& deltaTime)
 		if (col->GetParent()->GetComponent<PlayerComponent>() == nullptr)
 		{
 			isGrounded = true;
-			std::cout << "Colliding with: " << col->GetParent()->name << std::endl;
+			//std::cout << "Colliding with: " << col->GetParent()->name << std::endl;
 		}
 	}
 
@@ -112,13 +108,20 @@ void PlayerComponent::LateUpdate(const float& deltaTime)
 	glm::vec3 camPos = camera->GetPosition();
 	glm::vec3 playerPos = parent->GetPosition();
 
+	glm::vec2 currMousePos = Scene::GetCurrentScene().GetMousePos();
+	glm::vec2 diff = currMousePos - previousMousePos;
+	targetRotY += diff.x * cameraSensitivity * deltaTime;
 	camera->SetPosition(parent->GetPosition());
+	parent->SetRotation(glm::vec3(parent->GetRotation().x, targetRotY, parent->GetRotation().z));
 	camera->SetRotation(parent->GetRotation());
+
+	previousMousePos = currMousePos;
 }
 
 void PlayerComponent::ShowOnInspector()
 {
 	ImGui::InputFloat("Move speed", &moveSpeed);
+	ImGui::InputFloat("Camera sensitivity", &cameraSensitivity);
 }
 
 void PlayerComponent::ShowOnGizmos()

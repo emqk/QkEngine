@@ -10,19 +10,19 @@
 GameManager::GameManager()
 {
 	//Terrain
-	//GameObject* terrainObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
-	//terrainObj->name = "Ground";
-	//SpriteComponent* terrainSprite = terrainObj->AddComponent<SpriteComponent>();
-	//if (terrainSprite != nullptr)
-	//{
-	//	terrainSprite->SetMeshNew("Terrain.obj");
-	//	terrainSprite->SetTexture(ResourceManager::GetTexture("Terrain_Albedo.jpg"));
-	//	terrainSprite->SetShader(ResourceManager::GetShader("StandardShader"));
-	//
-	//	glm::vec3 terrainBounds = terrainSprite->GetMeshNew()->GetBounds().Extents();
-	//	terrainObj->SetPosition(glm::vec3(0.0f, -terrainBounds.y, -terrainBounds.z));
-	//}
-	//terrainObj->AddComponent<BoxColliderComponent>();
+	GameObject* terrainObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
+	terrainObj->name = "Ground";
+	SpriteComponent* terrainSprite = terrainObj->AddComponent<SpriteComponent>();
+	if (terrainSprite != nullptr)
+	{
+		terrainSprite->SetMeshNew("Terrain.obj->Cube");
+		terrainSprite->SetTexture(ResourceManager::GetTexture("Terrain_Albedo.jpg"));
+		terrainSprite->SetShader(ResourceManager::GetShader("StandardShader"));
+	
+		glm::vec3 terrainBounds = terrainSprite->GetMeshNew()->GetBounds().Extents();
+		terrainObj->SetPosition(glm::vec3(0.0f, -terrainBounds.y, -terrainBounds.z));
+	}
+	terrainObj->AddComponent<BoxColliderComponent>();
 
 	//float currX = 0;
 	//float currY = 2;
@@ -56,10 +56,18 @@ GameManager::GameManager()
 	//}
 
 	//Player
-	GameObject* playerObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 15, 0));
+	GameObject* playerObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 5, 0));
 	PlayerComponent* playerComp = playerObj->AddComponent<PlayerComponent>();
 	playerObj->name = "Player";
 
+	//Chair
+	GameObject* chairObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(2, 0, 0));
+	chairObj->name = "Chair";
+	SpriteComponent* chairSprite = chairObj->AddComponent<SpriteComponent>();
+	chairSprite->SetMeshNew("Chair/School Chair Offset.fbx->Cylinder.006");
+	chairSprite->SetTexture(ResourceManager::GetTexture("Chair/diffuse.png"));
+	chairSprite->SetShader(ResourceManager::GetShader("StandardShader"));
+	chairObj->AddComponent<BoxColliderComponent>();
 
 	//GameObject* stairs = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(4, 2.5f, -1));
 	//stairs->name = "Stairs";

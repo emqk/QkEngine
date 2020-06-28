@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "Window.h"
 #include "Gizmos.h"
+#include "InputManager.h"
 
 #include <vector>
 #include <memory>
@@ -226,6 +227,25 @@ void Editor::Update()
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     isAnyWindowOrItemHovered = ImGui::IsAnyWindowOrItemHovered() || ImGui::IsAnyItemHovered();
+
+    if (Scene::GetCurrentScene().IsInGameMode())
+    {
+        //Show Cursor 
+        if (InputManager::GetKeyDown(GLFW_KEY_F1))
+        {
+            Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_NORMAL);
+        }
+        //Hide cursor
+        else if (InputManager::GetMouseKeyPressed(GLFW_MOUSE_BUTTON_1) && !isAnyWindowOrItemHovered)
+        {
+            Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_DISABLED);
+        }
+        if (InputManager::GetKeyDown(GLFW_KEY_ESCAPE))
+        {
+            ExitGameMode();
+        }
+    }
+    
 }
 
 void Editor::Select(GameObject* obj)
@@ -253,9 +273,11 @@ void Editor::ShowSelectAssetWindow(const AssetWindowType& assetWindowType, const
 void Editor::EnterGameMode()
 {
     Scene::GetCurrentScene().EnterGameMode();
+    glfwSetInputMode(&Window::GetCurrentWindow()->GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Editor::ExitGameMode()
 {
     Scene::GetCurrentScene().ExitGameMode();
+    glfwSetInputMode(&Window::GetCurrentWindow()->GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }

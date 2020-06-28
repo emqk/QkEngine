@@ -74,8 +74,8 @@ Scene::Scene()
 
     //InstantiateModel(ResourceManager::GetModel("backpack/backpack.obj"));
    // InstantiateModel(ResourceManager::GetModel("House/House.fbx"));
-    InstantiateModel(ResourceManager::GetModel("Chair/School Chair Offset.fbx"));
-    InstantiateModel(ResourceManager::GetModel("Terrain.obj"));
+    //InstantiateModel(ResourceManager::GetModel("Chair/School Chair Offset.fbx"));
+    //InstantiateModel(ResourceManager::GetModel("Terrain.obj"));
 }
 
 Scene::~Scene()
