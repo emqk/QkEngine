@@ -32,6 +32,7 @@ Scene::Scene()
     ResourceManager::LoadTexture("gizmoSelectTexture.jpg");
     ResourceManager::LoadTexture("MagicaVoxelExports/abc.png");
     ResourceManager::LoadTexture("Chair/diffuse.png");
+    ResourceManager::LoadTexture("House/Planks.png");
 
     //backpack
     ResourceManager::LoadTexture("backpack/diffuse.jpg");
@@ -61,6 +62,7 @@ Scene::Scene()
     ResourceManager::LoadModel("MagicaVoxelExports/abc.obj");
     ResourceManager::LoadModel("Chair/School Chair Offset.fbx");
     ResourceManager::LoadModel("backpack/backpack.obj");
+    ResourceManager::LoadModel("House/House.fbx");
 
     //Shaders
     ResourceManager::LoadShader("StandardShader");
@@ -68,6 +70,8 @@ Scene::Scene()
 
     camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f), "StandardShader");
     //GameManager gameManager = GameManager();
+
+    InstantiateModel(ResourceManager::GetModel("backpack/backpack.obj"));
 }
 
 Scene::~Scene()
@@ -252,6 +256,20 @@ Camera& Scene::GetCamera()
 Scene& Scene::GetCurrentScene()
 {
     return *currentScene;
+}
+
+void Scene::InstantiateModel(const Model* model)
+{
+    for (const Mesh& mesh : model->meshes)
+    {
+        GameObject* obj = Instantiate<GameObject>(glm::vec3(0, 0, 0));
+        SpriteComponent* spriteComp = obj->AddComponent<SpriteComponent>();
+        std::string meshName = model->GetShortDirectory() + "->" + mesh.name;
+        spriteComp->SetMeshNew(meshName.c_str());
+        spriteComp->SetShader("StandardShader");
+        spriteComp->SetTexture("Cube.jpg");
+        obj->name = mesh.name;
+    }
 }
 
 GameObject* Scene::DuplicateGameObject(const GameObject* obj)

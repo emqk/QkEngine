@@ -12,8 +12,6 @@
 
 #include "NewModel.h"
 
-class MeshData;
-
 class ResourceManager
 {
 public:

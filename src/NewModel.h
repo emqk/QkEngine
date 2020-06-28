@@ -18,6 +18,7 @@ class Model
 public:
     // model data 
     //vector<Texture*> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
+    //std::vector<std::string> textures_loaded;	// Own string version
     std::vector<Mesh>    meshes;
     bool gammaCorrection;
 
@@ -38,6 +39,7 @@ private:
     // checks all material textures of a given type and loads the textures if they're not loaded yet.
     // the required info is returned as a Texture struct.
     //vector<Texture*> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
+    //std::vector<std::string> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName); // Own string version
 
     std::string directory;
     std::string shortDirectory;
