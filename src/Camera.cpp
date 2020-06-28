@@ -9,16 +9,16 @@
 #include <glm\trigonometric.hpp>
 #include <glm\ext\matrix_transform.hpp>
 
-Camera::Camera() : position(glm::vec3(0.0f, 0.0f, 0.0f))
+Camera::Camera()
 {
 	shader = ResourceManager::GetShader("StandardShader");
-	UpdateVectors();
+	SetPosition(glm::vec3(0, 0, 0));
 }
 
-Camera::Camera(glm::vec3 pos, const char* shaderPath) : position(pos)
+Camera::Camera(glm::vec3 pos, const char* shaderPath)
 {
 	shader = ResourceManager::GetShader(shaderPath);
-	UpdateVectors();
+	SetPosition(pos);
 }
 
 Camera::~Camera()
@@ -27,7 +27,7 @@ Camera::~Camera()
 
 glm::mat4 Camera::GetMatrix()
 {
-	return glm::lookAt(position, position + Front, Up);
+	return glm::lookAt(transform.GetPosition(), transform.GetPosition() + transform.GetFront(), transform.GetUp());
 }
 
 float Camera::GetFOV() const
@@ -43,24 +43,22 @@ glm::vec2 Camera::GetClipping() const
 
 void Camera::SetPosition(const glm::vec3 pos)
 {
-	position = pos;
-	UpdateVectors();
+	transform.SetPosition(pos);
 }
 
 glm::vec3 Camera::GetPosition() const
 {
-	return position;
+	return transform.GetPosition();
 }
 
 void Camera::SetRotation(const glm::vec3& rot)
 {
-	rotation = rot;
-	UpdateVectors();
+	transform.SetRotation(rot);
 }
 
 glm::vec3 Camera::GetRotation() const
 {
-	return rotation;
+	return transform.GetRotation();
 }
 
 void Camera::ShowOnInspector()
@@ -109,21 +107,21 @@ void Camera::ProcessInput(const float& deltaTime)
 		//Movement
 		glm::vec3 moveVec(0.0f, 0.0f, 0.0f);
 		if (InputManager::GetKey(GLFW_KEY_A))
-			moveVec += -Right;
+			moveVec += -transform.GetRight();
 		if (InputManager::GetKey(GLFW_KEY_D))
-			moveVec += Right;
+			moveVec += transform.GetRight();
 	
 		if (InputManager::GetKey(GLFW_KEY_W))
-			moveVec +=  Front;
+			moveVec += transform.GetFront();
 		if (InputManager::GetKey(GLFW_KEY_S))
-			moveVec += -Front;
+			moveVec += -transform.GetFront();
 	
 		if (InputManager::GetKey(GLFW_KEY_E))
-			moveVec +=  Up;
+			moveVec += transform.GetUp();
 		if (InputManager::GetKey(GLFW_KEY_Q))
-			moveVec += -Up;
+			moveVec += -transform.GetUp();
 
-		position += moveVec * movementSpeed * deltaTime;
+		transform.Translate(moveVec * movementSpeed * deltaTime);
 
 		//Rotation
 		glm::vec2 currMousePos = Scene::GetCurrentScene().GetMousePos();
@@ -139,27 +137,11 @@ void Camera::ProcessInput(const float& deltaTime)
 	{
 		wasLastFrameMousePressed = false;
 	}
-
-	UpdateVectors();
-}
-
-void Camera::UpdateVectors()
-{
-	// Calculate the new Front vector
-	glm::vec3 front;
-	front.x = cos(glm::radians(rotation.y)) * cos(glm::radians(rotation.x));
-	front.y = sin(glm::radians(rotation.x));
-	front.z = sin(glm::radians(rotation.y)) * cos(glm::radians(rotation.x));
-	Front = glm::normalize(front);
-	// Also re-calculate the Right and Up vector
-	Right = glm::normalize(glm::cross(Front, WorldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-	Up = glm::normalize(glm::cross(Right, Front));
 }
 
 void Camera::ReceiveScrollInput(double xoffset, double yoffset)
 {
-	position += Front * (float)yoffset;
-	UpdateVectors();
+	transform.Translate(transform.GetFront() * (float)yoffset);
 }
 
 void Camera::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)

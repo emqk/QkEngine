@@ -13,9 +13,8 @@ PlayerComponent::PlayerComponent(GameObject* _parent) : Component(_parent)
 {
 	name = "PlayerComponent";
 	spriteComponent = parent->AddComponent<SpriteComponent>();
-	spriteComponent->SetMeshNew("Cube.obj");
+	spriteComponent->SetMeshNew("Cube.obj->Cube");
 	spriteComponent->SetTexture(ResourceManager::GetTexture("Cube.jpg"));
-	//spriteComponent->SetTexture(ResourceManager::GetTexture("Human/Human_Walk_1.png"));
 	spriteComponent->SetShader(ResourceManager::GetShader("StandardShader"));
 
 	boxColliderComponent = parent->AddComponent<BoxColliderComponent>();
@@ -24,13 +23,6 @@ PlayerComponent::PlayerComponent(GameObject* _parent) : Component(_parent)
 	moveComponent = parent->AddComponent<MoveComponent>();
 
 	parent->SetScale(glm::vec3(1, 1, 1));
-
-
-	//Animation
-	runAnim[0] = ResourceManager::GetTexture("Human/Human_Walk_1.png");
-	runAnim[1] = ResourceManager::GetTexture("Human/Human_Walk_2.png");
-	runAnim[2] = ResourceManager::GetTexture("Human/Human_Walk_3.png");
-	runAnim[3] = ResourceManager::GetTexture("Human/Human_Walk_4.png");
 }
 
 PlayerComponent::~PlayerComponent()
@@ -108,33 +100,6 @@ void PlayerComponent::Update(const float& deltaTime)
 	}
 
 	parent->Move(glm::vec3(0, currentGravity, 0) * deltaTime);
-
-
-	return;
-	//Animation
-	animTimer += deltaTime;
-	glm::vec3 positionDiff = parent->GetPosition() - lastFramePosition;
-	glm::vec3 currScale = parent->GetScale();
-	if (positionDiff.x > 0)
-	{
-		parent->SetScale(glm::vec3(-abs(currScale.x), currScale.y, currScale.z));
-	}
-	else
-	{
-		parent->SetScale(glm::vec3(abs(currScale.x), currScale.y, currScale.z));
-	}
-	if (animTimer >= timeToChangeFrame)
-	{
-		animTimer = 0;
-		if (currAnimFrame + 1 > runAnim.size() - 1)
-			currAnimFrame = 0;
-		else
-			currAnimFrame++;
-
-		spriteComponent->SetTexture((runAnim[currAnimFrame]));
-	}
-
-	lastFramePosition = parent->GetPosition();
 }
 
 void PlayerComponent::LateUpdate(const float& deltaTime)
@@ -143,8 +108,10 @@ void PlayerComponent::LateUpdate(const float& deltaTime)
 	Camera* camera = &Scene::GetCurrentScene().GetCamera();
 	glm::vec3 camPos = camera->GetPosition();
 	glm::vec3 playerPos = parent->GetPosition();
-	camera->SetPosition(glm::vec3(playerPos.x, 10, playerPos.z + 10));
-	camera->SetRotation(glm::vec3(-45, -90, 0));
+	//camera->SetPosition(glm::vec3(playerPos.x, playerPos.y + 10, playerPos.z + 10));
+	//camera->SetRotation(glm::vec3(-45, -90, 0));
+	camera->SetPosition(parent->GetPosition());
+	camera->SetRotation(glm::vec3(0,0,0));
 }
 
 void PlayerComponent::ShowOnInspector()

@@ -3,6 +3,7 @@
 #include <glm\ext\vector_float3.hpp>
 
 #include "Shader.h"
+#include "Transform.h"
 
 class Camera
 {
@@ -31,21 +32,15 @@ public:
 
 private:
 	void ProcessInput(const float& deltaTime);
-	void UpdateVectors();
 
-	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 rotation = glm::vec3(0.0f, -90.0f, 0.0f);
+	Transform transform;
+
 	float movementSpeed = 15.0f;
 	float rotationSpeed = 5.0f;
 
 	float FOV = 60;
 	float clippingNear = 0.1f;
 	float clippingFar = 500;
-
-	glm::vec3 Front = glm::vec3(0.0f, 0.0f, 1.0f);
-	glm::vec3 Right = glm::vec3(1.0f, 0.0f, 0.0f);
-	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	Shader* shader;
 

@@ -70,11 +70,12 @@ Scene::Scene()
 
 
     camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f), "StandardShader");
-    //GameManager gameManager = GameManager();
+    GameManager gameManager = GameManager();
 
     //InstantiateModel(ResourceManager::GetModel("backpack/backpack.obj"));
-    InstantiateModel(ResourceManager::GetModel("House/House.fbx"));
+   // InstantiateModel(ResourceManager::GetModel("House/House.fbx"));
     InstantiateModel(ResourceManager::GetModel("Chair/School Chair Offset.fbx"));
+    InstantiateModel(ResourceManager::GetModel("Terrain.obj"));
 }
 
 Scene::~Scene()
@@ -267,7 +268,7 @@ Scene& Scene::GetCurrentScene()
     return *currentScene;
 }
 
-void Scene::InstantiateModel(const Model* model)
+void Scene::InstantiateModel(const Model const* model)
 {
     for (const Mesh& mesh : model->meshes)
     {

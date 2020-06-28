@@ -10,9 +10,9 @@
 
 #include "Scene.h"
 
-GameObject::GameObject() : name("NewGameObject"), position(glm::vec3(0,0,0))
+GameObject::GameObject() : name("NewGameObject")
 {
-
+	SetPosition(glm::vec3(0, 0, 0));
 }
 
 GameObject::~GameObject()
@@ -33,9 +33,7 @@ bool GameObject::operator==(const GameObject& other) const
 
 GameObject& GameObject::operator=(const GameObject& other)
 {
-	position = other.position;
-	rotation = other.rotation;
-	scale = other.scale;
+	transform = other.transform;
 	name = std::string(other.name);
 	isActive = other.isActive;
 
@@ -160,47 +158,47 @@ void GameObject::LateUpdate(const float& deltaTime)
 
 void GameObject::Move(const glm::vec3& offset)
 {
-	position += offset;
+	transform.Translate(offset);
 }
 
 void GameObject::SetPosition(const glm::vec3& pos)
 {
-	position = pos;
+	transform.SetPosition(pos);
 }
 
 glm::vec3 GameObject::GetPosition() const
 {
-	return position;
+	return transform.GetPosition();
 }
 
 void GameObject::SetScale(const glm::vec3& newScale)
 {
-	scale = newScale;
+	transform.SetScale(newScale);
 }
 
 glm::vec3 GameObject::GetScale() const
 {
-	return scale;
+	return transform.GetScale();
 }
 
 void GameObject::SetRotation(const glm::vec3& newRotation)
 {
-	rotation = newRotation;
+	transform.SetRotation(newRotation);
 }
 
 glm::vec3 GameObject::GetRotation() const
 {
-	return rotation;
+	return transform.GetRotation();
 }
 
 void GameObject::SetEulerAngles(const glm::vec3& newRotation)
 {
-	rotation = newRotation / 360.0f;
+	transform.SetRotation(newRotation / 360.0f);
 }
 
 glm::vec3 GameObject::GetEulerAngles() const
 {
-	return rotation * 360.0f;
+	return transform.GetRotation() * 360.0f;
 }
 
 void GameObject::SetActive(const bool& value)

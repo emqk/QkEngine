@@ -23,7 +23,7 @@ public:
 	Camera& GetCamera();
 	static Scene& GetCurrentScene();
 
-	void InstantiateModel(const Model* model);
+	void InstantiateModel(const Model const* model);
 
 	template<typename T>
 	T* Instantiate(const glm::vec3& position)
