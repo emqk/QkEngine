@@ -10,6 +10,7 @@
 
 #include "ResourceManager.h"
 #include "Physics.h"
+#include <limits>
 
 Scene* Scene::currentScene = nullptr;
 bool Scene::inGameMode = false;
@@ -71,7 +72,9 @@ Scene::Scene()
     camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f), "StandardShader");
     //GameManager gameManager = GameManager();
 
-    InstantiateModel(ResourceManager::GetModel("backpack/backpack.obj"));
+    //InstantiateModel(ResourceManager::GetModel("backpack/backpack.obj"));
+    InstantiateModel(ResourceManager::GetModel("House/House.fbx"));
+    InstantiateModel(ResourceManager::GetModel("Chair/School Chair Offset.fbx"));
 }
 
 Scene::~Scene()
@@ -97,6 +100,8 @@ GameObject* Scene::Raycast()
     glm::vec3 ray_wor = (glm::inverse(view) * ray_eye);
     auto rayNorm = glm::normalize(ray_wor);
 
+    GameObject* nearestObj = nullptr;
+    float nearestDist = std::numeric_limits<float>::max();
     //  std::cout << "Ray: " << ray_wor.x << "x " << ray_wor.y << "y " << ray_wor.z << "z" << std::endl;
      // std::cout << "Nor: " << rayNorm.x << "x " << rayNorm.y << "y " << rayNorm.z << "z" << std::endl;
 
@@ -136,7 +141,11 @@ GameObject* Scene::Raycast()
       /*      if(objShader != nullptr)
                 objShader->SetVec4("_FragColor", 0.0f, 0.2f, 0.0f, 0.0f);*/
 
-            return targetObj.get();
+            if (distanceRayToObj < nearestDist)
+            {
+                nearestDist = distanceRayToObj;
+                nearestObj = targetObj.get();
+            }
         }
         else
         {
@@ -146,7 +155,7 @@ GameObject* Scene::Raycast()
         }
     }
 
-    return nullptr;
+    return nearestObj;
 }
 
 const std::vector<std::unique_ptr<GameObject>>* const Scene::GetObjectsPtr() const

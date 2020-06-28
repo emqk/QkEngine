@@ -8,7 +8,7 @@ Bounds::Bounds()
 
 Bounds::Bounds(const float& _minX, const float& _maxX, const float& _minY, const float& _maxY, const float& _minZ, const float& _maxZ)
 {
-	extents = glm::vec3(std::max(_minX, _maxX), std::max(_minY, _maxY), std::max(_minZ, _maxZ));
+	extents = glm::vec3(std::max(abs(_minX), abs(_maxX)), std::max(abs(_minY), abs(_maxY)), std::max(abs(_minZ), abs(_maxZ)));
 }
 
 Bounds::~Bounds()
