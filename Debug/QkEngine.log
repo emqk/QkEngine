@@ -1,4 +1,2 @@
-﻿  Editor.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(132,76): warning C4018: '<': signed/unsigned mismatch
+﻿  Renderer.cpp
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe

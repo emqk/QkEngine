@@ -2,26 +2,26 @@
 #include "Window.h"
 #include <iostream>
 
-std::vector<int> InputManager::pressedButtons;
-std::vector<int> InputManager::pressedButtonsUp;
-std::vector<int> InputManager::pressedButtonsDown;
+std::vector<int> InputManager::pressedKeyboardButtons;
+std::vector<int> InputManager::pressedKeyboardButtonsUp;
+std::vector<int> InputManager::pressedKeyboardButtonsDown;
 
 bool InputManager::GetKey(const int& key)
 {
-	std::vector<int>::iterator it = std::find(pressedButtons.begin(), pressedButtons.end(), key);
-	return it != pressedButtons.end();
+	std::vector<int>::iterator it = std::find(pressedKeyboardButtons.begin(), pressedKeyboardButtons.end(), key);
+	return it != pressedKeyboardButtons.end();
 }
 
 bool InputManager::GetKeyUp(const int& key)
 {
-	std::vector<int>::iterator it = std::find(pressedButtonsUp.begin(), pressedButtonsUp.end(), key);
-	return it != pressedButtonsUp.end();
+	std::vector<int>::iterator it = std::find(pressedKeyboardButtonsUp.begin(), pressedKeyboardButtonsUp.end(), key);
+	return it != pressedKeyboardButtonsUp.end();
 }
 
 bool InputManager::GetKeyDown(const int& key)
 {
-	std::vector<int>::iterator it = std::find(pressedButtonsDown.begin(), pressedButtonsDown.end(), key);
-	return it != pressedButtonsDown.end();
+	std::vector<int>::iterator it = std::find(pressedKeyboardButtonsDown.begin(), pressedKeyboardButtonsDown.end(), key);
+	return it != pressedKeyboardButtonsDown.end();
 }
 
 bool InputManager::GetMouseKeyPressed(const int& key)
@@ -31,27 +31,27 @@ bool InputManager::GetMouseKeyPressed(const int& key)
 
 void InputManager::Update()
 {
-	pressedButtonsUp.clear();
-	pressedButtonsDown.clear();
+	pressedKeyboardButtonsUp.clear();
+	pressedKeyboardButtonsDown.clear();
 
 	for (size_t i = 0; i <= 348; i++)
 	{
 		int currentKeyState = glfwGetKey(&Window::GetCurrentWindow()->GetGLFWWindow(), i);
-		std::vector<int>::iterator it = std::find(pressedButtons.begin(), pressedButtons.end(), i);
+		std::vector<int>::iterator it = std::find(pressedKeyboardButtons.begin(), pressedKeyboardButtons.end(), i);
 		if (currentKeyState == GLFW_PRESS)
 		{
-			if (it == pressedButtons.end())
+			if (it == pressedKeyboardButtons.end())
 			{
-				pressedButtons.push_back(i);
-				pressedButtonsDown.push_back(i);
+				pressedKeyboardButtons.push_back(i);
+				pressedKeyboardButtonsDown.push_back(i);
 			}
 		}
 		else if (currentKeyState == GLFW_RELEASE)
 		{
-			if (it != pressedButtons.end())
+			if (it != pressedKeyboardButtons.end())
 			{
-				pressedButtons.erase(it);
-				pressedButtonsUp.push_back(i);
+				pressedKeyboardButtons.erase(it);
+				pressedKeyboardButtonsUp.push_back(i);
 			}
 		}
 	}

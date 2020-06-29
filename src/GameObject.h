@@ -35,9 +35,6 @@ public:
 	void SetRotation(const glm::vec3& newRotation);
 	glm::vec3 GetRotation() const;
 	
-	void SetEulerAngles(const glm::vec3& newRotation);
-	glm::vec3 GetEulerAngles() const;
-
 	const Transform& GetTransform() const;
 
 	void SetActive(const bool& value);
@@ -80,9 +77,6 @@ protected:
 
 
 private:
-	//glm::vec3 position;
-	//glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f);
-	//glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
 	Transform transform;
 	bool isActive = true;
 

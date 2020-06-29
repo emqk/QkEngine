@@ -31,6 +31,7 @@ private:
 	float cameraSensitivity = 3;
 	glm::vec2 previousMousePos{0.0f, 0.0f};
 	float targetRotY = 0;
+	float targetRotX = 0;
 
 	BoxColliderComponent* boxColliderComponent = nullptr;
 	MoveComponent* moveComponent = nullptr;

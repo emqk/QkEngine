@@ -68,11 +68,11 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 
 	//Rotation
 	ImGui::Text("Rotation");
-	glm::vec3 rotation = GetEulerAngles();
+	glm::vec3 rotation = GetRotation();
 	ImGui::InputFloat("Rot X", &rotation.x, 1, 90);
 	ImGui::InputFloat("Rot Y", &rotation.y, 1, 90);
 	ImGui::InputFloat("Rot Z", &rotation.z, 1, 90);
-	SetEulerAngles(rotation);
+	SetRotation(rotation);
 
 	//Scale
 	ImGui::Text("Scale");
@@ -191,15 +191,6 @@ glm::vec3 GameObject::GetRotation() const
 	return transform.GetRotation();
 }
 
-void GameObject::SetEulerAngles(const glm::vec3& newRotation)
-{
-	transform.SetRotation(newRotation / 360.0f);
-}
-
-glm::vec3 GameObject::GetEulerAngles() const
-{
-	return transform.GetRotation() * 360.0f;
-}
 
 const Transform& GameObject::GetTransform() const
 {

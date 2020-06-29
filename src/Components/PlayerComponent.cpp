@@ -109,11 +109,15 @@ void PlayerComponent::LateUpdate(const float& deltaTime)
 	glm::vec3 playerPos = parent->GetPosition();
 
 	glm::vec2 currMousePos = Scene::GetCurrentScene().GetMousePos();
-	glm::vec2 diff = currMousePos - previousMousePos;
-	targetRotY += diff.x * cameraSensitivity * deltaTime;
-	camera->SetPosition(parent->GetPosition());
+	glm::vec2 mouseMove = currMousePos - previousMousePos;
+
+	targetRotY += mouseMove.x * cameraSensitivity * deltaTime;
+	targetRotX += -mouseMove.y * cameraSensitivity * deltaTime;
+	targetRotX = glm::clamp(targetRotX, -80.0f, 80.0f);
+
 	parent->SetRotation(glm::vec3(parent->GetRotation().x, targetRotY, parent->GetRotation().z));
-	camera->SetRotation(parent->GetRotation());
+	camera->SetPosition(parent->GetPosition());
+	camera->SetRotation(glm::vec3(targetRotX, parent->GetRotation().y, parent->GetRotation().z));
 
 	previousMousePos = currMousePos;
 }
