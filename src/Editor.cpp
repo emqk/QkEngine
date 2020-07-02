@@ -236,7 +236,7 @@ void Editor::Update()
             Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_NORMAL);
         }
         //Hide cursor
-        else if (InputManager::GetMouseKeyPressed(GLFW_MOUSE_BUTTON_1) && !isAnyWindowOrItemHovered)
+        else if (InputManager::GetMouseKeyDown(GLFW_MOUSE_BUTTON_1) && !isAnyWindowOrItemHovered)
         {
             Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_DISABLED);
         }

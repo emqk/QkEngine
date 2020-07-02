@@ -88,7 +88,7 @@ void Camera::Update(const float& deltaTime)
 	ProcessInput(deltaTime);
 
 	GameObject* objToSelect = Scene::GetCurrentScene().Raycast();
-	if (InputManager::GetMouseKeyPressed(GLFW_MOUSE_BUTTON_1))
+	if (InputManager::GetMouseKeyDown(GLFW_MOUSE_BUTTON_1))
 	{
 		if (!Editor::IsAnyWindowOrItemHovered())
 		{
@@ -102,7 +102,7 @@ void Camera::Update(const float& deltaTime)
 
 void Camera::ProcessInput(const float& deltaTime)
 {
-	if (InputManager::GetMouseKeyPressed(GLFW_MOUSE_BUTTON_2))
+	if (InputManager::GetMouseKey(GLFW_MOUSE_BUTTON_2))
 	{
 		//Movement
 		glm::vec3 moveVec(0.0f, 0.0f, 0.0f);
