@@ -20,7 +20,7 @@ GameManager::GameManager()
 		terrainSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 	
 		glm::vec3 terrainBounds = terrainSprite->GetMeshNew()->GetBounds().Extents();
-		terrainObj->SetPosition(glm::vec3(0.0f, -terrainBounds.y, -terrainBounds.z));
+		terrainObj->SetLocalPosition(glm::vec3(0.0f, -terrainBounds.y, -terrainBounds.z));
 	}
 	terrainObj->AddComponent<BoxColliderComponent>();
 
@@ -56,18 +56,35 @@ GameManager::GameManager()
 	//}
 
 	//Player
-	GameObject* playerObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 5, 0));
+	playerObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 5, 0));
 	PlayerComponent* playerComp = playerObj->AddComponent<PlayerComponent>();
 	playerObj->name = "Player";
 
+
+	GameObject* newParent = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
+	SpriteComponent* sprComp = newParent->AddComponent<SpriteComponent>();
+	sprComp->SetMeshNew("Cube.obj->Cube");
+	sprComp->SetTexture(ResourceManager::GetTexture("Cube.jpg"));
+	sprComp->SetShader("StandardShader");
+	newParent->name = "TestChairParent";
+
 	//Chair
-	GameObject* chairObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(2, 0, 0));
-	chairObj->name = "Chair";
+	GameObject* chairObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(2, 2, 2));
 	SpriteComponent* chairSprite = chairObj->AddComponent<SpriteComponent>();
 	chairSprite->SetMeshNew("Chair/School Chair Offset.fbx->Cylinder.006");
 	chairSprite->SetTexture(ResourceManager::GetTexture("Chair/diffuse.png"));
 	chairSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 	chairObj->AddComponent<BoxColliderComponent>();
+	chairObj->name = "First child";
+	newParent->AddChild(chairObj);
+
+	GameObject* sec = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(2, 0, 0));
+	SpriteComponent* secSprComp = sec->AddComponent<SpriteComponent>();
+	secSprComp->SetMeshNew("Chair/School Chair Offset.fbx->Cylinder.006");
+	secSprComp->SetTexture(ResourceManager::GetTexture("Chair/diffuse.png"));
+	secSprComp->SetShader("StandardShader");
+	sec->name = "Second child";
+	chairObj->AddChild(sec);
 
 	//GameObject* stairs = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(4, 2.5f, -1));
 	//stairs->name = "Stairs";

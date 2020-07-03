@@ -3,6 +3,8 @@
 
 #include <GLFW/glfw3.h>
 #include <glm\ext\matrix_transform.hpp>
+#include <glm\ext\matrix_float4x4.hpp>
+#include <glm\ext\vector_float3.hpp>
 
 #include "Components/SpriteComponent.h"
 #include "Components/MoveComponent.h"
@@ -12,7 +14,7 @@
 
 GameObject::GameObject() : name("NewGameObject")
 {
-	SetPosition(glm::vec3(0, 0, 0));
+	SetLocalPosition(glm::vec3(0, 0, 0));
 }
 
 GameObject::~GameObject()
@@ -36,6 +38,8 @@ GameObject& GameObject::operator=(const GameObject& other)
 	transform = other.transform;
 	name = std::string(other.name);
 	isActive = other.isActive;
+	parent = other.parent;
+	childs = other.childs;
 
 	for (size_t i = 0; i < other.components.size(); i++)
 	{
@@ -60,27 +64,27 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 	
 	//Position
 	ImGui::Text("Position");
-	glm::vec3 pos = GetPosition();
+	glm::vec3 pos = GetLocalPosition();
 	ImGui::InputFloat("Pos X", &pos.x, 0.5f, 1.0f);
 	ImGui::InputFloat("Pos Y", &pos.y, 0.5f, 1.0f);
 	ImGui::InputFloat("Pos Z", &pos.z, 0.5f, 1.0f);
-	SetPosition(pos);
+	SetLocalPosition(pos);
 
 	//Rotation
 	ImGui::Text("Rotation");
-	glm::vec3 rotation = GetRotation();
-	ImGui::InputFloat("Rot X", &rotation.x, 1, 90);
-	ImGui::InputFloat("Rot Y", &rotation.y, 1, 90);
-	ImGui::InputFloat("Rot Z", &rotation.z, 1, 90);
-	SetRotation(rotation);
+	glm::vec3 localRotation = GetLocalRotation();
+	ImGui::InputFloat("Rot X", &localRotation.x, 1, 90);
+	ImGui::InputFloat("Rot Y", &localRotation.y, 1, 90);
+	ImGui::InputFloat("Rot Z", &localRotation.z, 1, 90);
+	SetLocalRotation(localRotation);
 
 	//Scale
 	ImGui::Text("Scale");
-	glm::vec3 scale = GetScale();
-	ImGui::InputFloat("Sca X", &scale.x, 0.1f, 1.0f);
-	ImGui::InputFloat("Sca Y", &scale.y, 0.1f, 1.0f);
-	ImGui::InputFloat("Sca Z", &scale.z, 0.1f, 1.0f);
-	SetScale(scale);
+	glm::vec3 localScale = GetLocalScale();
+	ImGui::InputFloat("Sca X", &localScale.x, 0.1f, 1.0f);
+	ImGui::InputFloat("Sca Y", &localScale.y, 0.1f, 1.0f);
+	ImGui::InputFloat("Sca Z", &localScale.z, 0.1f, 1.0f);
+	SetLocalScale(localScale);
 
 	if (ImGui::Button("Add SpriteComponent"))
 	{
@@ -161,34 +165,34 @@ void GameObject::Move(const glm::vec3& offset)
 	transform.Translate(offset);
 }
 
-void GameObject::SetPosition(const glm::vec3& pos)
+void GameObject::SetLocalPosition(const glm::vec3& pos)
 {
-	transform.SetPosition(pos);
+	transform.SetLocalPosition(pos);
 }
 
-glm::vec3 GameObject::GetPosition() const
+glm::vec3 GameObject::GetLocalPosition() const
 {
-	return transform.GetPosition();
+	return transform.GetLocalPosition();
 }
 
-void GameObject::SetScale(const glm::vec3& newScale)
+void GameObject::SetLocalScale(const glm::vec3& newScale)
 {
-	transform.SetScale(newScale);
+	transform.SetLocalScale(newScale);
 }
 
-glm::vec3 GameObject::GetScale() const
+glm::vec3 GameObject::GetLocalScale() const
 {
-	return transform.GetScale();
+	return transform.GetLocalScale();
 }
 
-void GameObject::SetRotation(const glm::vec3& newRotation)
+void GameObject::SetLocalRotation(const glm::vec3& newRotation)
 {
-	transform.SetRotation(newRotation);
+	transform.SetLocalRotation(newRotation);
 }
 
-glm::vec3 GameObject::GetRotation() const
+glm::vec3 GameObject::GetLocalRotation() const
 {
-	return transform.GetRotation();
+	return transform.GetLocalRotation();
 }
 
 
@@ -220,6 +224,26 @@ const int& GameObject::GetComponentsCount() const
 const std::vector<std::unique_ptr<Component>>* const GameObject::GetAllComponents() const
 {
 	return &components;
+}
+
+void GameObject::AddChild(GameObject* child)
+{
+	childs.push_back(child);
+
+	//Remove child from it's current panel
+	if (child->parent != nullptr)
+	{
+		std::vector<GameObject*>::iterator it = std::find(child->parent->childs.begin(), child->parent->childs.end(), child);
+		if (it != child->parent->childs.end())
+			child->parent->childs.erase(it);
+	}
+
+	child->parent = this;
+}
+
+GameObject* GameObject::GetParent()
+{
+	return parent;
 }
 
 void GameObject::UpdateComponents(const float& deltaTime)

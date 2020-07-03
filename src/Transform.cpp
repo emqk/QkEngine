@@ -1,7 +1,7 @@
 #include "Transform.h"
 
 #include <glm\trigonometric.hpp>
-#include <glm\ext\matrix_transform.hpp>
+
 
 Transform::Transform()
 {
@@ -13,9 +13,9 @@ Transform::~Transform()
 
 Transform& Transform::operator=(const Transform& other)
 {
-	position = other.position;
-	rotation = other.rotation;
-	scale = other.scale;
+	localPosition = other.localPosition;
+	localRotation = other.localRotation;
+	localScale = other.localScale;
 
 	glm::vec3 Front = other.Front;
 	glm::vec3 Right = other.Right;
@@ -24,42 +24,42 @@ Transform& Transform::operator=(const Transform& other)
 	return *this;
 }
 
-void Transform::SetPosition(const glm::vec3& newPosition)
+void Transform::SetLocalPosition(const glm::vec3& newPosition)
 {
-	position = newPosition;
+	localPosition = newPosition;
 	UpdateVectors();
 }
 
-void Transform::SetRotation(const glm::vec3& newRotation)
+void Transform::SetLocalRotation(const glm::vec3& newRotation)
 {
-	rotation = newRotation;
+	localRotation = newRotation;
 	UpdateVectors();
 }
 
-void Transform::SetScale(const glm::vec3& newScale)
+void Transform::SetLocalScale(const glm::vec3& newScale)
 {
-	scale = newScale;
+	localScale = newScale;
 	UpdateVectors();
 }
 
 void Transform::Translate(const glm::vec3& offset)
 {
-	SetPosition(GetPosition() + offset);
+	SetLocalPosition(GetLocalPosition() + offset);
 }
 
-glm::vec3 Transform::GetPosition() const
+glm::vec3 Transform::GetLocalPosition() const
 {
-	return position;
+	return localPosition;
 }
 
-glm::vec3 Transform::GetRotation() const
+glm::vec3 Transform::GetLocalRotation() const
 {
-	return rotation;
+	return localRotation;
 }
 
-glm::vec3 Transform::GetScale() const
+glm::vec3 Transform::GetLocalScale() const
 {
-	return scale;
+	return localScale;
 }
 
 glm::vec3 Transform::GetForward() const
@@ -77,13 +77,24 @@ glm::vec3 Transform::GetUp() const
 	return Up;
 }
 
+glm::mat4x4 Transform::GetLocalMatrix() const
+{
+	glm::mat4 model = glm::mat4(1.0f);
+	model = glm::translate(model, localPosition);
+	model = glm::rotate(model, glm::radians(localRotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(localRotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(localRotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::scale(model, localScale);
+	return model;
+}
+
 void Transform::UpdateVectors()
 {
 	// Calculate the new Front vector
 	glm::vec3 front;
-	front.x = cos(glm::radians(rotation.y)) * cos(glm::radians(rotation.x));
-	front.y = sin(glm::radians(rotation.x));
-	front.z = sin(glm::radians(rotation.y)) * cos(glm::radians(rotation.x));
+	front.x = cos(glm::radians(localRotation.y)) * cos(glm::radians(localRotation.x));
+	front.y = sin(glm::radians(localRotation.x));
+	front.z = sin(glm::radians(localRotation.y)) * cos(glm::radians(localRotation.x));
 	Front = glm::normalize(front);
 	// Also re-calculate the Right and Up vector
 	Right = glm::normalize(glm::cross(Front, WorldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.

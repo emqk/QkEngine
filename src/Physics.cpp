@@ -25,10 +25,10 @@ void Physics::Perform()
 			if (!otherBoxColl->IsActive() || otherBoxColl == currentBoxColl)
 				continue;
 		
-			glm::vec3 currentPosition = currentBoxColl->GetPosition();
+			glm::vec3 currentPosition = currentBoxColl->GetLocalPosition();
 			glm::vec3 extents = currentBoxColl->GetExtents();
 
-			glm::vec3 otherObjectPosition = otherBoxColl->GetPosition();
+			glm::vec3 otherObjectPosition = otherBoxColl->GetLocalPosition();
 			glm::vec3 otherExtents = otherBoxColl->GetExtents();
 		
 			glm::vec3 delta = currentPosition - otherObjectPosition;
@@ -61,7 +61,7 @@ void Physics::Perform()
 						responseVec += glm::vec3(0, 0, intersection.z);
 				}
 
-				currentBoxColl->GetParent()->SetPosition(currentPosition + responseVec);
+				currentBoxColl->GetParent()->SetLocalPosition(currentPosition + responseVec);
 			}
 		}
 	}
@@ -78,7 +78,7 @@ std::vector<BoxColliderComponent*> Physics::BoxCast(const glm::vec3& pos, const 
 		if (!otherBoxColl->IsActive())
 			continue;
 		
-		glm::vec3 otherObjectPosition = otherBoxColl->GetPosition();
+		glm::vec3 otherObjectPosition = otherBoxColl->GetLocalPosition();
 		glm::vec3 otherExtents = otherBoxColl->GetExtents();
 	
 		glm::vec3 delta = pos - otherObjectPosition;

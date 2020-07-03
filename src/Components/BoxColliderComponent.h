@@ -19,7 +19,7 @@ public:
 	void ShowOnGizmos() override;
 	std::unique_ptr<Component> MakeCopy(GameObject* newParent) const override;
 
-	glm::vec3 GetPosition() const;
+	glm::vec3 GetLocalPosition() const;
 	glm::vec3 GetCenter() const;
 	glm::vec3 GetExtents() const;
 

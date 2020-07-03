@@ -26,12 +26,12 @@ public:
 	void InstantiateModel(const Model const* model);
 
 	template<typename T>
-	T* Instantiate(const glm::vec3& position)
+	T* Instantiate(const glm::vec3& globalPosition)
 	{
 		//std::unique_ptr<GameObject> newObj = std::make_unique<T>();
 		objects.emplace_back(std::make_unique<T>());
 		GameObject* newObjPtr = objects.back().get();
-		newObjPtr->SetPosition(position);
+		newObjPtr->SetLocalPosition(globalPosition);
 		std::cout << "[INSTANTIATE] Object size: " << objects.size() << "\n";
 		return newObjPtr;
 	}

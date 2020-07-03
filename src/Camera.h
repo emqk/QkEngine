@@ -16,11 +16,11 @@ public:
 	float GetFOV() const;
 	glm::vec2 GetClipping() const;
 
-	void SetPosition(const glm::vec3 pos);
-	glm::vec3 GetPosition() const;
+	void SetLocalPosition(const glm::vec3 pos);
+	glm::vec3 GetLocalPosition() const;
 
-	void SetRotation(const glm::vec3& rot);
-	glm::vec3 GetRotation() const;
+	void SetLocalRotation(const glm::vec3& rot);
+	glm::vec3 GetLocalRotation() const;
 
 	void ShowOnInspector();
 	void Update(const float& deltaTime);

@@ -117,8 +117,8 @@ GameObject* Scene::Raycast()
         if (meshNewFromComponent == nullptr)
             continue;
 
-        glm::vec3 camPos = camera.GetPosition();
-        glm::vec3 targetObjPos = targetObj->GetPosition();
+        glm::vec3 camPos = camera.GetLocalPosition();
+        glm::vec3 targetObjPos = targetObj->GetLocalPosition();
         //  std::cout << "CamPos: " << camPos.x << "x " << camPos.y << "y " << camPos.z << "z" << std::endl;
         //  std::cout << "targetObjPos: " << targetObjPos.x << "x " << targetObjPos.y << "y " << targetObjPos.z << "z" << std::endl;
         //  std::cout << "DistZ: " << glm::abs(camPos.z - targetObjPos.z) << "z" << std::endl;

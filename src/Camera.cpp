@@ -12,13 +12,13 @@
 Camera::Camera()
 {
 	shader = ResourceManager::GetShader("StandardShader");
-	SetPosition(glm::vec3(0, 0, 0));
+	SetLocalPosition(glm::vec3(0, 0, 0));
 }
 
 Camera::Camera(glm::vec3 pos, const char* shaderPath)
 {
 	shader = ResourceManager::GetShader(shaderPath);
-	SetPosition(pos);
+	SetLocalPosition(pos);
 }
 
 Camera::~Camera()
@@ -27,7 +27,7 @@ Camera::~Camera()
 
 glm::mat4 Camera::GetMatrix()
 {
-	return glm::lookAt(transform.GetPosition(), transform.GetPosition() + transform.GetForward(), transform.GetUp());
+	return glm::lookAt(transform.GetLocalPosition(), transform.GetLocalPosition() + transform.GetForward(), transform.GetUp());
 }
 
 float Camera::GetFOV() const
@@ -41,37 +41,37 @@ glm::vec2 Camera::GetClipping() const
 }
 
 
-void Camera::SetPosition(const glm::vec3 pos)
+void Camera::SetLocalPosition(const glm::vec3 pos)
 {
-	transform.SetPosition(pos);
+	transform.SetLocalPosition(pos);
 }
 
-glm::vec3 Camera::GetPosition() const
+glm::vec3 Camera::GetLocalPosition() const
 {
-	return transform.GetPosition();
+	return transform.GetLocalPosition();
 }
 
-void Camera::SetRotation(const glm::vec3& rot)
+void Camera::SetLocalRotation(const glm::vec3& rot)
 {
-	transform.SetRotation(rot);
+	transform.SetLocalRotation(rot);
 }
 
-glm::vec3 Camera::GetRotation() const
+glm::vec3 Camera::GetLocalRotation() const
 {
-	return transform.GetRotation();
+	return transform.GetLocalRotation();
 }
 
 void Camera::ShowOnInspector()
 {
 	//Position
-	glm::vec3 pos = GetPosition();
+	glm::vec3 pos = GetLocalPosition();
 	ImGui::InputFloat3("Position", &pos.x, 3);
-	SetPosition(pos);
+	SetLocalPosition(pos);
 
 	//Rotation
-	glm::vec3 rotation = GetRotation();
-	ImGui::InputFloat3("Rotation", &rotation.x, 3);
-	SetRotation(rotation);
+	glm::vec3 localRotation = GetLocalRotation();
+	ImGui::InputFloat3("Rotation", &localRotation.x, 3);
+	SetLocalRotation(localRotation);
 	
 	//FOV
 	ImGui::InputFloat("FOV", &FOV, 1, 10);
@@ -128,7 +128,7 @@ void Camera::ProcessInput(const float& deltaTime)
 		if (wasLastFrameMousePressed)
 		{
 			glm::vec2 diff = currMousePos - previousMousePos;
-			SetRotation(GetRotation() + glm::vec3(-diff.y, diff.x, 0) * rotationSpeed * deltaTime);
+			SetLocalRotation(GetLocalRotation() + glm::vec3(-diff.y, diff.x, 0) * rotationSpeed * deltaTime);
 		}
 		previousMousePos = currMousePos;
 		wasLastFrameMousePressed = true;

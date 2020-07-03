@@ -6,6 +6,7 @@
 #include <glm\ext\vector_float3.hpp>
 
 #include "GameObject.h"
+#include "Transform.h"
 #include "Shader.h"
 
 #include <vector>
@@ -56,6 +57,20 @@ void Renderer::BindMeshNew(const Mesh& mesh)
     glBindVertexArray(0);
 }
 
+void Renderer::CalculateModel(glm::mat4& model, GameObject* obj)
+{
+    if (obj->GetParent() != nullptr)
+    {
+        glm::mat4 mat{1.0f};
+        CalculateModel(model, obj->GetParent());
+        model *= obj->GetTransform().GetLocalMatrix();
+    }
+    else
+    {
+        model = obj->GetTransform().GetLocalMatrix();
+    }
+}
+
 void Renderer::DrawNew(Shader& cameraShader)
 {
     drawCallsLastFrame = 0;
@@ -100,11 +115,7 @@ void Renderer::DrawNew(Shader& cameraShader)
 
         glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
         //float sinCalc = cos(timeValue);
-        model = glm::translate(model, comp->GetParent()->GetPosition());
-        model = glm::rotate(model, glm::radians(comp->GetParent()->GetRotation().x), glm::vec3(1.0f, 0.0f, 0.0f));
-        model = glm::rotate(model, glm::radians(comp->GetParent()->GetRotation().y), glm::vec3(0.0f, 1.0f, 0.0f));
-        model = glm::rotate(model, glm::radians(comp->GetParent()->GetRotation().z), glm::vec3(0.0f, 0.0f, 1.0f));
-        model = glm::scale(model, comp->GetParent()->GetScale());
+        CalculateModel(model, comp->GetParent());
         componentShader->SetMat4("model", model);
 
         // draw mesh
@@ -124,7 +135,7 @@ void Renderer::DrawNew(Shader& cameraShader)
     }
 }
 
-void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, Shader& cameraShader, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color)
+void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& localScale, Shader& cameraShader, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color)
 {
     //Set wireframe mode only for this mesh
     GLint polygonMode;
@@ -145,7 +156,7 @@ void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::vec3& rot,
     model = glm::rotate(model, glm::radians(rot.x), glm::vec3(1.0f, 0.0f, 0.0f));
     model = glm::rotate(model, glm::radians(rot.y), glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::rotate(model, glm::radians(rot.z), glm::vec3(0.0f, 0.0f, 1.0f));
-    model = glm::scale(model, scale);
+    model = glm::scale(model, localScale);
     componentShader.SetMat4("model", model);
 
     // draw mesh

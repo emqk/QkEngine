@@ -26,14 +26,14 @@ public:
 	virtual void LateUpdate(const float& deltaTime);
 
 	void Move(const glm::vec3& offset);
-	void SetPosition(const glm::vec3& pos);
-	glm::vec3 GetPosition() const;
+	void SetLocalPosition(const glm::vec3& pos);
+	glm::vec3 GetLocalPosition() const;
 
-	void SetScale(const glm::vec3& newScale);
-	glm::vec3 GetScale() const;
+	void SetLocalScale(const glm::vec3& newScale);
+	glm::vec3 GetLocalScale() const;
 		
-	void SetRotation(const glm::vec3& newRotation);
-	glm::vec3 GetRotation() const;
+	void SetLocalRotation(const glm::vec3& newRotation);
+	glm::vec3 GetLocalRotation() const;
 	
 	const Transform& GetTransform() const;
 
@@ -69,16 +69,22 @@ public:
 	const int& GetComponentsCount() const;
 	const std::vector<std::unique_ptr<Component>>* const GetAllComponents() const;
 
+	std::vector<GameObject*> childs;
+
+	void AddChild(GameObject* child);
+	GameObject* GetParent();
+
 	std::string name;
 
 protected:
 	void UpdateComponents(const float& deltaTime);
 	void LateUpdateComponents(const float& deltaTime);
 
-
 private:
 	Transform transform;
 	bool isActive = true;
+	GameObject* parent = nullptr;
+
 
 	std::vector<std::unique_ptr<Component>> components;
 };

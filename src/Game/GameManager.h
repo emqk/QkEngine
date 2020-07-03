@@ -9,6 +9,7 @@ public:
 	GameManager();
 	~GameManager();
 
+	GameObject* playerObj = nullptr;
 	
 private:
 	std::array<GameObject*, 10> buildAreas;

@@ -6,6 +6,7 @@
 #include "../Camera.h"
 #include "../Gizmos.h"
 #include "../Physics.h"
+#include "../Transform.h"
 
 #include <iostream>
 
@@ -18,7 +19,7 @@ PlayerComponent::PlayerComponent(GameObject* _parent) : Component(_parent)
 
 	moveComponent = parent->AddComponent<MoveComponent>();
 
-	parent->SetScale(glm::vec3(1, 1, 1));
+	parent->SetLocalScale(glm::vec3(1, 1, 1));
 }
 
 PlayerComponent::~PlayerComponent()
@@ -46,7 +47,7 @@ void PlayerComponent::Update(const float& deltaTime)
 	}
 
 	bool isGrounded = false;
-	std::vector<BoxColliderComponent*> collidingWith = Physics::BoxCast(parent->GetPosition() + groundDetectorOffset, groundDetectorScale / 2.0f);
+	std::vector<BoxColliderComponent*> collidingWith = Physics::BoxCast(parent->GetLocalPosition() + groundDetectorOffset, groundDetectorScale / 2.0f);
 	for (const BoxColliderComponent* col : collidingWith)
 	{
 		if (col->GetParent()->GetComponent<PlayerComponent>() == nullptr)
@@ -105,8 +106,8 @@ void PlayerComponent::LateUpdate(const float& deltaTime)
 {
 	//Camera
 	Camera* camera = &Scene::GetCurrentScene().GetCamera();
-	glm::vec3 camPos = camera->GetPosition();
-	glm::vec3 playerPos = parent->GetPosition();
+	glm::vec3 camPos = camera->GetLocalPosition();
+	glm::vec3 playerPos = parent->GetLocalPosition();
 
 	glm::vec2 currMousePos = Scene::GetCurrentScene().GetMousePos();
 	glm::vec2 mouseMove = currMousePos - previousMousePos;
@@ -115,9 +116,9 @@ void PlayerComponent::LateUpdate(const float& deltaTime)
 	targetRotX += -mouseMove.y * cameraSensitivity * deltaTime;
 	targetRotX = glm::clamp(targetRotX, -80.0f, 80.0f);
 
-	parent->SetRotation(glm::vec3(parent->GetRotation().x, targetRotY, parent->GetRotation().z));
-	camera->SetPosition(parent->GetPosition());
-	camera->SetRotation(glm::vec3(targetRotX, parent->GetRotation().y, parent->GetRotation().z));
+	parent->SetLocalRotation(glm::vec3(parent->GetLocalRotation().x, targetRotY, parent->GetLocalRotation().z));
+	camera->SetLocalPosition(parent->GetLocalPosition());
+	camera->SetLocalRotation(glm::vec3(targetRotX, parent->GetLocalRotation().y, parent->GetLocalRotation().z));
 
 	previousMousePos = currMousePos;
 }
@@ -131,7 +132,7 @@ void PlayerComponent::ShowOnInspector()
 void PlayerComponent::ShowOnGizmos()
 {
 	Gizmos::SetCurrentColor(Gizmos::defaultColor);
-	Gizmos::DrawCubeWireframe(parent->GetPosition() + groundDetectorOffset, glm::vec3(0, 0, 0), groundDetectorScale);
+	Gizmos::DrawCubeWireframe(parent->GetLocalPosition() + groundDetectorOffset, glm::vec3(0, 0, 0), groundDetectorScale);
 }
 
 std::unique_ptr<Component> PlayerComponent::MakeCopy(GameObject* newParent) const

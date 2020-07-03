@@ -14,21 +14,21 @@ void Gizmos::ResetDefaultColor()
     currentColor = defaultColor;
 }
 
-void Gizmos::DrawMeshNewWireframe(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale, const Mesh& mesh)
+void Gizmos::DrawMeshNewWireframe(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& localScale, const Mesh& mesh)
 {
     const Texture* componentTexture = ResourceManager::GetTexture("gizmoSelectTexture.jpg");
     Shader* componentShader = ResourceManager::GetShader("StandardShader");
 
     Camera* cam = &Scene::GetCurrentScene().GetCamera();
-    Renderer::DrawMeshNewAtLocation(pos, rot, scale, cam->GetShader(), mesh, *componentTexture, *componentShader, currentColor);
+    Renderer::DrawMeshNewAtLocation(pos, rot, localScale, cam->GetShader(), mesh, *componentTexture, *componentShader, currentColor);
 }
 
-void Gizmos::DrawCubeWireframe(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale)
+void Gizmos::DrawCubeWireframe(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& localScale)
 {
     Mesh* componentMesh = ResourceManager::GetMeshNew("Cube.obj->Cube");
     const Texture* componentTexture = ResourceManager::GetTexture("gizmoSelectTexture.jpg");
     Shader* componentShader = ResourceManager::GetShader("StandardShader");
 
     Camera* cam = &Scene::GetCurrentScene().GetCamera();
-    Renderer::DrawMeshNewAtLocation(pos, rot, scale, cam->GetShader(), *componentMesh, *componentTexture, *componentShader, currentColor);
+    Renderer::DrawMeshNewAtLocation(pos, rot, localScale, cam->GetShader(), *componentMesh, *componentTexture, *componentShader, currentColor);
 }
