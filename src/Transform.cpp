@@ -97,6 +97,6 @@ void Transform::UpdateVectors()
 	front.z = sin(glm::radians(localRotation.y)) * cos(glm::radians(localRotation.x));
 	Front = glm::normalize(front);
 	// Also re-calculate the Right and Up vector
-	Right = glm::normalize(glm::cross(Front, WorldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+	Right = glm::normalize(glm::cross(Front, glm::vec3(0.0f, 1.0f, 0.0f)));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 	Up = glm::normalize(glm::cross(Right, Front));
 }

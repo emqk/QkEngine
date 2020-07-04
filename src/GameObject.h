@@ -68,11 +68,10 @@ public:
 
 	const int& GetComponentsCount() const;
 	const std::vector<std::unique_ptr<Component>>* const GetAllComponents() const;
-
-	std::vector<GameObject*> childs;
+	const std::vector<GameObject*>& GetChilds() const;
 
 	void AddChild(GameObject* child);
-	GameObject* GetParent();
+	const GameObject const* GetParent() const;
 
 	std::string name;
 
@@ -80,11 +79,13 @@ protected:
 	void UpdateComponents(const float& deltaTime);
 	void LateUpdateComponents(const float& deltaTime);
 
+	void RemoveFromParent(GameObject* child);
+
 private:
 	Transform transform;
 	bool isActive = true;
 	GameObject* parent = nullptr;
 
-
+	std::vector<GameObject*> childs;
 	std::vector<std::unique_ptr<Component>> components;
 };

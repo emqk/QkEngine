@@ -17,6 +17,8 @@ public:
 
 	static void Init(GLFWwindow* window);
 	static void Update();
+	static void ShowHierarchy();
+	static void ShowGameObject(GameObject* obj, int& id, int& node_clicked, ImGuiTreeNodeFlags& flags);
 	static void Select(GameObject* obj);
 
 	static bool CanDrawGizmos();

@@ -288,17 +288,32 @@ GameObject* Scene::DuplicateGameObject(const GameObject* obj)
     objects.push_back(std::move(newObj));
     GameObject* newObjPtr = objects.back().get();
     std::cout << "[Copy GameObject] Object size: " << objects.size() << "\n";
+
+    //Duplicate all childs
+    for (GameObject* child : obj->GetChilds())
+    {
+        //std::unique_ptr<GameObject> newChild = std::make_unique<GameObject>(*child);
+        //newObj->AddChild(newChild.get());
+        //objects.push_back(std::move(newChild));
+    }
+
     return newObjPtr;
 }
 
 void Scene::Destroy(GameObject* obj)
 {
     objectsToDestroy.push_back(obj);
+    //Destroy all obj childs
+    for (size_t i = 0; i < obj->GetChilds().size(); i++)
+    {
+        Destroy(obj->GetChilds()[i]);
+    }
 }
 
 void Scene::DestroyPostponed()
 {
-    for (size_t i = 0; i < objectsToDestroy.size(); i++)
+    //Remove objects from end to begin (to remove GameObject childs first)
+    for (int i = objectsToDestroy.size()-1; i >= 0 ; i--)
     {
         GameObject* targetObj = objectsToDestroy[i];
         std::vector<std::unique_ptr<GameObject>>::iterator it = std::find_if(objects.begin(), objects.end(), [&targetObj](std::unique_ptr<GameObject>& element) { return element.get() == targetObj; });

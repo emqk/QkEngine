@@ -57,7 +57,7 @@ void Renderer::BindMeshNew(const Mesh& mesh)
     glBindVertexArray(0);
 }
 
-void Renderer::CalculateModel(glm::mat4& model, GameObject* obj)
+void Renderer::CalculateModel(glm::mat4& model, const GameObject const* obj)
 {
     if (obj->GetParent() != nullptr)
     {

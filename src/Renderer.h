@@ -23,7 +23,7 @@ public:
 
 private:
 	static void BindMeshNew(const Mesh& mesh);
-	static void CalculateModel(glm::mat4& model, GameObject* obj);
+	static void CalculateModel(glm::mat4& model, const GameObject const* obj);
 
 	static unsigned int VBO, VAO, EBO;
 	

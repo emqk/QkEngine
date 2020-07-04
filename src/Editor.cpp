@@ -35,114 +35,11 @@ void Editor::Update()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    ImGui::ShowDemoWindow();
+    //ImGui::ShowDemoWindow();
 
     Scene& currentScene = Scene::GetCurrentScene();
 
-    //Test
-    ImGui::Begin("HierarchyWithParents");
-    if (ImGui::TreeNode("Advanced, with Selectable nodes"))
-    {
-        static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
-        static bool align_label_with_current_x_position = false;
-        if (align_label_with_current_x_position)
-            ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
-
-        static int selection_mask = (1 << 2); // Dumb representation of what may be user-side selection state. You may carry selection state inside or outside your objects in whatever format you see fit.
-        int node_clicked = -1;                // Temporary storage of what node we have clicked to process selection at the end of the loop. May be a pointer to your own node type, etc.
-        
-        const std::vector<std::unique_ptr<GameObject>>* const objects = currentScene.GetObjectsPtr();
-        for (size_t n = 0; n < objects->size(); n++)
-        {
-            // Disable the default open on single-click behavior and pass in Selected flag according to our selection state.
-            ImGuiTreeNodeFlags node_flags = base_flags;
-            const bool is_selected = (selection_mask & (1 << n)) != 0;
-            if (is_selected)
-                node_flags |= ImGuiTreeNodeFlags_Selected;
-
-            //
-            char buf[64];
-            sprintf_s(buf, "%d. %s", n, (*objects)[n]->name.c_str());
-           
-            bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)n, node_flags, buf);
-            if (ImGui::IsItemClicked())
-            {
-                node_clicked = n;
-                selectedObj = (*objects)[node_clicked].get();
-            }
-            if (node_open)
-            {
-                if ((*objects)[n].get()->childs.size() > 0)
-                {
-                    node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen; // ImGuiTreeNodeFlags_Bullet
-                    ImGui::TreeNodeEx((void*)(intptr_t)n, node_flags, (*objects)[n].get()->childs[0]->name.c_str());
-                    if (ImGui::IsItemClicked())
-                        selectedObj = (*objects)[n].get()->childs[0];
-                }
-            }
-
-          /*  if (ImGui::Selectable(buf, node_clicked == n))
-            {
-                node_clicked = n;
-                selectedObj = (*objects)[n].get();
-            }*/
-
-
-            //else
-            //{
-            //    // Items 3..5 are Tree Leaves
-            //    // The only reason we use TreeNode at all is to allow selection of the leaf.
-            //    // Otherwise we can use BulletText() or advance the cursor by GetTreeNodeToLabelSpacing() and call Text().
-            //    node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen; // ImGuiTreeNodeFlags_Bullet
-            //    ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, "Selectable Leaf %d", i);
-            //    if (ImGui::IsItemClicked())
-            //        node_clicked = i;
-            //}
-        }
-        
-        //for (int i = 0; i < 6; i++)
-        //{
-        //    // Disable the default open on single-click behavior and pass in Selected flag according to our selection state.
-        //    ImGuiTreeNodeFlags node_flags = base_flags;
-        //    const bool is_selected = (selection_mask & (1 << i)) != 0;
-        //    if (is_selected)
-        //        node_flags |= ImGuiTreeNodeFlags_Selected;
-        //    if (i < 3)
-        //    {
-        //        // Items 0..2 are Tree Node
-        //        bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, "Selectable Node %d", i);
-        //        if (ImGui::IsItemClicked())
-        //            node_clicked = i;
-        //        if (node_open)
-        //        {
-        //            ImGui::BulletText("Blah blah\nBlah Blah");
-        //            ImGui::TreePop();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        // Items 3..5 are Tree Leaves
-        //        // The only reason we use TreeNode at all is to allow selection of the leaf.
-        //        // Otherwise we can use BulletText() or advance the cursor by GetTreeNodeToLabelSpacing() and call Text().
-        //        node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen; // ImGuiTreeNodeFlags_Bullet
-        //        ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, "Selectable Leaf %d", i);
-        //        if (ImGui::IsItemClicked())
-        //            node_clicked = i;
-        //    }
-        //}
-        if (node_clicked != -1)
-        {
-            // Update selection state. Process outside of tree loop to avoid visual inconsistencies during the clicking-frame.
-            if (ImGui::GetIO().KeyCtrl)
-                selection_mask ^= (1 << node_clicked);          // CTRL+click to toggle
-            else //if (!(selection_mask & (1 << node_clicked))) // Depending on selection behavior you want, this commented bit preserve selection when clicking on item that is part of the selection
-                selection_mask = (1 << node_clicked);           // Click to single-select
-        }
-        if (align_label_with_current_x_position)
-            ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
-        ImGui::TreePop();
-    }
-    ImGui::End();
+    ShowHierarchy();
 
     //Camera
     {
@@ -351,7 +248,85 @@ void Editor::Update()
             ExitGameMode();
         }
     }
-    
+}
+
+void Editor::ShowHierarchy()
+{
+    Scene& currentScene = Scene::GetCurrentScene();
+    const std::vector<std::unique_ptr<GameObject>> const* objects = currentScene.GetObjectsPtr();
+
+    //Test
+    ImGui::Begin("HierarchyWithParents");
+    if (ImGui::TreeNode("Advanced, with Selectable nodes"))
+    {
+        static bool align_label_with_current_x_position = false;
+        if (align_label_with_current_x_position)
+            ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
+        static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+        static int selection_mask = (1 << 2); // Dumb representation of what may be user-side selection state. You may carry selection state inside or outside your objects in whatever format you see fit.
+        int node_clicked = -1;                // Temporary storage of what node we have clicked to process selection at the end of the loop. May be a pointer to your own node type, etc.
+        int id = 0;
+        for (int i = 0; i < objects->size(); i++)
+        {
+            // Disable the default open on single-click behavior and pass in Selected flag according to our selection state.
+            ImGuiTreeNodeFlags node_flags = base_flags;
+            const bool is_selected = (selection_mask & (1 << i)) != 0;
+            if (is_selected)
+                node_flags |= ImGuiTreeNodeFlags_Selected;
+           
+            if ((*objects)[i].get()->GetParent() == nullptr)
+            {
+                ShowGameObject((*objects)[i].get(), id, node_clicked, node_flags);
+            }
+        }
+        if (node_clicked != -1)
+        {
+            // Update selection state. Process outside of tree loop to avoid visual inconsistencies during the clicking-frame.
+            if (ImGui::GetIO().KeyCtrl)
+                selection_mask ^= (1 << node_clicked);          // CTRL+click to toggle
+            else //if (!(selection_mask & (1 << node_clicked))) // Depending on selection behavior you want, this commented bit preserve selection when clicking on item that is part of the selection
+                selection_mask = (1 << node_clicked);           // Click to single-select
+        }
+        if (align_label_with_current_x_position)
+            ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
+        ImGui::TreePop();
+    }
+    ImGui::End();
+}
+
+void Editor::ShowGameObject(GameObject* obj, int& id, int& node_clicked, ImGuiTreeNodeFlags& flags)
+{
+    if (obj->GetChilds().size() <= 0)
+    {
+        flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen; // ImGuiTreeNodeFlags_Bullet
+
+        ImGui::TreeNodeEx((void*)(intptr_t)id, flags, obj->name.c_str());
+        if (ImGui::IsItemClicked())
+        {
+            node_clicked = id;
+            Select(obj);
+        }
+    }
+    else
+    {
+        bool isOpen = ImGui::TreeNodeEx((void*)(intptr_t)id, flags, obj->name.c_str());
+        if (ImGui::IsItemClicked())
+        {
+            node_clicked = id;
+            Select(obj);
+        }
+        if (isOpen)
+        {
+            for (size_t i = 0; i < obj->GetChilds().size(); i++)
+            {
+                ShowGameObject(obj->GetChilds()[i], id, node_clicked, flags);
+            }
+            ImGui::TreePop();
+        }
+    }
+
+
+    id++;
 }
 
 void Editor::Select(GameObject* obj)

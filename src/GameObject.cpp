@@ -20,6 +20,11 @@ GameObject::GameObject() : name("NewGameObject")
 GameObject::~GameObject()
 {
 	std::cout << "GO Destructor\n";
+
+	if (parent != nullptr)
+	{
+		RemoveFromParent(this);
+	}
 }
 
 GameObject::GameObject(const GameObject& a) 
@@ -38,8 +43,18 @@ GameObject& GameObject::operator=(const GameObject& other)
 	transform = other.transform;
 	name = std::string(other.name);
 	isActive = other.isActive;
-	parent = other.parent;
-	childs = other.childs;
+	//parent = other.parent;
+	//childs = other.childs;
+	childs.clear();
+	parent = nullptr;
+	//Duplicate all childs
+	//for (GameObject* child : other.childs)
+	//{
+	//    GameObject* childInstance = Scene::GetCurrentScene().DuplicateGameObject(child);
+	//    //GameObject* childInstance = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0,0,0));
+	//    AddChild(childInstance);
+	//}
+
 
 	for (size_t i = 0; i < other.components.size(); i++)
 	{
@@ -226,22 +241,46 @@ const std::vector<std::unique_ptr<Component>>* const GameObject::GetAllComponent
 	return &components;
 }
 
+const std::vector<GameObject*>& GameObject::GetChilds() const
+{
+	return childs;
+}
+
+
 void GameObject::AddChild(GameObject* child)
 {
-	childs.push_back(child);
-
-	//Remove child from it's current panel
 	if (child->parent != nullptr)
+	{
+		if (child->parent == this)
+		{
+			std::cout<<("Can't add child to the same parent as it's current parent! [RETURN]");
+			return;
+		}
+
+		//Remove child from it's current parent
+		RemoveFromParent(child);
+	}
+
+	childs.push_back(child);
+	child->parent = this;
+}
+
+void GameObject::RemoveFromParent(GameObject* child)
+{
+	if (parent != nullptr)
 	{
 		std::vector<GameObject*>::iterator it = std::find(child->parent->childs.begin(), child->parent->childs.end(), child);
 		if (it != child->parent->childs.end())
 			child->parent->childs.erase(it);
 	}
-
-	child->parent = this;
+	else
+	{
+		std::cout << "Can't remove from parent - Parent is null!\n";
+	}
 }
 
-GameObject* GameObject::GetParent()
+
+const GameObject const* GameObject::GetParent() const
 {
 	return parent;
 }

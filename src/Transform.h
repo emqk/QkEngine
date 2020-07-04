@@ -26,9 +26,6 @@ public:
 
 	glm::mat4x4 GetLocalMatrix() const;
 
-
-	const glm::vec3 WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
-
 private:
 	void UpdateVectors();
 
