@@ -55,6 +55,7 @@ private:
 	static bool inGameMode;
 
 	void DestroyPostponed();
+	GameObject* DuplicateChilds(const GameObject* obj, GameObject* parent);
 
 	std::vector<std::unique_ptr<GameObject>> objects;
 	std::vector<std::unique_ptr<GameObject>> objectsCopy; //In game mode

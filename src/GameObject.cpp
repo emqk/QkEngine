@@ -25,6 +25,10 @@ GameObject::~GameObject()
 	{
 		RemoveFromParent(this);
 	}
+	for (GameObject* child : childs)
+	{
+		RemoveFromParent(child);
+	}
 }
 
 GameObject::GameObject(const GameObject& a) 
@@ -43,18 +47,8 @@ GameObject& GameObject::operator=(const GameObject& other)
 	transform = other.transform;
 	name = std::string(other.name);
 	isActive = other.isActive;
-	//parent = other.parent;
-	//childs = other.childs;
-	childs.clear();
-	parent = nullptr;
-	//Duplicate all childs
-	//for (GameObject* child : other.childs)
-	//{
-	//    GameObject* childInstance = Scene::GetCurrentScene().DuplicateGameObject(child);
-	//    //GameObject* childInstance = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0,0,0));
-	//    AddChild(childInstance);
-	//}
-
+	childs = other.childs;
+	parent = other.parent;
 
 	for (size_t i = 0; i < other.components.size(); i++)
 	{
@@ -247,6 +241,12 @@ const std::vector<GameObject*>& GameObject::GetChilds() const
 }
 
 
+void GameObject::ForgetParentAndChilds()
+{
+	parent = nullptr;
+	childs.clear();
+}
+
 void GameObject::AddChild(GameObject* child)
 {
 	if (child->parent != nullptr)
@@ -267,11 +267,14 @@ void GameObject::AddChild(GameObject* child)
 
 void GameObject::RemoveFromParent(GameObject* child)
 {
-	if (parent != nullptr)
+	if (child->parent != nullptr)
 	{
+		std::cout << child->parent->name;
 		std::vector<GameObject*>::iterator it = std::find(child->parent->childs.begin(), child->parent->childs.end(), child);
 		if (it != child->parent->childs.end())
 			child->parent->childs.erase(it);
+
+		child->parent = nullptr;
 	}
 	else
 	{

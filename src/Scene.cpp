@@ -28,7 +28,7 @@ Scene::Scene()
     ResourceManager::LoadTexture("container.jpg");
     ResourceManager::LoadTexture("Stairs.jpg");
     ResourceManager::LoadTexture("Tree.png");
-    ResourceManager::LoadTexture("Gun_Cyberpunk Gun_BaseColor.jpg");
+    //ResourceManager::LoadTexture("Gun_Cyberpunk Gun_BaseColor.jpg");
     ResourceManager::LoadTexture("Cube.jpg");
     ResourceManager::LoadTexture("gizmoSelectTexture.jpg");
     ResourceManager::LoadTexture("MagicaVoxelExports/abc.png");
@@ -36,19 +36,19 @@ Scene::Scene()
     ResourceManager::LoadTexture("House/Planks.png");
 
     //backpack
-    ResourceManager::LoadTexture("backpack/diffuse.jpg");
-    ResourceManager::LoadTexture("backpack/normal.png");
-    ResourceManager::LoadTexture("backpack/roughness.jpg");
-    ResourceManager::LoadTexture("backpack/specular.jpg");
+    //ResourceManager::LoadTexture("backpack/diffuse.jpg");
+    //ResourceManager::LoadTexture("backpack/normal.png");
+    //ResourceManager::LoadTexture("backpack/roughness.jpg");
+    //ResourceManager::LoadTexture("backpack/specular.jpg");
 
     //Chair
     ResourceManager::LoadTexture("Chair/diffuse.png");
 
     ////HumanAnim
-    ResourceManager::LoadTexture("Human/Human_Walk_1.png");
-    ResourceManager::LoadTexture("Human/Human_Walk_2.png");
-    ResourceManager::LoadTexture("Human/Human_Walk_3.png");
-    ResourceManager::LoadTexture("Human/Human_Walk_4.png");
+    //ResourceManager::LoadTexture("Human/Human_Walk_1.png");
+    //ResourceManager::LoadTexture("Human/Human_Walk_2.png");
+    //ResourceManager::LoadTexture("Human/Human_Walk_3.png");
+    //ResourceManager::LoadTexture("Human/Human_Walk_4.png");
     ResourceManager::LoadTexture("kenney_medievalrtspack/PNG/Retina/Tile/asd.png");
         
     //Models
@@ -59,11 +59,11 @@ Scene::Scene()
     ResourceManager::LoadModel("rectangleOBJ.obj");
     ResourceManager::LoadModel("Human/Human.obj");
     ResourceManager::LoadModel("Stairs.obj");
-    ResourceManager::LoadModel("weapon.obj");
+   // ResourceManager::LoadModel("weapon.obj");
     ResourceManager::LoadModel("MagicaVoxelExports/abc.obj");
     ResourceManager::LoadModel("Chair/School Chair Offset.fbx");
-    ResourceManager::LoadModel("backpack/backpack.obj");
-    ResourceManager::LoadModel("House/House.fbx");
+    //ResourceManager::LoadModel("backpack/backpack.obj");
+    //ResourceManager::LoadModel("House/House.fbx");
 
     //Shaders
     ResourceManager::LoadShader("StandardShader");
@@ -200,15 +200,23 @@ void Scene::ExitGameMode()
     {
         Destroy(obj.get());
     }   
-    DestroyPostponed();
-    objects.clear();
+    //DestroyPostponed();
+    //objects.clear();
     size_t i = 0;
     for (const std::unique_ptr<GameObject>& obj : objectsCopy)
     {
-        std::unique_ptr<GameObject> newObj = std::make_unique<GameObject>(*obj.get());
-        newObj->SetActive(objectsCopyActiveData[i]);
-        objects.push_back(std::move(newObj));
-        ++i;
+        if (obj->GetParent() == nullptr)
+        {
+            obj->SetActive(objectsCopyActiveData[i]);
+            DuplicateGameObject(obj.get());
+        }
+        //if (obj->GetParent() == nullptr)
+        //{
+            // std::unique_ptr<GameObject> newObj = std::make_unique<GameObject>(*obj.get());
+            //newObj->SetActive(objectsCopyActiveData[i]);
+            //objects.push_back(std::move(newObj));
+          //  ++i;
+        //}
     }
     objectsCopy.clear();
     objectsCopyActiveData.clear();
@@ -285,6 +293,7 @@ void Scene::InstantiateModel(const Model const* model)
 GameObject* Scene::DuplicateGameObject(const GameObject* obj)
 {
     std::unique_ptr<GameObject> newObj = std::make_unique<GameObject>(*obj);
+    newObj->ForgetParentAndChilds();
     objects.push_back(std::move(newObj));
     GameObject* newObjPtr = objects.back().get();
     std::cout << "[Copy GameObject] Object size: " << objects.size() << "\n";
@@ -292,12 +301,24 @@ GameObject* Scene::DuplicateGameObject(const GameObject* obj)
     //Duplicate all childs
     for (GameObject* child : obj->GetChilds())
     {
-        //std::unique_ptr<GameObject> newChild = std::make_unique<GameObject>(*child);
-        //newObj->AddChild(newChild.get());
-        //objects.push_back(std::move(newChild));
+        GameObject* childInstance = DuplicateChilds(child, newObjPtr);
     }
-
     return newObjPtr;
+}
+
+GameObject* Scene::DuplicateChilds(const GameObject* obj, GameObject* parent)
+{
+    std::unique_ptr<GameObject> newObj = std::make_unique<GameObject>(*obj);
+    newObj->ForgetParentAndChilds();
+    objects.push_back(std::move(newObj));
+    GameObject* newObjPtr = objects.back().get();
+    parent->AddChild(newObjPtr);
+
+    for (GameObject* child : obj->GetChilds())
+    {
+        GameObject* childInstance = DuplicateChilds(child, newObjPtr);
+    }
+    return nullptr;
 }
 
 void Scene::Destroy(GameObject* obj)

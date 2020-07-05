@@ -70,6 +70,8 @@ public:
 	const std::vector<std::unique_ptr<Component>>* const GetAllComponents() const;
 	const std::vector<GameObject*>& GetChilds() const;
 
+
+	void ForgetParentAndChilds();
 	void AddChild(GameObject* child);
 	const GameObject const* GetParent() const;
 
@@ -79,7 +81,7 @@ protected:
 	void UpdateComponents(const float& deltaTime);
 	void LateUpdateComponents(const float& deltaTime);
 
-	void RemoveFromParent(GameObject* child);
+	static void RemoveFromParent(GameObject* child);
 
 private:
 	Transform transform;

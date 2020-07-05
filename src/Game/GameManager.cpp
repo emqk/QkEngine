@@ -60,7 +60,7 @@ GameManager::GameManager()
 	PlayerComponent* playerComp = playerObj->AddComponent<PlayerComponent>();
 	playerObj->name = "Player";
 
-
+	//Chairs parent
 	GameObject* newParent = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
 	SpriteComponent* sprComp = newParent->AddComponent<SpriteComponent>();
 	sprComp->SetMeshNew("Cube.obj->Cube");
@@ -68,7 +68,7 @@ GameManager::GameManager()
 	sprComp->SetShader("StandardShader");
 	newParent->name = "TestChairParent";
 
-	//Chair
+	//Chair (Child 0)
 	GameObject* chairObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(2, 2, 2));
 	SpriteComponent* chairSprite = chairObj->AddComponent<SpriteComponent>();
 	chairSprite->SetMeshNew("Chair/School Chair Offset.fbx->Cylinder.006");
@@ -78,6 +78,7 @@ GameManager::GameManager()
 	chairObj->name = "First child";
 	newParent->AddChild(chairObj);
 
+	//Chair (Child 1)
 	GameObject* sec = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(2, 0, 0));
 	SpriteComponent* secSprComp = sec->AddComponent<SpriteComponent>();
 	secSprComp->SetMeshNew("Chair/School Chair Offset.fbx->Cylinder.006");
