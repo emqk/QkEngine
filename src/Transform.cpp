@@ -1,6 +1,10 @@
 #include "Transform.h"
 
 #include <glm\trigonometric.hpp>
+#include <glm\gtx\matrix_decompose.hpp>
+
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 
 Transform::Transform()
@@ -30,7 +34,7 @@ void Transform::SetLocalPosition(const glm::vec3& newPosition)
 	UpdateVectors();
 }
 
-void Transform::SetLocalRotation(const glm::vec3& newRotation)
+void Transform::SetLocalRotation(const glm::quat& newRotation)
 {
 	localRotation = newRotation;
 	UpdateVectors();
@@ -52,7 +56,7 @@ glm::vec3 Transform::GetLocalPosition() const
 	return localPosition;
 }
 
-glm::vec3 Transform::GetLocalRotation() const
+glm::quat Transform::GetLocalRotation() const
 {
 	return localRotation;
 }
@@ -77,6 +81,26 @@ glm::vec3 Transform::GetUp() const
 	return Up;
 }
 
+glm::vec3 Transform::ConvertQuaternionToEulerAngles(const glm::quat& quat)
+{
+	return glm::eulerAngles(quat) * 180.0f / (float)M_PI;
+}
+
+glm::vec3 Transform::ConvertMatrixToPosition(const glm::mat4& mat)
+{
+	return mat[3];
+}
+
+glm::vec3 Transform::ConvertMatrixToRotation(const glm::mat4& mat)
+{
+	return mat[2];
+}
+
+glm::vec3 Transform::ConvertMatrixToScale(const glm::mat4& mat)
+{
+	return mat[1];
+}
+
 glm::mat4x4 Transform::GetLocalMatrix() const
 {
 	glm::mat4 model = glm::mat4(1.0f);
@@ -99,4 +123,12 @@ void Transform::UpdateVectors()
 	// Also re-calculate the Right and Up vector
 	Right = glm::normalize(glm::cross(Front, glm::vec3(0.0f, 1.0f, 0.0f)));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 	Up = glm::normalize(glm::cross(Right, Front));
+}
+
+MatrixDecomposeData Transform::DecomposeMatrix(const glm::mat4& matrix)
+{
+	MatrixDecomposeData data;
+	data.model = matrix;
+	glm::decompose(data.model, data.scale, data.orientation, data.translation, data.skew, data.perspective);
+	return data;
 }

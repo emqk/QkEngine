@@ -51,12 +51,12 @@ glm::vec3 Camera::GetLocalPosition() const
 	return transform.GetLocalPosition();
 }
 
-void Camera::SetLocalRotation(const glm::vec3& rot)
+void Camera::SetLocalRotation(const glm::quat& rot)
 {
 	transform.SetLocalRotation(rot);
 }
 
-glm::vec3 Camera::GetLocalRotation() const
+glm::quat Camera::GetLocalRotation() const
 {
 	return transform.GetLocalRotation();
 }
@@ -69,7 +69,7 @@ void Camera::ShowOnInspector()
 	SetLocalPosition(pos);
 
 	//Rotation
-	glm::vec3 localRotation = GetLocalRotation();
+	glm::quat localRotation = GetLocalRotation();
 	ImGui::InputFloat3("Rotation", &localRotation.x, 3);
 	SetLocalRotation(localRotation);
 	
@@ -128,7 +128,7 @@ void Camera::ProcessInput(const float& deltaTime)
 		if (wasLastFrameMousePressed)
 		{
 			glm::vec2 diff = currMousePos - previousMousePos;
-			SetLocalRotation(GetLocalRotation() + glm::vec3(-diff.y, diff.x, 0) * rotationSpeed * deltaTime);
+			SetLocalRotation(GetLocalRotation() + glm::quat(0, -diff.y, diff.x, 0) * rotationSpeed * deltaTime);
 		}
 		previousMousePos = currMousePos;
 		wasLastFrameMousePressed = true;

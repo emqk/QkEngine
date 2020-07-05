@@ -32,8 +32,8 @@ public:
 	void SetLocalScale(const glm::vec3& newScale);
 	glm::vec3 GetLocalScale() const;
 		
-	void SetLocalRotation(const glm::vec3& newRotation);
-	glm::vec3 GetLocalRotation() const;
+	void SetLocalRotation(const glm::quat& newRotation);
+	glm::quat GetLocalRotation() const;
 	
 	const Transform& GetTransform() const;
 

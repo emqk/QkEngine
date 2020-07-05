@@ -4,6 +4,7 @@ class Shader;
 
 #include "Components/SpriteComponent.h"
 #include <vector>
+#include <glm/gtc/quaternion.hpp>
 
 class Renderer
 {
@@ -12,7 +13,7 @@ public:
 	~Renderer() = delete;
 
 	static void DrawNew(Shader& cameraShader);
-	static void DrawMeshNewAtLocation(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& localScale, Shader& cameraShader, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color);
+	static void DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, Shader& cameraShader, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color);
 
 	static void AddSpriteToDraw(SpriteComponent* comp);
 	static void RemoveSpriteToDraw(SpriteComponent* comp);
@@ -21,12 +22,14 @@ public:
 	static size_t GetDrawCallsLastFrame();
 	static size_t GetDrawnVerticesLastFrame();
 
+	static glm::mat4 CalculateModel(const GameObject const* obj);
+
 private:
 	static void BindMeshNew(const Mesh& mesh);
-	static void CalculateModel(glm::mat4& model, const GameObject const* obj);
+	static void CalculateModel(const GameObject const* obj, glm::mat4& model);
 
 	static unsigned int VBO, VAO, EBO;
-	
+
 	static size_t drawCallsLastFrame;
 	static size_t drawVerticesLastFrame;
 

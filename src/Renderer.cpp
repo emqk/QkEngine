@@ -57,12 +57,18 @@ void Renderer::BindMeshNew(const Mesh& mesh)
     glBindVertexArray(0);
 }
 
-void Renderer::CalculateModel(glm::mat4& model, const GameObject const* obj)
+glm::mat4 Renderer::CalculateModel(const GameObject const* obj)
+{
+    glm::mat4 model = glm::mat4(1.0f);
+    CalculateModel(obj, model);
+    return model;
+}
+
+void Renderer::CalculateModel(const GameObject const* obj, glm::mat4& model)
 {
     if (obj->GetParent() != nullptr)
     {
-        glm::mat4 mat{1.0f};
-        CalculateModel(model, obj->GetParent());
+        CalculateModel(obj->GetParent(), model);
         model *= obj->GetTransform().GetLocalMatrix();
     }
     else
@@ -115,7 +121,7 @@ void Renderer::DrawNew(Shader& cameraShader)
 
         glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
         //float sinCalc = cos(timeValue);
-        CalculateModel(model, comp->GetParent());
+        CalculateModel(comp->GetParent(), model);
         componentShader->SetMat4("model", model);
 
         // draw mesh
@@ -135,7 +141,7 @@ void Renderer::DrawNew(Shader& cameraShader)
     }
 }
 
-void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& localScale, Shader& cameraShader, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color)
+void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, Shader& cameraShader, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color)
 {
     //Set wireframe mode only for this mesh
     GLint polygonMode;

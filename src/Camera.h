@@ -19,8 +19,8 @@ public:
 	void SetLocalPosition(const glm::vec3 pos);
 	glm::vec3 GetLocalPosition() const;
 
-	void SetLocalRotation(const glm::vec3& rot);
-	glm::vec3 GetLocalRotation() const;
+	void SetLocalRotation(const glm::quat& rot);
+	glm::quat GetLocalRotation() const;
 
 	void ShowOnInspector();
 	void Update(const float& deltaTime);

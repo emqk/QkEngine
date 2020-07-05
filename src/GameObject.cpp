@@ -66,11 +66,18 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 	//IsActive
 	ImGui::Checkbox("Is Object Active", &isActive);
 
+	MatrixDecomposeData decomposedMatrix = Transform::DecomposeMatrix(Renderer::CalculateModel(this));
+
 	//Name
 	char* objName = name.data();
 	ImGui::InputText("Name", objName, 64);
 	name = std::string(objName);
 	
+	//GlobalPosition
+	ImGui::Text("GlobalPosition");
+	glm::vec3 globalPos = Transform::ConvertMatrixToPosition(Renderer::CalculateModel(this));
+	ImGui::InputFloat3("global pos", &globalPos.x, 3);
+
 	//Position
 	ImGui::Text("Position");
 	glm::vec3 pos = GetLocalPosition();
@@ -79,13 +86,23 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 	ImGui::InputFloat("Pos Z", &pos.z, 0.5f, 1.0f);
 	SetLocalPosition(pos);
 
+	//GlobalRotation
+	ImGui::Text("GlobalRotation(ReadOnly)");
+	glm::vec3 globalRot = Transform::ConvertQuaternionToEulerAngles(decomposedMatrix.orientation);
+	ImGui::InputFloat3("global rot", &globalRot.x, 3);
+
 	//Rotation
 	ImGui::Text("Rotation");
-	glm::vec3 localRotation = GetLocalRotation();
+	glm::quat localRotation = GetLocalRotation();
 	ImGui::InputFloat("Rot X", &localRotation.x, 1, 90);
 	ImGui::InputFloat("Rot Y", &localRotation.y, 1, 90);
 	ImGui::InputFloat("Rot Z", &localRotation.z, 1, 90);
 	SetLocalRotation(localRotation);
+
+	//GlobalRotation
+	ImGui::Text("GlobalScale");
+	glm::vec3 globalScale = decomposedMatrix.scale;
+	ImGui::InputFloat3("global scale", &globalScale.x, 3);
 
 	//Scale
 	ImGui::Text("Scale");
@@ -194,16 +211,15 @@ glm::vec3 GameObject::GetLocalScale() const
 	return transform.GetLocalScale();
 }
 
-void GameObject::SetLocalRotation(const glm::vec3& newRotation)
+void GameObject::SetLocalRotation(const glm::quat& newRotation)
 {
 	transform.SetLocalRotation(newRotation);
 }
 
-glm::vec3 GameObject::GetLocalRotation() const
+glm::quat GameObject::GetLocalRotation() const
 {
 	return transform.GetLocalRotation();
 }
-
 
 const Transform& GameObject::GetTransform() const
 {

@@ -12,8 +12,8 @@ public:
 	static void SetCurrentColor(const glm::vec4& color);
 	static void ResetDefaultColor();
 
-	static void DrawMeshNewWireframe(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& localScale, const Mesh& mesh);
-	static void DrawCubeWireframe(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& localScale);
+	static void DrawMeshNewWireframe(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& mesh);
+	static void DrawCubeWireframe(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale);
 
 	static constexpr glm::vec4 meshWireframeColor = glm::vec4(1, 0, 0, 1);
 	static constexpr glm::vec4 collisionColor = glm::vec4(0, 1, 0, 1);
