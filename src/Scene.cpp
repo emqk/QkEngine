@@ -118,7 +118,7 @@ GameObject* Scene::Raycast()
             continue;
 
         glm::vec3 camPos = camera.GetLocalPosition();
-        glm::vec3 targetObjPos = targetObj->GetLocalPosition();
+        glm::vec3 targetObjPos = targetObj->GetTransform().GetGlobalPosition();
         //  std::cout << "CamPos: " << camPos.x << "x " << camPos.y << "y " << camPos.z << "z" << std::endl;
         //  std::cout << "targetObjPos: " << targetObjPos.x << "x " << targetObjPos.y << "y " << targetObjPos.z << "z" << std::endl;
         //  std::cout << "DistZ: " << glm::abs(camPos.z - targetObjPos.z) << "z" << std::endl;
@@ -303,6 +303,7 @@ GameObject* Scene::DuplicateGameObject(const GameObject* obj)
     {
         GameObject* childInstance = DuplicateChilds(child, newObjPtr);
     }
+
     return newObjPtr;
 }
 

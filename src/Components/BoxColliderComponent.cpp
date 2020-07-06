@@ -66,7 +66,7 @@ void BoxColliderComponent::ShowOnInspector()
 void BoxColliderComponent::ShowOnGizmos()
 {
 	Gizmos::SetCurrentColor(Gizmos::collisionColor);
-	Gizmos::DrawCubeWireframe(GetLocalPosition(), glm::vec3(0,0,0), bounds.Extents());
+	Gizmos::DrawCubeWireframe(GetGlobalPosition(), glm::vec3(0,0,0), bounds.Extents());
 }
 
 std::unique_ptr<Component> BoxColliderComponent::MakeCopy(GameObject* newParent) const
@@ -78,9 +78,14 @@ std::unique_ptr<Component> BoxColliderComponent::MakeCopy(GameObject* newParent)
 	return std::move(comp);
 }
 
+glm::vec3 BoxColliderComponent::GetGlobalPosition() const
+{
+	return parent->GetTransform().GetGlobalPosition() + center;
+}
+
 glm::vec3 BoxColliderComponent::GetLocalPosition() const
 {
-	return parent->GetLocalPosition() + center;
+	return parent->GetTransform().GetLocalPosition() + center;
 }
 
 glm::vec3 BoxColliderComponent::GetCenter() const

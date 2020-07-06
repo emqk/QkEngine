@@ -22,11 +22,9 @@ public:
 	static size_t GetDrawCallsLastFrame();
 	static size_t GetDrawnVerticesLastFrame();
 
-	static glm::mat4 CalculateModel(const GameObject const* obj);
 
 private:
 	static void BindMeshNew(const Mesh& mesh);
-	static void CalculateModel(const GameObject const* obj, glm::mat4& model);
 
 	static unsigned int VBO, VAO, EBO;
 

@@ -12,6 +12,8 @@
 
 class GameObject
 {
+	friend Transform;
+
 public:
 	GameObject();
 	~GameObject();
@@ -26,16 +28,20 @@ public:
 	virtual void LateUpdate(const float& deltaTime);
 
 	void Move(const glm::vec3& offset);
-	void SetLocalPosition(const glm::vec3& pos);
-	glm::vec3 GetLocalPosition() const;
 
-	void SetLocalScale(const glm::vec3& newScale);
-	glm::vec3 GetLocalScale() const;
-		
-	void SetLocalRotation(const glm::quat& newRotation);
-	glm::quat GetLocalRotation() const;
-	
+
 	const Transform& GetTransform() const;
+
+	glm::vec3 GetGlobalPosition() const;
+	glm::quat GetGlobalRotation() const;
+	glm::vec3 GetGlobalScale() const;
+
+	void SetLocalPosition(const glm::vec3& pos);
+	void SetLocalRotation(const glm::quat& rot);
+	void SetLocalScale(const glm::vec3& scale);
+	glm::vec3 GetLocalPosition() const;
+	glm::quat GetLocalRotation() const;
+	glm::vec3 GetLocalScale() const;
 
 	void SetActive(const bool& value);
 	bool IsActive() const;
@@ -73,6 +79,7 @@ public:
 
 	void ForgetParentAndChilds();
 	void AddChild(GameObject* child);
+	void SetParent(GameObject* newParent);
 	const GameObject const* GetParent() const;
 
 	std::string name;
@@ -84,9 +91,9 @@ protected:
 	static void RemoveFromParent(GameObject* child);
 
 private:
-	Transform transform;
 	bool isActive = true;
 	GameObject* parent = nullptr;
+	Transform transform;
 
 	std::vector<GameObject*> childs;
 	std::vector<std::unique_ptr<Component>> components;

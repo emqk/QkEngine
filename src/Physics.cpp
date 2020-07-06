@@ -25,10 +25,10 @@ void Physics::Perform()
 			if (!otherBoxColl->IsActive() || otherBoxColl == currentBoxColl)
 				continue;
 		
-			glm::vec3 currentPosition = currentBoxColl->GetLocalPosition();
+			glm::vec3 currentPosition = currentBoxColl->GetGlobalPosition();
 			glm::vec3 extents = currentBoxColl->GetExtents();
 
-			glm::vec3 otherObjectPosition = otherBoxColl->GetLocalPosition();
+			glm::vec3 otherObjectPosition = otherBoxColl->GetGlobalPosition();
 			glm::vec3 otherExtents = otherBoxColl->GetExtents();
 		
 			glm::vec3 delta = currentPosition - otherObjectPosition;
@@ -61,7 +61,7 @@ void Physics::Perform()
 						responseVec += glm::vec3(0, 0, intersection.z);
 				}
 
-				currentBoxColl->GetParent()->SetLocalPosition(currentPosition + responseVec);
+				currentBoxColl->GetParent()->Move(responseVec);
 			}
 		}
 	}

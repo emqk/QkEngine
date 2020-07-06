@@ -57,26 +57,6 @@ void Renderer::BindMeshNew(const Mesh& mesh)
     glBindVertexArray(0);
 }
 
-glm::mat4 Renderer::CalculateModel(const GameObject const* obj)
-{
-    glm::mat4 model = glm::mat4(1.0f);
-    CalculateModel(obj, model);
-    return model;
-}
-
-void Renderer::CalculateModel(const GameObject const* obj, glm::mat4& model)
-{
-    if (obj->GetParent() != nullptr)
-    {
-        CalculateModel(obj->GetParent(), model);
-        model *= obj->GetTransform().GetLocalMatrix();
-    }
-    else
-    {
-        model = obj->GetTransform().GetLocalMatrix();
-    }
-}
-
 void Renderer::DrawNew(Shader& cameraShader)
 {
     drawCallsLastFrame = 0;
@@ -119,9 +99,7 @@ void Renderer::DrawNew(Shader& cameraShader)
         BindMeshNew(*componentMeshNew);
         cameraShader.Use();
 
-        glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-        //float sinCalc = cos(timeValue);
-        CalculateModel(comp->GetParent(), model);
+        glm::mat4 model = Transform::CalculateModel(comp->GetParent());
         componentShader->SetMat4("model", model);
 
         // draw mesh

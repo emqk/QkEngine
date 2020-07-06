@@ -26,12 +26,12 @@ public:
 	void InstantiateModel(const Model const* model);
 
 	template<typename T>
-	T* Instantiate(const glm::vec3& globalPosition)
+	T* Instantiate(const glm::vec3& localPosition)
 	{
 		//std::unique_ptr<GameObject> newObj = std::make_unique<T>();
 		objects.emplace_back(std::make_unique<T>());
 		GameObject* newObjPtr = objects.back().get();
-		newObjPtr->SetLocalPosition(globalPosition);
+		newObjPtr->SetLocalPosition(localPosition);
 		std::cout << "[INSTANTIATE] Object size: " << objects.size() << "\n";
 		return newObjPtr;
 	}
@@ -51,6 +51,8 @@ public:
 	void ExitGameMode();
 
 private:
+	static void RemoveFromParent(GameObject* child);
+
 	static Scene* currentScene;
 	static bool inGameMode;
 

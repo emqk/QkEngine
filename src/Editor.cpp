@@ -39,8 +39,6 @@ void Editor::Update()
 
     Scene& currentScene = Scene::GetCurrentScene();
 
-    ShowHierarchy();
-
     //Camera
     {
         ImGui::Begin("Camera");
@@ -49,28 +47,7 @@ void Editor::Update()
     }
 
     //Hierarchy
-    {
-        ImGui::Begin("Hierarchy");
-        
-        if (ImGui::TreeNode("World"))
-        {
-            static int selectedGOInHierarchy = -1;
-            const std::vector<std::unique_ptr<GameObject>>* const objects = currentScene.GetObjectsPtr();
-            for (size_t n = 0; n < objects->size(); n++)
-            {
-                char buf[64];
-                sprintf_s(buf, "%d. %s", n, (*objects)[n]->name.c_str());
-                if (ImGui::Selectable(buf, selectedGOInHierarchy == n))
-                {
-                    selectedGOInHierarchy = n;
-                    selectedObj = (*objects)[selectedGOInHierarchy].get();
-                }
-            }
-            ImGui::TreePop();
-        }
-
-        ImGui::End();
-    }
+    ShowHierarchy();
 
     //Inspector
     {
@@ -218,10 +195,14 @@ void Editor::Update()
             Mesh* mesh = spriteComp->GetMeshNew();
             if (mesh != nullptr)
             {
-                glm::vec3 localPosition = selectedObj->GetLocalPosition();
+                glm::vec3 localPosition = selectedObj->GetTransform().GetLocalPosition();
                 Bounds bounds = mesh->GetBounds();
                 Gizmos::SetCurrentColor(Gizmos::meshWireframeColor);
-                Gizmos::DrawMeshNewWireframe(localPosition, selectedObj->GetLocalRotation(), selectedObj->GetLocalScale() * 1.001f, *mesh);
+                Gizmos::DrawMeshNewWireframe(
+                      selectedObj->GetTransform().GetGlobalPosition()
+                    , selectedObj->GetTransform().GetGlobalEulerAngles()
+                    , selectedObj->GetTransform().GetGlobalScale() * 1.001f
+                    , *mesh);
             }
         }
     }
@@ -256,8 +237,8 @@ void Editor::ShowHierarchy()
     const std::vector<std::unique_ptr<GameObject>> const* objects = currentScene.GetObjectsPtr();
 
     //Test
-    ImGui::Begin("HierarchyWithParents");
-    if (ImGui::TreeNode("Advanced, with Selectable nodes"))
+    ImGui::Begin("Hierarchy");
+    if (ImGui::TreeNode("Scene"))
     {
         static bool align_label_with_current_x_position = false;
         if (align_label_with_current_x_position)
@@ -353,6 +334,7 @@ void Editor::ShowSelectAssetWindow(const AssetWindowType& assetWindowType, const
 
 void Editor::EnterGameMode()
 {
+    Select(nullptr);
     Scene::GetCurrentScene().EnterGameMode();
     glfwSetInputMode(&Window::GetCurrentWindow()->GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }

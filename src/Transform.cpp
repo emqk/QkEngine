@@ -1,4 +1,5 @@
 #include "Transform.h"
+#include "GameObject.h"
 
 #include <glm\trigonometric.hpp>
 #include <glm\gtx\matrix_decompose.hpp>
@@ -17,6 +18,10 @@ Transform::~Transform()
 
 Transform& Transform::operator=(const Transform& other)
 {
+	globalPosition = other.globalPosition;
+	globalRotation = other.globalRotation;
+	globalScale = other.globalScale;
+
 	localPosition = other.localPosition;
 	localRotation = other.localRotation;
 	localScale = other.localScale;
@@ -25,25 +30,35 @@ Transform& Transform::operator=(const Transform& other)
 	glm::vec3 Right = other.Right;
 	glm::vec3 Up = other.Up;
 
+	SetRoot(other.root);
+
 	return *this;
+}
+
+void Transform::SetRoot(GameObject* newRoot)
+{
+	root = newRoot;
+	OnChange();
 }
 
 void Transform::SetLocalPosition(const glm::vec3& newPosition)
 {
 	localPosition = newPosition;
-	UpdateVectors();
+	OnChange();
+
 }
 
 void Transform::SetLocalRotation(const glm::quat& newRotation)
 {
 	localRotation = newRotation;
-	UpdateVectors();
+	OnChange();
+
 }
 
 void Transform::SetLocalScale(const glm::vec3& newScale)
 {
 	localScale = newScale;
-	UpdateVectors();
+	OnChange();
 }
 
 void Transform::Translate(const glm::vec3& offset)
@@ -66,6 +81,26 @@ glm::vec3 Transform::GetLocalScale() const
 	return localScale;
 }
 
+glm::vec3 Transform::GetGlobalPosition() const
+{
+	return globalPosition;
+}
+
+glm::quat Transform::GetGlobalRotation() const
+{
+	return globalRotation;
+}
+
+glm::quat Transform::GetGlobalEulerAngles() const
+{
+	return ConvertQuaternionToQuaternionEulerAngles(GetGlobalRotation());
+}
+
+glm::vec3 Transform::GetGlobalScale() const
+{
+	return globalScale;
+}
+
 glm::vec3 Transform::GetForward() const
 {
 	return Front;
@@ -81,24 +116,14 @@ glm::vec3 Transform::GetUp() const
 	return Up;
 }
 
-glm::vec3 Transform::ConvertQuaternionToEulerAngles(const glm::quat& quat)
+glm::quat Transform::ConvertQuaternionToQuaternionEulerAngles(const glm::quat& quat)
 {
-	return glm::eulerAngles(quat) * 180.0f / (float)M_PI;
+	return -glm::quat(1, glm::eulerAngles(quat) * 180.0f / (float)M_PI);
 }
 
-glm::vec3 Transform::ConvertMatrixToPosition(const glm::mat4& mat)
+glm::quat Transform::ToQuaternion(const glm::vec3& rotationVec)
 {
-	return mat[3];
-}
-
-glm::vec3 Transform::ConvertMatrixToRotation(const glm::mat4& mat)
-{
-	return mat[2];
-}
-
-glm::vec3 Transform::ConvertMatrixToScale(const glm::mat4& mat)
-{
-	return mat[1];
+	return glm::quat(1, rotationVec);
 }
 
 glm::mat4x4 Transform::GetLocalMatrix() const
@@ -110,6 +135,32 @@ glm::mat4x4 Transform::GetLocalMatrix() const
 	model = glm::rotate(model, glm::radians(localRotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
 	model = glm::scale(model, localScale);
 	return model;
+}
+
+glm::mat4 Transform::CalculateModel(const GameObject const* obj)
+{
+	glm::mat4 model = glm::mat4(1.0f);
+	CalculateModel(obj, model);
+	return model;
+}
+
+void Transform::CalculateModel(const GameObject const* obj, glm::mat4& model)
+{
+	if (obj->GetParent() != nullptr)
+	{
+		CalculateModel(obj->GetParent(), model);
+		model *= obj->GetTransform().GetLocalMatrix();
+	}
+	else
+	{
+		model = obj->GetTransform().GetLocalMatrix();
+	}
+}
+
+void Transform::OnChange()
+{
+	UpdateVectors();
+	UpdateGlobal();
 }
 
 void Transform::UpdateVectors()
@@ -125,10 +176,28 @@ void Transform::UpdateVectors()
 	Up = glm::normalize(glm::cross(Right, Front));
 }
 
+void Transform::UpdateGlobal()
+{
+	if (root != nullptr)
+	{
+		glm::mat4 model = CalculateModel(root);
+		MatrixDecomposeData decomposedMatrix = DecomposeMatrix(model);
+		globalPosition = decomposedMatrix.translation;
+		globalRotation = decomposedMatrix.orientation;
+		globalScale = decomposedMatrix.scale;
+
+		for (GameObject* child : root->GetChilds())
+		{
+			child->transform.UpdateGlobal();
+		}
+	}
+}
+
 MatrixDecomposeData Transform::DecomposeMatrix(const glm::mat4& matrix)
 {
 	MatrixDecomposeData data;
 	data.model = matrix;
 	glm::decompose(data.model, data.scale, data.orientation, data.translation, data.skew, data.perspective);
+	data.orientation = glm::conjugate(data.orientation);
 	return data;
 }

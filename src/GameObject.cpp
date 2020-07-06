@@ -14,14 +14,15 @@
 
 GameObject::GameObject() : name("NewGameObject")
 {
-	SetLocalPosition(glm::vec3(0, 0, 0));
+	transform.SetLocalPosition(glm::vec3(0, 0, 0));
+	transform.SetRoot(this);
 }
 
 GameObject::~GameObject()
 {
 	std::cout << "GO Destructor\n";
 
-	if (parent != nullptr)
+	if (GetParent() != nullptr)
 	{
 		RemoveFromParent(this);
 	}
@@ -45,10 +46,11 @@ bool GameObject::operator==(const GameObject& other) const
 GameObject& GameObject::operator=(const GameObject& other)
 {
 	transform = other.transform;
+	transform.SetRoot(this);
 	name = std::string(other.name);
 	isActive = other.isActive;
 	childs = other.childs;
-	parent = other.parent;
+	SetParent(other.parent);
 
 	for (size_t i = 0; i < other.components.size(); i++)
 	{
@@ -66,51 +68,34 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 	//IsActive
 	ImGui::Checkbox("Is Object Active", &isActive);
 
-	MatrixDecomposeData decomposedMatrix = Transform::DecomposeMatrix(Renderer::CalculateModel(this));
-
 	//Name
 	char* objName = name.data();
 	ImGui::InputText("Name", objName, 64);
 	name = std::string(objName);
-	
-	//GlobalPosition
-	ImGui::Text("GlobalPosition");
-	glm::vec3 globalPos = Transform::ConvertMatrixToPosition(Renderer::CalculateModel(this));
-	ImGui::InputFloat3("global pos", &globalPos.x, 3);
 
 	//Position
 	ImGui::Text("Position");
-	glm::vec3 pos = GetLocalPosition();
+	glm::vec3 pos = transform.GetLocalPosition();
 	ImGui::InputFloat("Pos X", &pos.x, 0.5f, 1.0f);
 	ImGui::InputFloat("Pos Y", &pos.y, 0.5f, 1.0f);
 	ImGui::InputFloat("Pos Z", &pos.z, 0.5f, 1.0f);
-	SetLocalPosition(pos);
-
-	//GlobalRotation
-	ImGui::Text("GlobalRotation(ReadOnly)");
-	glm::vec3 globalRot = Transform::ConvertQuaternionToEulerAngles(decomposedMatrix.orientation);
-	ImGui::InputFloat3("global rot", &globalRot.x, 3);
+	transform.SetLocalPosition(pos);
 
 	//Rotation
 	ImGui::Text("Rotation");
-	glm::quat localRotation = GetLocalRotation();
+	glm::quat localRotation = transform.GetLocalRotation();
 	ImGui::InputFloat("Rot X", &localRotation.x, 1, 90);
 	ImGui::InputFloat("Rot Y", &localRotation.y, 1, 90);
 	ImGui::InputFloat("Rot Z", &localRotation.z, 1, 90);
-	SetLocalRotation(localRotation);
-
-	//GlobalRotation
-	ImGui::Text("GlobalScale");
-	glm::vec3 globalScale = decomposedMatrix.scale;
-	ImGui::InputFloat3("global scale", &globalScale.x, 3);
+	transform.SetLocalRotation(localRotation);
 
 	//Scale
 	ImGui::Text("Scale");
-	glm::vec3 localScale = GetLocalScale();
+	glm::vec3 localScale = transform.GetLocalScale();
 	ImGui::InputFloat("Sca X", &localScale.x, 0.1f, 1.0f);
 	ImGui::InputFloat("Sca Y", &localScale.y, 0.1f, 1.0f);
 	ImGui::InputFloat("Sca Z", &localScale.z, 0.1f, 1.0f);
-	SetLocalScale(localScale);
+	transform.SetLocalScale(localScale);
 
 	if (ImGui::Button("Add SpriteComponent"))
 	{
@@ -191,39 +176,54 @@ void GameObject::Move(const glm::vec3& offset)
 	transform.Translate(offset);
 }
 
+const Transform& GameObject::GetTransform() const
+{
+	return transform;
+}
+
+glm::vec3 GameObject::GetGlobalPosition() const
+{
+	return glm::vec3();
+}
+
+glm::quat GameObject::GetGlobalRotation() const
+{
+	return glm::quat();
+}
+
+glm::vec3 GameObject::GetGlobalScale() const
+{
+	return glm::vec3();
+}
+
 void GameObject::SetLocalPosition(const glm::vec3& pos)
 {
 	transform.SetLocalPosition(pos);
 }
 
+void GameObject::SetLocalRotation(const glm::quat& rot)
+{
+	transform.SetLocalRotation(rot);
+}
+
+void GameObject::SetLocalScale(const glm::vec3& scale)
+{
+	transform.SetLocalScale(scale);
+}
+
 glm::vec3 GameObject::GetLocalPosition() const
 {
-	return transform.GetLocalPosition();
-}
-
-void GameObject::SetLocalScale(const glm::vec3& newScale)
-{
-	transform.SetLocalScale(newScale);
-}
-
-glm::vec3 GameObject::GetLocalScale() const
-{
-	return transform.GetLocalScale();
-}
-
-void GameObject::SetLocalRotation(const glm::quat& newRotation)
-{
-	transform.SetLocalRotation(newRotation);
+	return transform.GetGlobalPosition();
 }
 
 glm::quat GameObject::GetLocalRotation() const
 {
-	return transform.GetLocalRotation();
+	return transform.GetGlobalRotation();
 }
 
-const Transform& GameObject::GetTransform() const
+glm::vec3 GameObject::GetLocalScale() const
 {
-	return transform;
+	return transform.GetGlobalScale();
 }
 
 void GameObject::SetActive(const bool& value)
@@ -259,15 +259,15 @@ const std::vector<GameObject*>& GameObject::GetChilds() const
 
 void GameObject::ForgetParentAndChilds()
 {
-	parent = nullptr;
+	SetParent(nullptr);
 	childs.clear();
 }
 
 void GameObject::AddChild(GameObject* child)
 {
-	if (child->parent != nullptr)
+	if (child->GetParent() != nullptr)
 	{
-		if (child->parent == this)
+		if (child->GetParent() == this)
 		{
 			std::cout<<("Can't add child to the same parent as it's current parent! [RETURN]");
 			return;
@@ -278,7 +278,21 @@ void GameObject::AddChild(GameObject* child)
 	}
 
 	childs.push_back(child);
-	child->parent = this;
+	child->SetParent(this);
+}
+
+void GameObject::SetParent(GameObject* newParent)
+{
+	parent = newParent;
+
+
+
+	//Only to refresh Transform. Need to remove it later
+		transform.SetRoot(this);
+	///////////////////////////
+
+
+
 }
 
 void GameObject::RemoveFromParent(GameObject* child)
@@ -290,7 +304,7 @@ void GameObject::RemoveFromParent(GameObject* child)
 		if (it != child->parent->childs.end())
 			child->parent->childs.erase(it);
 
-		child->parent = nullptr;
+		child->SetParent(nullptr);
 	}
 	else
 	{
