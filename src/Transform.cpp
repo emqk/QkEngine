@@ -45,7 +45,6 @@ void Transform::SetLocalPosition(const glm::vec3& newPosition)
 {
 	localPosition = newPosition;
 	OnChange();
-
 }
 
 void Transform::SetLocalRotation(const glm::quat& newRotation)
@@ -79,6 +78,49 @@ glm::quat Transform::GetLocalRotation() const
 glm::vec3 Transform::GetLocalScale() const
 {
 	return localScale;
+}
+
+void Transform::SetGlobalPosition(const glm::vec3& newPosition)
+{
+	glm::vec3 thisGlobalToNewPostionDiff = newPosition - GetGlobalPosition();
+	SetLocalPosition(GetLocalPosition() + thisGlobalToNewPostionDiff);
+}
+
+void Transform::SetGlobalRotation(const glm::quat& newRotation)
+{
+	if (root->GetParent() == nullptr)
+	{
+		SetLocalRotation(newRotation);
+		return;
+	}
+
+	glm::quat parentRot = root->GetParent()->transform.GetGlobalEulerAngles();
+	glm::quat targetGlobalRot = glm::quat(1, 0, 0, 0);
+	//Rotate by new rotation
+	targetGlobalRot = glm::rotate(targetGlobalRot, glm::radians(newRotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+	targetGlobalRot = glm::rotate(targetGlobalRot, glm::radians(newRotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+	targetGlobalRot = glm::rotate(targetGlobalRot, glm::radians(newRotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+	//Rotate by parent rotation
+	targetGlobalRot = glm::rotate(targetGlobalRot, glm::radians(parentRot.x), glm::vec3(1.0f, 0.0f, 0.0f));
+	targetGlobalRot = glm::rotate(targetGlobalRot, glm::radians(parentRot.y), glm::vec3(0.0f, 1.0f, 0.0f));
+	targetGlobalRot = glm::rotate(targetGlobalRot, glm::radians(parentRot.z), glm::vec3(0.0f, 0.0f, 1.0f));
+	targetGlobalRot = ConvertQuaternionToQuaternionEulerAngles(targetGlobalRot);
+
+	SetLocalRotation(targetGlobalRot);
+}
+
+void Transform::SetGlobalScale(const glm::vec3& newScale)
+{
+	GameObject* obj = root->GetParent();
+	if (obj == nullptr)
+	{
+		SetLocalScale(newScale);
+	}
+	else
+	{
+		glm::vec3 targetScale = newScale / obj->GetTransform().GetGlobalScale();
+		SetLocalScale(targetScale);
+	}
 }
 
 glm::vec3 Transform::GetGlobalPosition() const

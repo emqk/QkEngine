@@ -80,7 +80,7 @@ public:
 	void ForgetParentAndChilds();
 	void AddChild(GameObject* child);
 	void SetParent(GameObject* newParent);
-	const GameObject const* GetParent() const;
+	GameObject* GetParent() const;
 
 	std::string name;
 

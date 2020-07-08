@@ -35,6 +35,9 @@ public:
 	glm::quat GetLocalRotation() const;
 	glm::vec3 GetLocalScale() const;
 
+	void SetGlobalPosition(const glm::vec3& newPosition);
+	void SetGlobalRotation(const glm::quat& newRotation);
+	void SetGlobalScale(const glm::vec3& newScale);
 	glm::vec3 GetGlobalPosition() const;
 	glm::quat GetGlobalRotation() const;
 	glm::quat GetGlobalEulerAngles() const;

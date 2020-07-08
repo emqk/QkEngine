@@ -67,6 +67,14 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 
 	//IsActive
 	ImGui::Checkbox("Is Object Active", &isActive);
+	if (ImGui::Button("Reset global position"))
+		transform.SetGlobalPosition(glm::vec3(0, 0, 0));
+	ImGui::SameLine();
+	if (ImGui::Button("Reset global rotation"))
+		transform.SetGlobalRotation(glm::quat(1, 0, 0, 0));
+	ImGui::SameLine();
+	if (ImGui::Button("Reset global scale"))
+		transform.SetGlobalScale(glm::vec3(1, 1, 1));
 
 	//Name
 	char* objName = name.data();
@@ -313,7 +321,7 @@ void GameObject::RemoveFromParent(GameObject* child)
 }
 
 
-const GameObject const* GameObject::GetParent() const
+GameObject* GameObject::GetParent() const
 {
 	return parent;
 }
