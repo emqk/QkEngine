@@ -122,7 +122,7 @@ void Renderer::DrawNew(Shader& cameraShader)
 void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, Shader& cameraShader, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color)
 {
     //Set wireframe mode only for this mesh
-    GLint polygonMode;
+    int polygonMode;
     glGetIntegerv(GL_POLYGON_MODE, &polygonMode);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 

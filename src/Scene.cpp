@@ -11,6 +11,7 @@
 #include "ResourceManager.h"
 #include "Physics.h"
 #include <limits>
+#include <chrono>
 
 Scene* Scene::currentScene = nullptr;
 bool Scene::inGameMode = false;
@@ -200,8 +201,7 @@ void Scene::ExitGameMode()
     {
         Destroy(obj.get());
     }   
-    //DestroyPostponed();
-    //objects.clear();
+
     size_t i = 0;
     for (const std::unique_ptr<GameObject>& obj : objectsCopy)
     {
@@ -210,13 +210,6 @@ void Scene::ExitGameMode()
             obj->SetActive(objectsCopyActiveData[i]);
             DuplicateGameObject(obj.get());
         }
-        //if (obj->GetParent() == nullptr)
-        //{
-            // std::unique_ptr<GameObject> newObj = std::make_unique<GameObject>(*obj.get());
-            //newObj->SetActive(objectsCopyActiveData[i]);
-            //objects.push_back(std::move(newObj));
-          //  ++i;
-        //}
     }
     objectsCopy.clear();
     objectsCopyActiveData.clear();
@@ -224,6 +217,9 @@ void Scene::ExitGameMode()
 
 void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _projection, glm::mat4 _view)
 {
+    //Update
+    auto updateStart = std::chrono::steady_clock::now();
+
     projection = _projection;
     view = _view;
     //Update GameObjects
@@ -251,8 +247,16 @@ void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _project
     }
 
     DestroyPostponed();
-    Renderer::DrawNew(camShader);
+
+    auto updateEnd = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_secondsUpdate = updateEnd - updateStart;
+    lastFrameUpdateTime = std::chrono::duration_cast<std::chrono::microseconds>(elapsed_secondsUpdate).count() / 1000.0f;
+
+    //Draw
+    auto drawStart = std::chrono::steady_clock::now();
     
+    Renderer::DrawNew(camShader);
+
     //Draw gizmos
     if (Editor::CanDrawGizmos())
     {
@@ -264,6 +268,10 @@ void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _project
             obj->ShowOnGizmos();
         }
     }
+
+    auto drawEnd = std::chrono::steady_clock::now();
+    std::chrono::duration<double> elapsed_secondsDraw = drawEnd - drawStart;
+    lastFrameDrawTime = std::chrono::duration_cast<std::chrono::microseconds>(elapsed_secondsDraw).count() / 1000.0f;
 }
 
 Camera& Scene::GetCamera()

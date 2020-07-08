@@ -50,14 +50,19 @@ public:
 	void EnterGameMode();
 	void ExitGameMode();
 
-private:
-	static void RemoveFromParent(GameObject* child);
+	//in ms
+	float lastFrameDrawTime = 0.0f;
+	//in ms
+	float lastFrameUpdateTime = 0.0f;
 
+private:
 	static Scene* currentScene;
 	static bool inGameMode;
 
 	void DestroyPostponed();
 	GameObject* DuplicateChilds(const GameObject* obj, GameObject* parent);
+
+
 
 	std::vector<std::unique_ptr<GameObject>> objects;
 	std::vector<std::unique_ptr<GameObject>> objectsCopy; //In game mode

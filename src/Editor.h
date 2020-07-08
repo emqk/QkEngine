@@ -1,6 +1,7 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include <functional>
+#include <vector>
 
 #include "GameObject.h"
 
@@ -38,4 +39,7 @@ private:
 
 	static void EnterGameMode();
 	static void ExitGameMode();
+
+	static std::vector<float> updateTimes;
+	static std::vector<float> drawTimes;
 };

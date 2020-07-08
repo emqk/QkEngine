@@ -8,7 +8,6 @@
 #include "Gizmos.h"
 #include "InputManager.h"
 
-#include <vector>
 #include <memory>
 
 GameObject* Editor::selectedObj;
@@ -18,6 +17,8 @@ AssetWindowType Editor::currAssetWindowType;
 bool Editor::showSelectAssetWindow;
 bool Editor::isAnyWindowOrItemHovered;
 bool Editor::drawGizmos = true;
+std::vector<float> Editor::updateTimes;
+std::vector<float> Editor::drawTimes;
 
 void Editor::Init(GLFWwindow* window)
 {
@@ -27,6 +28,9 @@ void Editor::Init(GLFWwindow* window)
     ImGui::StyleColorsDark();
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init((char*)glGetString(0x82E9));
+
+    updateTimes.resize(100, 0.0f);
+    drawTimes.resize(100, 0.0f);
 }
 
 
@@ -180,10 +184,6 @@ void Editor::Update()
             ExitGameMode();
         }
 
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)\n", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        ImGui::Text("Number of GameObjects: %u", currentScene.GetObjectsPtr()->size());
-        ImGui::Text("Last frame draw calls: %u | To draw container size: %u", Renderer::GetDrawCallsLastFrame(), Renderer::GetToDrawContainerSize());
-        ImGui::Text("Last frame vertices: %u", Renderer::GetDrawnVerticesLastFrame());
         ImGui::End();
     }
 
@@ -205,6 +205,30 @@ void Editor::Update()
                     , *mesh);
             }
         }
+    }
+
+    //Profiler
+    {
+        ImGui::Begin("Profiler");
+
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)\n", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        ImGui::Text("Number of GameObjects: %u", currentScene.GetObjectsPtr()->size());
+        ImGui::Text("Last frame draw calls: %u | To draw container size: %u", Renderer::GetDrawCallsLastFrame(), Renderer::GetToDrawContainerSize());
+        ImGui::Text("Last frame vertices: %u", Renderer::GetDrawnVerticesLastFrame());
+
+        float lastFrameDrawTime = Scene::GetCurrentScene().lastFrameDrawTime;
+        float lastFrameUpdateTime = Scene::GetCurrentScene().lastFrameUpdateTime;
+
+        //update profile
+        std::rotate(updateTimes.begin(), updateTimes.begin() + 1, updateTimes.end());
+        updateTimes.back() = lastFrameUpdateTime;
+        ImGui::PlotHistogram("Update time", updateTimes.data(), updateTimes.size(), 0, (std::to_string(lastFrameUpdateTime) + std::string("ms")).c_str(), 0.0f, 17.0f, ImVec2(400, 100));
+        //draw profile
+        std::rotate(drawTimes.begin(), drawTimes.begin() + 1, drawTimes.end());
+        drawTimes.back() = lastFrameDrawTime;
+        ImGui::PlotHistogram("Draw time", drawTimes.data(), drawTimes.size(), 0, (std::to_string(lastFrameDrawTime) + std::string("ms")).c_str(), 0.0f, 17.0f, ImVec2(400, 100));
+
+        ImGui::End();
     }
 
     ImGui::Render();
