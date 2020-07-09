@@ -33,7 +33,7 @@ public:
 private:
 	void ProcessInput(const float& deltaTime);
 
-	Transform transform;
+	Transform transform{ nullptr };
 
 	float movementSpeed = 15.0f;
 	float rotationSpeed = 5.0f;

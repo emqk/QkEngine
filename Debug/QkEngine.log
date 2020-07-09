@@ -1,14 +1,6 @@
-﻿  Editor.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
+﻿  Scene.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(51,51): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(64,46): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(116,76): warning C4018: '<': signed/unsigned mismatch
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(261,52): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(274,27): warning C4018: '<': signed/unsigned mismatch
-  Scene.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(64,46): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.cpp(287,42): warning C4114: same type qualifier used more than once
-  Generating Code...
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.cpp(301,42): warning C4114: same type qualifier used more than once
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe

@@ -60,8 +60,8 @@ private:
 	static bool inGameMode;
 
 	void DestroyPostponed();
-	GameObject* DuplicateChilds(const GameObject* obj, GameObject* parent);
-
+	void DuplicateChilds(const GameObject* obj, GameObject* parent);
+	void DuplicateChildsCopy(GameObject* obj, GameObject* parent);
 
 
 	std::vector<std::unique_ptr<GameObject>> objects;

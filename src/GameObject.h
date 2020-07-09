@@ -76,13 +76,12 @@ public:
 	const std::vector<std::unique_ptr<Component>>* const GetAllComponents() const;
 	const std::vector<GameObject*>& GetChilds() const;
 
-
-	void ForgetParentAndChilds();
 	void AddChild(GameObject* child);
 	void SetParent(GameObject* newParent);
 	GameObject* GetParent() const;
 
 	std::string name;
+	Transform transform{ this };
 
 protected:
 	void UpdateComponents(const float& deltaTime);
@@ -93,7 +92,6 @@ protected:
 private:
 	bool isActive = true;
 	GameObject* parent = nullptr;
-	Transform transform;
 
 	std::vector<GameObject*> childs;
 	std::vector<std::unique_ptr<Component>> components;

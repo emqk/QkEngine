@@ -19,12 +19,11 @@ struct MatrixDecomposeData
 class Transform
 {
 public:
-	Transform();
+	Transform(GameObject* myRoot);
 	~Transform();
 
 	Transform& operator=(const Transform& other);
 
-	void SetRoot(GameObject* newRoot);
 
 	void Translate(const glm::vec3& offset);
 
@@ -55,11 +54,12 @@ public:
 	static glm::quat ToQuaternion(const glm::vec3& rotationVec);
 	static MatrixDecomposeData DecomposeMatrix(const glm::mat4& matrix);
 
+	void OnChange();
 
 private:
-	void OnChange();
 	void UpdateVectors();
 	void UpdateGlobal();
+	void SetRoot(GameObject* newRoot);
 
 	static void CalculateModel(const GameObject const* obj, glm::mat4& model);
 

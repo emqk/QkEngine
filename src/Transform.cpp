@@ -8,8 +8,9 @@
 #include <math.h>
 
 
-Transform::Transform()
+Transform::Transform(GameObject* myRoot)
 {
+	SetRoot(myRoot);
 }
 
 Transform::~Transform()
@@ -26,11 +27,12 @@ Transform& Transform::operator=(const Transform& other)
 	localRotation = other.localRotation;
 	localScale = other.localScale;
 
+	std::cout << "\tLocalPos: " << localPosition.x << "x " << localPosition.y << "y " << localPosition.z << "z\n";
 	glm::vec3 Front = other.Front;
 	glm::vec3 Right = other.Right;
 	glm::vec3 Up = other.Up;
 
-	SetRoot(other.root);
+	//SetRoot(other.root);
 
 	return *this;
 }
@@ -38,6 +40,13 @@ Transform& Transform::operator=(const Transform& other)
 void Transform::SetRoot(GameObject* newRoot)
 {
 	root = newRoot;
+	if (root != nullptr)
+	{
+		SetLocalPosition(root->transform.GetLocalPosition());
+		SetLocalRotation(root->transform.GetLocalRotation());
+		SetLocalScale(root->transform.GetLocalScale());
+		std::cout << "\tSetRootLocalPos: " << localPosition.x << "x " << localPosition.y << "y " << localPosition.z << "z\n";
+	}
 	OnChange();
 }
 
