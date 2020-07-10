@@ -80,6 +80,10 @@ void Camera::ShowOnInspector()
 	ImGui::Text("Clipping");
 	ImGui::InputFloat("Near", &clippingNear, 0.1f, 10.0f);
 	ImGui::InputFloat("Far", &clippingFar, 5, 10.0f);
+
+	ImGui::Text("Clear color:");
+	ImGui::SameLine();
+	ImGui::ColorEdit4("MyColor##3", &clearColor.r, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
 }
 
 void Camera::Update(const float& deltaTime)
@@ -147,6 +151,11 @@ void Camera::ReceiveScrollInput(double xoffset, double yoffset)
 void Camera::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	ReceiveScrollInput(xoffset, yoffset);
+}
+
+glm::vec4 Camera::GetClearColor()
+{
+	return clearColor;
 }
 
 Shader& Camera::GetShader()

@@ -3,6 +3,7 @@
 #include <glm\ext\matrix_transform.hpp>
 #include <glm\ext\matrix_float4x4.hpp>
 #include <glm\gtc\quaternion.hpp>
+#include <vector>
 
 class GameObject;
 
@@ -56,6 +57,12 @@ public:
 
 	void OnChange();
 
+	const std::vector<GameObject*>& GetChilds() const;
+	void AddChild(GameObject* child);
+	void SetParent(GameObject* newParent);
+	GameObject* GetParent() const;
+	void RemoveFromParent();
+
 private:
 	void UpdateVectors();
 	void UpdateGlobal();
@@ -76,4 +83,6 @@ private:
 	glm::vec3 localScale = glm::vec3(1.0f, 1.0f, 1.0f);
 
 	GameObject* root = nullptr;
+	GameObject* parent = nullptr;
+	std::vector<GameObject*> childs;
 };

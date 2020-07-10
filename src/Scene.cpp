@@ -119,7 +119,7 @@ GameObject* Scene::Raycast()
             continue;
 
         glm::vec3 camPos = camera.GetLocalPosition();
-        glm::vec3 targetObjPos = targetObj->GetTransform().GetGlobalPosition();
+        glm::vec3 targetObjPos = targetObj->transform.GetGlobalPosition();
         //  std::cout << "CamPos: " << camPos.x << "x " << camPos.y << "y " << camPos.z << "z" << std::endl;
         //  std::cout << "targetObjPos: " << targetObjPos.x << "x " << targetObjPos.y << "y " << targetObjPos.z << "z" << std::endl;
         //  std::cout << "DistZ: " << glm::abs(camPos.z - targetObjPos.z) << "z" << std::endl;
@@ -182,14 +182,11 @@ void Scene::EnterGameMode()
     objectsCopy.clear();
     for (const std::unique_ptr<GameObject>& obj : objects)
     {
-        if (obj->GetParent() == nullptr)
+        if (obj->transform.GetParent() == nullptr)
         {
-            std::cout << "Get copy of obj: " << obj->name << std::endl;
             std::unique_ptr<GameObject> newObj = std::make_unique<GameObject>(*obj.get());
             objectsCopyActiveData.push_back(newObj->IsActive());
             newObj->SetActive(false);
-            glm::vec3 localPos = newObj->GetLocalPosition();
-            std::cout << "\tCopy: " << localPos.x << "x " << localPos.y << "y " << localPos.z << "z\n";
 
             DuplicateChildsCopy(obj.get(), newObj.get());
 
@@ -217,7 +214,7 @@ void Scene::ExitGameMode()
     size_t i = 0;
     for (const std::unique_ptr<GameObject>& obj : objectsCopy)
     {
-        if (obj->GetParent() == nullptr)
+        if (obj->transform.GetParent() == nullptr)
         {
             DuplicateGameObject(obj.get());
             //obj->SetActive(objectsCopyActiveData[i]);
@@ -314,7 +311,7 @@ void Scene::InstantiateModel(const Model const* model)
 
 GameObject* Scene::DuplicateGameObject(const GameObject* obj)
 {
-    glm::vec3 originalPos = obj->GetLocalPosition();
+    glm::vec3 originalPos = obj->transform.GetLocalPosition();
     std::unique_ptr<GameObject> newObj = std::make_unique<GameObject>(*obj);
     objects.push_back(std::move(newObj));
     GameObject* newObjPtr = objects.back().get();
@@ -322,7 +319,7 @@ GameObject* Scene::DuplicateGameObject(const GameObject* obj)
     newObjPtr->SetActive(true);
 
     //Duplicate all childs
-    for (GameObject* child : obj->GetChilds())
+    for (const GameObject* child : obj->transform.GetChilds())
     {
         DuplicateChilds(child, newObjPtr);
     }
@@ -335,10 +332,10 @@ void Scene::DuplicateChilds(const GameObject* obj, GameObject* parent)
     std::unique_ptr<GameObject> newObj = std::make_unique<GameObject>(*obj);
     objects.push_back(std::move(newObj));
     GameObject* newObjPtr = objects.back().get();
-    parent->AddChild(newObjPtr);
+    parent->transform.AddChild(newObjPtr);
     newObjPtr->SetActive(true);
 
-    for (GameObject* child : obj->GetChilds())
+    for (const GameObject* child : obj->transform.GetChilds())
     {
         DuplicateChilds(child, newObjPtr);
     }
@@ -346,12 +343,12 @@ void Scene::DuplicateChilds(const GameObject* obj, GameObject* parent)
 
 void Scene::DuplicateChildsCopy(GameObject* obj, GameObject* parent)
 {
-    for (GameObject* child : obj->GetChilds())
+    for (GameObject* child : obj->transform.GetChilds())
     {
         std::unique_ptr<GameObject> newChild = std::make_unique<GameObject>(*child);
         objectsCopyActiveData.push_back(newChild->IsActive());
         newChild->SetActive(false);
-        parent->AddChild(newChild.get());
+        parent->transform.AddChild(newChild.get());
         DuplicateChildsCopy(child, newChild.get());
         objectsCopy.push_back(std::move(newChild));
     }
@@ -361,9 +358,9 @@ void Scene::Destroy(GameObject* obj)
 {
     objectsToDestroy.push_back(obj);
     //Destroy all obj childs
-    for (size_t i = 0; i < obj->GetChilds().size(); i++)
+    for (size_t i = 0; i < obj->transform.GetChilds().size(); i++)
     {
-        Destroy(obj->GetChilds()[i]);
+        Destroy(obj->transform.GetChilds()[i]);
     }
 }
 

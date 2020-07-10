@@ -195,13 +195,13 @@ void Editor::Update()
             Mesh* mesh = spriteComp->GetMeshNew();
             if (mesh != nullptr)
             {
-                glm::vec3 localPosition = selectedObj->GetTransform().GetLocalPosition();
+                glm::vec3 localPosition = selectedObj->transform.GetLocalPosition();
                 Bounds bounds = mesh->GetBounds();
                 Gizmos::SetCurrentColor(Gizmos::meshWireframeColor);
                 Gizmos::DrawMeshNewWireframe(
-                      selectedObj->GetTransform().GetGlobalPosition()
-                    , selectedObj->GetTransform().GetGlobalEulerAngles()
-                    , selectedObj->GetTransform().GetGlobalScale() * 1.001f
+                      selectedObj->transform.GetGlobalPosition()
+                    , selectedObj->transform.GetGlobalEulerAngles()
+                    , selectedObj->transform.GetGlobalScale() * 1.001f
                     , *mesh);
             }
         }
@@ -279,7 +279,7 @@ void Editor::ShowHierarchy()
             if (is_selected)
                 node_flags |= ImGuiTreeNodeFlags_Selected;
            
-            if ((*objects)[i].get()->GetParent() == nullptr)
+            if ((*objects)[i].get()->transform.GetParent() == nullptr)
             {
                 ShowGameObject((*objects)[i].get(), id, node_clicked, node_flags);
             }
@@ -301,7 +301,7 @@ void Editor::ShowHierarchy()
 
 void Editor::ShowGameObject(GameObject* obj, int& id, int& node_clicked, ImGuiTreeNodeFlags& flags)
 {
-    if (obj->GetChilds().size() <= 0)
+    if (obj->transform.GetChilds().size() <= 0)
     {
         flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen; // ImGuiTreeNodeFlags_Bullet
 
@@ -322,9 +322,9 @@ void Editor::ShowGameObject(GameObject* obj, int& id, int& node_clicked, ImGuiTr
         }
         if (isOpen)
         {
-            for (size_t i = 0; i < obj->GetChilds().size(); i++)
+            for (size_t i = 0; i < obj->transform.GetChilds().size(); i++)
             {
-                ShowGameObject(obj->GetChilds()[i], id, node_clicked, flags);
+                ShowGameObject(obj->transform.GetChilds()[i], id, node_clicked, flags);
             }
             ImGui::TreePop();
         }

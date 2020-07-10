@@ -29,20 +29,6 @@ public:
 
 	void Move(const glm::vec3& offset);
 
-
-	const Transform& GetTransform() const;
-
-	glm::vec3 GetGlobalPosition() const;
-	glm::quat GetGlobalRotation() const;
-	glm::vec3 GetGlobalScale() const;
-
-	void SetLocalPosition(const glm::vec3& pos);
-	void SetLocalRotation(const glm::quat& rot);
-	void SetLocalScale(const glm::vec3& scale);
-	glm::vec3 GetLocalPosition() const;
-	glm::quat GetLocalRotation() const;
-	glm::vec3 GetLocalScale() const;
-
 	void SetActive(const bool& value);
 	bool IsActive() const;
 
@@ -74,11 +60,7 @@ public:
 
 	const int& GetComponentsCount() const;
 	const std::vector<std::unique_ptr<Component>>* const GetAllComponents() const;
-	const std::vector<GameObject*>& GetChilds() const;
 
-	void AddChild(GameObject* child);
-	void SetParent(GameObject* newParent);
-	GameObject* GetParent() const;
 
 	std::string name;
 	Transform transform{ this };
@@ -87,12 +69,12 @@ protected:
 	void UpdateComponents(const float& deltaTime);
 	void LateUpdateComponents(const float& deltaTime);
 
-	static void RemoveFromParent(GameObject* child);
+	//static void RemoveFromParent(GameObject* child);
 
 private:
 	bool isActive = true;
-	GameObject* parent = nullptr;
+	//GameObject* parent = nullptr;
 
-	std::vector<GameObject*> childs;
+	//std::vector<GameObject*> childs;
 	std::vector<std::unique_ptr<Component>> components;
 };

@@ -31,7 +31,7 @@ public:
 		//std::unique_ptr<GameObject> newObj = std::make_unique<T>();
 		objects.emplace_back(std::make_unique<T>());
 		GameObject* newObjPtr = objects.back().get();
-		newObjPtr->SetLocalPosition(localPosition);
+		newObjPtr->transform.SetLocalPosition(localPosition);
 		std::cout << "[INSTANTIATE] Object size: " << objects.size() << "\n";
 		return newObjPtr;
 	}

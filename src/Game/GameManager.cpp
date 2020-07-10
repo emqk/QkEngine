@@ -20,7 +20,7 @@ GameManager::GameManager()
 		terrainSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 	
 		glm::vec3 terrainBounds = terrainSprite->GetMeshNew()->GetBounds().Extents();
-		terrainObj->SetLocalPosition(glm::vec3(0.0f, -terrainBounds.y, -terrainBounds.z));
+		terrainObj->transform.SetLocalPosition(glm::vec3(0.0f, -terrainBounds.y, -terrainBounds.z));
 	}
 	terrainObj->AddComponent<BoxColliderComponent>();
 
@@ -76,7 +76,7 @@ GameManager::GameManager()
 	chairSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 	chairObj->AddComponent<BoxColliderComponent>();
 	chairObj->name = "First child";
-	newParent->AddChild(chairObj);
+	newParent->transform.AddChild(chairObj);
 
 	//Chair (Child 1)
 	GameObject* sec = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(2, 0, 0));
@@ -85,7 +85,7 @@ GameManager::GameManager()
 	secSprComp->SetTexture(ResourceManager::GetTexture("Chair/diffuse.png"));
 	secSprComp->SetShader("StandardShader");
 	sec->name = "Second child";
-	chairObj->AddChild(sec);
+	chairObj->transform.AddChild(sec);
 
 	//GameObject* stairs = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(4, 2.5f, -1));
 	//stairs->name = "Stairs";

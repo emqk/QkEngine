@@ -19,15 +19,13 @@ GameObject::GameObject() : name("NewGameObject")
 
 GameObject::~GameObject()
 {
-	std::cout << "GO Destructor\n";
-
-	if (GetParent() != nullptr)
+	if (transform.GetParent() != nullptr)
 	{
-		RemoveFromParent(this);
+		transform.RemoveFromParent();
 	}
-	for (GameObject* child : childs)
+	for (GameObject* child : transform.GetChilds())
 	{
-		RemoveFromParent(child);
+		child->transform.RemoveFromParent();
 	}
 }
 
@@ -44,12 +42,8 @@ bool GameObject::operator==(const GameObject& other) const
 
 GameObject& GameObject::operator=(const GameObject& other)
 {
-	//transform = other.transform;
-	//transform.SetRoot(this);
 	name = std::string(other.name);
 	isActive = other.isActive;
-	//childs = other.childs;
-	//SetParent(other.parent);
 
 	for (size_t i = 0; i < other.components.size(); i++)
 	{
@@ -58,7 +52,6 @@ GameObject& GameObject::operator=(const GameObject& other)
 
 	transform = other.transform;
 	transform = Transform(this);
-	std::cout << "\tGO ctor " << name <<": " << transform.GetLocalPosition().x << "x " << transform.GetLocalPosition().y << "y " << transform.GetLocalPosition().z << "z\n";
 
 	return *this;
 }
@@ -80,7 +73,7 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 		transform.SetGlobalScale(glm::vec3(1, 1, 1));
 
 	if (ImGui::Button("Remove from parent"))
-		RemoveFromParent(this);
+		transform.RemoveFromParent();
 
 	//Name
 	char* objName = name.data();
@@ -94,8 +87,6 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 	ImGui::InputFloat("Pos Y", &pos.y, 0.5f, 1.0f);
 	ImGui::InputFloat("Pos Z", &pos.z, 0.5f, 1.0f);
 	transform.SetLocalPosition(pos);
-	glm::vec3 globalPos = transform.GetGlobalPosition();
-	ImGui::InputFloat3("GlobalPos", &globalPos.x);
 
 	//Rotation
 	ImGui::Text("Rotation");
@@ -192,56 +183,6 @@ void GameObject::Move(const glm::vec3& offset)
 	transform.Translate(offset);
 }
 
-const Transform& GameObject::GetTransform() const
-{
-	return transform;
-}
-
-glm::vec3 GameObject::GetGlobalPosition() const
-{
-	return transform.GetGlobalPosition();
-}
-
-glm::quat GameObject::GetGlobalRotation() const
-{
-	return transform.GetGlobalRotation();
-}
-
-glm::vec3 GameObject::GetGlobalScale() const
-{
-	return transform.GetGlobalScale();
-}
-
-void GameObject::SetLocalPosition(const glm::vec3& pos)
-{
-	transform.SetLocalPosition(pos);
-}
-
-void GameObject::SetLocalRotation(const glm::quat& rot)
-{
-	transform.SetLocalRotation(rot);
-}
-
-void GameObject::SetLocalScale(const glm::vec3& scale)
-{
-	transform.SetLocalScale(scale);
-}
-
-glm::vec3 GameObject::GetLocalPosition() const
-{
-	return transform.GetLocalPosition();
-}
-
-glm::quat GameObject::GetLocalRotation() const
-{
-	return transform.GetLocalRotation();
-}
-
-glm::vec3 GameObject::GetLocalScale() const
-{
-	return transform.GetLocalScale();
-}
-
 void GameObject::SetActive(const bool& value)
 {
 	isActive = value;
@@ -265,59 +206,6 @@ const int& GameObject::GetComponentsCount() const
 const std::vector<std::unique_ptr<Component>>* const GameObject::GetAllComponents() const
 {
 	return &components;
-}
-
-const std::vector<GameObject*>& GameObject::GetChilds() const
-{
-	return childs;
-}
-
-void GameObject::AddChild(GameObject* child)
-{
-	if (child->GetParent() != nullptr)
-	{
-		if (child->GetParent() == this)
-		{
-			std::cout<<("Can't add child to the same parent as it's current parent! [RETURN]");
-			return;
-		}
-
-		//Remove child from it's current parent
-		RemoveFromParent(child);
-	}
-
-	childs.push_back(child);
-	child->SetParent(this);
-}
-
-void GameObject::SetParent(GameObject* newParent)
-{
-	parent = newParent;
-	transform.OnChange();
-}
-
-void GameObject::RemoveFromParent(GameObject* child)
-{
-	if (child->parent != nullptr)
-	{
-		std::vector<GameObject*>::iterator it = std::find(child->parent->childs.begin(), child->parent->childs.end(), child);
-		if (it != child->parent->childs.end())
-			child->parent->childs.erase(it);
-
-		glm::vec3 globalPos = child->GetGlobalPosition();
-		child->SetParent(nullptr);
-		child->transform.SetGlobalPosition(globalPos);
-	}
-	else
-	{
-		std::cout << "Can't remove from parent - Parent is null!\n";
-	}
-}
-
-
-GameObject* GameObject::GetParent() const
-{
-	return parent;
 }
 
 void GameObject::UpdateComponents(const float& deltaTime)

@@ -28,6 +28,7 @@ public:
 
 	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
+	glm::vec4 GetClearColor();
 	Shader& GetShader();
 
 private:
@@ -41,6 +42,8 @@ private:
 	float FOV = 60;
 	float clippingNear = 0.1f;
 	float clippingFar = 500;
+
+	glm::vec4 clearColor{ 0.4f, 0.4f, 0.9f, 1.0f };
 
 	Shader* shader;
 

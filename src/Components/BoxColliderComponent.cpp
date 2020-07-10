@@ -80,12 +80,12 @@ std::unique_ptr<Component> BoxColliderComponent::MakeCopy(GameObject* newParent)
 
 glm::vec3 BoxColliderComponent::GetGlobalPosition() const
 {
-	return parent->GetTransform().GetGlobalPosition() + center;
+	return parent->transform.GetGlobalPosition() + center;
 }
 
 glm::vec3 BoxColliderComponent::GetLocalPosition() const
 {
-	return parent->GetTransform().GetLocalPosition() + center;
+	return parent->transform.GetLocalPosition() + center;
 }
 
 glm::vec3 BoxColliderComponent::GetCenter() const

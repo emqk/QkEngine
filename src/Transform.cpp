@@ -27,12 +27,9 @@ Transform& Transform::operator=(const Transform& other)
 	localRotation = other.localRotation;
 	localScale = other.localScale;
 
-	std::cout << "\tLocalPos: " << localPosition.x << "x " << localPosition.y << "y " << localPosition.z << "z\n";
 	glm::vec3 Front = other.Front;
 	glm::vec3 Right = other.Right;
 	glm::vec3 Up = other.Up;
-
-	//SetRoot(other.root);
 
 	return *this;
 }
@@ -45,7 +42,6 @@ void Transform::SetRoot(GameObject* newRoot)
 		SetLocalPosition(root->transform.GetLocalPosition());
 		SetLocalRotation(root->transform.GetLocalRotation());
 		SetLocalScale(root->transform.GetLocalScale());
-		std::cout << "\tSetRootLocalPos: " << localPosition.x << "x " << localPosition.y << "y " << localPosition.z << "z\n";
 	}
 	OnChange();
 }
@@ -97,13 +93,13 @@ void Transform::SetGlobalPosition(const glm::vec3& newPosition)
 
 void Transform::SetGlobalRotation(const glm::quat& newRotation)
 {
-	if (root->GetParent() == nullptr)
+	if (root->transform.GetParent() == nullptr)
 	{
 		SetLocalRotation(newRotation);
 		return;
 	}
 
-	glm::quat parentRot = root->GetParent()->transform.GetGlobalEulerAngles();
+	glm::quat parentRot = root->transform.GetParent()->transform.GetGlobalEulerAngles();
 	glm::quat targetGlobalRot = glm::quat(1, 0, 0, 0);
 	//Rotate by new rotation
 	targetGlobalRot = glm::rotate(targetGlobalRot, glm::radians(newRotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -120,14 +116,14 @@ void Transform::SetGlobalRotation(const glm::quat& newRotation)
 
 void Transform::SetGlobalScale(const glm::vec3& newScale)
 {
-	GameObject* obj = root->GetParent();
+	GameObject* obj = root->transform.GetParent();
 	if (obj == nullptr)
 	{
 		SetLocalScale(newScale);
 	}
 	else
 	{
-		glm::vec3 targetScale = newScale / obj->GetTransform().GetGlobalScale();
+		glm::vec3 targetScale = newScale / obj->transform.GetGlobalScale();
 		SetLocalScale(targetScale);
 	}
 }
@@ -197,14 +193,14 @@ glm::mat4 Transform::CalculateModel(const GameObject const* obj)
 
 void Transform::CalculateModel(const GameObject const* obj, glm::mat4& model)
 {
-	if (obj->GetParent() != nullptr)
+	if (obj->transform.GetParent() != nullptr)
 	{
-		CalculateModel(obj->GetParent(), model);
-		model *= obj->GetTransform().GetLocalMatrix();
+		CalculateModel(obj->transform.GetParent(), model);
+		model *= obj->transform.GetLocalMatrix();
 	}
 	else
 	{
-		model = obj->GetTransform().GetLocalMatrix();
+		model = obj->transform.GetLocalMatrix();
 	}
 }
 
@@ -212,6 +208,58 @@ void Transform::OnChange()
 {
 	UpdateVectors();
 	UpdateGlobal();
+}
+
+const std::vector<GameObject*>& Transform::GetChilds() const
+{
+	return childs;
+}
+
+void Transform::AddChild(GameObject* child)
+{
+	if (child->transform.GetParent() != nullptr)
+	{
+		if (&child->transform == this)
+		{
+			std::cout << ("Can't add child to the same parent as it's current parent! [RETURN]");
+			return;
+		}
+
+		//Remove child from it's current parent
+		child->transform.RemoveFromParent();
+	}
+
+	childs.push_back(child);
+	child->transform.SetParent(root);
+}
+
+void Transform::SetParent(GameObject* newParent)
+{
+	parent = newParent;
+	OnChange();
+}
+
+GameObject* Transform::GetParent() const
+{
+	return parent;
+}
+
+void Transform::RemoveFromParent()
+{
+	if (GetParent() != nullptr)
+	{
+		std::vector<GameObject*>::iterator it = std::find(parent->transform.childs.begin(), parent->transform.childs.end(), root);
+		if (it != parent->transform.childs.end())
+			root->transform.parent->transform.childs.erase(it);
+
+		glm::vec3 globalPos = root->transform.GetGlobalPosition();
+		root->transform.SetParent(nullptr);
+		root->transform.SetGlobalPosition(globalPos);
+	}
+	else
+	{
+		std::cout << "Can't remove from parent - Parent is null!\n";
+	}
 }
 
 void Transform::UpdateVectors()
@@ -237,7 +285,7 @@ void Transform::UpdateGlobal()
 		globalRotation = decomposedMatrix.orientation;
 		globalScale = decomposedMatrix.scale;
 
-		for (GameObject* child : root->GetChilds())
+		for (GameObject* child : GetChilds())
 		{
 			child->transform.UpdateGlobal();
 		}

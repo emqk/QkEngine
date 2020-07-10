@@ -57,7 +57,8 @@ void Window::Run()
         ProcessInput();
         currentScene.GetCamera().Update(deltaTime);
 
-        glClearColor(0.4f, 0.4f, 0.9f, 1.0f);
+        glm::vec4 clearColor = currentScene.GetCamera().GetClearColor();
+        glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
