@@ -10,6 +10,8 @@
 
 #include "ResourceManager.h"
 #include "Physics.h"
+#include "Profiler.h"
+
 #include <limits>
 #include <chrono>
 
@@ -229,7 +231,8 @@ void Scene::ExitGameMode()
 void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _projection, glm::mat4 _view)
 {
     //Update
-    auto updateStart = std::chrono::steady_clock::now();
+    std::string sampleName = "Update time";
+    Profiler::BeginSample(sampleName);
 
     projection = _projection;
     view = _view;
@@ -258,13 +261,11 @@ void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _project
     }
 
     DestroyPostponed();
-
-    auto updateEnd = std::chrono::steady_clock::now();
-    std::chrono::duration<double> elapsed_secondsUpdate = updateEnd - updateStart;
-    lastFrameUpdateTime = std::chrono::duration_cast<std::chrono::microseconds>(elapsed_secondsUpdate).count() / 1000.0f;
+    Profiler::EndSample();
 
     //Draw
-    auto drawStart = std::chrono::steady_clock::now();
+    sampleName = "Draw time";
+    Profiler::BeginSample(sampleName);
     
     Renderer::DrawNew(camShader);
 
@@ -280,9 +281,7 @@ void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _project
         }
     }
 
-    auto drawEnd = std::chrono::steady_clock::now();
-    std::chrono::duration<double> elapsed_secondsDraw = drawEnd - drawStart;
-    lastFrameDrawTime = std::chrono::duration_cast<std::chrono::microseconds>(elapsed_secondsDraw).count() / 1000.0f;
+    Profiler::EndSample();
 }
 
 Camera& Scene::GetCamera()

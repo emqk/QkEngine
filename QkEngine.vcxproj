@@ -175,6 +175,7 @@
     <ClCompile Include="src\MeshNew.cpp" />
     <ClCompile Include="src\NewModel.cpp" />
     <ClCompile Include="src\Physics.cpp" />
+    <ClCompile Include="src\Profiler.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\Scene.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="src\MeshNew.h" />
     <ClInclude Include="src\NewModel.h" />
     <ClInclude Include="src\Physics.h" />
+    <ClInclude Include="src\Profiler.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\Scene.h" />

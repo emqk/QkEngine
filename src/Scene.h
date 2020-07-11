@@ -50,10 +50,6 @@ public:
 	void EnterGameMode();
 	void ExitGameMode();
 
-	//in ms
-	float lastFrameDrawTime = 0.0f;
-	//in ms
-	float lastFrameUpdateTime = 0.0f;
 
 private:
 	static Scene* currentScene;
