@@ -36,7 +36,6 @@ void Window::Init()
     glfwMakeContextCurrent(window);
     glfwSetScrollCallback(window, scroll_callback);
 }
-#include "Physics.h"
 
 void Window::Run()
 {

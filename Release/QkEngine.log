@@ -1,100 +1,94 @@
 ﻿C:\Programy\Visual Studio 2019\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(459,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (OpenGLRenderer.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Application.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
   Camera.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
   BoxColliderComponent.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Components\BoxColliderComponent.cpp(83,29): error C2039: 'GetTransform': is not a member of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.h(2): message : see declaration of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Components\BoxColliderComponent.cpp(88,29): error C2039: 'GetTransform': is not a member of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.h(2): message : see declaration of 'GameObject'
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
   Component.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
   MoveComponent.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
   PlayerComponent.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
   SpriteComponent.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
   Editor.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(116,76): warning C4018: '<': signed/unsigned mismatch
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(198,68): error C2039: 'GetTransform': is not a member of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.h(2): message : see declaration of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(202,48): error C2039: 'GetTransform': is not a member of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.h(2): message : see declaration of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(203,48): error C2039: 'GetTransform': is not a member of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.h(2): message : see declaration of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(204,48): error C2039: 'GetTransform': is not a member of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.h(2): message : see declaration of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(201,25): error C2660: 'Gizmos::DrawMeshNewWireframe': function does not take 2 arguments
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Gizmos.h(15,14): message : see declaration of 'Gizmos::DrawMeshNewWireframe'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(261,52): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(274,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(146,76): warning C4018: '<': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(285,52): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(298,27): warning C4018: '<': signed/unsigned mismatch
   GameObject.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\GameObject.cpp(138,60): warning C4018: '<': signed/unsigned mismatch
   GameManager.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Game\GameManager.cpp(23,31): error C2039: 'SetLocalPosition': is not a member of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.h(2): message : see declaration of 'GameObject'
   Gizmos.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_glfw.cpp
+  imgui_impl_opengl3.cpp
+  imgui_widgets.cpp
   MeshNew.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
   NewModel.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
   Physics.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
+  Compiling...
+  Profiler.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
   Renderer.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
   ResourceManager.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
   Scene.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.cpp(298,42): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.cpp(297,42): warning C4114: same type qualifier used more than once
   Transform.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.cpp(126,55): error C2039: 'GetTransform': is not a member of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\GameObject.h(13): message : see declaration of 'GameObject'
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.cpp(187,54): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.cpp(194,49): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.cpp(199,29): error C2039: 'GetTransform': is not a member of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\GameObject.h(13): message : see declaration of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.cpp(203,28): error C2039: 'GetTransform': is not a member of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\GameObject.h(13): message : see declaration of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.cpp(255,48): error C2039: 'GetGlobalPosition': is not a member of 'GameObject'
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\GameObject.h(13): message : see declaration of 'GameObject'
   Window.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(72,46): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Window.cpp(50,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Window.cpp(49,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+     Creating library C:\Users\emis\source\repos\QkEngine\Release\QkEngine.lib and object C:\Users\emis\source\repos\QkEngine\Release\QkEngine.exp
+  Generating code
+  1661 of 4203 functions (39.5%) were compiled, the rest were copied from previous compilation.
+    488 functions were new in current compilation
+    299 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Release\QkEngine.exe

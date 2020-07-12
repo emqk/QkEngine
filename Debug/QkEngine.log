@@ -1,6 +1,10 @@
-﻿  Scene.cpp
+﻿  Editor.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(52,51): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(71,46): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.cpp(297,42): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(143,76): warning C4018: '<': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(280,52): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(293,27): warning C4018: '<': signed/unsigned mismatch
+     Creating library C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.lib and object C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exp
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe
