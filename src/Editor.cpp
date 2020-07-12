@@ -15,21 +15,18 @@ GameObject* Editor::selectedObj;
 Component* Editor::selectedComp;
 std::function<void(const std::string&)> Editor::currSelectAssetFun;
 AssetWindowType Editor::currAssetWindowType;
-bool Editor::showSelectAssetWindow;
 bool Editor::isAnyWindowOrItemHovered;
 bool Editor::drawGizmos = true;
-std::vector<float> Editor::updateTimes;
-std::vector<float> Editor::drawTimes;
+
+bool Editor::showHierarchy = true;
+bool Editor::showInspector = true;
+bool Editor::showProfiler = false;
+bool Editor::showSelectAssetWindow = false;
+bool Editor::showCameraWindow = true;
+
 
 void Editor::Init(GLFWwindow* window)
 {
-    //IMGUI_CHECKVERSION();
-    //ImGui::CreateContext();
-    //ImGuiIO& io = ImGui::GetIO(); (void)io;
-    //ImGui::StyleColorsDark();
-    //ImGui_ImplGlfw_InitForOpenGL(window, true);
-    //ImGui_ImplOpenGL3_Init((char*)glGetString(0x82E9));
-
     //Docking
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -66,88 +63,91 @@ void Editor::Update()
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    ImGui::ShowDemoWindow();
+    //ImGui::ShowDemoWindow();
 
-    Scene& currentScene = Scene::GetCurrentScene();
+    ShowEnabledWindows();
 
-    //Camera
+
+    if (selectedObj != nullptr)
     {
-        ImGui::Begin("Camera");
-        currentScene.GetCamera().ShowOnInspector();
-        ImGui::End();
-    }
-
-    //Hierarchy
-    ShowHierarchy();
-
-    //Inspector
-    {
-        ImGui::Begin("Inspector");
-
-        if (selectedObj != nullptr)
+        SpriteComponent* spriteComp = selectedObj->GetComponent<SpriteComponent>();
+        if (spriteComp)
         {
-            selectedObj->ShowOnInspector(selectedObj, selectedComp);
-        }
-
-        ImGui::End();
-    }
-
-    //SetAsset
-    if(showSelectAssetWindow)
-    {
-        ImGui::Begin("Select Asset", &showSelectAssetWindow, ImGuiWindowFlags_MenuBar);
-        static int selectedAsset = -1;
-        std::string assetTypeStr;
-        std::vector<std::string> assetsName;
-        if (currAssetWindowType == AssetWindowType::Textures)
-        {
-            assetsName = ResourceManager::GetTexturesName();
-            assetTypeStr = "Textures";
-        }
-        else if (currAssetWindowType == AssetWindowType::MeshesNew)
-        {
-            assetsName = ResourceManager::GetMeshesNewName();
-            assetTypeStr = "MeshesNew";
-        }
-        else if (currAssetWindowType == AssetWindowType::Shaders)
-        {
-            assetsName = ResourceManager::GetShadersName();
-            assetTypeStr = "Shaders";
-        }
-       
-        if (ImGui::TreeNode(assetTypeStr.c_str()))
-        {
-            for (size_t n = 0; n < assetsName.size(); n++)
+            Mesh* mesh = spriteComp->GetMeshNew();
+            if (mesh != nullptr)
             {
-                if (currAssetWindowType == AssetWindowType::Textures)
-                {
-                    Texture* tex = ResourceManager::GetTexture(assetsName[n].c_str());
-                    ImGui::Image((void*)(intptr_t)tex->GetID(), ImVec2(128, 128), ImVec2(0, 1), ImVec2(1, 0));
-                }
-
-                char buf[128];
-                sprintf_s(buf, "%d. %s", n, assetsName[n].c_str());
-                if (ImGui::Selectable(buf, selectedAsset == n, ImGuiSelectableFlags_AllowDoubleClick))
-                {
-                    selectedAsset = n;
-                    if (ImGui::IsMouseDoubleClicked(0))
-                    {
-                        currSelectAssetFun(assetsName[selectedAsset].c_str());
-                        showSelectAssetWindow = false;
-                    }
-                }
+                glm::vec3 localPosition = selectedObj->transform.GetLocalPosition();
+                Bounds bounds = mesh->GetBounds();
+                Gizmos::SetCurrentColor(Gizmos::meshWireframeColor);
+                Gizmos::DrawMeshNewWireframe(
+                      selectedObj->transform.GetGlobalPosition()
+                    , selectedObj->transform.GetGlobalEulerAngles()
+                    , selectedObj->transform.GetGlobalScale() * 1.001f
+                    , *mesh);
             }
-            ImGui::TreePop();
         }
+    }
 
-        if (ImGui::Button("Select") && selectedAsset >= 0 && selectedAsset < assetsName.size())
+
+    // Rendering
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    // Update and Render additional Platform Windows
+    // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
+    //  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        GLFWwindow* backup_current_context = glfwGetCurrentContext();
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+        glfwMakeContextCurrent(backup_current_context);
+    }
+
+    isAnyWindowOrItemHovered = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
+
+    if (Scene::GetCurrentScene().IsInGameMode())
+    {
+        //Show Cursor 
+        if (InputManager::GetKeyDown(GLFW_KEY_F1))
         {
-            currSelectAssetFun(assetsName[selectedAsset].c_str());
-            showSelectAssetWindow = false;
+            Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_NORMAL);
         }
+        //Hide cursor
+        else if (InputManager::GetMouseKeyDown(GLFW_MOUSE_BUTTON_1) && !isAnyWindowOrItemHovered)
+        {
+            Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_DISABLED);
+        }
+        if (InputManager::GetKeyDown(GLFW_KEY_ESCAPE))
+        {
+            ExitGameMode();
+        }
+    }
+}
 
+void Editor::ShowEnabledWindows()
+{
+    //Camera
+    if(showCameraWindow)
+    {
+        ImGui::Begin("Camera", &showCameraWindow);
+        Scene::GetCurrentScene().GetCamera().ShowOnInspector();
         ImGui::End();
     }
+
+    if(showHierarchy)
+        ShowHierarchy();
+    
+    if(showInspector)
+        ShowInspector();
+
+    if (showSelectAssetWindow)
+        ShowSelectAssetWindow();
+
+    if (showProfiler)
+        Profiler::ShowData();
+    
 
     //Tools
     {
@@ -162,6 +162,26 @@ void Editor::Update()
                 {
                     GameObject* newObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
                     newObj->name = "empty";
+                }
+                ImGui::EndMenu();
+            }
+            if (ImGui::BeginMenu("Windows"))
+            {
+                if (ImGui::MenuItem("Inspector"))
+                {
+                    showInspector = !showInspector;
+                }
+                if (ImGui::MenuItem("Hierarchy"))
+                {
+                    showHierarchy = !showHierarchy;
+                }
+                if (ImGui::MenuItem("Profiler"))
+                {
+                    showProfiler = !showProfiler;
+                }
+                if (ImGui::MenuItem("Camera settings"))
+                {
+                    showCameraWindow = !showCameraWindow;
                 }
                 ImGui::EndMenu();
             }
@@ -213,65 +233,18 @@ void Editor::Update()
 
         ImGui::End();
     }
+}
 
-
+void Editor::ShowInspector()
+{
+    ImGui::Begin("Inspector", &showInspector);
+    
     if (selectedObj != nullptr)
     {
-        SpriteComponent* spriteComp = selectedObj->GetComponent<SpriteComponent>();
-        if (spriteComp)
-        {
-            Mesh* mesh = spriteComp->GetMeshNew();
-            if (mesh != nullptr)
-            {
-                glm::vec3 localPosition = selectedObj->transform.GetLocalPosition();
-                Bounds bounds = mesh->GetBounds();
-                Gizmos::SetCurrentColor(Gizmos::meshWireframeColor);
-                Gizmos::DrawMeshNewWireframe(
-                      selectedObj->transform.GetGlobalPosition()
-                    , selectedObj->transform.GetGlobalEulerAngles()
-                    , selectedObj->transform.GetGlobalScale() * 1.001f
-                    , *mesh);
-            }
-        }
+        selectedObj->ShowOnInspector(selectedObj, selectedComp);
     }
-
-    Profiler::ShowData();
-
-    // Rendering
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-    // Update and Render additional Platform Windows
-    // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
-    //  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-    {
-        GLFWwindow* backup_current_context = glfwGetCurrentContext();
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
-        glfwMakeContextCurrent(backup_current_context);
-    }
-
-    isAnyWindowOrItemHovered = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
-
-    if (Scene::GetCurrentScene().IsInGameMode())
-    {
-        //Show Cursor 
-        if (InputManager::GetKeyDown(GLFW_KEY_F1))
-        {
-            Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_NORMAL);
-        }
-        //Hide cursor
-        else if (InputManager::GetMouseKeyDown(GLFW_MOUSE_BUTTON_1) && !isAnyWindowOrItemHovered)
-        {
-            Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_DISABLED);
-        }
-        if (InputManager::GetKeyDown(GLFW_KEY_ESCAPE))
-        {
-            ExitGameMode();
-        }
-    }
+    
+    ImGui::End();   
 }
 
 void Editor::ShowHierarchy()
@@ -280,7 +253,7 @@ void Editor::ShowHierarchy()
     const std::vector<std::unique_ptr<GameObject>> const* objects = currentScene.GetObjectsPtr();
 
     //Test
-    ImGui::Begin("Hierarchy");
+    ImGui::Begin("Hierarchy", &showHierarchy);
     if (ImGui::TreeNode("Scene"))
     {
         static bool align_label_with_current_x_position = false;
@@ -349,9 +322,66 @@ void Editor::ShowGameObject(GameObject* obj, int& id, int& node_clicked, ImGuiTr
         }
     }
 
-
     id++;
 }
+
+void Editor::ShowSelectAssetWindow()
+{
+    ImGui::Begin("Select Asset", &showSelectAssetWindow, ImGuiWindowFlags_MenuBar);
+    static int selectedAsset = -1;
+    std::string assetTypeStr;
+    std::vector<std::string> assetsName;
+    if (currAssetWindowType == AssetWindowType::Textures)
+    {
+        assetsName = ResourceManager::GetTexturesName();
+        assetTypeStr = "Textures";
+    }
+    else if (currAssetWindowType == AssetWindowType::MeshesNew)
+    {
+        assetsName = ResourceManager::GetMeshesNewName();
+        assetTypeStr = "MeshesNew";
+    }
+    else if (currAssetWindowType == AssetWindowType::Shaders)
+    {
+        assetsName = ResourceManager::GetShadersName();
+        assetTypeStr = "Shaders";
+    }
+    
+    if (ImGui::TreeNode(assetTypeStr.c_str()))
+    {
+        for (size_t n = 0; n < assetsName.size(); n++)
+        {
+            if (currAssetWindowType == AssetWindowType::Textures)
+            {
+                Texture* tex = ResourceManager::GetTexture(assetsName[n].c_str());
+                ImGui::Image((void*)(intptr_t)tex->GetID(), ImVec2(128, 128), ImVec2(0, 1), ImVec2(1, 0));
+            }
+    
+            char buf[128];
+            sprintf_s(buf, "%d. %s", n, assetsName[n].c_str());
+            if (ImGui::Selectable(buf, selectedAsset == n, ImGuiSelectableFlags_AllowDoubleClick))
+            {
+                selectedAsset = n;
+                if (ImGui::IsMouseDoubleClicked(0))
+                {
+                    currSelectAssetFun(assetsName[selectedAsset].c_str());
+                    showSelectAssetWindow = false;
+                }
+            }
+        }
+        ImGui::TreePop();
+    }
+    
+    if (ImGui::Button("Select") && selectedAsset >= 0 && selectedAsset < assetsName.size())
+    {
+        currSelectAssetFun(assetsName[selectedAsset].c_str());
+        showSelectAssetWindow = false;
+    }
+    
+    ImGui::End();
+}
+
+
 
 void Editor::Select(GameObject* obj)
 {

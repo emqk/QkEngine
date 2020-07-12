@@ -1,7 +1,6 @@
 #pragma once
 #include <GLFW/glfw3.h>
 #include <functional>
-#include <vector>
 
 #include "GameObject.h"
 
@@ -18,7 +17,6 @@ public:
 
 	static void Init(GLFWwindow* window);
 	static void Update();
-	static void ShowHierarchy();
 	static void ShowGameObject(GameObject* obj, int& id, int& node_clicked, ImGuiTreeNodeFlags& flags);
 	static void Select(GameObject* obj);
 
@@ -28,8 +26,12 @@ public:
 	static void ShowSelectAssetWindow(const AssetWindowType& AssetWindowType, const std::function<void(std::string)>& fun);
 
 private:
+	static void ShowEnabledWindows();
+	static void ShowInspector();
+	static void ShowHierarchy();
+	static void ShowSelectAssetWindow();
+
 	static bool drawGizmos;
-	static bool showSelectAssetWindow;
 	static AssetWindowType currAssetWindowType;
 	static bool isAnyWindowOrItemHovered;
 
@@ -40,6 +42,10 @@ private:
 	static void EnterGameMode();
 	static void ExitGameMode();
 
-	static std::vector<float> updateTimes;
-	static std::vector<float> drawTimes;
+	//Windows activity
+	static bool showHierarchy;
+	static bool showInspector;
+	static bool showProfiler;
+	static bool showSelectAssetWindow;
+	static bool showCameraWindow;
 };
