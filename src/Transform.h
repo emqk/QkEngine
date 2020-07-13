@@ -25,6 +25,7 @@ public:
 
 	Transform& operator=(const Transform& other);
 
+	bool IsObjectOneOfMyParents(const GameObject const* potentialParent) const;
 
 	void Translate(const glm::vec3& offset);
 

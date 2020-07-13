@@ -417,8 +417,11 @@ void Editor::Drag(GameObject* obj)
             const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HObjElement");
             if (payload)
             {
-                obj->transform.AddChild(currentlyDraggedHierarchyObj);
-                NullCurrentlyDraggedHierarchyObj();
+                if (!obj->transform.IsObjectOneOfMyParents(currentlyDraggedHierarchyObj))
+                {
+                    obj->transform.AddChild(currentlyDraggedHierarchyObj);
+                    NullCurrentlyDraggedHierarchyObj();
+                }
             }
         }
         ImGui::EndDragDropTarget();

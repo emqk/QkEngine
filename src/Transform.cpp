@@ -34,6 +34,23 @@ Transform& Transform::operator=(const Transform& other)
 	return *this;
 }
 
+bool Transform::IsObjectOneOfMyParents(const GameObject const* potentialParent) const
+{
+	GameObject* currObj = root;
+	if (currObj->transform.parent == nullptr)
+		return false;
+
+	while ((currObj = currObj->transform.parent) != nullptr)
+	{
+		if (currObj == potentialParent)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void Transform::SetRoot(GameObject* newRoot)
 {
 	root = newRoot;
