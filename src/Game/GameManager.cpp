@@ -87,6 +87,18 @@ GameManager::GameManager()
 	sec->name = "Second child";
 	chairObj->transform.AddChild(sec);
 
+	//Chair (Child 1)
+	GameObject* thi = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(2, 0, 0));
+	SpriteComponent* thiSprComp = thi->AddComponent<SpriteComponent>();
+	thiSprComp->SetMeshNew("Chair/School Chair Offset.fbx->Cylinder.006");
+	thiSprComp->SetTexture(ResourceManager::GetTexture("Chair/diffuse.png"));
+	thiSprComp->SetShader("StandardShader");
+	thi->name = "Third child";
+
+	//terrainObj->transform.AddChild(playerObj);
+	terrainObj->transform.AddChild(thi);
+	terrainObj->transform.AddChild(newParent);
+
 	//GameObject* stairs = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(4, 2.5f, -1));
 	//stairs->name = "Stairs";
 	//SpriteComponent* stairsSprite = stairs->AddComponent<SpriteComponent>();

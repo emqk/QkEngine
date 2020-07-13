@@ -10,6 +10,7 @@
 #include "Profiler.h"
 
 #include <memory>
+#include "imgui/imgui_internal.h"
 
 GameObject* Editor::selectedObj;
 Component* Editor::selectedComp;
@@ -17,6 +18,7 @@ std::function<void(const std::string&)> Editor::currSelectAssetFun;
 AssetWindowType Editor::currAssetWindowType;
 bool Editor::isAnyWindowOrItemHovered;
 bool Editor::drawGizmos = true;
+GameObject* Editor::currentlyDraggedHierarchyObj = nullptr;
 
 bool Editor::showHierarchy = true;
 bool Editor::showInspector = true;
@@ -247,6 +249,7 @@ void Editor::ShowInspector()
     ImGui::End();   
 }
 
+
 void Editor::ShowHierarchy()
 {
     Scene& currentScene = Scene::GetCurrentScene();
@@ -254,75 +257,78 @@ void Editor::ShowHierarchy()
 
     //Test
     ImGui::Begin("Hierarchy", &showHierarchy);
+
     if (ImGui::TreeNode("Scene"))
     {
-        static bool align_label_with_current_x_position = false;
-        if (align_label_with_current_x_position)
-            ImGui::Unindent(ImGui::GetTreeNodeToLabelSpacing());
-        static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
-        static int selection_mask = (1 << 2); // Dumb representation of what may be user-side selection state. You may carry selection state inside or outside your objects in whatever format you see fit.
-        int node_clicked = -1;                // Temporary storage of what node we have clicked to process selection at the end of the loop. May be a pointer to your own node type, etc.
-        int id = 0;
+        static int node_clicked = -1;
+        int id = -1;
         for (int i = 0; i < objects->size(); i++)
-        {
-            // Disable the default open on single-click behavior and pass in Selected flag according to our selection state.
-            ImGuiTreeNodeFlags node_flags = base_flags;
-            const bool is_selected = (selection_mask & (1 << i)) != 0;
-            if (is_selected)
-                node_flags |= ImGuiTreeNodeFlags_Selected;
-           
+        {           
             if ((*objects)[i].get()->transform.GetParent() == nullptr)
             {
-                ShowGameObject((*objects)[i].get(), id, node_clicked, node_flags);
+                ShowGameObject((*objects)[i].get(), id, node_clicked);
             }
         }
-        if (node_clicked != -1)
-        {
-            // Update selection state. Process outside of tree loop to avoid visual inconsistencies during the clicking-frame.
-            if (ImGui::GetIO().KeyCtrl)
-                selection_mask ^= (1 << node_clicked);          // CTRL+click to toggle
-            else //if (!(selection_mask & (1 << node_clicked))) // Depending on selection behavior you want, this commented bit preserve selection when clicking on item that is part of the selection
-                selection_mask = (1 << node_clicked);           // Click to single-select
-        }
-        if (align_label_with_current_x_position)
-            ImGui::Indent(ImGui::GetTreeNodeToLabelSpacing());
+
         ImGui::TreePop();
     }
+
     ImGui::End();
+
+    //Null currently dragged object if grabbing nothing
+    if (currentlyDraggedHierarchyObj != nullptr)
+    {
+        if (!ImGui::IsMouseDragging(ImGuiMouseButton_::ImGuiMouseButton_Left))
+        {
+            NullCurrentlyDraggedHierarchyObj();
+        }
+    }
 }
 
-void Editor::ShowGameObject(GameObject* obj, int& id, int& node_clicked, ImGuiTreeNodeFlags& flags)
+
+void Editor::ShowGameObject(GameObject* obj, int& id, int& node_clicked)
 {
+    id++;
+    const char* objName = obj->name.c_str();
+    static constexpr ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+    ImGuiTreeNodeFlags flags = base_flags;
+
+    if (id == node_clicked)
+        flags |= ImGuiTreeNodeFlags_Selected;
+
     if (obj->transform.GetChilds().size() <= 0)
     {
         flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen; // ImGuiTreeNodeFlags_Bullet
 
-        ImGui::TreeNodeEx((void*)(intptr_t)id, flags, obj->name.c_str());
+        ImGui::TreeNodeEx((void*)(intptr_t)id, flags, objName);
         if (ImGui::IsItemClicked())
         {
             node_clicked = id;
             Select(obj);
         }
+
+        Drag(obj);
     }
     else
     {
-        bool isOpen = ImGui::TreeNodeEx((void*)(intptr_t)id, flags, obj->name.c_str());
+        bool isOpen = ImGui::TreeNodeEx((void*)(intptr_t)id, flags, objName);
         if (ImGui::IsItemClicked())
         {
             node_clicked = id;
             Select(obj);
         }
+
+        Drag(obj);
+
         if (isOpen)
         {
             for (size_t i = 0; i < obj->transform.GetChilds().size(); i++)
             {
-                ShowGameObject(obj->transform.GetChilds()[i], id, node_clicked, flags);
+                ShowGameObject(obj->transform.GetChilds()[i], id, node_clicked);
             }
             ImGui::TreePop();
         }
     }
-
-    id++;
 }
 
 void Editor::ShowSelectAssetWindow()
@@ -381,7 +387,51 @@ void Editor::ShowSelectAssetWindow()
     ImGui::End();
 }
 
+void Editor::Drag(GameObject* obj)
+{    
+    static int id = 0;
 
+    ImGui::PushID(id);
+    if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
+    {
+        // Set payload to carry the index of our item (could be anything)
+        ImGui::SetDragDropPayload("HObjElement", &id, sizeof(int));
+        if (obj != nullptr)
+        {
+            if (currentlyDraggedHierarchyObj == nullptr)
+            {
+                currentlyDraggedHierarchyObj = obj;
+                std::cout << "Begin drag obj set to: " << currentlyDraggedHierarchyObj->name << std::endl;
+            }
+            if (currentlyDraggedHierarchyObj != nullptr)
+            {
+                ImGui::Text("Set parent of: %s", currentlyDraggedHierarchyObj->name.c_str());
+            }
+        }
+        ImGui::EndDragDropSource();
+    }
+    if (ImGui::BeginDragDropTarget())
+    {
+        if (currentlyDraggedHierarchyObj != nullptr && obj != nullptr)
+        {
+            const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("HObjElement");
+            if (payload)
+            {
+                obj->transform.AddChild(currentlyDraggedHierarchyObj);
+                NullCurrentlyDraggedHierarchyObj();
+            }
+        }
+        ImGui::EndDragDropTarget();
+    }
+
+    ImGui::PopID();
+}
+
+void Editor::NullCurrentlyDraggedHierarchyObj()
+{
+    std::cout << "Dragging ended!\n";
+    currentlyDraggedHierarchyObj = nullptr;
+}
 
 void Editor::Select(GameObject* obj)
 {

@@ -17,7 +17,7 @@ public:
 
 	static void Init(GLFWwindow* window);
 	static void Update();
-	static void ShowGameObject(GameObject* obj, int& id, int& node_clicked, ImGuiTreeNodeFlags& flags);
+	static void ShowGameObject(GameObject* obj, int& id, int& node_clicked);
 	static void Select(GameObject* obj);
 
 	static bool CanDrawGizmos();
@@ -30,6 +30,11 @@ private:
 	static void ShowInspector();
 	static void ShowHierarchy();
 	static void ShowSelectAssetWindow();
+
+	static void Drag(GameObject* obj);
+	static void NullCurrentlyDraggedHierarchyObj();
+
+	static GameObject* currentlyDraggedHierarchyObj;
 
 	static bool drawGizmos;
 	static AssetWindowType currAssetWindowType;
