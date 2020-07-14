@@ -15,11 +15,14 @@ PlayerComponent::PlayerComponent(GameObject* _parent) : Component(_parent)
 	name = "PlayerComponent";
 
 	boxColliderComponent = parent->AddComponent<BoxColliderComponent>();
-	boxColliderComponent->SetExtents(glm::vec3(1, 1, 1));
+	boxColliderComponent->SetExtents(glm::vec3(0.5f, 1, 0.5f));
 
 	moveComponent = parent->AddComponent<MoveComponent>();
 
-	parent->transform.SetLocalRotation(glm::vec3(1, 1, 1));
+	spriteComponent = parent->AddComponent<SpriteComponent>();
+	spriteComponent->SetMeshNew("Human/Human.obj->Plane");
+	spriteComponent->SetTexture(ResourceManager::GetTexture("Human/Human_Walk_1.png"));
+	spriteComponent->SetShader(ResourceManager::GetShader("StandardShader"));
 }
 
 PlayerComponent::~PlayerComponent()
@@ -33,7 +36,6 @@ PlayerComponent::PlayerComponent(const PlayerComponent& comp) : Component(comp)
 	currentGravity = comp.currentGravity;
 	groundDetectorOffset = comp.groundDetectorOffset;
 	groundDetectorScale = comp.groundDetectorScale;
-	cameraSensitivity = comp.cameraSensitivity;
 
 	boxColliderComponent = parent->GetComponent<BoxColliderComponent>();
 	moveComponent = parent->GetComponent<MoveComponent>();
@@ -59,19 +61,16 @@ void PlayerComponent::Update(const float& deltaTime)
 
 	glm::vec3 moveVec(0,0,0);
 
-	glm::vec3 localRight = parent->transform.GetRight();
-	glm::vec3 localForward = parent->transform.GetForward();
-
 	//Horizontal
 	if (InputManager::GetKey(GLFW_KEY_D))
-		moveVec += localRight;
+		moveVec += glm::vec3(1, 0, 0);
 	if (InputManager::GetKey(GLFW_KEY_A))
-		moveVec += -localRight;
+		moveVec += glm::vec3(-1, 0, 0);
 	//Verical
 	if (InputManager::GetKey(GLFW_KEY_W))
-		moveVec += localForward;
+		moveVec += glm::vec3(0, 0, -1);
 	if (InputManager::GetKey(GLFW_KEY_S))
-		moveVec += -localForward;
+		moveVec += glm::vec3(0, 0, 1);
 
 
 	if (glm::length(moveVec) > 0.0f)
@@ -109,24 +108,13 @@ void PlayerComponent::LateUpdate(const float& deltaTime)
 	glm::vec3 camPos = camera->GetLocalPosition();
 	glm::vec3 playerPos = parent->transform.GetLocalPosition();
 
-	glm::vec2 currMousePos = Scene::GetCurrentScene().GetMousePos();
-	glm::vec2 mouseMove = currMousePos - previousMousePos;
-
-	targetRotY += mouseMove.x * cameraSensitivity * deltaTime;
-	targetRotX += -mouseMove.y * cameraSensitivity * deltaTime;
-	targetRotX = glm::clamp(targetRotX, -80.0f, 80.0f);
-
-	parent->transform.SetLocalRotation(Transform::ToQuaternion(glm::vec3(parent->transform.GetLocalRotation().x, targetRotY, parent->transform.GetLocalRotation().z)));
-	camera->SetLocalPosition(parent->transform.GetLocalPosition());
-	camera->SetLocalRotation(Transform::ToQuaternion(glm::vec3(targetRotX, parent->transform.GetLocalRotation().y, parent->transform.GetLocalRotation().z)));
-
-	previousMousePos = currMousePos;
+	camera->SetLocalPosition(parent->transform.GetGlobalPosition() + glm::vec3(0, 5, 10));
+	camera->SetLocalRotation(glm::quat(1, -30, -90, 0));
 }
 
 void PlayerComponent::ShowOnInspector()
 {
 	ImGui::InputFloat("Move speed", &moveSpeed);
-	ImGui::InputFloat("Camera sensitivity", &cameraSensitivity);
 }
 
 void PlayerComponent::ShowOnGizmos()
