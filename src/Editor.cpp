@@ -419,7 +419,7 @@ void Editor::Drag(GameObject* obj)
             {
                 if (!obj->transform.IsObjectOneOfMyParents(currentlyDraggedHierarchyObj))
                 {
-                    obj->transform.AddChild(currentlyDraggedHierarchyObj);
+                    currentlyDraggedHierarchyObj->transform.SetParent(obj);
                     NullCurrentlyDraggedHierarchyObj();
                 }
             }

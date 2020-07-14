@@ -331,7 +331,7 @@ void Scene::DuplicateChilds(const GameObject* obj, GameObject* parent)
     std::unique_ptr<GameObject> newObj = std::make_unique<GameObject>(*obj);
     objects.push_back(std::move(newObj));
     GameObject* newObjPtr = objects.back().get();
-    parent->transform.AddChild(newObjPtr);
+    newObjPtr->transform.SetParent(parent);
     newObjPtr->SetActive(true);
 
     for (const GameObject* child : obj->transform.GetChilds())
@@ -347,7 +347,7 @@ void Scene::DuplicateChildsCopy(GameObject* obj, GameObject* parent)
         std::unique_ptr<GameObject> newChild = std::make_unique<GameObject>(*child);
         objectsCopyActiveData.push_back(newChild->IsActive());
         newChild->SetActive(false);
-        parent->transform.AddChild(newChild.get());
+        newChild.get()->transform.SetParent(parent);
         DuplicateChildsCopy(child, newChild.get());
         objectsCopy.push_back(std::move(newChild));
     }

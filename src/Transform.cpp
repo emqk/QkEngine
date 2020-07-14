@@ -60,6 +60,9 @@ void Transform::SetRoot(GameObject* newRoot)
 		SetLocalRotation(root->transform.GetLocalRotation());
 		SetLocalScale(root->transform.GetLocalScale());
 	}
+	else
+		assert("Root of the Transform can't be nullptr!");
+
 	OnChange();
 }
 
@@ -105,7 +108,8 @@ glm::vec3 Transform::GetLocalScale() const
 void Transform::SetGlobalPosition(const glm::vec3& newPosition)
 {
 	glm::vec3 thisGlobalToNewPostionDiff = newPosition - GetGlobalPosition();
-	SetLocalPosition(GetLocalPosition() + thisGlobalToNewPostionDiff);
+	glm::vec3 finalGlobalPos = GetLocalPosition() + thisGlobalToNewPostionDiff;
+	SetLocalPosition(finalGlobalPos);
 }
 
 void Transform::SetGlobalRotation(const glm::quat& newRotation)
@@ -232,28 +236,34 @@ const std::vector<GameObject*>& Transform::GetChilds() const
 	return childs;
 }
 
-void Transform::AddChild(GameObject* child)
+void Transform::SetParent(GameObject* newParent)
 {
-	if (child->transform.GetParent() != nullptr)
+	std::cout <<"\t Setting parent of " << root->name << std::endl;
+	//It's for staying object at the same position. It works but it moves object to wrong position when Exit GameMode
+	//glm::vec3 globalPosBeforeParentChange = GetGlobalPosition();
+
+	if (GetParent() != nullptr)
 	{
-		if (&child->transform == this)
+		if (newParent != nullptr && &newParent->transform == this)
 		{
-			std::cout << ("Can't add child to the same parent as it's current parent! [RETURN]");
+			std::cout << ("Can't add child to the same parent as it's current parent(or nullptr)! [RETURN]");
 			return;
 		}
 
 		//Remove child from it's current parent
-		child->transform.RemoveFromParent();
+		RemoveFromParent();
 	}
 
-	childs.push_back(child);
-	child->transform.SetParent(root);
-}
+	if (newParent != nullptr)
+		newParent->transform.childs.push_back(root);
 
-void Transform::SetParent(GameObject* newParent)
-{
 	parent = newParent;
 	OnChange();
+	
+	//It's for staying object at the same position. It works but it moves object to wrong position when Exit GameMode
+	//SetGlobalPosition(globalPosBeforeParentChange);
+	//std::cout << "\t SetParent targetPos: " << globalPosBeforeParentChange.x << "x " << globalPosBeforeParentChange.y << "y " << globalPosBeforeParentChange.z << "z\n";
+	//OnChange();
 }
 
 GameObject* Transform::GetParent() const
@@ -265,13 +275,16 @@ void Transform::RemoveFromParent()
 {
 	if (GetParent() != nullptr)
 	{
+		std::cout << "\t Removing " << root->name << " from parent\n";
 		std::vector<GameObject*>::iterator it = std::find(parent->transform.childs.begin(), parent->transform.childs.end(), root);
 		if (it != parent->transform.childs.end())
 			root->transform.parent->transform.childs.erase(it);
 
-		glm::vec3 globalPos = root->transform.GetGlobalPosition();
-		root->transform.SetParent(nullptr);
-		root->transform.SetGlobalPosition(globalPos);
+		//Null parent and refresh transform
+		glm::vec3 gPos = GetGlobalPosition();
+		parent = nullptr;
+		OnChange();
+		SetGlobalPosition(gPos);
 	}
 	else
 	{

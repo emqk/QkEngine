@@ -59,7 +59,6 @@ public:
 	void OnChange();
 
 	const std::vector<GameObject*>& GetChilds() const;
-	void AddChild(GameObject* child);
 	void SetParent(GameObject* newParent);
 	GameObject* GetParent() const;
 	void RemoveFromParent();
