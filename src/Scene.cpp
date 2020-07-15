@@ -315,6 +315,9 @@ GameObject* Scene::DuplicateGameObject(const GameObject* obj)
     objects.push_back(std::move(newObj));
     GameObject* newObjPtr = objects.back().get();
     std::cout << "[Copy GameObject] Object size: " << objects.size() << "\n";
+    GameObject* orgParent = obj->transform.GetParent();
+    if(orgParent != nullptr)
+        newObjPtr->transform.SetParent(orgParent);
     newObjPtr->SetActive(true);
 
     //Duplicate all childs
