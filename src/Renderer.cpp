@@ -8,6 +8,8 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "Shader.h"
+#include "Lighting.h"
+#include "Scene.h"
 
 #include <vector>
 
@@ -93,6 +95,15 @@ void Renderer::DrawNew(Shader& cameraShader)
         }
 
         componentShader->SetVec4("_FragColor", comp->color.r, comp->color.g, comp->color.b, comp->color.a);
+        //Fog
+        glm::vec3 fogColor = Lighting::GetFogColor();
+        float fogDensity = Lighting::GetFogDensity();
+        glm::vec2 fogStartEnd = Scene::GetCurrentScene().GetCamera().GetClipping();
+        componentShader->SetVec3("_FogColor", fogColor.x, fogColor.y, fogColor.z);
+        componentShader->SetFloat("near", fogStartEnd.x);
+        componentShader->SetFloat("far", fogStartEnd.y);
+        componentShader->SetFloat("_FogDensity", fogDensity);
+        //
         componentShader->SetInt("texture_diffuse1", 0);
         componentTexture->Use();
 

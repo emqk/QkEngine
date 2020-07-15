@@ -15,6 +15,7 @@ public:
 
     void Use();
 
+    void SetVec3(const char* name, float r, float g, float b) const;
     void SetVec4(const char* name, float r, float g, float b, float a) const;
 
     void SetMat4(const std::string& name, const glm::mat4& mat) const;

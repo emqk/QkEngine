@@ -50,6 +50,7 @@ private:
 	//Windows activity
 	static bool showHierarchy;
 	static bool showInspector;
+	static bool showLightingWindow;
 	static bool showProfiler;
 	static bool showSelectAssetWindow;
 	static bool showCameraWindow;

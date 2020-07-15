@@ -8,6 +8,7 @@
 #include "Gizmos.h"
 #include "InputManager.h"
 #include "Profiler.h"
+#include "Lighting.h"
 
 #include <memory>
 #include "imgui/imgui_internal.h"
@@ -22,6 +23,7 @@ GameObject* Editor::currentlyDraggedHierarchyObj = nullptr;
 
 bool Editor::showHierarchy = true;
 bool Editor::showInspector = true;
+bool Editor::showLightingWindow = true;
 bool Editor::showProfiler = false;
 bool Editor::showSelectAssetWindow = false;
 bool Editor::showCameraWindow = true;
@@ -147,6 +149,9 @@ void Editor::ShowEnabledWindows()
     if (showSelectAssetWindow)
         ShowSelectAssetWindow();
 
+    if (showLightingWindow)
+        Lighting::ShowWindow();
+
     if (showProfiler)
         Profiler::ShowData();
     
@@ -176,6 +181,10 @@ void Editor::ShowEnabledWindows()
                 if (ImGui::MenuItem("Hierarchy"))
                 {
                     showHierarchy = !showHierarchy;
+                }
+                if (ImGui::MenuItem("Lighting"))
+                {
+                    showLightingWindow = !showLightingWindow;
                 }
                 if (ImGui::MenuItem("Profiler"))
                 {

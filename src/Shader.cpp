@@ -44,6 +44,11 @@ void Shader::Use()
     glUseProgram(ID);
 }
 
+void Shader::SetVec3(const char* name, float r, float g, float b) const
+{
+    glUniform3f(glGetUniformLocation(ID, name), r, g, b);
+}
+
 void Shader::SetVec4(const char* name, float r, float g, float b, float a) const
 {
     glUniform4f(glGetUniformLocation(ID, name), r, g, b, a);

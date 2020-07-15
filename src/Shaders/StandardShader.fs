@@ -7,8 +7,10 @@ in vec2 TexCoord;
 uniform sampler2D texture_diffuse1;
 vec4 texColor;
 
-float near = 0.1; 
-float far  = 100.0; 
+uniform vec3 _FogColor;
+uniform float near; 
+uniform float far; 
+uniform float _FogDensity; 
   
 float LinearizeDepth(float depth) 
 {
@@ -22,10 +24,10 @@ void main()
 
     float depth = LinearizeDepth(gl_FragCoord.z) / far; // divide by far for demonstration
    // FragColor = vec4(vec3(depth), 1.0); // Debug depth buffer
-    vec4 fogColor = vec4(1, 1, 1, depth);
+    vec4 fogColor = vec4(_FogColor.x, _FogColor.y, _FogColor.z, 1.0f);
 
     texColor = texture(texture_diffuse1, TexCoord) * _FragColor;
        if(texColor.a < 0.1f)
            discard;
-    FragColor = texColor + (fogColor - texColor) * depth;
+    FragColor = texColor + (fogColor - texColor) * (depth * _FogDensity);
 } 
