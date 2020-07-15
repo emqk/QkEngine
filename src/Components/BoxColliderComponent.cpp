@@ -31,7 +31,7 @@ BoxColliderComponent::~BoxColliderComponent()
 	std::cout << "Box Collider Component destructor\n";
 }
 
-BoxColliderComponent::BoxColliderComponent(const BoxColliderComponent& comp) : Component(comp), bounds(comp.bounds), center(comp.center)
+BoxColliderComponent::BoxColliderComponent(const BoxColliderComponent& comp) : Component(comp), bounds(comp.bounds), center(comp.center), isTrigger(comp.isTrigger)
 {
 	std::cout << "BoxColliderComp copy constuctor\n";
 	Physics::RegisterCollider(this);
@@ -53,6 +53,9 @@ void BoxColliderComponent::LateUpdate(const float& deltaTime)
 void BoxColliderComponent::ShowOnInspector()
 {
 	ImGui::Text("Properties");
+
+	//Trigger
+	ImGui::Checkbox("Is Trigger", &isTrigger);
 
 	//Bounds
 	glm::vec3 boundsExtents = bounds.Extents();
@@ -98,7 +101,17 @@ glm::vec3 BoxColliderComponent::GetExtents() const
 	return bounds.Extents();
 }
 
+bool BoxColliderComponent::IsTrigger() const
+{
+	return isTrigger;
+}
+
 void BoxColliderComponent::SetExtents(const glm::vec3& newExtents)
 {
 	bounds.SetExtents(newExtents);
+}
+
+void BoxColliderComponent::OnTrigger()
+{
+	std::cout << "In trigger!\n";
 }

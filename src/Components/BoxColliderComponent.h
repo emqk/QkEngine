@@ -3,8 +3,12 @@
 #include "Component.h"
 #include "../Bounds.h"
 
+class Physics;
+
 class BoxColliderComponent : public Component
 {
+	friend Physics;
+
 public:
 	BoxColliderComponent(GameObject* _parent);
 	~BoxColliderComponent();
@@ -24,9 +28,14 @@ public:
 	glm::vec3 GetCenter() const;
 	glm::vec3 GetExtents() const;
 
+	bool IsTrigger() const;
+
 	void SetExtents(const glm::vec3& newExtents);
 
 private:
+	void OnTrigger();
+
+	bool isTrigger = false;
 	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
 	Bounds bounds;
 };

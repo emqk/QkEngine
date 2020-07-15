@@ -38,30 +38,37 @@ void Physics::Perform()
 
 			if (intersection.x < 0 && intersection.y < 0 && intersection.z < 0)
 			{
-				glm::vec3 responseVec{ 0.0f, 0.0f, 0.0f };
-				if (intersection.x > intersection.y && intersection.x > intersection.z)
+				if (otherBoxColl->IsTrigger())
 				{
-					if (delta.x > 0)
-						responseVec += glm::vec3(-intersection.x, 0, 0);
-					else
-						responseVec += glm::vec3(intersection.x, 0, 0);
-				}
-				else if(intersection.y > intersection.z)
-				{
-					if (delta.y > 0)
-						responseVec += glm::vec3(0, -intersection.y, 0);
-					else
-						responseVec += glm::vec3(0, intersection.y, 0);
+					otherBoxColl->OnTrigger();
 				}
 				else
 				{
-					if (delta.z > 0)
-						responseVec += glm::vec3(0, 0, -intersection.z);
+					glm::vec3 responseVec{ 0.0f, 0.0f, 0.0f };
+					if (intersection.x > intersection.y&& intersection.x > intersection.z)
+					{
+						if (delta.x > 0)
+							responseVec += glm::vec3(-intersection.x, 0, 0);
+						else
+							responseVec += glm::vec3(intersection.x, 0, 0);
+					}
+					else if (intersection.y > intersection.z)
+					{
+						if (delta.y > 0)
+							responseVec += glm::vec3(0, -intersection.y, 0);
+						else
+							responseVec += glm::vec3(0, intersection.y, 0);
+					}
 					else
-						responseVec += glm::vec3(0, 0, intersection.z);
-				}
+					{
+						if (delta.z > 0)
+							responseVec += glm::vec3(0, 0, -intersection.z);
+						else
+							responseVec += glm::vec3(0, 0, intersection.z);
+					}
 
-				currentBoxColl->GetParent()->Move(responseVec);
+					currentBoxColl->GetParent()->Move(responseVec);
+				}
 			}
 		}
 	}

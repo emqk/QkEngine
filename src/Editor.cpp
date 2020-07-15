@@ -36,6 +36,10 @@ void Editor::Init(GLFWwindow* window)
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    //Load default font
+    ImFont* pFont = io.Fonts->AddFontFromFileTTF("../QkEngine/Resources/Fonts/Roboto-Regular.ttf", 14.0f);
+
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
@@ -56,11 +60,11 @@ void Editor::Init(GLFWwindow* window)
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
+
     // Setup Platform/Renderer bindings
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init((char*)glGetString(0x82E9));
 }
-
 
 void Editor::Update()
 {
@@ -68,6 +72,7 @@ void Editor::Update()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     //ImGui::ShowDemoWindow();
+
 
     ShowEnabledWindows();
 
