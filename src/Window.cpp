@@ -35,6 +35,11 @@ void Window::Init()
 
     glfwMakeContextCurrent(window);
     glfwSetScrollCallback(window, scroll_callback);
+
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void Window::Run()
@@ -58,11 +63,8 @@ void Window::Run()
 
         glm::vec4 clearColor = currentScene.GetCamera().GetClearColor();
         glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-        glEnable(GL_DEPTH_TEST);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+        
         projection = glm::mat4(1.0f);
         glm::vec2 cameraClipping = currentScene.GetCamera().GetClipping();
         projection = glm::perspective(glm::radians(currentScene.GetCamera().GetFOV()), (float)winWidth / (float)winHeight, cameraClipping.x, cameraClipping.y);
