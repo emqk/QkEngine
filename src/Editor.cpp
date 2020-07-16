@@ -26,6 +26,9 @@ glm::vec2 Editor::viewportSize{ 1920 * 0.5f, 1080 * 0.5f };
 
 bool Editor::isMouseOverViewport = false;
 
+Texture* Editor::playButtonTex = nullptr;
+Texture* Editor::stopButtonTex = nullptr;
+
 bool Editor::showHierarchy = true;
 bool Editor::showInspector = true;
 bool Editor::showLightingWindow = true;
@@ -66,10 +69,14 @@ void Editor::Init(GLFWwindow* window)
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
-
     // Setup Platform/Renderer bindings
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init((char*)glGetString(0x82E9));
+
+
+    //Setup editor textures
+    playButtonTex = ResourceManager::GetTexture("Editor/PlayIcon.png");
+    stopButtonTex = ResourceManager::GetTexture("Editor/StopIcon.png");
 }
 
 void Editor::Update()
@@ -279,23 +286,6 @@ void Editor::ShowEnabledWindows()
         static bool isToolActive = true;
         ImGui::Begin("Tools", &isToolActive);
 
-        ImGui::Text("Draw mode");
-        if (ImGui::Button("Solid"))
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Wireframe"))
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Points"))
-        {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-        }
-        ImGui::SameLine();
-        ImGui::Checkbox("Draw Gizmos", &drawGizmos);
 
         if (Scene::IsInGameMode())
             ImGui::Text("IN PlayMode");
@@ -303,15 +293,48 @@ void Editor::ShowEnabledWindows()
             ImGui::Text("IN EditorMode");
 
         ImGui::SameLine();
-        if (ImGui::Button("Play"))
+        if (ImGui::ImageButton((void*)(intptr_t)playButtonTex->GetID(), ImVec2(16, 16), ImVec2(0, 1), ImVec2(1, 0)))
         {
             EnterGameMode();
         }
         ImGui::SameLine();
-        if (ImGui::Button("Stop"))
+        if (ImGui::ImageButton((void*)(intptr_t)stopButtonTex->GetID(), ImVec2(16, 16), ImVec2(0, 1), ImVec2(1, 0)))
         {
             ExitGameMode();
         }
+       /* if (ImGui::Button("Play"))
+        {
+            EnterGameMode();
+        }*/
+   /*     ImGui::SameLine();
+        if (ImGui::Button("Stop"))
+        {
+            ExitGameMode();
+        }*/
+
+        ImGui::SameLine();
+
+        ImGui::Spacing();
+        
+        ImGui::SameLine();
+        ImGui::Checkbox("Draw Gizmos", &drawGizmos);
+        ImGui::SameLine();
+
+        ImGui::Spacing();
+
+        ImGui::SameLine();
+        static int drawMode = 0;
+        if (ImGui::Combo("Draw mode", &drawMode, "Solid\0Wireframe\0Points\0"))
+        {
+            switch (drawMode)
+            {
+                case 0: glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); break;
+                case 1: glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); break;
+                case 2: glPolygonMode(GL_FRONT_AND_BACK, GL_POINT); break;
+            }
+            std::cout << "Refresh\n";
+        }
+
 
         ImGui::End();
     }

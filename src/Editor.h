@@ -56,6 +56,8 @@ private:
 	static void EnterGameMode();
 	static void ExitGameMode();
 
+	static Texture* playButtonTex;
+	static Texture* stopButtonTex;
 
 	//Windows activity
 	static bool showHierarchy;
