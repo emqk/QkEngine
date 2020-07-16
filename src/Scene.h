@@ -71,6 +71,6 @@ private:
 	glm::mat4 view;
 
 	glm::vec2 mousePos;
-	int winWidth = 800;
-	int winHeight = 600;
+	int winWidth;
+	int winHeight;
 };

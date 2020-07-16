@@ -22,14 +22,17 @@ public:
 
 	void SetCursorMode(const int& mode);
 
+	glm::vec2 GetWindowSize() const;
+	glm::vec2 GetGLFWWindowPosition();
+
 private:
 	void RefreshMousePosition(GLFWwindow* window);
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
+	GLFWwindow* window;
+
 	const int winWidth = 1920;
 	const int winHeight = 1080;
-
-	GLFWwindow* window;
 
 	// timing
 	float deltaTime = 0.0f;	// time between current frame and last frame

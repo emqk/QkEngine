@@ -11,6 +11,7 @@
 #include "ResourceManager.h"
 #include "Physics.h"
 #include "Profiler.h"
+#include "Window.h"
 
 #include <limits>
 #include <chrono>
@@ -79,6 +80,9 @@ Scene::Scene()
    // InstantiateModel(ResourceManager::GetModel("House/House.fbx"));
     //InstantiateModel(ResourceManager::GetModel("Chair/School Chair Offset.fbx"));
     //InstantiateModel(ResourceManager::GetModel("Terrain.obj"));
+
+
+    Renderer::Init();
 }
 
 Scene::~Scene()
@@ -92,6 +96,10 @@ void Scene::OnLoad()
 
 GameObject* Scene::Raycast()
 {
+    glm::vec2 glfwWinPos = Window::GetCurrentWindow()->GetGLFWWindowPosition();
+    glm::vec2 viewportPos = Editor::GetViewportPosition();
+    mousePos -= viewportPos;
+    mousePos += glfwWinPos;
     float x = (2.0f * mousePos.x) / winWidth - 1.0f;
     float y = 1.0f - (2.0f * mousePos.y) / winHeight;
     float z = 1.0f;

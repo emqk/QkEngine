@@ -94,7 +94,7 @@ void Camera::Update(const float& deltaTime)
 	GameObject* objToSelect = Scene::GetCurrentScene().Raycast();
 	if (InputManager::GetMouseKeyDown(GLFW_MOUSE_BUTTON_1))
 	{
-		if (!Editor::IsAnyWindowOrItemHovered())
+		if (Editor::IsMouseOverViewport())
 		{
 			if (objToSelect != nullptr)
 			{

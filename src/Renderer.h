@@ -22,14 +22,21 @@ public:
 	static size_t GetDrawCallsLastFrame();
 	static size_t GetDrawnVerticesLastFrame();
 
+	static void Init();
+	static void Pre();
+	static void Post();
+
+	static unsigned int GetFrameBufferTextureID();
 
 private:
 	static void BindMeshNew(const Mesh& mesh);
 
-	static unsigned int VBO, VAO, EBO;
+	static unsigned int VBO, VAO, EBO, framebuffer;
+	static unsigned int textureColorbuffer;
 
 	static size_t drawCallsLastFrame;
 	static size_t drawVerticesLastFrame;
+
 
 	static std::vector<SpriteComponent*> spriteComponents;
 };

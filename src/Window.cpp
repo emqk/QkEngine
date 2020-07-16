@@ -61,6 +61,9 @@ void Window::Run()
         ProcessInput();
         currentScene.GetCamera().Update(deltaTime);
 
+        Renderer::Pre();
+
+
         glm::vec4 clearColor = currentScene.GetCamera().GetClearColor();
         glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -73,11 +76,13 @@ void Window::Run()
         currentScene.GetCamera().GetShader().SetMat4("projection", projection);
         currentScene.GetCamera().GetShader().SetMat4("view", view);
 
-        currentScene.SetMousePos(glm::vec2(mousePosX, mousePosY), winWidth, winHeight);
+        currentScene.SetMousePos(glm::vec2(mousePosX, mousePosY), Editor::GetViewportSize().x, Editor::GetViewportSize().y);
         currentScene.Update(deltaTime, currentScene.GetCamera().GetShader(), projection, view);
 
+
+        Editor::DrawSelectedGameObject();
+        Renderer::Post();
         Editor::Update();
-        
 
         glfwSwapBuffers(window);
     }
@@ -116,4 +121,16 @@ GLFWwindow& Window::GetGLFWWindow()
 void Window::SetCursorMode(const int& mode)
 {
     glfwSetInputMode(window, GLFW_CURSOR, mode);
+}
+
+glm::vec2 Window::GetWindowSize() const
+{
+    return glm::vec2(winWidth, winHeight);
+}
+
+glm::vec2 Window::GetGLFWWindowPosition()
+{
+    int x = 0, y = 0;
+    glfwGetWindowPos(window, &x, &y);
+    return glm::vec2(x, y);
 }

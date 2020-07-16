@@ -21,15 +21,24 @@ public:
 	static void Select(GameObject* obj);
 
 	static bool CanDrawGizmos();
+	static bool IsMouseOverViewport();
 	static bool IsAnyWindowOrItemHovered();
+	static void DrawSelectedGameObject();
 
 	static void ShowSelectAssetWindow(const AssetWindowType& AssetWindowType, const std::function<void(std::string)>& fun);
 
+	static glm::vec2 GetViewportPosition();
+	static glm::vec2 GetViewportSize();
+
 private:
+	static void EnableDockingBackground();
 	static void ShowEnabledWindows();
 	static void ShowInspector();
 	static void ShowHierarchy();
 	static void ShowSelectAssetWindow();
+
+	static glm::vec2 viewportPosition;
+	static glm::vec2 viewportSize;
 
 	static void Drag(GameObject* obj);
 	static void NullCurrentlyDraggedHierarchyObj();
@@ -46,6 +55,8 @@ private:
 
 	static void EnterGameMode();
 	static void ExitGameMode();
+
+	static bool isMouseOverViewport;
 
 	//Windows activity
 	static bool showHierarchy;
