@@ -18,7 +18,6 @@ GameObject* Editor::selectedObj;
 Component* Editor::selectedComp;
 std::function<void(const std::string&)> Editor::currSelectAssetFun;
 AssetWindowType Editor::currAssetWindowType;
-bool Editor::isAnyWindowOrItemHovered;
 bool Editor::drawGizmos = true;
 GameObject* Editor::currentlyDraggedHierarchyObj = nullptr;
 
@@ -97,8 +96,6 @@ void Editor::Update()
         ImGui::RenderPlatformWindowsDefault();
         glfwMakeContextCurrent(backup_current_context);
     }
-
-    isAnyWindowOrItemHovered = ImGui::IsAnyWindowHovered() || ImGui::IsAnyItemHovered();
 
     if (Scene::GetCurrentScene().IsInGameMode())
     {
@@ -531,11 +528,6 @@ bool Editor::CanDrawGizmos()
 bool Editor::IsMouseOverViewport()
 {
     return isMouseOverViewport;
-}
-
-bool Editor::IsAnyWindowOrItemHovered()
-{
-    return isAnyWindowOrItemHovered;
 }
 
 void Editor::DrawSelectedGameObject()

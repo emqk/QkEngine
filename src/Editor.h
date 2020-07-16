@@ -22,7 +22,6 @@ public:
 
 	static bool CanDrawGizmos();
 	static bool IsMouseOverViewport();
-	static bool IsAnyWindowOrItemHovered();
 	static void DrawSelectedGameObject();
 
 	static void ShowSelectAssetWindow(const AssetWindowType& AssetWindowType, const std::function<void(std::string)>& fun);
@@ -47,7 +46,8 @@ private:
 
 	static bool drawGizmos;
 	static AssetWindowType currAssetWindowType;
-	static bool isAnyWindowOrItemHovered;
+
+	static bool isMouseOverViewport;
 
 	static GameObject* selectedObj;
 	static Component* selectedComp;
@@ -56,7 +56,6 @@ private:
 	static void EnterGameMode();
 	static void ExitGameMode();
 
-	static bool isMouseOverViewport;
 
 	//Windows activity
 	static bool showHierarchy;
