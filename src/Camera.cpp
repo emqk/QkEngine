@@ -106,7 +106,7 @@ void Camera::Update(const float& deltaTime)
 
 void Camera::ProcessInput(const float& deltaTime)
 {
-	if (InputManager::GetMouseKey(GLFW_MOUSE_BUTTON_2))
+	if (InputManager::GetMouseKey(GLFW_MOUSE_BUTTON_2) && Editor::IsMouseOverViewport())
 	{
 		//Movement
 		glm::vec3 moveVec(0.0f, 0.0f, 0.0f);
