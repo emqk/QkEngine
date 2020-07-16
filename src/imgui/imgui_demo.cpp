@@ -3590,13 +3590,14 @@ void ImGui::ShowAboutWindow(bool* p_open)
 bool ImGui::ShowStyleSelector(const char* label)
 {
     static int style_idx = -1;
-    if (ImGui::Combo(label, &style_idx, "Classic\0Dark\0Light\0"))
+    if (ImGui::Combo(label, &style_idx, "Classic\0Dark\0Light\0QkEngine\0"))
     {
         switch (style_idx)
         {
         case 0: ImGui::StyleColorsClassic(); break;
         case 1: ImGui::StyleColorsDark(); break;
         case 2: ImGui::StyleColorsLight(); break;
+        case 3: ImGui::StyleColorsQkEngine(); break;
         }
         return true;
     }

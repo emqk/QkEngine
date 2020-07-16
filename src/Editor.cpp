@@ -29,7 +29,7 @@ bool Editor::isMouseOverViewport = false;
 bool Editor::showHierarchy = true;
 bool Editor::showInspector = true;
 bool Editor::showLightingWindow = true;
-bool Editor::showProfiler = false;
+bool Editor::showProfiler = true;
 bool Editor::showSelectAssetWindow = false;
 bool Editor::showCameraWindow = true;
 
@@ -53,9 +53,10 @@ void Editor::Init(GLFWwindow* window)
     //io.ConfigViewportsNoTaskBarIcon = true;
 
     // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
+    //ImGui::StyleColorsDark();
     //ImGui::StyleColorsLight();
     //ImGui::StyleColorsClassic();
+    ImGui::StyleColorsQkEngine();
 
     // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
     ImGuiStyle& style = ImGui::GetStyle();
@@ -412,7 +413,7 @@ void Editor::ShowGameObject(GameObject* obj, int& id, int& node_clicked)
 
 void Editor::ShowSelectAssetWindow()
 {
-    ImGui::Begin("Select Asset", &showSelectAssetWindow, ImGuiWindowFlags_MenuBar);
+    ImGui::Begin("Select Asset", &showSelectAssetWindow);
     static int selectedAsset = -1;
     std::string assetTypeStr;
     std::vector<std::string> assetsName;
