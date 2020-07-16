@@ -145,7 +145,8 @@ void Camera::ProcessInput(const float& deltaTime)
 
 void Camera::ReceiveScrollInput(double xoffset, double yoffset)
 {
-	transform.Translate(transform.GetForward() * (float)yoffset);
+	if(Editor::IsMouseOverViewport())
+		transform.Translate(transform.GetForward() * (float)yoffset);
 }
 
 void Camera::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
