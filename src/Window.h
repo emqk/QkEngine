@@ -38,8 +38,8 @@ private:
 	float deltaTime = 0.0f;	// time between current frame and last frame
 	float lastFrame = 0.0f;
 
-	glm::mat4 projection = glm::mat4(1.0f);
-	glm::mat4 view = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+	//glm::mat4 projection = glm::mat4(1.0f);
+	//glm::mat4 view = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 
 	double mousePosX, mousePosY;
 

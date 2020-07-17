@@ -104,7 +104,7 @@ void Renderer::BindMeshNew(const Mesh& mesh)
     glBindVertexArray(0);
 }
 
-void Renderer::DrawNew(Shader& cameraShader)
+void Renderer::DrawNew()
 {
     drawCallsLastFrame = 0;
     drawVerticesLastFrame = 0;
@@ -139,6 +139,8 @@ void Renderer::DrawNew(Shader& cameraShader)
             continue;
         }
 
+
+        componentShader->Use();
         componentShader->SetVec4("_FragColor", comp->color.r, comp->color.g, comp->color.b, comp->color.a);
         //Fog
         glm::vec3 fogColor = Lighting::GetFogColor();
@@ -162,10 +164,12 @@ void Renderer::DrawNew(Shader& cameraShader)
         componentTexture->Use();
 
         BindMeshNew(*componentMeshNew);
-        cameraShader.Use();
 
         glm::mat4 model = Transform::CalculateModel(comp->GetParent());
         componentShader->SetMat4("model", model);
+        componentShader->SetMat4("projection", Scene::GetCurrentScene().GetCamera().projection);
+        componentShader->SetMat4("view", Scene::GetCurrentScene().GetCamera().view);
+
 
         // draw mesh
         glBindVertexArray(VAO);
@@ -184,7 +188,7 @@ void Renderer::DrawNew(Shader& cameraShader)
     }
 }
 
-void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, Shader& cameraShader, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color)
+void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color)
 {
     //Set wireframe mode only for this mesh
     int polygonMode;
@@ -192,12 +196,12 @@ void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot,
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 
+    componentShader.Use();
     componentShader.SetVec4("_FragColor", color.r, color.g, color.b, color.a);
     componentShader.SetInt("texture_diffuse1", 0);
     componentTexture.Use();
 
     BindMeshNew(componentMesh);
-    cameraShader.Use();
 
     glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
     //float sinCalc = cos(timeValue);
@@ -207,6 +211,8 @@ void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot,
     model = glm::rotate(model, glm::radians(rot.z), glm::vec3(0.0f, 0.0f, 1.0f));
     model = glm::scale(model, localScale);
     componentShader.SetMat4("model", model);
+    componentShader.SetMat4("projection", Scene::GetCurrentScene().GetCamera().projection);
+    componentShader.SetMat4("view", Scene::GetCurrentScene().GetCamera().view);
 
     // draw mesh
     glBindVertexArray(VAO);

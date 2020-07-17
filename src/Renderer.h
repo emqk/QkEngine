@@ -12,8 +12,8 @@ public:
 	Renderer() = delete;
 	~Renderer() = delete;
 
-	static void DrawNew(Shader& cameraShader);
-	static void DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, Shader& cameraShader, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color);
+	static void DrawNew();
+	static void DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color);
 
 	static void AddSpriteToDraw(SpriteComponent* comp);
 	static void RemoveSpriteToDraw(SpriteComponent* comp);

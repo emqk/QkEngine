@@ -18,7 +18,7 @@ public:
 	~Scene();
 
 	void OnLoad();
-	void Update(const float& deltaTime, class Shader& camShader, glm::mat4 projection, glm::mat4 view);
+	void Update(const float& deltaTime, glm::mat4 projection, glm::mat4 view);
 
 	Camera& GetCamera();
 	static Scene& GetCurrentScene();

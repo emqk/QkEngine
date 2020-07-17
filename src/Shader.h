@@ -13,7 +13,7 @@ public:
 
     std::string name;
 
-    void Use();
+    void Use() const;
 
     void SetVec3(const char* name, float r, float g, float b) const;
     void SetVec4(const char* name, float r, float g, float b, float a) const;

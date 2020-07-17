@@ -17,18 +17,18 @@ void Gizmos::ResetDefaultColor()
 void Gizmos::DrawMeshNewWireframe(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& mesh)
 {
     const Texture* componentTexture = ResourceManager::GetTexture("gizmoSelectTexture.jpg");
-    Shader* componentShader = ResourceManager::GetShader("StandardShader");
+    Shader* componentShader = ResourceManager::GetShader("UnlitShader");
 
-    Camera* cam = &Scene::GetCurrentScene().GetCamera();
-    Renderer::DrawMeshNewAtLocation(pos, rot, localScale, cam->GetShader(), mesh, *componentTexture, *componentShader, currentColor);
+    Renderer::DrawMeshNewAtLocation(pos, rot, localScale, mesh, *componentTexture, *componentShader, currentColor);
 }
 
 void Gizmos::DrawCubeWireframe(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale)
 {
     Mesh* componentMesh = ResourceManager::GetMeshNew("Cube.obj->Cube");
     const Texture* componentTexture = ResourceManager::GetTexture("gizmoSelectTexture.jpg");
-    Shader* componentShader = ResourceManager::GetShader("StandardShader");
+    Shader* componentShader = ResourceManager::GetShader("UnlitShader");
 
-    Camera* cam = &Scene::GetCurrentScene().GetCamera();
-    Renderer::DrawMeshNewAtLocation(pos, rot, localScale, cam->GetShader(), *componentMesh, *componentTexture, *componentShader, currentColor);
+    std::cout << "DrawCubeWireframe color: " << currentColor.r << "r " << currentColor.g << "g " << currentColor.b << "b\n";
+
+    Renderer::DrawMeshNewAtLocation(pos, rot, localScale, *componentMesh, *componentTexture, *componentShader, currentColor);
 }

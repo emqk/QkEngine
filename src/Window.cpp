@@ -68,16 +68,16 @@ void Window::Run()
         glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
-        projection = glm::mat4(1.0f);
+        glm::mat4 projection = glm::mat4(1.0f);
         glm::vec2 cameraClipping = currentScene.GetCamera().GetClipping();
         projection = glm::perspective(glm::radians(currentScene.GetCamera().GetFOV()), (float)winWidth / (float)winHeight, cameraClipping.x, cameraClipping.y);
-        view = currentScene.GetCamera().GetMatrix();
-        // pass transformation matrices to the shader
-        currentScene.GetCamera().GetShader().SetMat4("projection", projection);
-        currentScene.GetCamera().GetShader().SetMat4("view", view);
+        glm::mat4 view = currentScene.GetCamera().GetMatrix();
+        // refresh transformation matrices
+        currentScene.GetCamera().projection = projection;
+        currentScene.GetCamera().view = view;
 
         currentScene.SetMousePos(glm::vec2(mousePosX, mousePosY), Editor::GetViewportSize().x, Editor::GetViewportSize().y);
-        currentScene.Update(deltaTime, currentScene.GetCamera().GetShader(), projection, view);
+        currentScene.Update(deltaTime, projection, view);
 
 
         Renderer::Post();

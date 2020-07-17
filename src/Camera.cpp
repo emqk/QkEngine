@@ -11,13 +11,11 @@
 
 Camera::Camera()
 {
-	shader = ResourceManager::GetShader("StandardShader");
 	SetLocalPosition(glm::vec3(0, 0, 0));
 }
 
-Camera::Camera(glm::vec3 pos, const char* shaderPath)
+Camera::Camera(const glm::vec3& pos)
 {
-	shader = ResourceManager::GetShader(shaderPath);
 	SetLocalPosition(pos);
 }
 
@@ -157,9 +155,4 @@ void Camera::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 glm::vec4 Camera::GetClearColor()
 {
 	return clearColor;
-}
-
-Shader& Camera::GetShader()
-{
-	return *shader;
 }

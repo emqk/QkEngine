@@ -9,7 +9,7 @@ class Camera
 {
 public:
 	Camera();
-	Camera(glm::vec3 pos, const char* shaderPath);
+	Camera(const glm::vec3& pos);
 	~Camera();
 
 	glm::mat4 GetMatrix();
@@ -29,7 +29,10 @@ public:
 	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 	glm::vec4 GetClearColor();
-	Shader& GetShader();
+
+	glm::mat4 projection = glm::mat4(1.0f);
+	glm::mat4 view = glm::mat4(1.0f);
+
 
 private:
 	void ProcessInput(const float& deltaTime);
@@ -44,8 +47,6 @@ private:
 	float clippingFar = 500;
 
 	glm::vec4 clearColor{ 0.4f, 0.4f, 0.9f, 1.0f };
-
-	Shader* shader;
 
 	glm::vec2 previousMousePos;
 	bool wasLastFrameMousePressed = false;

@@ -74,9 +74,10 @@ Scene::Scene()
 
     //Shaders
     ResourceManager::LoadShader("StandardShader");
+    ResourceManager::LoadShader("UnlitShader");
 
 
-    camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f), "StandardShader");
+    camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f));
     GameManager gameManager = GameManager();
 
     //InstantiateModel(ResourceManager::GetModel("backpack/backpack.obj"));
@@ -239,7 +240,7 @@ void Scene::ExitGameMode()
     objectsCopyActiveData.clear();
 }
 
-void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _projection, glm::mat4 _view)
+void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _view)
 {
     //Update
     std::string sampleName = "Update time";
@@ -278,7 +279,7 @@ void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _project
     sampleName = "Draw time";
     Profiler::BeginSample(sampleName);
     
-    Renderer::DrawNew(camShader);
+    Renderer::DrawNew();
 
     //Draw gizmos
     if (Editor::CanDrawGizmos())
