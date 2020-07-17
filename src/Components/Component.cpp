@@ -52,5 +52,8 @@ void Component::ShowOnGizmos()
 
 void Component::ShowInInspectorBase()
 {
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
 	ImGui::Checkbox("Is Component Active", &isActive);
 }

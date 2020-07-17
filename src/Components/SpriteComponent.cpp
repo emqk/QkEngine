@@ -41,8 +41,6 @@ void SpriteComponent::LateUpdate(const float& deltaTime)
 
 void SpriteComponent::ShowOnInspector()
 {
-	ImGui::Text("Properties");
-
 	//MeshNEW
 	std::string buttonStr = "No Mesh";
 	if (meshNew != nullptr)

@@ -7,11 +7,15 @@ in vec2 TexCoord;
 uniform sampler2D texture_diffuse1;
 vec4 texColor;
 
+//Fog
 uniform vec3 _FogColor;
 uniform float near; 
 uniform float far; 
 uniform float _FogDensity; 
-  
+ 
+//Lighting
+uniform vec3 lightColor;
+
 float LinearizeDepth(float depth) 
 {
     float z = depth * 2.0 - 1.0; // back to NDC 
@@ -29,5 +33,7 @@ void main()
     texColor = texture(texture_diffuse1, TexCoord) * _FragColor;
        if(texColor.a < 0.1f)
            discard;
-    FragColor = texColor + (fogColor - texColor) * (depth * _FogDensity);
+
+    vec4 afterLighting = vec4(lightColor, 1.0f) * texColor;
+    FragColor = afterLighting + (fogColor - afterLighting) * (depth * _FogDensity);
 } 

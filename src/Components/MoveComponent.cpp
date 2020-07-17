@@ -30,7 +30,6 @@ void MoveComponent::LateUpdate(const float& deltaTime)
 
 void MoveComponent::ShowOnInspector()
 {
-	ImGui::Text("Properties");
 	ImGui::InputFloat3("Move speed", &moveVec.x, 3);	
 }
 

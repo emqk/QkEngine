@@ -52,8 +52,6 @@ void BoxColliderComponent::LateUpdate(const float& deltaTime)
 
 void BoxColliderComponent::ShowOnInspector()
 {
-	ImGui::Text("Properties");
-
 	//Trigger
 	ImGui::Checkbox("Is Trigger", &isTrigger);
 

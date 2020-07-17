@@ -157,6 +157,7 @@
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Components\BoxColliderComponent.cpp" />
     <ClCompile Include="src\Components\Component.cpp" />
+    <ClCompile Include="src\Components\LightComponent.cpp" />
     <ClCompile Include="src\Components\MoveComponent.cpp" />
     <ClCompile Include="src\Components\PlayerComponent.cpp" />
     <ClCompile Include="src\Components\SpriteComponent.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Components\BoxColliderComponent.h" />
     <ClInclude Include="src\Components\Component.h" />
+    <ClInclude Include="src\Components\LightComponent.h" />
     <ClInclude Include="src\Components\MoveComponent.h" />
     <ClInclude Include="src\Components\PlayerComponent.h" />
     <ClInclude Include="src\Components\SpriteComponent.h" />

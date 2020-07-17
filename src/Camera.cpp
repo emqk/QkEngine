@@ -83,7 +83,7 @@ void Camera::ShowOnInspector()
 
 	ImGui::Text("Clear color:");
 	ImGui::SameLine();
-	ImGui::ColorEdit4("MyColor##3", &clearColor.r, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+	ImGui::ColorEdit4("MyColor", &clearColor.r, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
 }
 
 void Camera::Update(const float& deltaTime)

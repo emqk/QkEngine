@@ -148,6 +148,10 @@ void Renderer::DrawNew(Shader& cameraShader)
         componentShader->SetFloat("near", fogStartEnd.x);
         componentShader->SetFloat("far", fogStartEnd.y);
         componentShader->SetFloat("_FogDensity", fogDensity);
+        //Lighting
+        LightComponent* light = Lighting::GetFirstLight();
+        glm::vec3 lightColor = light == nullptr ? glm::vec3(1, 1, 1) : light->GetColor();
+        componentShader->SetVec3("lightColor", lightColor.x, lightColor.y, lightColor.z);
         //
         componentShader->SetInt("texture_diffuse1", 0);
         componentTexture->Use();

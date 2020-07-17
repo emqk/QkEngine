@@ -12,7 +12,7 @@
 
 #include <memory>
 #include <memory>
-#include "imgui/imgui_internal.h"
+
 
 GameObject* Editor::selectedObj;
 Component* Editor::selectedComp;
@@ -237,6 +237,7 @@ void Editor::EnableDockingBackground()
 
 void Editor::ShowEnabledWindows()
 {
+
     //Camera
     if(showCameraWindow)
     {
@@ -302,16 +303,6 @@ void Editor::ShowEnabledWindows()
         {
             ExitGameMode();
         }
-       /* if (ImGui::Button("Play"))
-        {
-            EnterGameMode();
-        }*/
-   /*     ImGui::SameLine();
-        if (ImGui::Button("Stop"))
-        {
-            ExitGameMode();
-        }*/
-
         ImGui::SameLine();
 
         ImGui::Spacing();

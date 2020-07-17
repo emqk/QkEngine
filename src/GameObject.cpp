@@ -9,6 +9,7 @@
 #include "Components/SpriteComponent.h"
 #include "Components/MoveComponent.h"
 #include "Components/BoxColliderComponent.h"
+#include "Components/LightComponent.h"
 
 #include "Scene.h"
 
@@ -115,6 +116,10 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 	if (ImGui::Button("Add BoxColliderComponent"))
 	{
 		AddComponent<BoxColliderComponent>();
+	}
+	if (ImGui::Button("Add LightComponent"))
+	{
+		AddComponent<LightComponent>();
 	}
 	if (ImGui::Button("Remove selected component"))
 	{
