@@ -52,5 +52,6 @@ void main()
     vec3 diffuse = diff * lightColor;
             
     vec4 ambientResult = vec4((ambient + diffuse), 1.0f) * afterLighting;
-    FragColor = ambientResult + (fogColor - ambientResult) * (depth * _FogDensity);
+    float fogStrength = min(depth * _FogDensity, 1.0f); // min is for clamping values between 0-1
+    FragColor = ambientResult + (fogColor - ambientResult) * fogStrength;
 } 
