@@ -9,13 +9,10 @@ MoveComponent::MoveComponent(GameObject* _parent) : Component(_parent), moveVec(
 
 MoveComponent::~MoveComponent()
 {
-	std::cout << "MoveComponent destructor\n";
 }
 
 MoveComponent::MoveComponent(const MoveComponent& comp) : Component(comp)
 {
-	std::cout << "MoveComp copy constuctor\n";
-
 	moveVec = comp.moveVec;
 }
 
@@ -35,7 +32,6 @@ void MoveComponent::ShowOnInspector()
 
 std::unique_ptr<Component> MoveComponent::MakeCopy(GameObject* newParent) const
 {
-	std::cout << "Get copy of moveComp\n";
 	std::unique_ptr<MoveComponent> comp = std::make_unique<MoveComponent>(*this);
 	comp->parent = newParent;
 

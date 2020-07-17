@@ -5,6 +5,8 @@
 #include "../Components/BoxColliderComponent.h"
 #include "../Components/MoveComponent.h"
 #include "../Components/PlayerComponent.h"
+#include "../Random.h"
+
 #include <iostream>
 
 GameManager::GameManager()
@@ -66,6 +68,7 @@ GameManager::GameManager()
 	sprComp->SetMeshNew("Cube.obj->Cube");
 	sprComp->SetTexture(ResourceManager::GetTexture("Cube.jpg"));
 	sprComp->SetShader("StandardShader");
+	newParent->AddComponent<BoxColliderComponent>();
 	newParent->name = "TestChairParent";
 
 	//Chair (Child 0)
@@ -85,9 +88,25 @@ GameManager::GameManager()
 	secSprComp->SetMeshNew("Chair/School Chair Offset.fbx->Cylinder.006");
 	secSprComp->SetTexture(ResourceManager::GetTexture("Chair/diffuse.png"));
 	secSprComp->SetShader("StandardShader");
+	sec->AddComponent<BoxColliderComponent>();
 	sec->name = "Second child";
 	sec->transform.SetParent(chairObj);
 	//sec->transform.SetParent(playerObj);
+
+	//Duplicate some objects
+	for (size_t i = 0; i < 10; i++)
+	{
+		GameObject* duplicate = Scene::GetCurrentScene().DuplicateGameObject(newParent);
+		float px = Random::RandomFloat(-35, 35);
+		float py = 0;
+		float pz = Random::RandomFloat(-25, 0);
+
+		float ry = Random::RandomFloat(0, 360);
+
+		duplicate->transform.SetGlobalPosition(glm::vec3(px, py, pz));
+		duplicate->transform.SetGlobalRotation(Transform::ToQuaternion(glm::vec3(0, ry, 0)));
+	}
+
 
 	//GameObject* stairs = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(4, 2.5f, -1));
 	//stairs->name = "Stairs";

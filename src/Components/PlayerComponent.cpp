@@ -31,7 +31,6 @@ PlayerComponent::~PlayerComponent()
 
 PlayerComponent::PlayerComponent(const PlayerComponent& comp) : Component(comp)
 {
-	std::cout << "PlayerComp copy constuctor\n";
 	moveSpeed = comp.moveSpeed;
 	currentGravity = comp.currentGravity;
 	groundDetectorOffset = comp.groundDetectorOffset;
@@ -125,7 +124,6 @@ void PlayerComponent::ShowOnGizmos()
 
 std::unique_ptr<Component> PlayerComponent::MakeCopy(GameObject* newParent) const
 {
-	std::cout << "Get copy of PlayerComp\n";
 	std::unique_ptr<PlayerComponent> comp = std::make_unique<PlayerComponent>(*this);
 	comp->parent = newParent;
 

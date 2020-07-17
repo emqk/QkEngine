@@ -20,14 +20,10 @@ SpriteComponent::~SpriteComponent()
 	meshNew = nullptr;
 	texture = nullptr;
 	shader = nullptr;
-
-	std::cout << "SpriteComponent destructor\n";
 }
 
 SpriteComponent::SpriteComponent(const SpriteComponent& comp) : Component(comp), meshNew(comp.meshNew), texture(comp.texture), shader(comp.shader), color(comp.color)
 {
-	std::cout << "SpriteComp copy constuctor\n";
-
 	Renderer::AddSpriteToDraw(this);
 }
 

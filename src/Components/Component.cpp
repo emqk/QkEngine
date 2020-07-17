@@ -1,6 +1,6 @@
 #include "Component.h"
 #include "../GameObject.h"
-#include <iostream>
+//#include <iostream>
 
 Component::Component(GameObject* _parent) : name("Base Component")
 {
@@ -9,13 +9,13 @@ Component::Component(GameObject* _parent) : name("Base Component")
 
 Component::~Component()
 {
-	std::cout << "Default Component destructor\n";
+	//std::cout << "Default Component destructor\n";
 	parent = nullptr;
 }
 
 Component::Component(const Component& comp) : name("BaseCompCopy"), parent(comp.parent), isActive(comp.isActive)
 {
-	std::cout << "Base copy constuctor\n";
+	//std::cout << "Base copy constuctor\n";
 	name = comp.name;
 	parent = comp.parent;
 	isActive = comp.isActive;

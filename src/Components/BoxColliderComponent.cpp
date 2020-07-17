@@ -4,8 +4,6 @@
 #include "../Physics.h"
 #include "../Gizmos.h"
 
-#include <iostream>
-
 BoxColliderComponent::BoxColliderComponent(GameObject* _parent) : Component(_parent)
 {
 	name = "BoxColliderComponent";
@@ -28,12 +26,10 @@ BoxColliderComponent::BoxColliderComponent(GameObject* _parent) : Component(_par
 BoxColliderComponent::~BoxColliderComponent()
 {
 	Physics::UnRegisterCollider(this);
-	std::cout << "Box Collider Component destructor\n";
 }
 
 BoxColliderComponent::BoxColliderComponent(const BoxColliderComponent& comp) : Component(comp), bounds(comp.bounds), center(comp.center), isTrigger(comp.isTrigger)
 {
-	std::cout << "BoxColliderComp copy constuctor\n";
 	Physics::RegisterCollider(this);
 }
 
@@ -72,7 +68,6 @@ void BoxColliderComponent::ShowOnGizmos()
 
 std::unique_ptr<Component> BoxColliderComponent::MakeCopy(GameObject* newParent) const
 {
-	std::cout << "Get copy of moveComp\n";
 	std::unique_ptr<BoxColliderComponent> comp = std::make_unique<BoxColliderComponent>(*this);
 	comp->parent = newParent;
 

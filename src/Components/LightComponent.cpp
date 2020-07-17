@@ -29,7 +29,7 @@ void LightComponent::LateUpdate(const float& deltaTime)
 
 void LightComponent::ShowOnInspector()
 {
-	ImGui::ColorEdit3("Fog color", &lightColor.r, ImGuiColorEditFlags_NoInputs);
+	ImGui::ColorEdit3("light color", &lightColor.r, ImGuiColorEditFlags_NoInputs);
 }
 
 std::unique_ptr<Component> LightComponent::MakeCopy(GameObject* newParent) const
