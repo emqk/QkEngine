@@ -17,12 +17,15 @@ public:
 	static void RegisterLight(LightComponent* lightComp);
 	static void UnRegisterLight(LightComponent* lightComp);
 
+	static glm::vec3 GetAmbientLightColor();
 	static LightComponent* GetFirstLight();
 
 	static glm::vec3 GetFogColor();
 	static float GetFogDensity();
 
 private:
+	static glm::vec3 ambientLightColor;
+
 	static glm::vec3 fogColor;
 	static float fogDensity;
 

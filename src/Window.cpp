@@ -80,7 +80,6 @@ void Window::Run()
         currentScene.Update(deltaTime, currentScene.GetCamera().GetShader(), projection, view);
 
 
-        Editor::DrawSelectedGameObject();
         Renderer::Post();
         Editor::Update();
 

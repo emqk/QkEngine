@@ -1,5 +1,6 @@
 #include "LightComponent.h"
 #include "../Lighting.h"
+#include "../GameObject.h"
 
 LightComponent::LightComponent(GameObject* _parent) : Component(_parent)
 {
@@ -37,6 +38,11 @@ std::unique_ptr<Component> LightComponent::MakeCopy(GameObject* newParent) const
 	comp->parent = newParent;
 
 	return std::move(comp);
+}
+
+glm::vec3 LightComponent::GetPosition() const
+{
+	return parent->transform.GetGlobalPosition();
 }
 
 glm::vec3 LightComponent::GetColor() const

@@ -5,6 +5,8 @@
 #include "Camera.h"
 #include "Scene.h"
 
+glm::vec3 Lighting::ambientLightColor{ 0.0f, 0.0f, 0.0f };
+
 glm::vec3 Lighting::fogColor{ 1.0f, 1.0f, 1.0f };
 float Lighting::fogDensity = 1.0f;
 
@@ -15,6 +17,10 @@ void Lighting::ShowWindow()
 {
 	ImGui::Begin("Lighting");
 
+	ImGui::Text("Light");
+	ImGui::ColorEdit3("Ambient light color", &ambientLightColor.r, ImGuiColorEditFlags_NoInputs);
+	ImGui::Separator();
+	ImGui::Text("Fog");
 	ImGui::ColorEdit3("Fog color", &fogColor.r, ImGuiColorEditFlags_NoInputs);
 	ImGui::InputFloat("Fog density", &fogDensity, 1, 10, 3);
 
@@ -35,6 +41,11 @@ void Lighting::UnRegisterLight(LightComponent* lightComp)
 		lights.erase(it);
 		std::cout << "LightComponent removed from lights: " << lights.size() << "\n";
 	}
+}
+
+glm::vec3 Lighting::GetAmbientLightColor()
+{
+	return ambientLightColor;
 }
 
 LightComponent* Lighting::GetFirstLight()

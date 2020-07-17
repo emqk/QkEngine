@@ -290,6 +290,8 @@ void Scene::Update(const float& deltaTime, Shader& camShader, glm::mat4 _project
 
             obj->ShowOnGizmos();
         }
+
+        Editor::DrawSelectedGameObject();
     }
 
     Profiler::EndSample();
