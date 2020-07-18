@@ -141,7 +141,6 @@ void Renderer::DrawNew()
 
 
         componentShader->Use();
-        componentShader->SetVec4("_FragColor", comp->color.r, comp->color.g, comp->color.b, comp->color.a);
         //Fog
         glm::vec3 fogColor = Lighting::GetFogColor();
         float fogDensity = Lighting::GetFogDensity();
@@ -150,18 +149,27 @@ void Renderer::DrawNew()
         componentShader->SetFloat("near", fogStartEnd.x);
         componentShader->SetFloat("far", fogStartEnd.y);
         componentShader->SetFloat("_FogDensity", fogDensity);
-        //Lighting
+        //Material
         LightComponent* light = Lighting::GetFirstLight();
         glm::vec3 lightPos = light == nullptr ? glm::vec3(0, 0, 0) : light->GetPosition();
         glm::vec3 lightColor = light == nullptr ? glm::vec3(1, 1, 1) : light->GetColor();
-        componentShader->SetVec3("lightPos", lightPos.x, lightPos.y, lightPos.z);
-        componentShader->SetVec3("lightColor", lightColor.x, lightColor.y, lightColor.z);
-
         glm::vec3 ambientLightColor = Lighting::GetAmbientLightColor();
-        componentShader->SetVec3("ambientLightColor", ambientLightColor.x, ambientLightColor.y, ambientLightColor.z);
-        //
-        componentShader->SetInt("texture_diffuse1", 0);
+        glm::vec3 viewPos = Scene::GetCurrentScene().GetCamera().GetLocalPosition();
+        glm::vec3 specular = comp->specular;
+        float shininess = comp->shininess;
+
+        componentShader->SetVec4("material.diffuse", comp->color.r, comp->color.g, comp->color.b, comp->color.a);
+        componentShader->SetVec3("material.ambient", ambientLightColor.x, ambientLightColor.y, ambientLightColor.z);
+        componentShader->SetVec3("material.specular", specular.x, specular.y, specular.z);
+        componentShader->SetFloat("material.shininess", shininess);
+        componentShader->SetInt("material.texture_diffuse1", 0);
         componentTexture->Use();
+
+        componentShader->SetVec3("light.position", lightPos.x, lightPos.y, lightPos.z);
+        componentShader->SetVec3("light.color", lightColor.x, lightColor.y, lightColor.z);
+
+        componentShader->SetVec3("viewPos", viewPos.x, viewPos.y, viewPos.z);
+        //
 
         BindMeshNew(*componentMeshNew);
 

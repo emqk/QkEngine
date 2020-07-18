@@ -1,14 +1,10 @@
 #version 330 core
 
 out vec4 FragColor;
-uniform vec4 _FragColor = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 in vec2 TexCoord;
 in vec3 Normal;
 in vec3 FragPos;
-
-uniform sampler2D texture_diffuse1;
-vec4 texColor;
 
 //Fog
 uniform vec3 _FogColor;
@@ -16,10 +12,27 @@ uniform float near;
 uniform float far; 
 uniform float _FogDensity; 
  
-//Lighting
-uniform vec3 lightColor;
-uniform vec3 lightPos;  
-uniform vec3 ambientLightColor;
+struct Material
+{
+    vec4 diffuse;
+    vec3 ambient;
+    vec3 specular;
+    float shininess;
+
+    sampler2D texture_diffuse1;
+};
+
+struct Light
+{
+    vec3 color;
+    vec3 position;  
+};
+
+
+uniform Material material;
+uniform Light light;
+uniform vec3 viewPos;
+
 
 float LinearizeDepth(float depth) 
 {
@@ -29,29 +42,32 @@ float LinearizeDepth(float depth)
 
 void main()
 {
-	//FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+    vec4 texColor = texture(material.texture_diffuse1, TexCoord) * material.diffuse;
+        if(texColor.a < 0.1f)
+            discard;
 
-    float depth = LinearizeDepth(gl_FragCoord.z) / far; // divide by far for demonstration
-   // FragColor = vec4(vec3(depth), 1.0); // Debug depth buffer
-    vec4 fogColor = vec4(_FogColor.x, _FogColor.y, _FogColor.z, 1.0f);
+    //Fog
+     float depth = LinearizeDepth(gl_FragCoord.z) / far; // divide by far for demonstration
+    // FragColor = vec4(vec3(depth), 1.0); // Debug depth buffer
+     vec4 fogColor = vec4(_FogColor.x, _FogColor.y, _FogColor.z, 1.0f);
 
-    texColor = texture(texture_diffuse1, TexCoord) * _FragColor;
-       if(texColor.a < 0.1f)
-           discard;
-
-    //object color after lighting
-    vec4 afterLighting = vec4(lightColor, 1.0f) * texColor;
-
-    // ambient light color
-    vec3 ambient = ambientLightColor * lightColor;
+    // ambient
+    vec3 ambient = vec3(texColor) * (material.ambient);
   	
-    // Final ambient light color(light color + object color) 
+    // diffuse 
     vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(lightPos - FragPos);
+    vec3 lightDir = normalize(light.position - FragPos);
     float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * lightColor;
-            
-    vec4 ambientResult = vec4((ambient + diffuse), 1.0f) * afterLighting;
-    float fogStrength = min(depth * _FogDensity, 1.0f); // min is for clamping values between 0-1
-    FragColor = ambientResult + (fogColor - ambientResult) * fogStrength;
+    vec3 diffuse = (diff * (vec3(texColor))) * light.color;
+
+    // specular
+    vec3 viewDir = normalize(viewPos - FragPos);
+    vec3 reflectDir = reflect(-lightDir, norm);  
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    vec3 specular = light.color * (spec * material.specular);  
+    
+    //Result
+    vec4 result = vec4((ambient + diffuse + specular), 1.0f);
+    float fogStrength = min(depth * _FogDensity, 1.0f);
+    FragColor = result + (fogColor - result) * fogStrength;
 } 

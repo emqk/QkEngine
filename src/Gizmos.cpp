@@ -28,7 +28,5 @@ void Gizmos::DrawCubeWireframe(const glm::vec3& pos, const glm::quat& rot, const
     const Texture* componentTexture = ResourceManager::GetTexture("gizmoSelectTexture.jpg");
     Shader* componentShader = ResourceManager::GetShader("UnlitShader");
 
-    std::cout << "DrawCubeWireframe color: " << currentColor.r << "r " << currentColor.g << "g " << currentColor.b << "b\n";
-
     Renderer::DrawMeshNewAtLocation(pos, rot, localScale, *componentMesh, *componentTexture, *componentShader, currentColor);
 }

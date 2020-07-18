@@ -31,6 +31,8 @@ public:
 	const Texture* GetTexture();
 
 	glm::vec4 color;
+	glm::vec3 specular{0.5, 0.5f, 0.5f};
+	float shininess = 32;
 
 	std::unique_ptr<Component> MakeCopy(GameObject* newParent) const override;
 

@@ -22,7 +22,9 @@ SpriteComponent::~SpriteComponent()
 	shader = nullptr;
 }
 
-SpriteComponent::SpriteComponent(const SpriteComponent& comp) : Component(comp), meshNew(comp.meshNew), texture(comp.texture), shader(comp.shader), color(comp.color)
+SpriteComponent::SpriteComponent(const SpriteComponent& comp)
+	: Component(comp), meshNew(comp.meshNew), texture(comp.texture), shader(comp.shader)
+	, color(comp.color), specular(comp.specular), shininess(comp.shininess)
 {
 	Renderer::AddSpriteToDraw(this);
 }
@@ -78,7 +80,11 @@ void SpriteComponent::ShowOnInspector()
 
 	ImGui::Text("Base color:");
 	ImGui::SameLine();
-	ImGui::ColorEdit4("MyColor##3", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+	ImGui::ColorEdit4("diffuse", (float*)&color, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+	ImGui::Text("Specular color:");
+	ImGui::SameLine();
+	ImGui::ColorEdit3("specular", (float*)&specular, ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoLabel);
+	ImGui::DragFloat("Shininess", &shininess, 1.0f, 0.0f, 256.0f);
 }
 
 void SpriteComponent::SetMeshNew(const char* meshPath)
