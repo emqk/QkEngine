@@ -62,14 +62,15 @@ void PlayerComponent::Update(const float& deltaTime)
 
 	//Horizontal
 	if (InputManager::GetKey(GLFW_KEY_D))
-		moveVec += glm::vec3(1, 0, 0);
+		moveVec += parent->transform.GetRight();
+		//moveVec += glm::vec3(1, 0, 0);
 	if (InputManager::GetKey(GLFW_KEY_A))
-		moveVec += glm::vec3(-1, 0, 0);
+		moveVec += -parent->transform.GetRight();
 	//Verical
 	if (InputManager::GetKey(GLFW_KEY_W))
-		moveVec += glm::vec3(0, 0, -1);
+		moveVec += parent->transform.GetForward();
 	if (InputManager::GetKey(GLFW_KEY_S))
-		moveVec += glm::vec3(0, 0, 1);
+		moveVec += -parent->transform.GetForward();
 
 
 	if (glm::length(moveVec) > 0.0f)
@@ -108,7 +109,7 @@ void PlayerComponent::LateUpdate(const float& deltaTime)
 	glm::vec3 playerPos = parent->transform.GetLocalPosition();
 
 	camera->SetLocalPosition(parent->transform.GetGlobalPosition() + glm::vec3(0, 5, 10));
-	camera->SetLocalRotation(glm::quat(1, -30, -90, 0));
+	camera->SetLocalRotation(glm::quat(1, -30, 0, 0));
 }
 
 void PlayerComponent::ShowOnInspector()

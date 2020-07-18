@@ -151,12 +151,15 @@ void Renderer::DrawNew()
         componentShader->SetFloat("_FogDensity", fogDensity);
         //Material
         LightComponent* light = Lighting::GetFirstLight();
-        glm::vec3 lightPos = light == nullptr ? glm::vec3(0, 0, 0) : light->GetPosition();
+        //glm::vec3 lightPos = light == nullptr ? glm::vec3(0, 0, 0) : light->GetPosition();
+        glm::vec3 lightDirection = light == nullptr ? glm::vec3(-1, 0, 0) : light->GetParent()->transform.GetForward();
         glm::vec3 lightColor = light == nullptr ? glm::vec3(1, 1, 1) : light->GetColor();
         glm::vec3 ambientLightColor = Lighting::GetAmbientLightColor();
         glm::vec3 viewPos = Scene::GetCurrentScene().GetCamera().GetLocalPosition();
         glm::vec3 specular = comp->specular;
         float shininess = comp->shininess;
+
+        //std::cout << "lightDirection: " << lightDirection.x << "x " << lightDirection.y << "y " << lightDirection.z << "z\n";
 
         componentShader->SetVec4("material.diffuse", comp->color.r, comp->color.g, comp->color.b, comp->color.a);
         componentShader->SetVec3("material.ambient", ambientLightColor.x, ambientLightColor.y, ambientLightColor.z);
@@ -165,7 +168,8 @@ void Renderer::DrawNew()
         componentShader->SetInt("material.texture_diffuse1", 0);
         componentTexture->Use();
 
-        componentShader->SetVec3("light.position", lightPos.x, lightPos.y, lightPos.z);
+        //componentShader->SetVec3("light.position", lightPos.x, lightPos.y, lightPos.z);
+        componentShader->SetVec3("light.direction", lightDirection.x, lightDirection.y, lightDirection.z);
         componentShader->SetVec3("light.color", lightColor.x, lightColor.y, lightColor.z);
 
         componentShader->SetVec3("viewPos", viewPos.x, viewPos.y, viewPos.z);

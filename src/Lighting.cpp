@@ -48,10 +48,16 @@ glm::vec3 Lighting::GetAmbientLightColor()
 	return ambientLightColor;
 }
 
+//Returns first active light
 LightComponent* Lighting::GetFirstLight()
 {
-	if (lights.size() > 0)
-		return lights[0];
+	for (size_t i = 0; i < lights.size(); i++)
+	{
+		if (lights[i]->IsActive())
+		{
+			return lights[i];
+		}
+	}
 
 	return nullptr;
 }

@@ -60,6 +60,7 @@ Scene::Scene()
         
     //Models
     ResourceManager::LoadModel("Cube.obj");
+    ResourceManager::LoadModel("Arrow.fbx");
     ResourceManager::LoadModel("Terrain.obj");
     ResourceManager::LoadModel("Buiilding Area.obj");
     ResourceManager::LoadModel("Grocery.obj");

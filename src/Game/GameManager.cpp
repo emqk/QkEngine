@@ -5,6 +5,7 @@
 #include "../Components/BoxColliderComponent.h"
 #include "../Components/MoveComponent.h"
 #include "../Components/PlayerComponent.h"
+#include "../Components/LightComponent.h"
 #include "../Random.h"
 
 #include <iostream>
@@ -25,6 +26,21 @@ GameManager::GameManager()
 		terrainObj->transform.SetLocalPosition(glm::vec3(0.0f, -terrainBounds.y, -terrainBounds.z));
 	}
 	terrainObj->AddComponent<BoxColliderComponent>();
+
+	//Sun
+	GameObject* sunObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
+	sunObj->name = "Ground";
+	SpriteComponent* sunSprite = sunObj->AddComponent<SpriteComponent>();
+	if (sunSprite != nullptr)
+	{
+		sunSprite->SetMeshNew("Arrow.fbx->Cone");
+		sunSprite->SetTexture(ResourceManager::GetTexture("gizmoSelectTexture.jpg"));
+		sunSprite->SetShader(ResourceManager::GetShader("StandardShader"));
+
+		sunObj->transform.SetLocalPosition(glm::vec3(0.0f, 6.0f, 0.0f));
+	}
+	sunObj->AddComponent<LightComponent>();
+	sunObj->transform.SetLocalScale(glm::vec3(0.25f));
 
 	//float currX = 0;
 	//float currY = 2;
@@ -58,7 +74,7 @@ GameManager::GameManager()
 	//}
 
 	//Player
-	playerObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 5, 0));
+	playerObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 4, 0));
 	PlayerComponent* playerComp = playerObj->AddComponent<PlayerComponent>();
 	playerObj->name = "Player";
 
