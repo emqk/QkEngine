@@ -105,7 +105,7 @@ std::vector<BoxColliderComponent*> Physics::BoxCast(const glm::vec3& pos, const 
 void Physics::RegisterCollider(BoxColliderComponent* comp)
 {
 	colliderComponents.push_back(comp);
-	std::cout << "BoxColliderComponent registered\n";
+	//std::cout << "BoxColliderComponent registered\n";
 }
 
 void Physics::UnRegisterCollider(BoxColliderComponent* comp)
@@ -114,6 +114,6 @@ void Physics::UnRegisterCollider(BoxColliderComponent* comp)
     if (it != colliderComponents.end())
     {
         colliderComponents.erase(it);
-        std::cout << "BoxColliderComponent removed from physics: " << colliderComponents.size() << "\n";
+       // std::cout << "BoxColliderComponent removed from physics: " << colliderComponents.size() << "\n";
     }
 }

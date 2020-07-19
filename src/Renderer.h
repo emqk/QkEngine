@@ -29,9 +29,7 @@ public:
 	static unsigned int GetFrameBufferTextureID();
 
 private:
-	static void BindMeshNew(const Mesh& mesh);
-
-	static unsigned int VBO, VAO, EBO, framebuffer;
+	static unsigned int /*VBO, VAO, EBO, */framebuffer;
 	static unsigned int textureColorbuffer;
 
 	static size_t drawCallsLastFrame;

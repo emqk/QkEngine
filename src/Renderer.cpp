@@ -14,9 +14,9 @@
 
 #include <vector>
 
-unsigned int Renderer::VAO;
-unsigned int Renderer::VBO;
-unsigned int Renderer::EBO;
+//unsigned int Renderer::VAO;
+//unsigned int Renderer::VBO;
+//unsigned int Renderer::EBO;
 unsigned int Renderer::framebuffer;
 unsigned int Renderer::textureColorbuffer;
 size_t Renderer::drawCallsLastFrame = 0;
@@ -65,49 +65,39 @@ unsigned int Renderer::GetFrameBufferTextureID()
     return textureColorbuffer;
 }
 
-
-void Renderer::BindMeshNew(const Mesh& mesh)
-{
-    // create buffers/arrays
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-
-    glBindVertexArray(VAO);
-    // load data into vertex buffers
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    // A great thing about structs is that their memory layout is sequential for all its items.
-    // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
-    // again translates to 3/2 floats which translates to a byte array.
-    glBufferData(GL_ARRAY_BUFFER, mesh.GetVertices().size() * sizeof(Vertex), &mesh.GetVertices()[0], GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.GetIndices().size() * sizeof(unsigned int), &mesh.GetIndices()[0], GL_STATIC_DRAW);
-
-    //set the vertex attribute pointers
-    //vertex Positions
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-    // vertex normals
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
-    // vertex texture coords
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
-    // vertex tangent
-    //glEnableVertexAttribArray(3);
-    //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Tangent));
-    //// vertex bitangent
-    //glEnableVertexAttribArray(4);
-    //glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
-
-    glBindVertexArray(0);
-}
-
 void Renderer::DrawNew()
 {
     drawCallsLastFrame = 0;
     drawVerticesLastFrame = 0;
+    
+    //Set global values to all shaders
+
+    glm::vec3 fogColor = Lighting::GetFogColor();
+    float fogDensity = Lighting::GetFogDensity();
+    glm::vec2 fogStartEnd = Scene::GetCurrentScene().GetCamera().GetClipping();
+    LightComponent* light = Lighting::GetFirstLight();
+    glm::vec3 lightDirection = light == nullptr ? glm::vec3(-1, 0, 0) : light->GetParent()->transform.GetForward();
+    glm::vec3 lightColor = light == nullptr ? glm::vec3(1, 1, 1) : light->GetColor();
+    glm::vec3 ambientLightColor = Lighting::GetAmbientLightColor();
+    glm::vec3 viewPos = Scene::GetCurrentScene().GetCamera().GetLocalPosition();
+
+    std::vector<Shader*> allShaders = ResourceManager::GetAllShaders();
+    for (Shader* shader : allShaders)
+    {
+        shader->Use();
+        //Fog
+        shader->SetVec3("_FogColor", fogColor.x, fogColor.y, fogColor.z);
+        shader->SetFloat("near", fogStartEnd.x);
+        shader->SetFloat("far", fogStartEnd.y);
+        shader->SetFloat("_FogDensity", fogDensity);
+
+        shader->SetVec3("light.direction", lightDirection.x, lightDirection.y, lightDirection.z);
+        shader->SetVec3("light.color", lightColor.x, lightColor.y, lightColor.z);
+        shader->SetVec3("viewPos", viewPos.x, viewPos.y, viewPos.z);
+        shader->SetVec3("material.ambient", ambientLightColor.x, ambientLightColor.y, ambientLightColor.z);
+        shader->SetMat4("projection", Scene::GetCurrentScene().GetCamera().projection);
+        shader->SetMat4("view", Scene::GetCurrentScene().GetCamera().view);
+    }
 
     for (SpriteComponent* comp : spriteComponents)
     {
@@ -140,60 +130,29 @@ void Renderer::DrawNew()
         }
 
 
-        componentShader->Use();
-        //Fog
-        glm::vec3 fogColor = Lighting::GetFogColor();
-        float fogDensity = Lighting::GetFogDensity();
-        glm::vec2 fogStartEnd = Scene::GetCurrentScene().GetCamera().GetClipping();
-        componentShader->SetVec3("_FogColor", fogColor.x, fogColor.y, fogColor.z);
-        componentShader->SetFloat("near", fogStartEnd.x);
-        componentShader->SetFloat("far", fogStartEnd.y);
-        componentShader->SetFloat("_FogDensity", fogDensity);
         //Material
-        LightComponent* light = Lighting::GetFirstLight();
-        //glm::vec3 lightPos = light == nullptr ? glm::vec3(0, 0, 0) : light->GetPosition();
-        glm::vec3 lightDirection = light == nullptr ? glm::vec3(-1, 0, 0) : light->GetParent()->transform.GetForward();
-        glm::vec3 lightColor = light == nullptr ? glm::vec3(1, 1, 1) : light->GetColor();
-        glm::vec3 ambientLightColor = Lighting::GetAmbientLightColor();
-        glm::vec3 viewPos = Scene::GetCurrentScene().GetCamera().GetLocalPosition();
-        glm::vec3 specular = comp->specular;
-        float shininess = comp->shininess;
+        componentShader->Use();
 
-        //std::cout << "lightDirection: " << lightDirection.x << "x " << lightDirection.y << "y " << lightDirection.z << "z\n";
+        glm::vec3 specular = comp->specular;
 
         componentShader->SetVec4("material.diffuse", comp->color.r, comp->color.g, comp->color.b, comp->color.a);
-        componentShader->SetVec3("material.ambient", ambientLightColor.x, ambientLightColor.y, ambientLightColor.z);
         componentShader->SetVec3("material.specular", specular.x, specular.y, specular.z);
-        componentShader->SetFloat("material.shininess", shininess);
+        componentShader->SetFloat("material.shininess", comp->shininess);
         componentShader->SetInt("material.texture_diffuse1", 0);
         componentTexture->Use();
 
-        //componentShader->SetVec3("light.position", lightPos.x, lightPos.y, lightPos.z);
-        componentShader->SetVec3("light.direction", lightDirection.x, lightDirection.y, lightDirection.z);
-        componentShader->SetVec3("light.color", lightColor.x, lightColor.y, lightColor.z);
-
-        componentShader->SetVec3("viewPos", viewPos.x, viewPos.y, viewPos.z);
-        //
-
-        BindMeshNew(*componentMeshNew);
-
         glm::mat4 model = Transform::CalculateModel(comp->GetParent());
         componentShader->SetMat4("model", model);
-        componentShader->SetMat4("projection", Scene::GetCurrentScene().GetCamera().projection);
-        componentShader->SetMat4("view", Scene::GetCurrentScene().GetCamera().view);
 
 
         // draw mesh
-        glBindVertexArray(VAO);
+        glBindVertexArray(componentMeshNew->GetVAO());
         glDrawElements(GL_TRIANGLES, componentMeshNew->GetIndices().size(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
         // always good practice to set everything back to defaults once configured.
         glActiveTexture(GL_TEXTURE0);
 
-        glDeleteVertexArrays(1, &VAO);
-        glDeleteBuffers(1, &VBO);
-        glDeleteBuffers(1, &EBO);
 
         ++drawCallsLastFrame;
         drawVerticesLastFrame += componentMeshNew->GetVertices().size();
@@ -213,7 +172,7 @@ void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot,
     componentShader.SetInt("texture_diffuse1", 0);
     componentTexture.Use();
 
-    BindMeshNew(componentMesh);
+    //BindMeshNew(componentMesh);
 
     glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
     //float sinCalc = cos(timeValue);
@@ -227,16 +186,12 @@ void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot,
     componentShader.SetMat4("view", Scene::GetCurrentScene().GetCamera().view);
 
     // draw mesh
-    glBindVertexArray(VAO);
+    glBindVertexArray(componentMesh.GetVAO());
     glDrawElements(GL_TRIANGLES, componentMesh.GetIndices().size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 
     // always good practice to set everything back to defaults once configured.
     glActiveTexture(GL_TEXTURE0);
-
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
 
     //Go back to draw mode before this mesh
     glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
@@ -245,7 +200,7 @@ void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot,
 void Renderer::AddSpriteToDraw(SpriteComponent* comp)
 {
     spriteComponents.push_back(comp);
-    std::cout << "SpriteCompnent added to 'To Draw' container\n";
+    //std::cout << "SpriteCompnent added to 'To Draw' container\n";
 }
 
 void Renderer::RemoveSpriteToDraw(SpriteComponent* comp)
@@ -254,7 +209,7 @@ void Renderer::RemoveSpriteToDraw(SpriteComponent* comp)
     if (it != spriteComponents.end())
     {
         spriteComponents.erase(it);
-        std::cout << "SpriteComponent removed from renderer: " << spriteComponents.size() << "\n";
+        //std::cout << "SpriteComponent removed from renderer: " << spriteComponents.size() << "\n";
     }
 }
 

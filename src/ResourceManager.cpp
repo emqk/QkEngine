@@ -9,18 +9,6 @@ std::unordered_map<std::string, std::unique_ptr<Shader>> ResourceManager::shader
 std::unordered_map<std::string, std::unique_ptr<Model>> ResourceManager::modelMap;
 std::unordered_map<std::string, std::unique_ptr<Mesh>> ResourceManager::meshNewMap;
 
-//struct Vertex {
-//	// position
-//	glm::vec3 Position;
-//	// normal
-//	glm::vec3 Normal;
-//	// texCoords
-//	glm::vec2 TexCoords;
-//	// tangent
-//	glm::vec3 Tangent;
-//	// bitangent
-//	glm::vec3 Bitangent;
-//};
 
 void ResourceManager::LoadTexture(const char* texturePath)
 {
@@ -119,6 +107,18 @@ void ResourceManager::LoadShader(const char* shaderPath)
 
 	shader->name = shaderPath;
 	shaderMap[shaderPath] = std::move(shader);
+}
+
+std::vector<Shader*> ResourceManager::GetAllShaders()
+{
+	std::vector<Shader*> result;
+	result.reserve(shaderMap.size());
+	for (auto& p : shaderMap)
+	{
+		result.emplace_back(p.second.get());
+	}
+
+	return result;
 }
 
 Shader* ResourceManager::GetShader(const char* shaderPath)

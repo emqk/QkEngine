@@ -2,7 +2,7 @@
 #include "Component.h"
 #include "../Shader.h"
 #include "../Texture.h"
-#include "../MeshNew.h"
+#include "../Mesh.h"
 
 
 class SpriteComponent : public Component

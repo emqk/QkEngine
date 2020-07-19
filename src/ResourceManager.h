@@ -10,7 +10,7 @@
 #include "Shader.h"
 #include "Editor.h"
 
-#include "NewModel.h"
+#include "Model.h"
 
 class ResourceManager
 {
@@ -29,6 +29,7 @@ public:
 	static std::vector<std::string> GetMeshesNewName();
 
 	static void LoadShader(const char* shaderPath);
+	static std::vector<Shader*> GetAllShaders();
 	static Shader* GetShader(const char* shaderPath);
 	static std::vector<std::string> GetShadersName();
 

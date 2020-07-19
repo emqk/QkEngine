@@ -329,7 +329,7 @@ GameObject* Scene::DuplicateGameObject(const GameObject* obj)
     std::unique_ptr<GameObject> newObj = std::make_unique<GameObject>(*obj);
     objects.push_back(std::move(newObj));
     GameObject* newObjPtr = objects.back().get();
-    std::cout << "[Copy GameObject] Object size: " << objects.size() << "\n";
+    //std::cout << "[Copy GameObject] Object size: " << objects.size() << "\n";
     GameObject* orgParent = obj->transform.GetParent();
     if(orgParent != nullptr)
         newObjPtr->transform.SetParent(orgParent);

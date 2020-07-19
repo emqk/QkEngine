@@ -29,7 +29,7 @@ GameManager::GameManager()
 
 	//Sun
 	GameObject* sunObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
-	sunObj->name = "Ground";
+	sunObj->name = "Sun";
 	SpriteComponent* sunSprite = sunObj->AddComponent<SpriteComponent>();
 	if (sunSprite != nullptr)
 	{
@@ -74,7 +74,7 @@ GameManager::GameManager()
 	//}
 
 	//Player
-	playerObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 4, 0));
+	playerObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 9, 0));
 	PlayerComponent* playerComp = playerObj->AddComponent<PlayerComponent>();
 	playerObj->name = "Player";
 
@@ -110,7 +110,7 @@ GameManager::GameManager()
 	//sec->transform.SetParent(playerObj);
 
 	//Duplicate some objects
-	for (size_t i = 0; i < 2; i++)
+	for (size_t i = 0; i < 2000; i++)
 	{
 		GameObject* duplicate = Scene::GetCurrentScene().DuplicateGameObject(newParent);
 		float px = Random::RandomFloat(-35, 35);

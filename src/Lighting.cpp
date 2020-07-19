@@ -1,4 +1,3 @@
-#include <iostream>
 #include "imgui/imgui.h"
 
 #include "Lighting.h"
@@ -30,7 +29,7 @@ void Lighting::ShowWindow()
 void Lighting::RegisterLight(LightComponent* lightComp)
 {
 	lights.push_back(lightComp);
-	std::cout << "LightComponent registered\n";
+	//std::cout << "LightComponent registered\n";
 }
 
 void Lighting::UnRegisterLight(LightComponent* lightComp)
@@ -39,7 +38,7 @@ void Lighting::UnRegisterLight(LightComponent* lightComp)
 	if (it != lights.end())
 	{
 		lights.erase(it);
-		std::cout << "LightComponent removed from lights: " << lights.size() << "\n";
+		//std::cout << "LightComponent removed from lights: " << lights.size() << "\n";
 	}
 }
 

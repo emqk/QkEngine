@@ -4,7 +4,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include "MeshNew.h"
+#include "Mesh.h"
 
 #include <string>
 #include <iostream>

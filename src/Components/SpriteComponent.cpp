@@ -115,7 +115,6 @@ const Texture* SpriteComponent::GetTexture()
 
 std::unique_ptr<Component> SpriteComponent::MakeCopy(GameObject* newParent) const
 {
-	std::cout << "Get copy of spriteComp\n";
 	std::unique_ptr<SpriteComponent> comp = std::make_unique<SpriteComponent>(*this);
 	comp->parent = newParent;
 

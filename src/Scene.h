@@ -9,7 +9,7 @@
 #include "GameObject.h"
 #include "Camera.h"
 #include "ResourceManager.h"
-#include "NewModel.h"
+#include "Model.h"
 
 class Scene
 {

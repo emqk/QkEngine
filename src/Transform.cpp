@@ -240,7 +240,7 @@ const std::vector<GameObject*>& Transform::GetChilds() const
 
 void Transform::SetParent(GameObject* newParent)
 {
-	std::cout <<"\t Setting parent of " << root->name << std::endl;
+	//std::cout <<"\t Setting parent of " << root->name << std::endl;
 	//It's for staying object at the same position. It works but it moves object to wrong position when Exit GameMode
 	//glm::vec3 globalPosBeforeParentChange = GetGlobalPosition();
 
@@ -277,7 +277,7 @@ void Transform::RemoveFromParent()
 {
 	if (GetParent() != nullptr)
 	{
-		std::cout << "\t Removing " << root->name << " from parent\n";
+		//std::cout << "\t Removing " << root->name << " from parent\n";
 		std::vector<GameObject*>::iterator it = std::find(parent->transform.childs.begin(), parent->transform.childs.end(), root);
 		if (it != parent->transform.childs.end())
 			root->transform.parent->transform.childs.erase(it);
