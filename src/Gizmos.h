@@ -8,10 +8,13 @@ class Gizmos
 public:
 	Gizmos() = delete;
 	~Gizmos() = delete;
+
+	static void Init();
 	
 	static void SetCurrentColor(const glm::vec4& color);
 	static void ResetDefaultColor();
 
+	static void PrepareToRender();
 	static void DrawMeshNewWireframe(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& mesh);
 	static void DrawCubeWireframe(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale);
 
@@ -21,4 +24,6 @@ public:
 
 private:
 	static glm::vec4 currentColor;
+	static Shader* defaultShader;
+	static Texture* defaultTexture;
 };

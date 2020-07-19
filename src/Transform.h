@@ -29,6 +29,8 @@ public:
 
 	void Translate(const glm::vec3& offset);
 
+	const glm::mat4& GetModel() const;
+
 	void SetLocalPosition(const glm::vec3& newPosition);
 	void SetLocalRotation(const glm::quat& newRotation);
 	void SetLocalScale(const glm::vec3& newScale);
@@ -47,14 +49,9 @@ public:
 	glm::vec3 GetForward() const;
 	glm::vec3 GetRight() const;
 	glm::vec3 GetUp() const;
-	
-	glm::mat4x4 GetLocalMatrix() const;
-
-	static glm::mat4 CalculateModel(const GameObject const* obj);
 
 	static glm::quat ConvertQuaternionToQuaternionEulerAngles(const glm::quat& quat);
 	static glm::quat ToQuaternion(const glm::vec3& rotationVec);
-	static MatrixDecomposeData DecomposeMatrix(const glm::mat4& matrix);
 
 	void OnChange();
 
@@ -68,7 +65,13 @@ private:
 	void UpdateGlobal();
 	void SetRoot(GameObject* newRoot);
 
-	static void CalculateModel(const GameObject const* obj, glm::mat4& model);
+	void CalculateModel();
+	void CalculateModel(glm::mat4 model);
+
+	glm::mat4x4 GetLocalMatrix() const;
+	static MatrixDecomposeData DecomposeMatrix(const glm::mat4& matrix);
+
+	glm::mat4 myModel = glm::mat4(1.0f);
 
 	glm::vec3 Front = glm::vec3(0.0f, 0.0f, 1.0f);
 	glm::vec3 Right = glm::vec3(1.0f, 0.0f, 0.0f);

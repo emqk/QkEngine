@@ -12,6 +12,7 @@
 #include "Physics.h"
 #include "Profiler.h"
 #include "Window.h"
+#include "Gizmos.h"
 
 #include <limits>
 #include <chrono>
@@ -279,12 +280,20 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
     //Draw
     sampleName = "Draw time";
     Profiler::BeginSample(sampleName);
-    
     Renderer::DrawNew();
+    Profiler::EndSample();
 
     //Draw gizmos
+    Profiler::BeginSample("Gizmos");
+    DrawGizmos();
+    Profiler::EndSample();
+}
+
+void Scene::DrawGizmos()
+{
     if (Editor::CanDrawGizmos())
     {
+        Gizmos::PrepareToRender();
         for (std::unique_ptr<GameObject>& obj : objects)
         {
             if (!obj->IsActive())
@@ -295,8 +304,6 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
 
         Editor::DrawSelectedGameObject();
     }
-
-    Profiler::EndSample();
 }
 
 Camera& Scene::GetCamera()

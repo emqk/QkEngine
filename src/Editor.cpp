@@ -86,8 +86,14 @@ void Editor::Update()
     ImGui::NewFrame();
     //ImGui::ShowDemoWindow();
 
+    Profiler::BeginSample("Editor");
+
     EnableDockingBackground();
     ShowEnabledWindows();
+
+    Profiler::EndSample();
+    if (showProfiler)
+        Profiler::ShowData();
 
     // Rendering
     ImGui::Render();
@@ -257,9 +263,6 @@ void Editor::ShowEnabledWindows()
 
     if (showLightingWindow)
         Lighting::ShowWindow();
-
-    if (showProfiler)
-        Profiler::ShowData();
 
     //Viewport
     {

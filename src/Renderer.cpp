@@ -141,7 +141,8 @@ void Renderer::DrawNew()
         componentShader->SetInt("material.texture_diffuse1", 0);
         componentTexture->Use();
 
-        glm::mat4 model = Transform::CalculateModel(comp->GetParent());
+        //glm::mat4 model = Transform::CalculateModel(comp->GetParent());
+        glm::mat4 model = comp->GetParent()->transform.GetModel();
         componentShader->SetMat4("model", model);
 
 
@@ -166,14 +167,6 @@ void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot,
     glGetIntegerv(GL_POLYGON_MODE, &polygonMode);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-
-    componentShader.Use();
-    componentShader.SetVec4("_FragColor", color.r, color.g, color.b, color.a);
-    componentShader.SetInt("texture_diffuse1", 0);
-    componentTexture.Use();
-
-    //BindMeshNew(componentMesh);
-
     glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
     //float sinCalc = cos(timeValue);
     model = glm::translate(model, pos);
@@ -181,9 +174,9 @@ void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot,
     model = glm::rotate(model, glm::radians(rot.y), glm::vec3(0.0f, 1.0f, 0.0f));
     model = glm::rotate(model, glm::radians(rot.z), glm::vec3(0.0f, 0.0f, 1.0f));
     model = glm::scale(model, localScale);
+
     componentShader.SetMat4("model", model);
-    componentShader.SetMat4("projection", Scene::GetCurrentScene().GetCamera().projection);
-    componentShader.SetMat4("view", Scene::GetCurrentScene().GetCamera().view);
+    componentShader.SetVec4("_FragColor", color.r, color.g, color.b, color.a);
 
     // draw mesh
     glBindVertexArray(componentMesh.GetVAO());

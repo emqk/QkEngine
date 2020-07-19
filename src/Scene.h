@@ -55,6 +55,8 @@ private:
 	static Scene* currentScene;
 	static bool inGameMode;
 
+	void DrawGizmos();
+
 	void DestroyPostponed();
 	void DuplicateChilds(const GameObject* obj, GameObject* parent);
 	void DuplicateChildsCopy(GameObject* obj, GameObject* parent);

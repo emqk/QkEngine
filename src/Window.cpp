@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "InputManager.h"
 #include "Editor.h"
+#include "Gizmos.h"
 
 #include "imgui/imgui_impl_opengl3.h"
 #include "imgui/imgui_impl_glfw.h"
@@ -45,6 +46,7 @@ void Window::Init()
 void Window::Run()
 {
     Editor::Init(window);
+    Gizmos::Init();
 
     while (!glfwWindowShouldClose(window))
     {

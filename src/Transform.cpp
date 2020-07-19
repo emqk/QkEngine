@@ -19,6 +19,8 @@ Transform::~Transform()
 
 Transform& Transform::operator=(const Transform& other)
 {
+	myModel = other.myModel;
+
 	globalPosition = other.globalPosition;
 	globalRotation = other.globalRotation;
 	globalScale = other.globalScale;
@@ -90,6 +92,11 @@ void Transform::SetLocalScale(const glm::vec3& newScale)
 void Transform::Translate(const glm::vec3& offset)
 {
 	SetLocalPosition(GetLocalPosition() + offset);
+}
+
+const glm::mat4& Transform::GetModel() const
+{
+	return myModel;
 }
 
 glm::vec3 Transform::GetLocalPosition() const
@@ -207,30 +214,42 @@ glm::mat4x4 Transform::GetLocalMatrix() const
 	return model;
 }
 
-glm::mat4 Transform::CalculateModel(const GameObject const* obj)
+void Transform::CalculateModel()
 {
-	glm::mat4 model = glm::mat4(1.0f);
-	CalculateModel(obj, model);
-	return model;
-}
-
-void Transform::CalculateModel(const GameObject const* obj, glm::mat4& model)
-{
-	if (obj->transform.GetParent() != nullptr)
+	glm::mat4 model = glm::mat4(1.0f);;
+	if (parent == nullptr)
 	{
-		CalculateModel(obj->transform.GetParent(), model);
-		model *= obj->transform.GetLocalMatrix();
+		model = glm::mat4(1.0f);
 	}
 	else
 	{
-		model = obj->transform.GetLocalMatrix();
+		model = parent->transform.myModel;
+	}
+	myModel = model * GetLocalMatrix();
+
+	for (GameObject* child : childs)
+	{
+		child->transform.CalculateModel(myModel);
+	}
+}
+
+void Transform::CalculateModel(glm::mat4 model)
+{
+	model *= GetLocalMatrix();
+	myModel = model;
+
+	for (GameObject* child : childs)
+	{
+		child->transform.CalculateModel(myModel);
 	}
 }
 
 void Transform::OnChange()
 {
+	CalculateModel();
 	UpdateVectors();
 	UpdateGlobal();
+
 }
 
 const std::vector<GameObject*>& Transform::GetChilds() const
@@ -311,8 +330,8 @@ void Transform::UpdateGlobal()
 {
 	if (root != nullptr)
 	{
-		glm::mat4 model = CalculateModel(root);
-		MatrixDecomposeData decomposedMatrix = DecomposeMatrix(model);
+		//glm::mat4 model = CalculateModel(root);
+		MatrixDecomposeData decomposedMatrix = DecomposeMatrix(myModel);
 		globalPosition = decomposedMatrix.translation;
 		globalRotation = decomposedMatrix.orientation;
 		globalScale = decomposedMatrix.scale;

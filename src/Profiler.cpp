@@ -24,10 +24,17 @@ void Profiler::ShowData()
 	ImGui::Text("Last frame vertices: %u", Renderer::GetDrawnVerticesLastFrame());
 
 	//Histograms
+	int i = 0;
 	for (const std::pair<std::string, ProfileData>& p : datas)
 	{
+		
 		const std::vector<float>& currentTimes = p.second.histogramTimes;
 		ImGui::PlotHistogram(p.first.c_str(), currentTimes.data(), currentTimes.size(), 0, (std::to_string(currentTimes.back()) + std::string("ms")).c_str(), 0.0f, 17.0f, ImVec2(400, 100));
+		if (i % 2 == 0)
+		{
+			ImGui::SameLine();
+		}
+		i++;
 	}
 	
 	ImGui::End();
