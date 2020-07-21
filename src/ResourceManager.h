@@ -7,6 +7,7 @@
 #include <assimp/postprocess.h>
 
 #include "Texture.h"
+#include "Animation/SpriteAnimation.h"
 #include "Shader.h"
 #include "Editor.h"
 
@@ -17,6 +18,9 @@ class ResourceManager
 public:
 	ResourceManager() = delete;
 	~ResourceManager() = delete;
+
+	static void LoadSpriteAnimation(std::vector<Texture*> _textures, const char* name);
+	static SpriteAnimation* GetSpriteAnimation(const char* name);
 
 	static void LoadTexture(const char* texturePath);
 	static Texture* GetTexture(const char* texturePath);
@@ -36,6 +40,8 @@ public:
 private:
 	static std::unordered_map<std::string, std::unique_ptr<Texture>> textureMap;
 	static std::unordered_map<std::string, std::unique_ptr<Shader>> shaderMap;
+
+	static std::unordered_map<std::string, std::unique_ptr<SpriteAnimation>> spriteAnimationMap;
 
 	static std::unordered_map<std::string, std::unique_ptr<Model>> modelMap;
 	static std::unordered_map<std::string, std::unique_ptr<Mesh>> meshNewMap;

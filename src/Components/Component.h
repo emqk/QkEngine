@@ -26,6 +26,8 @@ public:
 	bool IsActive() const;
 	bool IsActiveSelf() const;
 
+	void ChangeParent(GameObject* newParent);
+
 	GameObject* const GetParent() const;
 
 	std::string name;

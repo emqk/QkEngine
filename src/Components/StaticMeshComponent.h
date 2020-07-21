@@ -9,7 +9,7 @@ class StaticMeshComponent : public Component
 {
 public:
 	StaticMeshComponent(GameObject* _parent);
-	~StaticMeshComponent();
+	virtual ~StaticMeshComponent();
 
 	StaticMeshComponent(const StaticMeshComponent& comp);
 	StaticMeshComponent& operator=(const StaticMeshComponent& comp) = delete;

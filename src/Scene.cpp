@@ -60,7 +60,42 @@ Scene::Scene()
     //ResourceManager::LoadTexture("Human/Human_Walk_3.png");
     //ResourceManager::LoadTexture("Human/Human_Walk_4.png");
     ResourceManager::LoadTexture("kenney_medievalrtspack/PNG/Retina/Tile/asd.png");
-        
+    //Animation textures
+    //Idle
+    ResourceManager::LoadTexture("Adventurer/adventurer-idle-00.png");
+    ResourceManager::LoadTexture("Adventurer/adventurer-idle-01.png");
+    //Run
+    ResourceManager::LoadTexture("Adventurer/adventurer-run-00.png");
+    ResourceManager::LoadTexture("Adventurer/adventurer-run-01.png");
+    ResourceManager::LoadTexture("Adventurer/adventurer-run-02.png");
+    ResourceManager::LoadTexture("Adventurer/adventurer-run-03.png");
+    ResourceManager::LoadTexture("Adventurer/adventurer-run-04.png");
+    ResourceManager::LoadTexture("Adventurer/adventurer-run-05.png");
+
+    //SpriteAnimations
+    //Idle
+    std::vector<Texture*> idle;
+    Texture* frame0 = ResourceManager::GetTexture("Adventurer/adventurer-idle-00.png");
+    idle.push_back(frame0);
+    Texture* frame1 = ResourceManager::GetTexture("Adventurer/adventurer-idle-01.png");
+    idle.push_back(frame1);
+    ResourceManager::LoadSpriteAnimation(std::move(idle), "Idle");
+    //Run
+    std::vector<Texture*> run;
+    Texture* run0 = ResourceManager::GetTexture("Adventurer/adventurer-run-00.png");
+    run.push_back(run0);
+    Texture* run1 = ResourceManager::GetTexture("Adventurer/adventurer-run-01.png");
+    run.push_back(run1);
+    Texture* run2 = ResourceManager::GetTexture("Adventurer/adventurer-run-02.png");
+    run.push_back(run2);
+    Texture* run3 = ResourceManager::GetTexture("Adventurer/adventurer-run-03.png");
+    run.push_back(run3);
+    Texture* run4 = ResourceManager::GetTexture("Adventurer/adventurer-run-04.png");
+    run.push_back(run4);
+    Texture* run5 = ResourceManager::GetTexture("Adventurer/adventurer-run-05.png");
+    run.push_back(run5);
+    ResourceManager::LoadSpriteAnimation(std::move(run), "Run");
+
     //Models
     ResourceManager::LoadModel("Cube.obj");
     ResourceManager::LoadModel("Arrow.fbx");

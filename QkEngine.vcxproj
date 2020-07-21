@@ -152,9 +152,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Animation\SpriteAnimation.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Bounds.cpp" />
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Components\AnimatedSpriteComponent.cpp" />
     <ClCompile Include="src\Components\BoxColliderComponent.cpp" />
     <ClCompile Include="src\Components\Component.cpp" />
     <ClCompile Include="src\Components\LightComponent.cpp" />
@@ -188,8 +190,10 @@
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Animation\SpriteAnimation.h" />
     <ClInclude Include="src\Bounds.h" />
     <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Components\AnimatedSpriteComponent.h" />
     <ClInclude Include="src\Components\BoxColliderComponent.h" />
     <ClInclude Include="src\Components\Component.h" />
     <ClInclude Include="src\Components\LightComponent.h" />

@@ -19,10 +19,11 @@ PlayerComponent::PlayerComponent(GameObject* _parent) : Component(_parent)
 
 	moveComponent = parent->AddComponent<MoveComponent>();
 
-	staticMeshComponent = parent->AddComponent<StaticMeshComponent>();
-	staticMeshComponent->SetMeshNew("Human/Human.obj->Plane");
-	staticMeshComponent->SetTexture(ResourceManager::GetTexture("Human/Human_Walk_1.png"));
-	staticMeshComponent->SetShader(ResourceManager::GetShader("StandardShader"));
+	animatedSpriteComponent = parent->AddComponent<AnimatedSpriteComponent>();
+	animatedSpriteComponent->SetMeshNew("Human/Human.obj->Plane");
+	animatedSpriteComponent->SetTexture(ResourceManager::GetTexture("Human/Human_Walk_1.png"));
+	animatedSpriteComponent->SetShader(ResourceManager::GetShader("StandardShader"));
+	animatedSpriteComponent->SetCurrentAnimation(ResourceManager::GetSpriteAnimation("Idle"));
 }
 
 PlayerComponent::~PlayerComponent()
@@ -38,6 +39,7 @@ PlayerComponent::PlayerComponent(const PlayerComponent& comp) : Component(comp)
 
 	boxColliderComponent = parent->GetComponent<BoxColliderComponent>();
 	moveComponent = parent->GetComponent<MoveComponent>();
+	animatedSpriteComponent = parent->GetComponent<AnimatedSpriteComponent>();
 }
 
 void PlayerComponent::Update(const float& deltaTime)
@@ -73,8 +75,18 @@ void PlayerComponent::Update(const float& deltaTime)
 		moveVec += -parent->transform.GetForward();
 
 
-	if (glm::length(moveVec) > 0.0f)
+	float moveVecLength = glm::length(moveVec);
+	if (moveVecLength > 0.0f)
+	{
 		moveVec = glm::normalize(moveVec);
+		SpriteAnimation* anim = ResourceManager::GetSpriteAnimation("Run");
+		animatedSpriteComponent->SetCurrentAnimation(anim);
+	}
+	else
+	{
+		SpriteAnimation* anim = ResourceManager::GetSpriteAnimation("Idle");
+		animatedSpriteComponent->SetCurrentAnimation(anim);
+	}
 	
 	//movement
 	if (InputManager::GetKey(GLFW_KEY_LEFT_SHIFT))
@@ -108,7 +120,7 @@ void PlayerComponent::LateUpdate(const float& deltaTime)
 	glm::vec3 camPos = camera->GetLocalPosition();
 	glm::vec3 playerPos = parent->transform.GetLocalPosition();
 
-	camera->SetLocalPosition(parent->transform.GetGlobalPosition() + glm::vec3(0, 5, 10));
+	camera->SetLocalPosition(parent->transform.GetGlobalPosition() + glm::vec3(0, 4, 7));
 	camera->SetLocalRotation(glm::quat(1, -30, 0, 0));
 }
 
@@ -127,6 +139,10 @@ std::unique_ptr<Component> PlayerComponent::MakeCopy(GameObject* newParent) cons
 {
 	std::unique_ptr<PlayerComponent> comp = std::make_unique<PlayerComponent>(*this);
 	comp->parent = newParent;
+
+	comp->boxColliderComponent = comp->parent->GetComponent<BoxColliderComponent>();
+	comp->moveComponent = comp->parent->GetComponent<MoveComponent>();
+	comp->animatedSpriteComponent = comp->parent->GetComponent<AnimatedSpriteComponent>();
 
 	return std::move(comp);
 }

@@ -6,9 +6,32 @@ class MeshData;
 std::unordered_map<std::string, std::unique_ptr<Texture>> ResourceManager::textureMap;
 std::unordered_map<std::string, std::unique_ptr<Shader>> ResourceManager::shaderMap;
 
+std::unordered_map<std::string, std::unique_ptr<SpriteAnimation>> ResourceManager::spriteAnimationMap;
+
 std::unordered_map<std::string, std::unique_ptr<Model>> ResourceManager::modelMap;
 std::unordered_map<std::string, std::unique_ptr<Mesh>> ResourceManager::meshNewMap;
 
+
+void ResourceManager::LoadSpriteAnimation(std::vector<Texture*> _textures, const char* name)
+{
+	spriteAnimationMap[name] = std::move(std::make_unique<SpriteAnimation>(_textures));
+	std::cout << "Loaded animation: " << name << "\n";
+}
+
+SpriteAnimation* ResourceManager::GetSpriteAnimation(const char* name)
+{
+	if (spriteAnimationMap.find(name) == spriteAnimationMap.end())
+	{
+		std::cout << "Can't find spriteAnimtion: " << name << "\n";
+		std::cout << "Available animations: " << "\n";
+		for (std::pair<std::string, const std::unique_ptr<SpriteAnimation>&> p : spriteAnimationMap)
+		{
+			std::cout << "animation: " << p.first << "\n";
+		}
+	}
+
+	return spriteAnimationMap[name].get();
+}
 
 void ResourceManager::LoadTexture(const char* texturePath)
 {
@@ -26,10 +49,10 @@ Texture* ResourceManager::GetTexture(const char* texturePath)
     if (textureMap.find(texturePath) == textureMap.end())
     {
 		std::cout << "Can't find texture: " << texturePath << "\n";
-		std::cout << "I have: "<< "\n";
+		std::cout << "Available textures: "<< "\n";
         for (std::pair<std::string, const std::unique_ptr<Texture>&> p : textureMap)
         {
-            std::cout << "element: " << p.first << "\n";
+            std::cout << "texture: " << p.first << "\n";
         }
     }
 

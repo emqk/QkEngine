@@ -6,7 +6,7 @@
 #include <glm\ext\matrix_float4x4.hpp>
 #include <glm\ext\vector_float3.hpp>
 
-#include "Components/StaticMeshComponent.h"
+#include "Components/AnimatedSpriteComponent.h"
 #include "Components/MoveComponent.h"
 #include "Components/BoxColliderComponent.h"
 #include "Components/LightComponent.h"
@@ -45,7 +45,7 @@ GameObject& GameObject::operator=(const GameObject& other)
 {
 	name = std::string(other.name);
 	isActive = other.isActive;
-
+	
 	for (size_t i = 0; i < other.components.size(); i++)
 	{
 		components.push_back(other.components[i]->MakeCopy(this));
@@ -108,6 +108,10 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 	if (ImGui::Button("Add StaticMeshComponent"))
 	{
 		AddComponent<StaticMeshComponent>();
+	}
+	if (ImGui::Button("Add AnimatedSpriteComponent"))
+	{
+		AddComponent<AnimatedSpriteComponent>();
 	}
 	if (ImGui::Button("Add MoveComponent"))
 	{

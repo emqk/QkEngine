@@ -42,7 +42,7 @@ public:
 	}
 
 	template<typename T>
-	T* const GetComponent()
+	T* GetComponent()
 	{
 		for (const std::unique_ptr<Component>& comp : components)
 		{
