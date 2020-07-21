@@ -41,11 +41,6 @@ bool Component::IsActiveSelf() const
 	return isActive;
 }
 
-void Component::ChangeParent(GameObject* newParent)
-{
-	parent = newParent;
-}
-
 GameObject* const Component::GetParent() const
 {
 	return parent;

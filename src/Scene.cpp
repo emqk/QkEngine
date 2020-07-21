@@ -53,13 +53,6 @@ Scene::Scene()
 
     //Chair
     ResourceManager::LoadTexture("Chair/diffuse.png");
-
-    ////HumanAnim
-    ResourceManager::LoadTexture("Human/Human_Walk_1.png");
-    //ResourceManager::LoadTexture("Human/Human_Walk_2.png");
-    //ResourceManager::LoadTexture("Human/Human_Walk_3.png");
-    //ResourceManager::LoadTexture("Human/Human_Walk_4.png");
-    ResourceManager::LoadTexture("kenney_medievalrtspack/PNG/Retina/Tile/asd.png");
     //Animation textures
     //Idle
     ResourceManager::LoadTexture("Adventurer/adventurer-idle-00.png");

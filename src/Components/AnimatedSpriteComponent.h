@@ -23,4 +23,8 @@ public:
 
 private:
 	SpriteAnimation* currentAnimation = nullptr;
+
+	float timeToChangeFrame = 0.15f;
+	size_t currFrame = 0;
+	float currTime = 0;
 };

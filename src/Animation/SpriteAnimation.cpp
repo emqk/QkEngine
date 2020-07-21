@@ -18,30 +18,20 @@ SpriteAnimation::SpriteAnimation(const SpriteAnimation& other)
 SpriteAnimation& SpriteAnimation::operator=(const SpriteAnimation& other)
 {
 	textures = other.textures;
-	timeToChangeFrame = other.timeToChangeFrame;
-	currFrame = other.currFrame;
-	currTime = other.currTime;
-
 	return *this;
 }
 
 SpriteAnimation::SpriteAnimation(SpriteAnimation&& other) noexcept
-	: textures(std::move(other.textures)), timeToChangeFrame(other.timeToChangeFrame), currFrame(other.currFrame), currTime(other.currTime)
+	: textures(std::move(other.textures))
 {
-
 }
 
-Texture* SpriteAnimation::Update(const float& deltaTime)
+size_t SpriteAnimation::GetFramesCount()
 {
-	currTime += deltaTime;
-	if (currTime > timeToChangeFrame)
-	{
-		currFrame++;
-		if (currFrame >= textures.size())
-			currFrame = 0;
+	return textures.size();
+}
 
-		currTime = 0;
-	}
-
-	return textures[currFrame];
+Texture* SpriteAnimation::GetTexture(const size_t index)
+{
+	return textures[index];
 }

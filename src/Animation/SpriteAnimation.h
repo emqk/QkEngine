@@ -15,12 +15,10 @@ public:
 	SpriteAnimation& operator=(const SpriteAnimation& other);
 	SpriteAnimation (SpriteAnimation&& other) noexcept;
 
-	Texture* Update(const float& deltaTime);
+	size_t GetFramesCount();
+	Texture* GetTexture(const size_t index);
 
 private:
 	std::vector<Texture*> textures;
-	float timeToChangeFrame = 0.2f;
-	size_t currFrame = 0;
-	float currTime = 0;
 };
 

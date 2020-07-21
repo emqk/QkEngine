@@ -21,7 +21,7 @@ PlayerComponent::PlayerComponent(GameObject* _parent) : Component(_parent)
 
 	animatedSpriteComponent = parent->AddComponent<AnimatedSpriteComponent>();
 	animatedSpriteComponent->SetMeshNew("Human/Human.obj->Plane");
-	animatedSpriteComponent->SetTexture(ResourceManager::GetTexture("Human/Human_Walk_1.png"));
+	animatedSpriteComponent->SetTexture(ResourceManager::GetTexture("Adventurer/adventurer-idle-00.png"));
 	animatedSpriteComponent->SetShader(ResourceManager::GetShader("StandardShader"));
 	animatedSpriteComponent->SetCurrentAnimation(ResourceManager::GetSpriteAnimation("Idle"));
 }
@@ -81,6 +81,11 @@ void PlayerComponent::Update(const float& deltaTime)
 		moveVec = glm::normalize(moveVec);
 		SpriteAnimation* anim = ResourceManager::GetSpriteAnimation("Run");
 		animatedSpriteComponent->SetCurrentAnimation(anim);
+		glm::vec3 currScale = parent->transform.GetLocalScale();
+		if (moveVec.x >= 0.0f)
+			parent->transform.SetGlobalScale(glm::vec3(abs(currScale.x), currScale.y, currScale.z));
+		else if (moveVec.x < 0.0f)
+			parent->transform.SetGlobalScale(glm::vec3(-abs(currScale.x), currScale.y, currScale.z));
 	}
 	else
 	{
