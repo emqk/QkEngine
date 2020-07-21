@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include "SpriteComponent.h"
+#include "StaticMeshComponent.h"
 #include "BoxColliderComponent.h"
 #include "MoveComponent.h"
 #include <array>
@@ -30,5 +30,5 @@ private:
 
 	BoxColliderComponent* boxColliderComponent = nullptr;
 	MoveComponent* moveComponent = nullptr;
-	SpriteComponent* spriteComponent = nullptr;
+	StaticMeshComponent* staticMeshComponent = nullptr;
 };

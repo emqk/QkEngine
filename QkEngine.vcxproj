@@ -160,7 +160,7 @@
     <ClCompile Include="src\Components\LightComponent.cpp" />
     <ClCompile Include="src\Components\MoveComponent.cpp" />
     <ClCompile Include="src\Components\PlayerComponent.cpp" />
-    <ClCompile Include="src\Components\SpriteComponent.cpp" />
+    <ClCompile Include="src\Components\StaticMeshComponent.cpp" />
     <ClCompile Include="src\Editor.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Game\GameManager.cpp" />
@@ -195,7 +195,7 @@
     <ClInclude Include="src\Components\LightComponent.h" />
     <ClInclude Include="src\Components\MoveComponent.h" />
     <ClInclude Include="src\Components\PlayerComponent.h" />
-    <ClInclude Include="src\Components\SpriteComponent.h" />
+    <ClInclude Include="src\Components\StaticMeshComponent.h" />
     <ClInclude Include="src\Editor.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\Game\GameManager.h" />

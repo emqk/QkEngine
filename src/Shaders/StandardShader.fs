@@ -15,7 +15,6 @@ uniform float _FogDensity;
 struct Material
 {
     vec4 diffuse;
-    vec3 ambient;
     vec3 specularColor;
     float shininess;
 
@@ -34,6 +33,7 @@ struct Light
 uniform Material material;
 uniform Light light;
 uniform vec3 viewPos;
+uniform vec3 ambientColor;
 
 
 float LinearizeDepth(float depth) 
@@ -54,7 +54,7 @@ void main()
      vec4 fogColor = vec4(_FogColor.x, _FogColor.y, _FogColor.z, 1.0f);
 
     // ambient
-    vec3 ambient = vec3(texColor) * material.ambient;
+    vec3 ambient = vec3(texColor) * ambientColor;
   	
     // diffuse 
     vec3 norm = normalize(Normal);

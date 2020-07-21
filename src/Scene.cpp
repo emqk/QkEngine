@@ -127,11 +127,11 @@ GameObject* Scene::Raycast()
 
     for (std::unique_ptr<GameObject>& targetObj : objects)
     {
-        SpriteComponent* objSpriteComponent = targetObj->GetComponent<SpriteComponent>();
+        StaticMeshComponent* objStaticMeshComponent = targetObj->GetComponent<StaticMeshComponent>();
         Mesh* meshNewFromComponent = nullptr;
-        if (objSpriteComponent != nullptr)
+        if (objStaticMeshComponent != nullptr)
         {
-            meshNewFromComponent = objSpriteComponent->GetMeshNew();
+            meshNewFromComponent = objStaticMeshComponent->GetMeshNew();
         }
         if (meshNewFromComponent == nullptr)
             continue;
@@ -153,7 +153,7 @@ GameObject* Scene::Raycast()
         //rayToTargetObjVec -= targetObjPos;
         //if (glm::abs(rayToTargetObjVec.x) < 2 && glm::abs(rayToTargetObjVec.y) < 2 && glm::abs(rayToTargetObjVec.z) < 2)
 
-        Shader* objShader = objSpriteComponent->GetShader();
+        Shader* objShader = objStaticMeshComponent->GetShader();
         if (meshNewFromComponent->GetBounds().Intersects(rayToTargetObjVec, targetObjPos))
         {
             //std::cout << "\tYes! Ray is hitting object!\n";
@@ -323,7 +323,7 @@ void Scene::InstantiateModel(const Model const* model)
     for (const Mesh& mesh : model->meshes)
     {
         GameObject* obj = Instantiate<GameObject>(glm::vec3(0, 0, 0));
-        SpriteComponent* spriteComp = obj->AddComponent<SpriteComponent>();
+        StaticMeshComponent* spriteComp = obj->AddComponent<StaticMeshComponent>();
         std::string meshName = model->GetShortDirectory() + "->" + mesh.name;
         spriteComp->SetMeshNew(meshName.c_str());
         spriteComp->SetShader("StandardShader");

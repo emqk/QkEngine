@@ -19,10 +19,10 @@ PlayerComponent::PlayerComponent(GameObject* _parent) : Component(_parent)
 
 	moveComponent = parent->AddComponent<MoveComponent>();
 
-	spriteComponent = parent->AddComponent<SpriteComponent>();
-	spriteComponent->SetMeshNew("Human/Human.obj->Plane");
-	spriteComponent->SetTexture(ResourceManager::GetTexture("Human/Human_Walk_1.png"));
-	spriteComponent->SetShader(ResourceManager::GetShader("StandardShader"));
+	staticMeshComponent = parent->AddComponent<StaticMeshComponent>();
+	staticMeshComponent->SetMeshNew("Human/Human.obj->Plane");
+	staticMeshComponent->SetTexture(ResourceManager::GetTexture("Human/Human_Walk_1.png"));
+	staticMeshComponent->SetShader(ResourceManager::GetShader("StandardShader"));
 }
 
 PlayerComponent::~PlayerComponent()

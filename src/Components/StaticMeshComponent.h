@@ -5,14 +5,14 @@
 #include "../Mesh.h"
 
 
-class SpriteComponent : public Component
+class StaticMeshComponent : public Component
 {
 public:
-	SpriteComponent(GameObject* _parent);
-	~SpriteComponent();
+	StaticMeshComponent(GameObject* _parent);
+	~StaticMeshComponent();
 
-	SpriteComponent(const SpriteComponent& comp);
-	SpriteComponent& operator=(const SpriteComponent& comp) = delete;
+	StaticMeshComponent(const StaticMeshComponent& comp);
+	StaticMeshComponent& operator=(const StaticMeshComponent& comp) = delete;
 
 	void Update(const float& deltaTime) override;
 	void LateUpdate(const float& deltaTime) override;

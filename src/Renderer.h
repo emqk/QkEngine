@@ -2,7 +2,7 @@
 class GameObject;
 class Shader;
 
-#include "Components/SpriteComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include <vector>
 #include <glm/gtc/quaternion.hpp>
 
@@ -15,8 +15,8 @@ public:
 	static void DrawNew();
 	static void DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color);
 
-	static void AddSpriteToDraw(SpriteComponent* comp);
-	static void RemoveSpriteToDraw(SpriteComponent* comp);
+	static void AddSpriteToDraw(StaticMeshComponent* comp);
+	static void RemoveSpriteToDraw(StaticMeshComponent* comp);
 
 	static size_t GetToDrawContainerSize();
 	static size_t GetDrawCallsLastFrame();
@@ -35,7 +35,7 @@ private:
 	static size_t drawCallsLastFrame;
 	static size_t drawVerticesLastFrame;
 
-	static std::vector<SpriteComponent*> spriteComponents;
+	static std::vector<StaticMeshComponent*> StaticMeshComponents;
 
 	//Defaults
 	static Texture* defaultSpecularTexture;

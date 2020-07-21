@@ -6,7 +6,7 @@
 #include <glm\ext\matrix_float4x4.hpp>
 #include <glm\ext\vector_float3.hpp>
 
-#include "Components/SpriteComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "Components/MoveComponent.h"
 #include "Components/BoxColliderComponent.h"
 #include "Components/LightComponent.h"
@@ -105,9 +105,9 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 	ImGui::InputFloat("Sca Z", &localScale.z, 0.1f, 1.0f);
 	transform.SetLocalScale(localScale);
 
-	if (ImGui::Button("Add SpriteComponent"))
+	if (ImGui::Button("Add StaticMeshComponent"))
 	{
-		AddComponent<SpriteComponent>();
+		AddComponent<StaticMeshComponent>();
 	}
 	if (ImGui::Button("Add MoveComponent"))
 	{

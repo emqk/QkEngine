@@ -18,7 +18,7 @@ unsigned int Renderer::framebuffer;
 unsigned int Renderer::textureColorbuffer;
 size_t Renderer::drawCallsLastFrame = 0;
 size_t Renderer::drawVerticesLastFrame = 0;
-std::vector<SpriteComponent*> Renderer::spriteComponents;
+std::vector<StaticMeshComponent*> Renderer::StaticMeshComponents;
 
 Texture* Renderer::defaultSpecularTexture = nullptr;
 
@@ -99,12 +99,12 @@ void Renderer::DrawNew()
         shader->SetVec3("light.direction", lightDirection.x, lightDirection.y, lightDirection.z);
         shader->SetVec3("light.color", lightColor.x, lightColor.y, lightColor.z);
         shader->SetVec3("viewPos", viewPos.x, viewPos.y, viewPos.z);
-        shader->SetVec3("material.ambient", ambientLightColor.x, ambientLightColor.y, ambientLightColor.z);
+        shader->SetVec3("ambientColor", ambientLightColor.x, ambientLightColor.y, ambientLightColor.z);
         shader->SetMat4("projection", Scene::GetCurrentScene().GetCamera().projection);
         shader->SetMat4("view", Scene::GetCurrentScene().GetCamera().view);
     }
 
-    for (SpriteComponent* comp : spriteComponents)
+    for (StaticMeshComponent* comp : StaticMeshComponents)
     {
         if (!comp->IsActive())
             continue;
@@ -116,22 +116,22 @@ void Renderer::DrawNew()
 
         if (componentMeshNew == nullptr)
         {
-            //std::cout << "Can't render SpriteComponent: Mesh is null!\n";
+            //std::cout << "Can't render StaticMeshComponent: Mesh is null!\n";
             continue;
         }
         if (componentTexture == nullptr)
         {
-            //std::cout << "Can't render SpriteComponent: Texture is null!\n";
+            //std::cout << "Can't render StaticMeshComponent: Texture is null!\n";
             continue;
         }
         if (componentShader == nullptr)
         {
-            //std::cout << "Can't render SpriteComponent: Shader is null!\n";
+            //std::cout << "Can't render StaticMeshComponent: Shader is null!\n";
             continue;
         }
         if (comp->GetParent() == nullptr)
         {
-            std::cout << "Can't render SpriteComponent: Parent is null!\n";
+            std::cout << "Can't render StaticMeshComponent: Parent is null!\n";
             continue;
         }
 
@@ -206,25 +206,25 @@ void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot,
     glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
 }
 
-void Renderer::AddSpriteToDraw(SpriteComponent* comp)
+void Renderer::AddSpriteToDraw(StaticMeshComponent* comp)
 {
-    spriteComponents.push_back(comp);
+    StaticMeshComponents.push_back(comp);
     //std::cout << "SpriteCompnent added to 'To Draw' container\n";
 }
 
-void Renderer::RemoveSpriteToDraw(SpriteComponent* comp)
+void Renderer::RemoveSpriteToDraw(StaticMeshComponent* comp)
 {
-    std::vector<SpriteComponent*>::iterator it = std::find(spriteComponents.begin(), spriteComponents.end(), comp);
-    if (it != spriteComponents.end())
+    std::vector<StaticMeshComponent*>::iterator it = std::find(StaticMeshComponents.begin(), StaticMeshComponents.end(), comp);
+    if (it != StaticMeshComponents.end())
     {
-        spriteComponents.erase(it);
-        //std::cout << "SpriteComponent removed from renderer: " << spriteComponents.size() << "\n";
+        StaticMeshComponents.erase(it);
+        //std::cout << "StaticMeshComponent removed from renderer: " << StaticMeshComponents.size() << "\n";
     }
 }
 
 size_t Renderer::GetToDrawContainerSize()
 {
-    return spriteComponents.size();
+    return StaticMeshComponents.size();
 }
 
 size_t Renderer::GetDrawCallsLastFrame()

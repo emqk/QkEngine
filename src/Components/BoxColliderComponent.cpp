@@ -1,5 +1,5 @@
 #include "BoxColliderComponent.h"
-#include "SpriteComponent.h"
+#include "StaticMeshComponent.h"
 #include "../GameObject.h"
 #include "../Physics.h"
 #include "../Gizmos.h"
@@ -7,11 +7,11 @@
 BoxColliderComponent::BoxColliderComponent(GameObject* _parent) : Component(_parent)
 {
 	name = "BoxColliderComponent";
-	SpriteComponent* spriteComponent = parent->GetComponent<SpriteComponent>();
-	if (spriteComponent != nullptr)
+	StaticMeshComponent* staticMeshComponent = parent->GetComponent<StaticMeshComponent>();
+	if (staticMeshComponent != nullptr)
 	{
-		if (spriteComponent->GetMeshNew() != nullptr)
-			SetExtents(spriteComponent->GetMeshNew()->GetBounds().Extents());
+		if (staticMeshComponent->GetMeshNew() != nullptr)
+			SetExtents(staticMeshComponent->GetMeshNew()->GetBounds().Extents());
 		else
 			SetExtents(glm::vec3(1, 1, 1));
 	}

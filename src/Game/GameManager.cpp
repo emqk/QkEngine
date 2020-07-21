@@ -15,7 +15,7 @@ GameManager::GameManager()
 	//Terrain
 	GameObject* terrainObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
 	terrainObj->name = "Ground";
-	SpriteComponent* terrainSprite = terrainObj->AddComponent<SpriteComponent>();
+	StaticMeshComponent* terrainSprite = terrainObj->AddComponent<StaticMeshComponent>();
 	if (terrainSprite != nullptr)
 	{
 		terrainSprite->SetMeshNew("Terrain.obj->Cube");
@@ -30,7 +30,7 @@ GameManager::GameManager()
 	//Sun
 	GameObject* sunObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
 	sunObj->name = "Sun";
-	SpriteComponent* sunSprite = sunObj->AddComponent<SpriteComponent>();
+	StaticMeshComponent* sunSprite = sunObj->AddComponent<StaticMeshComponent>();
 	if (sunSprite != nullptr)
 	{
 		sunSprite->SetMeshNew("Arrow.fbx->Cone");
@@ -60,7 +60,7 @@ GameManager::GameManager()
 	//{
 	//	GameObject* instance = Scene::GetCurrentScene().Instantiate<GameObject>(buildAreasPos[i]);
 	//	instance->name = "BuildArea";
-	//	SpriteComponent* areaSprite = instance->AddComponent<SpriteComponent>();
+	//	StaticMeshComponent* areaSprite = instance->AddComponent<StaticMeshComponent>();
 	//	if (areaSprite != nullptr)
 	//	{
 	//		areaSprite->SetMeshNew("Buiilding Area.obj");
@@ -80,7 +80,7 @@ GameManager::GameManager()
 
 	//Chairs parent
 	GameObject* newParent = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
-	SpriteComponent* sprComp = newParent->AddComponent<SpriteComponent>();
+	StaticMeshComponent* sprComp = newParent->AddComponent<StaticMeshComponent>();
 	sprComp->SetMeshNew("Cube.obj->Cube");
 	sprComp->SetTexture(ResourceManager::GetTexture("Cube.jpg"));
 	sprComp->SetShader("StandardShader");
@@ -89,7 +89,7 @@ GameManager::GameManager()
 
 	//Chair (Child 0)
 	GameObject* chairObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(2, 2, 2));
-	SpriteComponent* chairSprite = chairObj->AddComponent<SpriteComponent>();
+	StaticMeshComponent* chairSprite = chairObj->AddComponent<StaticMeshComponent>();
 	chairSprite->SetMeshNew("Chair/School Chair Offset.fbx->Cylinder.006");
 	chairSprite->SetTexture(ResourceManager::GetTexture("Chair/diffuse.png"));
 	chairSprite->SetShader(ResourceManager::GetShader("StandardShader"));
@@ -100,7 +100,7 @@ GameManager::GameManager()
 
 	//Chair (Child 1)
 	GameObject* sec = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(2, 0, 0));
-	SpriteComponent* secSprComp = sec->AddComponent<SpriteComponent>();
+	StaticMeshComponent* secSprComp = sec->AddComponent<StaticMeshComponent>();
 	secSprComp->SetMeshNew("Chair/School Chair Offset.fbx->Cylinder.006");
 	secSprComp->SetTexture(ResourceManager::GetTexture("Chair/diffuse.png"));
 	secSprComp->SetShader("StandardShader");
@@ -110,7 +110,7 @@ GameManager::GameManager()
 	//sec->transform.SetParent(playerObj);
 
 	//Duplicate some objects
-	for (size_t i = 0; i < 2000; i++)
+	for (size_t i = 0; i < 10; i++)
 	{
 		GameObject* duplicate = Scene::GetCurrentScene().DuplicateGameObject(newParent);
 		float px = Random::RandomFloat(-35, 35);
@@ -126,7 +126,7 @@ GameManager::GameManager()
 
 	//GameObject* stairs = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(4, 2.5f, -1));
 	//stairs->name = "Stairs";
-	//SpriteComponent* stairsSprite = stairs->AddComponent<SpriteComponent>();
+	//StaticMeshComponent* stairsSprite = stairs->AddComponent<StaticMeshComponent>();
 	//if (stairsSprite != nullptr)
 	//{
 	//	stairsSprite->SetMeshNew("Stairs.obj");

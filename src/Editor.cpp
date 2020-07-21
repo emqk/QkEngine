@@ -552,7 +552,7 @@ void Editor::DrawSelectedGameObject()
 {
     if (selectedObj != nullptr)
     {
-        SpriteComponent* spriteComp = selectedObj->GetComponent<SpriteComponent>();
+        StaticMeshComponent* spriteComp = selectedObj->GetComponent<StaticMeshComponent>();
         if (spriteComp)
         {
             Mesh* mesh = spriteComp->GetMeshNew();

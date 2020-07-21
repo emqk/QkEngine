@@ -1,4 +1,4 @@
-#include "SpriteComponent.h"
+#include "StaticMeshComponent.h"
 #include "../ResourceManager.h"
 #include "../Renderer.h"
 
@@ -8,13 +8,13 @@
 #include <iostream>
 
 
-SpriteComponent::SpriteComponent(GameObject* _parent) : Component(_parent), color(1.0f, 1.0f, 1.0f, 1.0f)
+StaticMeshComponent::StaticMeshComponent(GameObject* _parent) : Component(_parent), color(1.0f, 1.0f, 1.0f, 1.0f)
 {
-	name = "SpriteComponent";
+	name = "StaticMeshComponent";
 	Renderer::AddSpriteToDraw(this);
 }
 
-SpriteComponent::~SpriteComponent()
+StaticMeshComponent::~StaticMeshComponent()
 {
 	Renderer::RemoveSpriteToDraw(this);
 	meshNew = nullptr;
@@ -22,22 +22,24 @@ SpriteComponent::~SpriteComponent()
 	shader = nullptr;
 }
 
-SpriteComponent::SpriteComponent(const SpriteComponent& comp)
-	: Component(comp), meshNew(comp.meshNew), texture(comp.texture), shader(comp.shader)
+StaticMeshComponent::StaticMeshComponent(const StaticMeshComponent& comp)
+	: Component(comp), meshNew(comp.meshNew)
+	, texture(comp.texture), specularTexture(comp.specularTexture)
+	, shader(comp.shader)
 	, color(comp.color), specular(comp.specular), shininess(comp.shininess)
 {
 	Renderer::AddSpriteToDraw(this);
 }
 
-void SpriteComponent::Update(const float& deltaTime)
+void StaticMeshComponent::Update(const float& deltaTime)
 {
 }
 
-void SpriteComponent::LateUpdate(const float& deltaTime)
+void StaticMeshComponent::LateUpdate(const float& deltaTime)
 {
 }
 
-void SpriteComponent::ShowOnInspector()
+void StaticMeshComponent::ShowOnInspector()
 {
 	//MeshNEW
 	std::string buttonStr = "No Mesh";
@@ -101,69 +103,69 @@ void SpriteComponent::ShowOnInspector()
 	ImGui::DragFloat("Shininess", &shininess, 1.0f, 0.0f, 256.0f);
 }
 
-void SpriteComponent::SetMeshNew(const char* meshPath)
+void StaticMeshComponent::SetMeshNew(const char* meshPath)
 {
 	std::cout << "Mesh set: " << meshPath << std::endl;
 	meshNew = ResourceManager::GetMeshNew(meshPath);
 }
 
-Mesh* SpriteComponent::GetMeshNew()
+Mesh* StaticMeshComponent::GetMeshNew()
 {
 	return meshNew;
 }
 
-void SpriteComponent::SetShader(Shader* _shader)
+void StaticMeshComponent::SetShader(Shader* _shader)
 {
 	shader = _shader;
 }
 
-Shader* SpriteComponent::GetShader()
+Shader* StaticMeshComponent::GetShader()
 {
 	return shader;
 }
 
-const Texture* SpriteComponent::GetTexture()
+const Texture* StaticMeshComponent::GetTexture()
 {
 	return texture;
 }
 
-void SpriteComponent::SetSpecularTexture(const char* texPath)
+void StaticMeshComponent::SetSpecularTexture(const char* texPath)
 {
 	std::cout << "Texture set: " << texPath << std::endl;
 	SetSpecularTexture(ResourceManager::GetTexture(texPath));
 }
 
-void SpriteComponent::SetSpecularTexture(Texture* tex)
+void StaticMeshComponent::SetSpecularTexture(Texture* tex)
 {
 	specularTexture = tex;
 }
 
-const Texture* SpriteComponent::GetSpecularTexture()
+const Texture* StaticMeshComponent::GetSpecularTexture()
 {
 	return specularTexture;
 }
 
-std::unique_ptr<Component> SpriteComponent::MakeCopy(GameObject* newParent) const
+std::unique_ptr<Component> StaticMeshComponent::MakeCopy(GameObject* newParent) const
 {
-	std::unique_ptr<SpriteComponent> comp = std::make_unique<SpriteComponent>(*this);
+	std::unique_ptr<StaticMeshComponent> comp = std::make_unique<StaticMeshComponent>(*this);
 	comp->parent = newParent;
 
 	return std::move(comp);
 }
 
-void SpriteComponent::SetShader(const char* shaderPath)
+void StaticMeshComponent::SetShader(const char* shaderPath)
 {
 	std::cout << "Shader set: " << shaderPath << std::endl;
 	SetShader(ResourceManager::GetShader(shaderPath));
 }
 
-void SpriteComponent::SetTexture(const char* texPath)
+void StaticMeshComponent::SetTexture(const char* texPath)
 {
 	std::cout << "Texture set: " << texPath << std::endl;
 	SetTexture(ResourceManager::GetTexture(texPath));
 }
 
-void SpriteComponent::SetTexture(Texture* tex)
+void StaticMeshComponent::SetTexture(Texture* tex)
 {
 	texture = tex;
 }
