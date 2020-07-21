@@ -30,6 +30,10 @@ public:
 	void SetTexture(Texture* tex);
 	const Texture* GetTexture();
 
+	void SetSpecularTexture(const char* texPath);
+	void SetSpecularTexture(Texture* tex);
+	const Texture* GetSpecularTexture();
+
 	glm::vec4 color;
 	glm::vec3 specular{0.5, 0.5f, 0.5f};
 	float shininess = 32;
@@ -40,4 +44,5 @@ private:
 	Mesh* meshNew = nullptr;
 	Shader* shader = nullptr;
 	Texture* texture = nullptr;
+	Texture* specularTexture = nullptr;
 };

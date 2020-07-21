@@ -39,6 +39,8 @@ Scene::Scene()
     ResourceManager::LoadTexture("MagicaVoxelExports/abc.png");
     ResourceManager::LoadTexture("Chair/diffuse.png");
     ResourceManager::LoadTexture("House/Planks.png");
+    ResourceManager::LoadTexture("container2.png");
+    ResourceManager::LoadTexture("container2_specular.png");
     //Editor textures
     ResourceManager::LoadTexture("Editor/PlayIcon.png");
     ResourceManager::LoadTexture("Editor/StopIcon.png");

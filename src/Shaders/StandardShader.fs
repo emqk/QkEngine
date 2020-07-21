@@ -16,10 +16,11 @@ struct Material
 {
     vec4 diffuse;
     vec3 ambient;
-    vec3 specular;
+    vec3 specularColor;
     float shininess;
 
     sampler2D texture_diffuse1;
+    sampler2D texture_specular1;
 };
 
 struct Light
@@ -53,7 +54,7 @@ void main()
      vec4 fogColor = vec4(_FogColor.x, _FogColor.y, _FogColor.z, 1.0f);
 
     // ambient
-    vec3 ambient = vec3(texColor) * (material.ambient);
+    vec3 ambient = vec3(texColor) * material.ambient;
   	
     // diffuse 
     vec3 norm = normalize(Normal);
@@ -66,8 +67,9 @@ void main()
     vec3 viewDir = normalize(viewPos - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = light.color * (spec * material.specular);  
-    
+    //vec3 specular = light.color * (spec * material.specularColor);  
+    vec3 specular = light.color * spec * vec3(texture(material.texture_specular1, TexCoord)) * material.specularColor;
+
     //Result
     vec4 result = vec4((ambient + diffuse + specular), 1.0f);
     float fogStrength = min(depth * _FogDensity, 1.0f);

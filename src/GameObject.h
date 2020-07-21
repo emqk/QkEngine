@@ -69,12 +69,7 @@ protected:
 	void UpdateComponents(const float& deltaTime);
 	void LateUpdateComponents(const float& deltaTime);
 
-	//static void RemoveFromParent(GameObject* child);
-
 private:
 	bool isActive = true;
-	//GameObject* parent = nullptr;
-
-	//std::vector<GameObject*> childs;
 	std::vector<std::unique_ptr<Component>> components;
 };

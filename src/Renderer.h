@@ -29,12 +29,14 @@ public:
 	static unsigned int GetFrameBufferTextureID();
 
 private:
-	static unsigned int /*VBO, VAO, EBO, */framebuffer;
+	static unsigned int framebuffer;
 	static unsigned int textureColorbuffer;
 
 	static size_t drawCallsLastFrame;
 	static size_t drawVerticesLastFrame;
 
-
 	static std::vector<SpriteComponent*> spriteComponents;
+
+	//Defaults
+	static Texture* defaultSpecularTexture;
 };

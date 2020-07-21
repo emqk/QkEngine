@@ -81,12 +81,12 @@ void Editor::Init(GLFWwindow* window)
 
 void Editor::Update()
 {
+    Profiler::BeginSample("Editor(exclude render)");
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
     //ImGui::ShowDemoWindow();
 
-    Profiler::BeginSample("Editor");
 
     EnableDockingBackground();
     ShowEnabledWindows();

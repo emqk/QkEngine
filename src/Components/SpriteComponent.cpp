@@ -65,6 +65,20 @@ void SpriteComponent::ShowOnInspector()
 		Editor::ShowSelectAssetWindow(AssetWindowType::Textures, fun);
 	}
 
+	//SpecularTexture
+	buttonStr = "No specular Texture";
+	if (specularTexture != nullptr)
+		buttonStr = specularTexture->name;
+
+	ImGui::Text("Specular Texture:");
+	ImGui::SameLine();
+	if (ImGui::Button(buttonStr.c_str()))
+	{
+		std::function<void(std::string)> fun = [&](const std::string& texName) { this->SetSpecularTexture(texName.c_str()); };
+		Editor::ShowSelectAssetWindow(AssetWindowType::Textures, fun);
+	}
+
+
 	//Shader
 	buttonStr = "No Shader";
 	if (shader != nullptr)
@@ -111,6 +125,22 @@ Shader* SpriteComponent::GetShader()
 const Texture* SpriteComponent::GetTexture()
 {
 	return texture;
+}
+
+void SpriteComponent::SetSpecularTexture(const char* texPath)
+{
+	std::cout << "Texture set: " << texPath << std::endl;
+	SetSpecularTexture(ResourceManager::GetTexture(texPath));
+}
+
+void SpriteComponent::SetSpecularTexture(Texture* tex)
+{
+	specularTexture = tex;
+}
+
+const Texture* SpriteComponent::GetSpecularTexture()
+{
+	return specularTexture;
 }
 
 std::unique_ptr<Component> SpriteComponent::MakeCopy(GameObject* newParent) const

@@ -14,14 +14,13 @@
 
 #include <vector>
 
-//unsigned int Renderer::VAO;
-//unsigned int Renderer::VBO;
-//unsigned int Renderer::EBO;
 unsigned int Renderer::framebuffer;
 unsigned int Renderer::textureColorbuffer;
 size_t Renderer::drawCallsLastFrame = 0;
 size_t Renderer::drawVerticesLastFrame = 0;
 std::vector<SpriteComponent*> Renderer::spriteComponents;
+
+Texture* Renderer::defaultSpecularTexture = nullptr;
 
 void Renderer::Init()
 {
@@ -47,6 +46,12 @@ void Renderer::Init()
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+    //Defaults
+    defaultSpecularTexture = ResourceManager::GetTexture("gizmoSelectTexture.jpg");
+    if (defaultSpecularTexture == nullptr)
+        assert("defaultSpecularTexture is nullptr!");
 }
 
 void Renderer::Pre()
@@ -106,6 +111,7 @@ void Renderer::DrawNew()
 
         Mesh* componentMeshNew = comp->GetMeshNew();
         const Texture* componentTexture = comp->GetTexture();
+        const Texture* specularTexture = comp->GetSpecularTexture();
         Shader* componentShader = comp->GetShader();
 
         if (componentMeshNew == nullptr)
@@ -129,6 +135,11 @@ void Renderer::DrawNew()
             continue;
         }
 
+        //Default
+        if (specularTexture == nullptr)
+        {
+            specularTexture = defaultSpecularTexture;
+        }
 
         //Material
         componentShader->Use();
@@ -136,10 +147,15 @@ void Renderer::DrawNew()
         glm::vec3 specular = comp->specular;
 
         componentShader->SetVec4("material.diffuse", comp->color.r, comp->color.g, comp->color.b, comp->color.a);
-        componentShader->SetVec3("material.specular", specular.x, specular.y, specular.z);
+        componentShader->SetVec3("material.specularColor", specular.x, specular.y, specular.z);
         componentShader->SetFloat("material.shininess", comp->shininess);
         componentShader->SetInt("material.texture_diffuse1", 0);
         componentTexture->Use();
+
+        //Specular texture
+        componentShader->SetInt("material.texture_specular1", 1);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, specularTexture->GetID());
 
         //glm::mat4 model = Transform::CalculateModel(comp->GetParent());
         glm::mat4 model = comp->GetParent()->transform.GetModel();
