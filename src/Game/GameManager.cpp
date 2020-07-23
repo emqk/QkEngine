@@ -5,7 +5,7 @@
 #include "../Components/BoxColliderComponent.h"
 #include "../Components/MoveComponent.h"
 #include "../Components/PlayerComponent.h"
-#include "../Components/DirectionalLightComponent.h"
+#include "../Components/Lighting/DirectionalLightComponent.h"
 #include "../Random.h"
 
 #include <iostream>

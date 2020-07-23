@@ -1,5 +1,6 @@
 #include "Profiler.h"
 #include "Scene.h"
+#include "Lighting.h"
 
 #include <string>
 #include <iostream>
@@ -23,7 +24,7 @@ void Profiler::ShowData()
 	ImGui::Text("Last frame draw calls: %u | To draw container size: %u", Renderer::GetDrawCallsLastFrame(), Renderer::GetToDrawContainerSize());
 	ImGui::Text("Last frame vertices: %u", Renderer::GetDrawnVerticesLastFrame());
 	ImGui::Text("Last frame active directional lights: %u / %u", Renderer::GetEnabledDirectionalLightsLastFrame(), Renderer::maxDirectionalLights);
-	ImGui::Text("Last frame active point lights: %u / %u", Renderer::GetEnabledPointLightsLastFrame(), Renderer::maxPointLights);
+	ImGui::Text("Last frame active point lights: %u / %u  |  any state: %u", Renderer::GetEnabledPointLightsLastFrame(), Renderer::maxPointLights, Lighting::GetPointLights().size());
 
 	//Histograms
 	int i = 0;

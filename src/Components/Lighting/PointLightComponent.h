@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "../Component.h"
 #include <glm\ext\vector_float3.hpp>
 
 class PointLightComponent : public Component
@@ -20,7 +20,9 @@ public:
 
 	glm::vec3 GetPosition() const;
 	glm::vec3 GetColor() const;
+	float GetIntensity() const;
 
 private:
 	glm::vec3 lightColor{1.0f, 1.0f, 1.0f};
+	float intensity = 1;
 };

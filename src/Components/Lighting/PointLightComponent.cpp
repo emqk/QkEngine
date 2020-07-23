@@ -1,6 +1,6 @@
 #include "PointLightComponent.h"
-#include "../Lighting.h"
-#include "../GameObject.h"
+#include "../../Lighting.h"
+#include "../../GameObject.h"
 
 PointLightComponent::PointLightComponent(GameObject* _parent) : Component(_parent)
 {
@@ -13,9 +13,8 @@ PointLightComponent::~PointLightComponent()
 	Lighting::UnRegisterPointLight(this);
 }
 
-PointLightComponent::PointLightComponent(const PointLightComponent& comp) : Component(comp)
+PointLightComponent::PointLightComponent(const PointLightComponent& comp) : Component(comp), lightColor(comp.lightColor), intensity(comp.intensity)
 {
-	lightColor = comp.lightColor;
 	Lighting::RegisterPointLight(this);
 }
 
@@ -30,6 +29,7 @@ void PointLightComponent::LateUpdate(const float& deltaTime)
 void PointLightComponent::ShowOnInspector()
 {
 	ImGui::ColorEdit3("light color", &lightColor.r, ImGuiColorEditFlags_NoInputs);
+	ImGui::DragFloat("Intensity", &intensity, 0.1f);
 }
 
 std::unique_ptr<Component> PointLightComponent::MakeCopy(GameObject* newParent) const
@@ -48,4 +48,9 @@ glm::vec3 PointLightComponent::GetPosition() const
 glm::vec3 PointLightComponent::GetColor() const
 {
 	return lightColor;
+}
+
+float PointLightComponent::GetIntensity() const
+{
+	return intensity;
 }

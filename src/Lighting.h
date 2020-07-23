@@ -3,8 +3,8 @@
 #include <glm\ext\vector_float2.hpp>
 #include <vector>
 
-#include "Components/DirectionalLightComponent.h"
-#include "Components/PointLightComponent.h"
+#include "Components/Lighting/DirectionalLightComponent.h"
+#include "Components/Lighting/PointLightComponent.h"
 
 
 class Lighting
@@ -22,12 +22,7 @@ public:
 
 	static glm::vec3 GetAmbientLightColor();
 	static DirectionalLightComponent* GetFirstLight();
-
-
-
-	static std::vector<PointLightComponent*> pointLights;
-
-
+	static const std::vector<PointLightComponent*>& GetPointLights();
 
 	static glm::vec3 GetFogColor();
 	static float GetFogDensity();
@@ -39,5 +34,5 @@ private:
 	static float fogDensity;
 
 	static std::vector<DirectionalLightComponent*> lights;
-
+	static std::vector<PointLightComponent*> pointLights;
 };

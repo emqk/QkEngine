@@ -77,6 +77,11 @@ DirectionalLightComponent* Lighting::GetFirstLight()
 	return nullptr;
 }
 
+const std::vector<PointLightComponent*>& Lighting::GetPointLights()
+{
+	return pointLights;
+}
+
 glm::vec3 Lighting::GetFogColor()
 {
 	return fogColor;

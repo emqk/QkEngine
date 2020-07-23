@@ -31,6 +31,7 @@ struct PointLight
 {
     vec3 position;  
     vec3 color;
+    float intensity;
 	
     float constant;
     float linear;
@@ -111,9 +112,11 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     // attenuation
     float distance    = length(light.position - fragPos);
-    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));    
+    float attenuation = light.intensity / (light.constant + light.linear * distance + light.quadratic * (distance * distance));    
+    //float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));    
     // combine results
     vec3 ambient  = ambientColor  * vec3(texColor);
+    light.color *= light.intensity;
     vec3 diffuse  = light.color  * diff * vec3(texColor);
     vec3 specular = light.color * spec * vec3(texture(material.texture_specular1, TexCoord)) * material.specularColor;
     ambient  *= attenuation;

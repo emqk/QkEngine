@@ -1,6 +1,6 @@
 #include "DirectionalLightComponent.h"
-#include "../Lighting.h"
-#include "../GameObject.h"
+#include "../../Lighting.h"
+#include "../../GameObject.h"
 
 DirectionalLightComponent::DirectionalLightComponent(GameObject* _parent) : Component(_parent)
 {

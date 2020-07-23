@@ -159,10 +159,10 @@
     <ClCompile Include="src\Components\AnimatedSpriteComponent.cpp" />
     <ClCompile Include="src\Components\BoxColliderComponent.cpp" />
     <ClCompile Include="src\Components\Component.cpp" />
-    <ClCompile Include="src\Components\DirectionalLightComponent.cpp" />
+    <ClCompile Include="src\Components\Lighting\DirectionalLightComponent.cpp" />
     <ClCompile Include="src\Components\MoveComponent.cpp" />
     <ClCompile Include="src\Components\PlayerComponent.cpp" />
-    <ClCompile Include="src\Components\PointLightComponent.cpp" />
+    <ClCompile Include="src\Components\Lighting\PointLightComponent.cpp" />
     <ClCompile Include="src\Components\StaticMeshComponent.cpp" />
     <ClCompile Include="src\Editor.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
@@ -197,10 +197,10 @@
     <ClInclude Include="src\Components\AnimatedSpriteComponent.h" />
     <ClInclude Include="src\Components\BoxColliderComponent.h" />
     <ClInclude Include="src\Components\Component.h" />
-    <ClInclude Include="src\Components\DirectionalLightComponent.h" />
+    <ClInclude Include="src\Components\Lighting\DirectionalLightComponent.h" />
     <ClInclude Include="src\Components\MoveComponent.h" />
     <ClInclude Include="src\Components\PlayerComponent.h" />
-    <ClInclude Include="src\Components\PointLightComponent.h" />
+    <ClInclude Include="src\Components\Lighting\PointLightComponent.h" />
     <ClInclude Include="src\Components\StaticMeshComponent.h" />
     <ClInclude Include="src\Editor.h" />
     <ClInclude Include="src\GameObject.h" />

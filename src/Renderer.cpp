@@ -95,11 +95,12 @@ void Renderer::DrawNew()
     }
     //Point lights
     std::vector<PointLightComponent*> activePointLights;
-    for (size_t i = 0; i < Lighting::pointLights.size(); i++)
+    const std::vector<PointLightComponent*>& orgPointLights = Lighting::GetPointLights();
+    for (size_t i = 0; i < Lighting::GetPointLights().size(); i++)
     {
-        if (i < Lighting::pointLights.size() && Lighting::pointLights[i]->IsActive())
+        if (i < orgPointLights.size() && orgPointLights[i]->IsActive())
         {
-            activePointLights.push_back(Lighting::pointLights[i]);
+            activePointLights.push_back(orgPointLights[i]);
             ++enabledPointLightsLastFrame;
         }
     }
@@ -150,6 +151,7 @@ void Renderer::DrawNew()
             shader->SetFloat(("pointLights[" + std::to_string(i) + "].constant").c_str(), 1.0f);
             shader->SetFloat(("pointLights[" + std::to_string(i) + "].linear").c_str(), 0.09f);
             shader->SetFloat(("pointLights[" + std::to_string(i) + "].quadratic").c_str(), 0.032f);       
+            shader->SetFloat(("pointLights[" + std::to_string(i) + "].intensity").c_str(), pLight->GetIntensity());       
         }
 
         shader->SetVec3("viewPos", viewPos.x, viewPos.y, viewPos.z);

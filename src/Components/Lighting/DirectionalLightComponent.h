@@ -1,5 +1,5 @@
 #pragma once
-#include "Component.h"
+#include "../Component.h"
 #include <glm\ext\vector_float3.hpp>
 
 class DirectionalLightComponent : public Component
