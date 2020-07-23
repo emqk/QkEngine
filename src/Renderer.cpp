@@ -18,6 +18,8 @@ unsigned int Renderer::framebuffer;
 unsigned int Renderer::textureColorbuffer;
 size_t Renderer::drawCallsLastFrame = 0;
 size_t Renderer::drawVerticesLastFrame = 0;
+size_t Renderer::enabledDirectionalLightsLastFrame = 0;
+size_t Renderer::enabledPointLightsLastFrame = 0;
 std::vector<StaticMeshComponent*> Renderer::StaticMeshComponents;
 
 Texture* Renderer::defaultSpecularTexture = nullptr;
@@ -74,15 +76,34 @@ void Renderer::DrawNew()
 {
     drawCallsLastFrame = 0;
     drawVerticesLastFrame = 0;
+    enabledDirectionalLightsLastFrame = 0;
+    enabledPointLightsLastFrame = 0;
     
     //Set global values to all shaders
-
     glm::vec3 fogColor = Lighting::GetFogColor();
     float fogDensity = Lighting::GetFogDensity();
     glm::vec2 fogStartEnd = Scene::GetCurrentScene().GetCamera().GetClipping();
-    LightComponent* light = Lighting::GetFirstLight();
-    glm::vec3 lightDirection = light == nullptr ? glm::vec3(-1, 0, 0) : light->GetParent()->transform.GetForward();
-    glm::vec3 lightColor = light == nullptr ? glm::vec3(1, 1, 1) : light->GetColor();
+    //Directional light
+    DirectionalLightComponent* directionalLight = Lighting::GetFirstLight();
+    glm::vec3 dirLightDirection = glm::vec3(0, 0, 0);
+    glm::vec3 dirLightColor = glm::vec3(0, 0, 0);
+    if (directionalLight != nullptr)
+    {
+        dirLightDirection = directionalLight->GetParent()->transform.GetForward();
+        dirLightColor = directionalLight->GetColor();
+        ++enabledDirectionalLightsLastFrame;
+    }
+    //Point lights
+    std::vector<PointLightComponent*> activePointLights;
+    for (size_t i = 0; i < Lighting::pointLights.size(); i++)
+    {
+        if (i < Lighting::pointLights.size() && Lighting::pointLights[i]->IsActive())
+        {
+            activePointLights.push_back(Lighting::pointLights[i]);
+            ++enabledPointLightsLastFrame;
+        }
+    }
+
     glm::vec3 ambientLightColor = Lighting::GetAmbientLightColor();
     glm::vec3 viewPos = Scene::GetCurrentScene().GetCamera().GetLocalPosition();
 
@@ -96,8 +117,41 @@ void Renderer::DrawNew()
         shader->SetFloat("far", fogStartEnd.y);
         shader->SetFloat("_FogDensity", fogDensity);
 
-        shader->SetVec3("light.direction", lightDirection.x, lightDirection.y, lightDirection.z);
-        shader->SetVec3("light.color", lightColor.x, lightColor.y, lightColor.z);
+        //Directional light
+        if (directionalLight != nullptr)
+        {
+            shader->SetVec3("dirLight.direction", dirLightDirection.x, dirLightDirection.y, dirLightDirection.z);
+            shader->SetVec3("dirLight.color", dirLightColor.x, dirLightColor.y, dirLightColor.z);
+        }
+        else
+        {
+            shader->SetVec3("dirLight.direction", 1,0,0);
+            shader->SetVec3("dirLight.color", 0, 0, 0);
+        }
+
+        //Point lights
+        //Clear
+        for (size_t i = 0; i < maxPointLights; i++)
+        {
+            shader->SetVec3(("pointLights[" + std::to_string(i) + "].position").c_str(), 0,0,0);
+            shader->SetVec3(("pointLights[" + std::to_string(i) + "].color").c_str(), 0,0,0);
+            shader->SetFloat(("pointLights[" + std::to_string(i) + "].constant").c_str(), 1.0f);
+            shader->SetFloat(("pointLights[" + std::to_string(i) + "].linear").c_str(), 0.09f);
+            shader->SetFloat(("pointLights[" + std::to_string(i) + "].quadratic").c_str(), 0.032f);
+        }
+        for (size_t i = 0; i < activePointLights.size(); i++)
+        {
+            PointLightComponent* pLight = activePointLights[i];
+            glm::vec3 pLightPos = pLight->GetPosition();
+            glm::vec3 pLightColor = pLight->GetColor();
+
+            shader->SetVec3(("pointLights[" + std::to_string(i) + "].position").c_str(), pLightPos.x, pLightPos.y, pLightPos.z);
+            shader->SetVec3(("pointLights[" + std::to_string(i) + "].color").c_str(), pLightColor.x, pLightColor.y, pLightColor.z);
+            shader->SetFloat(("pointLights[" + std::to_string(i) + "].constant").c_str(), 1.0f);
+            shader->SetFloat(("pointLights[" + std::to_string(i) + "].linear").c_str(), 0.09f);
+            shader->SetFloat(("pointLights[" + std::to_string(i) + "].quadratic").c_str(), 0.032f);       
+        }
+
         shader->SetVec3("viewPos", viewPos.x, viewPos.y, viewPos.z);
         shader->SetVec3("ambientColor", ambientLightColor.x, ambientLightColor.y, ambientLightColor.z);
         shader->SetMat4("projection", Scene::GetCurrentScene().GetCamera().projection);
@@ -235,4 +289,14 @@ size_t Renderer::GetDrawCallsLastFrame()
 size_t Renderer::GetDrawnVerticesLastFrame()
 {
     return drawVerticesLastFrame;
+}
+
+size_t Renderer::GetEnabledDirectionalLightsLastFrame()
+{
+    return enabledDirectionalLightsLastFrame;
+}
+
+size_t Renderer::GetEnabledPointLightsLastFrame()
+{
+    return enabledPointLightsLastFrame;
 }

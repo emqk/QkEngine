@@ -22,14 +22,15 @@ void Profiler::ShowData()
 	ImGui::Text("Number of GameObjects: %u", Scene::GetCurrentScene().GetObjectsPtr()->size());
 	ImGui::Text("Last frame draw calls: %u | To draw container size: %u", Renderer::GetDrawCallsLastFrame(), Renderer::GetToDrawContainerSize());
 	ImGui::Text("Last frame vertices: %u", Renderer::GetDrawnVerticesLastFrame());
+	ImGui::Text("Last frame active directional lights: %u / %u", Renderer::GetEnabledDirectionalLightsLastFrame(), Renderer::maxDirectionalLights);
+	ImGui::Text("Last frame active point lights: %u / %u", Renderer::GetEnabledPointLightsLastFrame(), Renderer::maxPointLights);
 
 	//Histograms
 	int i = 0;
 	for (const std::pair<std::string, ProfileData>& p : datas)
 	{
-		
 		const std::vector<float>& currentTimes = p.second.histogramTimes;
-		ImGui::PlotHistogram(p.first.c_str(), currentTimes.data(), currentTimes.size(), 0, (std::to_string(currentTimes.back()) + std::string("ms")).c_str(), 0.0f, 17.0f, ImVec2(400, 100));
+		ImGui::PlotHistogram(p.first.c_str(), currentTimes.data(), currentTimes.size(), 0, (std::to_string(currentTimes.back()) + std::string("ms")).c_str(), 0.0f, 17.0f, ImVec2(375, 85));
 		if (i % 2 == 0)
 		{
 			ImGui::SameLine();

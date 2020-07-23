@@ -21,6 +21,8 @@ public:
 	static size_t GetToDrawContainerSize();
 	static size_t GetDrawCallsLastFrame();
 	static size_t GetDrawnVerticesLastFrame();
+	static size_t GetEnabledDirectionalLightsLastFrame();
+	static size_t GetEnabledPointLightsLastFrame();
 
 	static void Init();
 	static void Pre();
@@ -28,12 +30,18 @@ public:
 
 	static unsigned int GetFrameBufferTextureID();
 
+	static const size_t maxDirectionalLights = 1;
+	static const size_t maxPointLights = 4;
+
 private:
 	static unsigned int framebuffer;
 	static unsigned int textureColorbuffer;
 
+	
 	static size_t drawCallsLastFrame;
 	static size_t drawVerticesLastFrame;
+	static size_t enabledDirectionalLightsLastFrame;
+	static size_t enabledPointLightsLastFrame;
 
 	static std::vector<StaticMeshComponent*> StaticMeshComponents;
 

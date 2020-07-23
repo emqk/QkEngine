@@ -9,7 +9,8 @@
 #include "Components/AnimatedSpriteComponent.h"
 #include "Components/MoveComponent.h"
 #include "Components/BoxColliderComponent.h"
-#include "Components/LightComponent.h"
+#include "Components/DirectionalLightComponent.h"
+#include "Components/PointLightComponent.h"
 
 #include "Scene.h"
 
@@ -121,9 +122,13 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 	{
 		AddComponent<BoxColliderComponent>();
 	}
-	if (ImGui::Button("Add LightComponent"))
+	if (ImGui::Button("Add DirectionalLightComponent"))
 	{
-		AddComponent<LightComponent>();
+		AddComponent<DirectionalLightComponent>();
+	}
+	if (ImGui::Button("Add PointLightComponent"))
+	{
+		AddComponent<PointLightComponent>();
 	}
 	if (ImGui::Button("Remove selected component"))
 	{

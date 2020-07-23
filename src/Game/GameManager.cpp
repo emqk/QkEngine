@@ -5,7 +5,7 @@
 #include "../Components/BoxColliderComponent.h"
 #include "../Components/MoveComponent.h"
 #include "../Components/PlayerComponent.h"
-#include "../Components/LightComponent.h"
+#include "../Components/DirectionalLightComponent.h"
 #include "../Random.h"
 
 #include <iostream>
@@ -39,7 +39,7 @@ GameManager::GameManager()
 
 		sunObj->transform.SetLocalPosition(glm::vec3(0.0f, 6.0f, 0.0f));
 	}
-	sunObj->AddComponent<LightComponent>();
+	sunObj->AddComponent<DirectionalLightComponent>();
 	sunObj->transform.SetLocalScale(glm::vec3(0.25f));
 
 	//float currX = 0;

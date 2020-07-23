@@ -14,6 +14,7 @@ public:
 	SpriteAnimation(const SpriteAnimation& other);
 	SpriteAnimation& operator=(const SpriteAnimation& other);
 	SpriteAnimation (SpriteAnimation&& other) noexcept;
+	SpriteAnimation& operator=(SpriteAnimation&& other) noexcept;
 
 	size_t GetFramesCount();
 	Texture* GetTexture(const size_t index);

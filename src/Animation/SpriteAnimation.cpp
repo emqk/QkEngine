@@ -22,8 +22,14 @@ SpriteAnimation& SpriteAnimation::operator=(const SpriteAnimation& other)
 }
 
 SpriteAnimation::SpriteAnimation(SpriteAnimation&& other) noexcept
-	: textures(std::move(other.textures))
 {
+	*this = std::move(other);
+}
+
+SpriteAnimation& SpriteAnimation::operator=(SpriteAnimation&& other) noexcept
+{
+	textures = std::move(other.textures);
+	return *this;
 }
 
 size_t SpriteAnimation::GetFramesCount()
