@@ -6,6 +6,7 @@
 #include "../Components/MoveComponent.h"
 #include "../Components/PlayerComponent.h"
 #include "../Components/Lighting/DirectionalLightComponent.h"
+#include "../Components/Lighting/PointLightComponent.h"
 #include "../Random.h"
 
 #include <iostream>
@@ -85,6 +86,7 @@ GameManager::GameManager()
 	sprComp->SetTexture(ResourceManager::GetTexture("Cube.jpg"));
 	sprComp->SetShader("StandardShader");
 	newParent->AddComponent<BoxColliderComponent>();
+	newParent->AddComponent<PointLightComponent>();
 	newParent->name = "TestChairParent";
 
 	//Chair (Child 0)
@@ -110,11 +112,11 @@ GameManager::GameManager()
 	//sec->transform.SetParent(playerObj);
 
 	//Duplicate some objects
-	for (size_t i = 0; i < 10; i++)
+	for (size_t i = 0; i < 6; i++)
 	{
 		GameObject* duplicate = Scene::GetCurrentScene().DuplicateGameObject(newParent);
 		float px = Random::RandomFloat(-35, 35);
-		float py = 0;
+		float py = Random::RandomFloat(-1, 3);
 		float pz = Random::RandomFloat(-25, 0);
 
 		float ry = Random::RandomFloat(0, 360);

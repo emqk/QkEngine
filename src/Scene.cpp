@@ -64,6 +64,8 @@ Scene::Scene()
     ResourceManager::LoadTexture("Adventurer/adventurer-run-03.png");
     ResourceManager::LoadTexture("Adventurer/adventurer-run-04.png");
     ResourceManager::LoadTexture("Adventurer/adventurer-run-05.png");
+    //Jump
+    ResourceManager::LoadTexture("Adventurer/adventurer-jump-03.png");
 
     //SpriteAnimations
     //Idle
@@ -88,6 +90,11 @@ Scene::Scene()
     Texture* run5 = ResourceManager::GetTexture("Adventurer/adventurer-run-05.png");
     run.push_back(run5);
     ResourceManager::LoadSpriteAnimation(std::move(run), "Run");
+    //Jump
+    std::vector<Texture*> jump;
+    Texture* jump0 = ResourceManager::GetTexture("Adventurer/adventurer-jump-03.png");
+    jump.push_back(jump0);
+    ResourceManager::LoadSpriteAnimation(std::move(jump), "Jump");
 
     //Models
     ResourceManager::LoadModel("Cube.obj");

@@ -92,6 +92,12 @@ void PlayerComponent::Update(const float& deltaTime)
 		SpriteAnimation* anim = ResourceManager::GetSpriteAnimation("Idle");
 		animatedSpriteComponent->SetCurrentAnimation(anim);
 	}
+
+	if (!isGrounded)
+	{
+		SpriteAnimation* anim = ResourceManager::GetSpriteAnimation("Jump");
+		animatedSpriteComponent->SetCurrentAnimation(anim);
+	}
 	
 	//movement
 	if (InputManager::GetKey(GLFW_KEY_LEFT_SHIFT))

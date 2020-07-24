@@ -5,18 +5,18 @@
 DirectionalLightComponent::DirectionalLightComponent(GameObject* _parent) : Component(_parent)
 {
 	name = "DirectionalLightComponent";
-	Lighting::RegisterLight(this);
+	Lighting::RegisterDirectionalLight(this);
 }
 
 DirectionalLightComponent::~DirectionalLightComponent()
 {
-	Lighting::UnRegisterLight(this);
+	Lighting::UnRegisterDirectionalLight(this);
 }
 
 DirectionalLightComponent::DirectionalLightComponent(const DirectionalLightComponent& comp) : Component(comp)
 {
 	lightColor = comp.lightColor;
-	Lighting::RegisterLight(this);
+	Lighting::RegisterDirectionalLight(this);
 }
 
 void DirectionalLightComponent::Update(const float& deltaTime)

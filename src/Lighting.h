@@ -17,8 +17,8 @@ public:
 	
 	static void RegisterPointLight(PointLightComponent* lightComp);
 	static void UnRegisterPointLight(PointLightComponent* lightComp);
-	static void RegisterLight(DirectionalLightComponent* lightComp);
-	static void UnRegisterLight(DirectionalLightComponent* lightComp);
+	static void RegisterDirectionalLight(DirectionalLightComponent* lightComp);
+	static void UnRegisterDirectionalLight(DirectionalLightComponent* lightComp);
 
 	static glm::vec3 GetAmbientLightColor();
 	static DirectionalLightComponent* GetFirstLight();

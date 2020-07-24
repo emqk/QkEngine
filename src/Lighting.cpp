@@ -42,13 +42,13 @@ void Lighting::UnRegisterPointLight(PointLightComponent* lightComp)
 	}
 }
 
-void Lighting::RegisterLight(DirectionalLightComponent* lightComp)
+void Lighting::RegisterDirectionalLight(DirectionalLightComponent* lightComp)
 {
 	lights.push_back(lightComp);
 	//std::cout << "DirectionalLightComponent registered\n";
 }
 
-void Lighting::UnRegisterLight(DirectionalLightComponent* lightComp)
+void Lighting::UnRegisterDirectionalLight(DirectionalLightComponent* lightComp)
 {
 	std::vector<DirectionalLightComponent*>::iterator it = std::find(lights.begin(), lights.end(), lightComp);
 	if (it != lights.end())

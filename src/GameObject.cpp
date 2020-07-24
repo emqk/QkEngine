@@ -9,8 +9,8 @@
 #include "Components/AnimatedSpriteComponent.h"
 #include "Components/MoveComponent.h"
 #include "Components/BoxColliderComponent.h"
-#include "Components/DirectionalLightComponent.h"
-#include "Components/PointLightComponent.h"
+#include "Components/Lighting/DirectionalLightComponent.h"
+#include "Components/Lighting/PointLightComponent.h"
 
 #include "Scene.h"
 
