@@ -1,5 +1,0 @@
-﻿  Scene.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(28,47): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.cpp(356,42): warning C4114: same type qualifier used more than once
-  QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe
