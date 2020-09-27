@@ -1,4 +1,5 @@
 #include "ResourceManager.h"
+#include "Audio/AudioManager.h"
 #include <iostream>
 
 class MeshData;
@@ -10,6 +11,8 @@ std::unordered_map<std::string, std::unique_ptr<SpriteAnimation>> ResourceManage
 
 std::unordered_map<std::string, std::unique_ptr<Model>> ResourceManager::modelMap;
 std::unordered_map<std::string, std::unique_ptr<Mesh>> ResourceManager::meshNewMap;
+
+std::unordered_map<std::string, irrklang::ISoundSource*> ResourceManager::audioClipMap;
 
 
 void ResourceManager::LoadSpriteAnimation(std::vector<Texture*> _textures, const char* name)
@@ -161,4 +164,21 @@ std::vector<std::string> ResourceManager::GetShadersName()
 	}
 
 	return std::move(names);
+}
+
+void ResourceManager::LoadAudioClip(const char* audioClipPath)
+{
+	std::string fullPath = std::string("../QkEngine/Resources/Audio/") + std::string(audioClipPath);
+	std::cout << "Loading audioClip: " << fullPath.c_str() << "\n";
+	irrklang::ISoundSource* audioClip = AudioManager::GetSoundEngine()->addSoundSourceFromFile(fullPath.c_str(), irrklang::E_STREAM_MODE::ESM_AUTO_DETECT, true);
+
+	audioClipMap[audioClipPath] = audioClip;
+}
+
+irrklang::ISoundSource* ResourceManager::GetAudioClip(const char* audioClipPath)
+{
+	if (audioClipMap.find(audioClipPath) == audioClipMap.end())
+		std::cout << "Can't find audio clip: " << audioClipPath << "\n";
+
+	return audioClipMap[audioClipPath];
 }

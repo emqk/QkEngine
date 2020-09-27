@@ -2,9 +2,13 @@
 #include <unordered_map>
 #include <memory>
 
+//Meshes
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+
+//Audio
+#include <irrKlang.h>
 
 #include "Texture.h"
 #include "Animation/SpriteAnimation.h"
@@ -37,6 +41,9 @@ public:
 	static Shader* GetShader(const char* shaderPath);
 	static std::vector<std::string> GetShadersName();
 
+	static void LoadAudioClip(const char* audioClipPath);
+	static irrklang::ISoundSource* GetAudioClip(const char* audioClipPath);
+
 private:
 	static std::unordered_map<std::string, std::unique_ptr<Texture>> textureMap;
 	static std::unordered_map<std::string, std::unique_ptr<Shader>> shaderMap;
@@ -45,4 +52,6 @@ private:
 
 	static std::unordered_map<std::string, std::unique_ptr<Model>> modelMap;
 	static std::unordered_map<std::string, std::unique_ptr<Mesh>> meshNewMap;
+
+	static std::unordered_map<std::string, irrklang::ISoundSource*> audioClipMap;
 };

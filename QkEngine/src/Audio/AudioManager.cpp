@@ -1,8 +1,17 @@
 #include "AudioManager.h"
+#include <iostream>
 
-irrklang::ISoundEngine* AudioManager::SoundEngine = irrklang::createIrrKlangDevice();
+irrklang::ISoundEngine* AudioManager::soundEngine = irrklang::createIrrKlangDevice();
 
-void AudioManager::PlayAudioClip(const char* path)
+irrklang::ISoundEngine* AudioManager::GetSoundEngine()
 {
-	SoundEngine->play2D("350899__cabled-mess__jump-c-09.wav");
+	return soundEngine;
+}
+
+void AudioManager::PlayAudioClip(irrklang::ISoundSource* audioClip)
+{
+	if (!audioClip)
+		std::cout << "Can't play audio clip - clip is null!\n";
+
+	soundEngine->play2D(audioClip);
 }

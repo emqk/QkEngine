@@ -117,6 +117,8 @@ Scene::Scene()
     ResourceManager::LoadShader("StandardShader");
     ResourceManager::LoadShader("UnlitShader");
 
+    //Audio
+    ResourceManager::LoadAudioClip("Jump.wav");
 
     camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f));
     GameManager gameManager = GameManager();

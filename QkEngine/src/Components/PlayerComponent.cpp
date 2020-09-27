@@ -120,7 +120,7 @@ void PlayerComponent::Update(const float& deltaTime)
 	if (InputManager::GetKeyDown(GLFW_KEY_SPACE) && isGrounded)
 	{
 		currentGravity += 6;
-		AudioManager::PlayAudioClip("???");
+		AudioManager::PlayAudioClip(ResourceManager::GetAudioClip("Jump.wav"));
 	}
 
 	parent->Move(glm::vec3(0, currentGravity, 0) * deltaTime);

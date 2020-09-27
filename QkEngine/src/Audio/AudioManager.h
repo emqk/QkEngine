@@ -7,9 +7,11 @@ public:
 	AudioManager() = delete;
 	~AudioManager() = delete;
 
-	static void PlayAudioClip(const char* path);
+	static irrklang::ISoundEngine* GetSoundEngine();
+
+	static void PlayAudioClip(irrklang::ISoundSource* audioClip);
 
 private:
-	static irrklang::ISoundEngine* SoundEngine;
+	static irrklang::ISoundEngine* soundEngine;
 
 };
