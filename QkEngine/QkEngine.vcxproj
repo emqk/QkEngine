@@ -87,14 +87,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\glad\include;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\assimp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\emis\source\repos\QkEngine\Dependencies\irrKlang-1.6.0\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\glad\include;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\assimp\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\emis\source\repos\QkEngine\Dependencies\assimp\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2019</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;assimp-vc142-mtd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\emis\source\repos\QkEngine\Dependencies\assimp\lib;C:\Users\emis\source\repos\QkEngine\Dependencies\irrKlang-1.6.0\lib\Win32-visualStudio;$(SolutionDir)Dependencies\GLFW\lib-vc2019</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;assimp-vc142-mtd.lib;irrKlang.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\glad\include;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\assimp\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\emis\source\repos\QkEngine\Dependencies\irrKlang-1.6.0\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\glad\include;$(SolutionDir)Dependencies\glm;$(SolutionDir)Dependencies\assimp\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -128,8 +128,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\emis\source\repos\QkEngine\Dependencies\assimp\lib;$(SolutionDir)Dependencies\GLFW\lib-vc2019</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;assimp-vc142-mtd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\emis\source\repos\QkEngine\Dependencies\assimp\lib;C:\Users\emis\source\repos\QkEngine\Dependencies\irrKlang-1.6.0\lib\Win32-visualStudio;$(SolutionDir)Dependencies\GLFW\lib-vc2019</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;assimp-vc142-mtd.lib;irrKlang.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="src\Animation\SpriteAnimation.cpp" />
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Audio\AudioManager.cpp" />
     <ClCompile Include="src\Bounds.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Components\AnimatedSpriteComponent.cpp" />
@@ -192,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animation\SpriteAnimation.h" />
+    <ClInclude Include="src\Audio\AudioManager.h" />
     <ClInclude Include="src\Bounds.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Components\AnimatedSpriteComponent.h" />

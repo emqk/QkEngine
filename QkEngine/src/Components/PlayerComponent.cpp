@@ -1,6 +1,7 @@
 #include "PlayerComponent.h"
 #include "../GameObject.h"
 #include "../ResourceManager.h"
+#include "../Audio/AudioManager.h"
 #include "../InputManager.h"
 #include "../Scene.h"
 #include "../Camera.h"
@@ -119,6 +120,7 @@ void PlayerComponent::Update(const float& deltaTime)
 	if (InputManager::GetKeyDown(GLFW_KEY_SPACE) && isGrounded)
 	{
 		currentGravity += 6;
+		AudioManager::PlayAudioClip("???");
 	}
 
 	parent->Move(glm::vec3(0, currentGravity, 0) * deltaTime);

@@ -110,6 +110,8 @@ Scene::Scene()
     ResourceManager::LoadModel("Chair/School Chair Offset.fbx");
     //ResourceManager::LoadModel("backpack/backpack.obj");
     //ResourceManager::LoadModel("House/House.fbx");
+    //Vegetation
+    ResourceManager::LoadModel("Vegetation/Tree.fbx");
 
     //Shaders
     ResourceManager::LoadShader("StandardShader");

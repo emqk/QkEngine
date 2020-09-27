@@ -1,8 +1,2 @@
-﻿  Scene.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(28,47): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(26,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.cpp(356,42): warning C4114: same type qualifier used more than once
-  LINK : C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe not found or not built by the last incremental link; performing full link
-     Creating library C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.lib and object C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exp
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+﻿  AudioManager.cpp
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe
