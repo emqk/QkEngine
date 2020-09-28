@@ -126,13 +126,11 @@ void Camera::ProcessInput(const float& deltaTime)
 		transform.Translate(moveVec * movementSpeed * deltaTime);
 
 		//Rotation
-		glm::vec2 currMousePos = Scene::GetCurrentScene().GetMousePos();
 		if (wasLastFrameMousePressed)
 		{
-			glm::vec2 diff = currMousePos - previousMousePos;
+			glm::vec2 diff = InputManager::GetMouseMoveDifference();
 			SetLocalRotation(GetLocalRotation() + glm::quat(0, -diff.y, diff.x, 0) * rotationSpeed * deltaTime);
 		}
-		previousMousePos = currMousePos;
 		wasLastFrameMousePressed = true;
 	}
 	else

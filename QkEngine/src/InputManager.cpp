@@ -1,6 +1,9 @@
 #include "InputManager.h"
 #include "Window.h"
+#include "Scene.h"
+#include <GLFW/glfw3.h>
 #include <iostream>
+
 
 std::vector<int> InputManager::pressedKeyboardButtons;
 std::vector<int> InputManager::pressedKeyboardButtonsUp;
@@ -9,6 +12,10 @@ std::vector<int> InputManager::pressedKeyboardButtonsDown;
 std::vector<int> InputManager::pressedMouseButtons;
 std::vector<int> InputManager::pressedMouseButtonsUp;
 std::vector<int> InputManager::pressedMouseButtonsDown;
+
+glm::vec2 InputManager::mouseMoveDiff;
+glm::vec2 InputManager::previousMousePos;
+
 
 bool InputManager::GetKey(const int& key)
 {
@@ -44,6 +51,11 @@ bool InputManager::GetMouseKeyDown(const int& key)
 {
 	std::vector<int>::iterator it = std::find(pressedMouseButtonsDown.begin(), pressedMouseButtonsDown.end(), key);
 	return it != pressedMouseButtonsDown.end();
+}
+
+glm::vec2 InputManager::GetMouseMoveDifference()
+{
+	return mouseMoveDiff;
 }
 
 void InputManager::Update()
@@ -101,4 +113,8 @@ void InputManager::Update()
 			}
 		}
 	}
+
+	glm::vec2 currMousePos = Scene::GetCurrentScene().GetMousePos();
+	mouseMoveDiff = currMousePos - previousMousePos;
+	previousMousePos = currMousePos;
 }

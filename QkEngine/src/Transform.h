@@ -28,6 +28,8 @@ public:
 	bool IsObjectOneOfMyParents(const GameObject const* potentialParent) const;
 
 	void Translate(const glm::vec3& offset);
+	void Rotate(const glm::quat& offset);
+	void Scale(const glm::vec3& offset);
 
 	const glm::mat4& GetModel() const;
 

@@ -9,6 +9,16 @@ enum class AssetWindowType
 	Textures, Shaders, MeshesNew
 };
 
+enum class ObjectTransformMode
+{
+	None, Position, Rotation, Scale
+};
+
+enum class ObjectTransformType
+{
+	None, X, Y, Z
+};
+
 class Editor
 {
 public:
@@ -56,6 +66,8 @@ private:
 	static void EnterGameMode();
 	static void ExitGameMode();
 
+	static void UpdateGizmosTransformations();
+
 	static Texture* playButtonTex;
 	static Texture* stopButtonTex;
 
@@ -66,4 +78,8 @@ private:
 	static bool showProfiler;
 	static bool showSelectAssetWindow;
 	static bool showCameraWindow;
+
+	//Object transformations
+	static ObjectTransformMode currentObjectTransformMode;
+	static ObjectTransformType currentObjectTransformType;
 };

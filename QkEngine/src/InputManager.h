@@ -1,6 +1,6 @@
 #pragma once
-#include <GLFW/glfw3.h>
 #include <vector>
+#include <glm/vec2.hpp>
 
 class InputManager
 {
@@ -18,6 +18,8 @@ public:
 	static bool GetMouseKeyUp(const int& key);
 	static bool GetMouseKeyDown(const int& key);
 
+	static glm::vec2 GetMouseMoveDifference();
+
 	static void Update();
 
 private:
@@ -28,4 +30,7 @@ private:
 	static std::vector<int> pressedMouseButtons;
 	static std::vector<int> pressedMouseButtonsUp;
 	static std::vector<int> pressedMouseButtonsDown;
+
+	static glm::vec2 mouseMoveDiff;
+	static glm::vec2 previousMousePos;
 };

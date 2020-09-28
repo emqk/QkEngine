@@ -94,6 +94,16 @@ void Transform::Translate(const glm::vec3& offset)
 	SetLocalPosition(GetLocalPosition() + offset);
 }
 
+void Transform::Rotate(const glm::quat& offset)
+{
+	SetLocalRotation(GetLocalRotation() + offset);
+}
+
+void Transform::Scale(const glm::vec3& offset)
+{
+	SetLocalScale(GetLocalScale() + offset);
+}
+
 const glm::mat4& Transform::GetModel() const
 {
 	return myModel;

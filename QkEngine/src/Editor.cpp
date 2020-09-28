@@ -11,7 +11,6 @@
 #include "Lighting.h"
 
 #include <memory>
-#include <memory>
 
 
 GameObject* Editor::selectedObj;
@@ -36,6 +35,8 @@ bool Editor::showProfiler = true;
 bool Editor::showSelectAssetWindow = false;
 bool Editor::showCameraWindow = true;
 
+ObjectTransformMode Editor::currentObjectTransformMode = ObjectTransformMode::None;
+ObjectTransformType Editor::currentObjectTransformType = ObjectTransformType::None;
 
 void Editor::Init(GLFWwindow* window)
 {
@@ -87,9 +88,9 @@ void Editor::Update()
     ImGui::NewFrame();
     //ImGui::ShowDemoWindow();
 
-
     EnableDockingBackground();
     ShowEnabledWindows();
+    UpdateGizmosTransformations();
 
     Profiler::EndSample();
     if (showProfiler)
@@ -243,7 +244,6 @@ void Editor::EnableDockingBackground()
 
 void Editor::ShowEnabledWindows()
 {
-
     //Camera
     if(showCameraWindow)
     {
@@ -326,7 +326,12 @@ void Editor::ShowEnabledWindows()
                 case 1: glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); break;
                 case 2: glPolygonMode(GL_FRONT_AND_BACK, GL_POINT); break;
             }
-            std::cout << "Refresh\n";
+        }
+
+        int dropDownValue = (int)currentObjectTransformMode;
+        if (ImGui::Combo("TransformationMode", &dropDownValue, "None\0Position\0Rotation\0Scale\0"))
+        {
+            currentObjectTransformMode = (ObjectTransformMode)dropDownValue;
         }
 
 
@@ -599,4 +604,75 @@ void Editor::ExitGameMode()
 {
     Scene::GetCurrentScene().ExitGameMode();
     glfwSetInputMode(&Window::GetCurrentWindow()->GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
+
+void Editor::UpdateGizmosTransformations()
+{
+    if (InputManager::GetKeyDown(GLFW_KEY_ENTER) || InputManager::GetMouseKeyDown(GLFW_MOUSE_BUTTON_1))
+    {
+        currentObjectTransformType = ObjectTransformType::None;
+    }
+    else if (InputManager::GetKeyDown(GLFW_KEY_X))
+    {
+        currentObjectTransformType = ObjectTransformType::X;
+    }
+    else if (InputManager::GetKeyDown(GLFW_KEY_Y))
+    {
+        currentObjectTransformType = ObjectTransformType::Y;
+    }
+    else if (InputManager::GetKeyDown(GLFW_KEY_Z))
+    {
+        currentObjectTransformType = ObjectTransformType::Z;
+    }
+
+    if (selectedObj)
+    {
+        glm::vec2 mouseMove = InputManager::GetMouseMoveDifference();
+
+        if (currentObjectTransformMode == ObjectTransformMode::Position)
+        {
+            if (currentObjectTransformType == ObjectTransformType::X)
+            {
+                selectedObj->transform.Translate(selectedObj->transform.GetRight() * mouseMove.x);
+            }
+            else if (currentObjectTransformType == ObjectTransformType::Y)
+            {
+                selectedObj->transform.Translate(selectedObj->transform.GetUp() * mouseMove.x);
+            }
+            else if (currentObjectTransformType == ObjectTransformType::Z)
+            {
+                selectedObj->transform.Translate(selectedObj->transform.GetForward() * mouseMove.x);
+            }
+        }
+        else if (currentObjectTransformMode == ObjectTransformMode::Rotation)
+        {
+            if (currentObjectTransformType == ObjectTransformType::X)
+            {
+                selectedObj->transform.Rotate(glm::quat(1, mouseMove.x, 0, 0));
+            }
+            else if (currentObjectTransformType == ObjectTransformType::Y)
+            {
+                selectedObj->transform.Rotate(glm::quat(1, 0, mouseMove.x, 0));
+            }
+            else if (currentObjectTransformType == ObjectTransformType::Z)
+            {
+                selectedObj->transform.Rotate(glm::quat(1, 0, 0, mouseMove.x));
+            }
+        }
+        else if (currentObjectTransformMode == ObjectTransformMode::Scale)
+        {
+            if (currentObjectTransformType == ObjectTransformType::X)
+            {
+                selectedObj->transform.Scale(glm::vec3(1, 0, 0) * mouseMove.x);
+            }
+            else if (currentObjectTransformType == ObjectTransformType::Y)
+            {
+                selectedObj->transform.Scale(glm::vec3(0, 1, 0) * mouseMove.x);
+            }
+            else if (currentObjectTransformType == ObjectTransformType::Z)
+            {
+                selectedObj->transform.Scale(glm::vec3(0, 0, 1) * mouseMove.x);
+            }
+        }
+    }
 }
