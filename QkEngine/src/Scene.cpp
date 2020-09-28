@@ -26,33 +26,17 @@ Scene::Scene()
     OnLoad();
 
     //Textures
-    ResourceManager::LoadTexture("Terrain_Albedo.jpg");
-    ResourceManager::LoadTexture("Building Area.jpg");
-    ResourceManager::LoadTexture("Grocery.png");
-    ResourceManager::LoadTexture("Building Area 1_Albedo.jpg");
-    ResourceManager::LoadTexture("container.jpg");
-    ResourceManager::LoadTexture("Stairs.jpg");
-    ResourceManager::LoadTexture("Tree.png");
-    //ResourceManager::LoadTexture("Gun_Cyberpunk Gun_BaseColor.jpg");
-    ResourceManager::LoadTexture("Cube.jpg");
-    ResourceManager::LoadTexture("gizmoSelectTexture.jpg");
-    ResourceManager::LoadTexture("MagicaVoxelExports/abc.png");
-    ResourceManager::LoadTexture("Chair/diffuse.png");
-    ResourceManager::LoadTexture("House/Planks.png");
-    ResourceManager::LoadTexture("container2.png");
-    ResourceManager::LoadTexture("container2_specular.png");
     //Editor textures
     ResourceManager::LoadTexture("Editor/PlayIcon.png");
     ResourceManager::LoadTexture("Editor/StopIcon.png");
-
+    ResourceManager::LoadTexture("gizmoSelectTexture.jpg");
+    
     //backpack
     //ResourceManager::LoadTexture("backpack/diffuse.jpg");
     //ResourceManager::LoadTexture("backpack/normal.png");
     //ResourceManager::LoadTexture("backpack/roughness.jpg");
     //ResourceManager::LoadTexture("backpack/specular.jpg");
 
-    //Chair
-    ResourceManager::LoadTexture("Chair/diffuse.png");
     //Animation textures
     //Idle
     ResourceManager::LoadTexture("Adventurer/adventurer-idle-00.png");
@@ -77,41 +61,23 @@ Scene::Scene()
     ResourceManager::LoadSpriteAnimation(std::move(idle), "Idle");
     //Run
     std::vector<Texture*> run;
-    Texture* run0 = ResourceManager::GetTexture("Adventurer/adventurer-run-00.png");
-    run.push_back(run0);
-    Texture* run1 = ResourceManager::GetTexture("Adventurer/adventurer-run-01.png");
-    run.push_back(run1);
-    Texture* run2 = ResourceManager::GetTexture("Adventurer/adventurer-run-02.png");
-    run.push_back(run2);
-    Texture* run3 = ResourceManager::GetTexture("Adventurer/adventurer-run-03.png");
-    run.push_back(run3);
-    Texture* run4 = ResourceManager::GetTexture("Adventurer/adventurer-run-04.png");
-    run.push_back(run4);
-    Texture* run5 = ResourceManager::GetTexture("Adventurer/adventurer-run-05.png");
-    run.push_back(run5);
+    run.push_back(ResourceManager::GetTexture("Adventurer/adventurer-run-00.png"));
+    run.push_back(ResourceManager::GetTexture("Adventurer/adventurer-run-01.png"));
+    run.push_back(ResourceManager::GetTexture("Adventurer/adventurer-run-02.png"));
+    run.push_back(ResourceManager::GetTexture("Adventurer/adventurer-run-03.png"));
+    run.push_back(ResourceManager::GetTexture("Adventurer/adventurer-run-04.png"));
+    run.push_back(ResourceManager::GetTexture("Adventurer/adventurer-run-05.png"));
     ResourceManager::LoadSpriteAnimation(std::move(run), "Run");
     //Jump
     std::vector<Texture*> jump;
-    Texture* jump0 = ResourceManager::GetTexture("Adventurer/adventurer-jump-03.png");
-    jump.push_back(jump0);
+    jump.push_back(ResourceManager::GetTexture("Adventurer/adventurer-jump-03.png"));
     ResourceManager::LoadSpriteAnimation(std::move(jump), "Jump");
 
     //Models
-    ResourceManager::LoadModel("Cube.obj");
-    ResourceManager::LoadModel("Arrow.fbx");
-    ResourceManager::LoadModel("Terrain.obj");
-    ResourceManager::LoadModel("Buiilding Area.obj");
-    ResourceManager::LoadModel("Grocery.obj");
-    ResourceManager::LoadModel("rectangleOBJ.obj");
     ResourceManager::LoadModel("Human/Human.obj");
-    ResourceManager::LoadModel("Stairs.obj");
-   // ResourceManager::LoadModel("weapon.obj");
-    ResourceManager::LoadModel("MagicaVoxelExports/abc.obj");
-    ResourceManager::LoadModel("Chair/School Chair Offset.fbx");
-    //ResourceManager::LoadModel("backpack/backpack.obj");
-    //ResourceManager::LoadModel("House/House.fbx");
-    //Vegetation
     ResourceManager::LoadModel("Vegetation/Tree.fbx");
+    ResourceManager::LoadModel("Arrow.fbx");
+    ResourceManager::LoadModel("Cube.obj");
 
     //Shaders
     ResourceManager::LoadShader("StandardShader");
