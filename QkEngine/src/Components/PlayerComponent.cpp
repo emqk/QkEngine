@@ -133,7 +133,7 @@ void PlayerComponent::LateUpdate(const float& deltaTime)
 	glm::vec3 camPos = camera->GetLocalPosition();
 	glm::vec3 playerPos = parent->transform.GetLocalPosition();
 
-	camera->SetLocalPosition(parent->transform.GetGlobalPosition() + glm::vec3(0, 4, 7));
+	camera->SetLocalPosition(parent->transform.GetGlobalPosition() + glm::vec3(0, 7, 10));
 	camera->SetLocalRotation(glm::quat(1, -30, 0, 0));
 }
 
