@@ -11,7 +11,8 @@
 #include "Lighting.h"
 
 #include <memory>
-
+#include <algorithm>
+#include <string>
 
 GameObject* Editor::selectedObj;
 Component* Editor::selectedComp;
@@ -443,6 +444,17 @@ void Editor::ShowGameObject(GameObject* obj, int& id, int& node_clicked)
 void Editor::ShowSelectAssetWindow()
 {
     ImGui::Begin("Select Asset", &showSelectAssetWindow);
+ 
+    static std::string searchStr = "";
+
+    if (ImGui::Button("Clear"))
+    {
+        searchStr.clear();
+    }
+    ImGui::SameLine();
+    ImGui::InputText("Search", searchStr.data(), 64);
+  
+
     static int selectedAsset = -1;
     std::string assetTypeStr;
     std::vector<std::string> assetsName;
@@ -471,6 +483,11 @@ void Editor::ShowSelectAssetWindow()
     {
         for (size_t n = 0; n < assetsName.size(); n++)
         {
+            if (assetsName[n].find(searchStr.c_str()) == std::string::npos)
+            {
+                continue;
+            }
+            
             if (currAssetWindowType == AssetWindowType::Textures)
             {
                 Texture* tex = ResourceManager::GetTexture(assetsName[n].c_str());
