@@ -14,6 +14,7 @@
 
 #include "Scene.h"
 
+
 GameObject::GameObject() : name("NewGameObject")
 {
 	transform.SetLocalPosition(glm::vec3(0, 0, 0));
@@ -106,29 +107,10 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 	ImGui::InputFloat("Sca Z", &localScale.z, 0.1f, 1.0f);
 	transform.SetLocalScale(localScale);
 
-	if (ImGui::Button("Add StaticMeshComponent"))
+	if (ImGui::Button("Add component"))
 	{
-		AddComponent<StaticMeshComponent>();
-	}
-	if (ImGui::Button("Add AnimatedSpriteComponent"))
-	{
-		AddComponent<AnimatedSpriteComponent>();
-	}
-	if (ImGui::Button("Add MoveComponent"))
-	{
-		AddComponent<MoveComponent>();
-	}
-	if (ImGui::Button("Add BoxColliderComponent"))
-	{
-		AddComponent<BoxColliderComponent>();
-	}
-	if (ImGui::Button("Add DirectionalLightComponent"))
-	{
-		AddComponent<DirectionalLightComponent>();
-	}
-	if (ImGui::Button("Add PointLightComponent"))
-	{
-		AddComponent<PointLightComponent>();
+		std::function<void(std::string)> fun = [&](const std::string& texName) { this->ShowComponentsToAdd(texName.c_str()); };
+		Editor::ShowSelectAssetWindow(AssetWindowType::Components, fun);
 	}
 	if (ImGui::Button("Remove selected component"))
 	{
@@ -237,5 +219,37 @@ void GameObject::LateUpdateComponents(const float& deltaTime)
 	{
 		if (comp->IsActiveSelf())
 			comp->LateUpdate(deltaTime);
+	}
+}
+
+void GameObject::ShowComponentsToAdd(const char* componentName)
+{
+	if (strcmp(componentName, "PointLightComponent") == 0)
+	{
+		AddComponent<PointLightComponent>();
+	}
+	else if (strcmp(componentName, "DirectionalLightComponent") == 0)
+	{
+		AddComponent<DirectionalLightComponent>();
+	}
+	else if(strcmp(componentName, "StaticMeshComponent") == 0)
+	{
+		AddComponent<StaticMeshComponent>();
+	}
+	else if (strcmp(componentName, "BoxColliderComponent") == 0)
+	{
+		AddComponent<BoxColliderComponent>();
+	}
+	else if (strcmp(componentName, "MoveComponent") == 0)
+	{
+		AddComponent<MoveComponent>();
+	}
+	else if (strcmp(componentName, "AnimatedSpriteComponent") == 0)
+	{
+		AddComponent<AnimatedSpriteComponent>();
+	}
+	else
+	{
+		std::cout << "Can't find component: " << componentName << "\n";
 	}
 }

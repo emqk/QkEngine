@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <memory>
+#include <vector>
 #include "../imgui/imgui.h"
 
 class GameObject;
@@ -14,12 +15,12 @@ public:
 	Component(const Component& comp);
 	Component& operator=(const Component& comp) = delete;
 
-	virtual void Update(const float& deltaTime) = 0;
-	virtual void LateUpdate(const float& deltaTime) = 0;
+	virtual void Update(const float& deltaTime) {};
+	virtual void LateUpdate(const float& deltaTime) {};
 
 	virtual void ShowOnGizmos();
 	void ShowInInspectorBase();
-	virtual void ShowOnInspector() = 0;
+	virtual void ShowOnInspector() {};
 
 	bool IsParentActive() const;
 	void SetActiveSelf(const bool& value);
@@ -32,6 +33,8 @@ public:
 	virtual std::unique_ptr<Component> MakeCopy(GameObject* newParent) const = 0;
 
 protected:
+	void SetParent(GameObject* newParent);
+
 	bool isActive = true;
 	GameObject* parent;
 };

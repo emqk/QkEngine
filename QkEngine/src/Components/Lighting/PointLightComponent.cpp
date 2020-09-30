@@ -2,6 +2,7 @@
 #include "../../Lighting.h"
 #include "../../GameObject.h"
 
+
 PointLightComponent::PointLightComponent(GameObject* _parent) : Component(_parent)
 {
 	name = "PointLightComponent";

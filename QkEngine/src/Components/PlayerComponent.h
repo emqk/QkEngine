@@ -3,7 +3,6 @@
 #include "AnimatedSpriteComponent.h"
 #include "BoxColliderComponent.h"
 #include "MoveComponent.h"
-#include <array>
 
 class PlayerComponent : public Component
 {

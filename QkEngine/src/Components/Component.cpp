@@ -4,13 +4,13 @@
 
 Component::Component(GameObject* _parent) : name("Base Component")
 {
-	parent = _parent;
+	SetParent(_parent);
 }
 
 Component::~Component()
 {
 	//std::cout << "Default Component destructor\n";
-	parent = nullptr;
+	SetParent(nullptr);
 }
 
 Component::Component(const Component& comp) : name("BaseCompCopy"), parent(comp.parent), isActive(comp.isActive)
@@ -39,6 +39,11 @@ bool Component::IsActive() const
 bool Component::IsActiveSelf() const
 {
 	return isActive;
+}
+
+void Component::SetParent(GameObject* newParent)
+{
+	parent = newParent;
 }
 
 GameObject* const Component::GetParent() const

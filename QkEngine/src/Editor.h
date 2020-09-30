@@ -6,7 +6,7 @@
 
 enum class AssetWindowType
 {
-	Textures, Shaders, MeshesNew
+	Textures, Shaders, MeshesNew, Components
 };
 
 enum class ObjectTransformMode
@@ -38,6 +38,8 @@ public:
 
 	static glm::vec2 GetViewportPosition();
 	static glm::vec2 GetViewportSize();
+
+	static const std::vector<std::string> availableComponents;
 
 private:
 	static void EnableDockingBackground();

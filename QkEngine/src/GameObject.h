@@ -9,6 +9,7 @@
 #include <vector>
 #include <iostream>
 #include <memory>
+#include <functional>
 
 class GameObject
 {
@@ -26,6 +27,7 @@ public:
 	virtual void ShowOnGizmos();
 	virtual void Update(const float& deltaTime);
 	virtual void LateUpdate(const float& deltaTime);
+	void ShowComponentsToAdd(const char* componentName);
 
 	void Move(const glm::vec3& offset);
 
@@ -68,6 +70,7 @@ public:
 protected:
 	void UpdateComponents(const float& deltaTime);
 	void LateUpdateComponents(const float& deltaTime);
+
 
 private:
 	bool isActive = true;

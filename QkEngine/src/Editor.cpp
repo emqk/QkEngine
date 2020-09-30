@@ -38,6 +38,11 @@ bool Editor::showCameraWindow = true;
 ObjectTransformMode Editor::currentObjectTransformMode = ObjectTransformMode::None;
 ObjectTransformType Editor::currentObjectTransformType = ObjectTransformType::None;
 
+
+const std::vector<std::string> Editor::availableComponents = {"PointLightComponent", "DirectionalLightComponent", "StaticMeshComponent", "BoxColliderComponent", "MoveComponent",
+                                                              "AnimatedSpriteComponent"};
+
+
 void Editor::Init(GLFWwindow* window)
 {
     //Docking
@@ -78,6 +83,8 @@ void Editor::Init(GLFWwindow* window)
     //Setup editor textures
     playButtonTex = ResourceManager::GetTexture("Editor/PlayIcon.png");
     stopButtonTex = ResourceManager::GetTexture("Editor/StopIcon.png");
+
+
 }
 
 void Editor::Update()
@@ -453,6 +460,11 @@ void Editor::ShowSelectAssetWindow()
     {
         assetsName = ResourceManager::GetShadersName();
         assetTypeStr = "Shaders";
+    }
+    else if (currAssetWindowType == AssetWindowType::Components)
+    {
+        assetsName = availableComponents;
+        assetTypeStr = "Components";
     }
     
     if (ImGui::TreeNode(assetTypeStr.c_str()))
