@@ -84,27 +84,19 @@ void GameObject::ShowOnInspector(GameObject* selectedObj, Component* selectedCom
 	name = std::string(objName);
 
 	//Position
-	ImGui::Text("Position");
+	//ImGui::Text("Position");
 	glm::vec3 pos = transform.GetLocalPosition();
-	ImGui::InputFloat("Pos X", &pos.x, 0.5f, 1.0f);
-	ImGui::InputFloat("Pos Y", &pos.y, 0.5f, 1.0f);
-	ImGui::InputFloat("Pos Z", &pos.z, 0.5f, 1.0f);
+	ImGui::DragFloat3("Position", &pos.x, 0.1f);
 	transform.SetLocalPosition(pos);
 
 	//Rotation
-	ImGui::Text("Rotation");
 	glm::quat localRotation = transform.GetLocalRotation();
-	ImGui::InputFloat("Rot X", &localRotation.x, 1, 90);
-	ImGui::InputFloat("Rot Y", &localRotation.y, 1, 90);
-	ImGui::InputFloat("Rot Z", &localRotation.z, 1, 90);
+	ImGui::DragFloat3("Rotation", &localRotation.x, 1);
 	transform.SetLocalRotation(localRotation);
 
 	//Scale
-	ImGui::Text("Scale");
 	glm::vec3 localScale = transform.GetLocalScale();
-	ImGui::InputFloat("Sca X", &localScale.x, 0.1f, 1.0f);
-	ImGui::InputFloat("Sca Y", &localScale.y, 0.1f, 1.0f);
-	ImGui::InputFloat("Sca Z", &localScale.z, 0.1f, 1.0f);
+	ImGui::DragFloat3("Scale", &localScale.x, 0.1f);
 	transform.SetLocalScale(localScale);
 
 	if (ImGui::Button("Add component"))
