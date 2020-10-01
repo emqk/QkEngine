@@ -23,6 +23,21 @@ public:
 	Camera& GetCamera();
 	static Scene& GetCurrentScene();
 
+	template<typename T>
+	GameObject* FindObjectWithComponent()
+	{
+		for (const std::unique_ptr<GameObject>& o : objects)
+		{
+			if (o->GetComponent<T>())
+			{
+				return o.get();
+			}
+		}
+
+		return nullptr;
+	}
+
+
 	void InstantiateModel(const Model const* model);
 
 	template<typename T>

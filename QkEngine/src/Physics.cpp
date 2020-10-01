@@ -1,7 +1,9 @@
 #include "Physics.h"
 #include "GameObject.h"
+#include "Scene.h"
 #include "Game/GameManager.h"
 #include "Components/MoveComponent.h"
+#include "Components/PlayerComponent.h"
 
 #include <iostream>
 #include <algorithm>
