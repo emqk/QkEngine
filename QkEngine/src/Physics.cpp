@@ -21,9 +21,8 @@ void Physics::Perform()
 			continue;
 		}
 
-		std::cout << "Start checking collision for: " << currentBoxColl->GetParent()->name << "\n";
-
-		CheckCollisionFor(currentBoxColl);
+		std::vector<BoxColliderComponent*> colliders;
+		CheckCollisionFor(currentBoxColl, colliders);
 	}
 }
 
@@ -71,11 +70,19 @@ void Physics::UnRegisterCollider(BoxColliderComponent* comp)
     }
 }
 
-void Physics::CheckCollisionFor(BoxColliderComponent* boxCollider)
+void Physics::CheckCollisionFor(BoxColliderComponent* boxCollider,std::vector<BoxColliderComponent*>& deep)
 {
+	if (std::find(deep.begin(), deep.end(), boxCollider) == deep.end())
+	{
+		deep.push_back(boxCollider);
+	}
+	else
+	{
+		return;
+	}
+
 	for (size_t j = 0; j < colliderComponents.size(); j++)
 	{
-
 		BoxColliderComponent* otherBoxColl = colliderComponents[j];
 
 		if (!otherBoxColl->IsActive() || otherBoxColl == boxCollider)
@@ -143,22 +150,32 @@ void Physics::CheckCollisionFor(BoxColliderComponent* boxCollider)
 					}
 				}
 
-				std::cout << boxCollider->GetParent()->name << " is colliding with " << otherBoxColl->GetParent()->name << "\n";
-
-				float d = glm::distance(glm::vec3(0, 0, 0), otherResponseVec);
-				std::cout << "d: " << d << "\n";
-				if (otherBoxColl->isPushable && d > 0.001f)
+				if (otherBoxColl->isPushable)
 				{
-					std::cout << boxCollider->GetParent()->name << " push " << otherBoxColl->GetParent()->name << "\n";
+					glm::vec3 old = otherBoxColl->GetParent()->transform.GetGlobalPosition();
+			
 					otherBoxColl->GetParent()->Move(otherResponseVec);
+					CheckCollisionFor(otherBoxColl, deep);
+				
+					float d = glm::distance(old, otherBoxColl->GetParent()->transform.GetGlobalPosition());
+					if (d < 0.000001f)
+					{
+						otherBoxColl->GetParent()->Move(-otherResponseVec);
+						boxCollider->GetParent()->Move(responseVec);
+					}
 				}
 				else
 				{
-					std::cout << otherBoxColl->GetParent()->name << " push " << boxCollider->GetParent()->name << "\n";
 					boxCollider->GetParent()->Move(responseVec);
 				}
 			}
 		}
 
+	}
+
+	auto it = std::find(deep.begin(), deep.end(), boxCollider);
+	if (it == deep.end())
+	{
+		deep.erase(it);
 	}
 }

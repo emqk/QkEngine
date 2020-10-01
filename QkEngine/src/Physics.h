@@ -17,7 +17,7 @@ public:
 	static void UnRegisterCollider(BoxColliderComponent* comp);
 
 protected:
-	static void CheckCollisionFor(BoxColliderComponent* boxCollider);
+	static void CheckCollisionFor(BoxColliderComponent* boxCollider, std::vector<BoxColliderComponent*>& deep);
 
 private:
 	static std::vector<BoxColliderComponent*> colliderComponents;
