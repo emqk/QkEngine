@@ -28,7 +28,7 @@ BoxColliderComponent::~BoxColliderComponent()
 	Physics::UnRegisterCollider(this);
 }
 
-BoxColliderComponent::BoxColliderComponent(const BoxColliderComponent& comp) : Component(comp), bounds(comp.bounds), center(comp.center), isTrigger(comp.isTrigger)
+BoxColliderComponent::BoxColliderComponent(const BoxColliderComponent& comp) : Component(comp), bounds(comp.bounds), center(comp.center), isTrigger(comp.isTrigger), isPushable(comp.isPushable)
 {
 	Physics::RegisterCollider(this);
 }
@@ -48,6 +48,9 @@ void BoxColliderComponent::LateUpdate(const float& deltaTime)
 
 void BoxColliderComponent::ShowOnInspector()
 {
+	//Trigger
+	ImGui::Checkbox("Is Pushable", &isPushable);
+
 	//Trigger
 	ImGui::Checkbox("Is Trigger", &isTrigger);
 

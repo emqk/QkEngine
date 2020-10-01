@@ -9,8 +9,8 @@ public:
 	GameManager();
 	~GameManager();
 
-	GameObject* playerObj = nullptr;
-	
+	GameObject* playerObj;
+
 private:
 	std::array<GameObject*, 10> buildAreas;
 	std::array<glm::vec3, 10> buildAreasPos;

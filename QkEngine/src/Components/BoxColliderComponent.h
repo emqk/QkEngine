@@ -35,6 +35,7 @@ public:
 private:
 	void OnTrigger();
 
+	bool isPushable = false;
 	bool isTrigger = false;
 	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
 	Bounds bounds;
