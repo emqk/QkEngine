@@ -7,3 +7,8 @@ NavMeshNode::NavMeshNode(const glm::vec3& pos) : position(pos), isColliding(fals
 NavMeshNode::~NavMeshNode()
 {
 }
+
+glm::vec3 NavMeshNode::GetPosition() const
+{
+	return position;
+}

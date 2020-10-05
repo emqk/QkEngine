@@ -3,6 +3,9 @@
 #include "../Physics.h"
 #include "../imgui/imgui.h"
 #include <iostream>
+#include <chrono>
+#include <algorithm>
+#include <execution>
 
 std::vector<NavMeshNode> NavMesh::nodes;
 glm::vec3 NavMesh::startPos;
@@ -11,6 +14,8 @@ float NavMesh::nodeSize;
 
 void NavMesh::Generate(const glm::vec3& _startPos, const int& _width, const float& _nodeSize)
 {
+	std::chrono::steady_clock::time_point currentSampleStartTime = std::chrono::steady_clock::now();
+
 	startPos = _startPos;
 	width = _width;
 	nodeSize = _nodeSize;
@@ -28,15 +33,20 @@ void NavMesh::Generate(const glm::vec3& _startPos, const int& _width, const floa
 
 	CheckCollisions();
 
-	std::cout << "NavMesh generated!\n";
+	std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
+	std::chrono::duration<float, std::milli> dur = endTime - currentSampleStartTime;
+	float sampleDuration = dur.count();
+
+	std::cout << "NavMesh generated in: " << sampleDuration << "ms!\n";
 }
 
 void NavMesh::CheckCollisions()
 {
-	for (NavMeshNode& currNode : nodes)
+	std::for_each(std::execution::par, nodes.begin(), nodes.end(),
+	[](NavMeshNode& currNode)
 	{
-		currNode.isColliding = Physics::BoxCast(currNode.position, glm::vec3(nodeSize, nodeSize, nodeSize) / 2.0f).size() > 0;
-	}
+		currNode.isColliding = Physics::BoxCastCheck(currNode.position, glm::vec3(nodeSize, nodeSize, nodeSize) / 2.0f);
+	});
 }
 
 void NavMesh::ShowNavMesh()

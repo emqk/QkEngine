@@ -7,9 +7,10 @@ public:
 	NavMeshNode(const glm::vec3& pos);
 	~NavMeshNode();
 
-	glm::vec3 position;
+	glm::vec3 GetPosition() const;
+
 	bool isColliding = false;
 
 private:
-
+	glm::vec3 position;
 };

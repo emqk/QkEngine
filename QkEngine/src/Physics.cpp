@@ -54,6 +54,32 @@ std::vector<BoxColliderComponent*> Physics::BoxCast(const glm::vec3& pos, const 
 	return std::move(result);
 }
 
+bool Physics::BoxCastCheck(const glm::vec3& pos, const glm::vec3& halfExtents)
+{
+	for (size_t j = 0; j < colliderComponents.size(); j++)
+	{
+		BoxColliderComponent* otherBoxColl = colliderComponents[j];
+
+		if (!otherBoxColl->IsActive())
+			continue;
+
+		glm::vec3 otherObjectPosition = otherBoxColl->GetLocalPosition();
+		glm::vec3 otherExtents = otherBoxColl->GetExtentsHalf();
+
+		glm::vec3 delta = pos - otherObjectPosition;
+		glm::vec3 extentsSum = halfExtents + otherExtents;
+
+		glm::vec3 intersection = glm::vec3(abs(delta.x) - extentsSum.x, abs(delta.y) - extentsSum.y, abs(delta.z) - extentsSum.z);
+
+		if (intersection.x < 0 && intersection.y < 0 && intersection.z < 0)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void Physics::RegisterCollider(BoxColliderComponent* comp)
 {
 	colliderComponents.push_back(comp);
