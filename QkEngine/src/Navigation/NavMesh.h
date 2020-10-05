@@ -23,5 +23,7 @@ private:
 	static glm::vec3 startPos;
 	static int width;
 	static float nodeSize;
+
+	static bool showNavMesh;
 };
 

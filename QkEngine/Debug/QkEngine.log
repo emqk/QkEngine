@@ -1,3 +1,40 @@
-﻿  NavMesh.cpp
+﻿  Editor.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(41,36): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(375,52): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(384,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(521,72): warning C4018: '<': signed/unsigned mismatch
+  GameManager.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(41,36): warning C4114: same type qualifier used more than once
+  NavMesh.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(28,47): warning C4114: same type qualifier used more than once
+  Renderer.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(41,36): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.cpp(37,62): warning C4244: 'argument': conversion from 'T' to 'GLsizei', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.cpp(37,51): warning C4244: 'argument': conversion from 'T' to 'GLsizei', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.cpp(45,83): warning C4244: 'argument': conversion from 'T' to 'GLsizei', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.cpp(45,72): warning C4244: 'argument': conversion from 'T' to 'GLsizei', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Scene.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(41,36): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.cpp(329,42): warning C4114: same type qualifier used more than once
+  Generating Code...
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe

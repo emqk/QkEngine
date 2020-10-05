@@ -11,6 +11,7 @@ std::vector<NavMeshNode> NavMesh::nodes;
 glm::vec3 NavMesh::startPos;
 int NavMesh::width;
 float NavMesh::nodeSize;
+bool NavMesh::showNavMesh = true;
 
 void NavMesh::Generate(const glm::vec3& _startPos, const int& _width, const float& _nodeSize)
 {
@@ -45,7 +46,7 @@ void NavMesh::CheckCollisions()
 	std::for_each(std::execution::par, nodes.begin(), nodes.end(),
 	[](NavMeshNode& currNode)
 	{
-		currNode.isColliding = Physics::BoxCastCheck(currNode.position, glm::vec3(nodeSize, nodeSize, nodeSize) / 2.0f);
+		currNode.isColliding = Physics::BoxCastCheck(currNode.GetPosition(), glm::vec3(nodeSize, nodeSize, nodeSize) / 2.0f);
 	});
 }
 
@@ -60,6 +61,7 @@ void NavMesh::ShowNavMesh()
 	ImGui::InputFloat3("Start location", &position.x, 3);
 	ImGui::InputInt("Number of nodes in row", &w);
 	ImGui::InputFloat("Node size", &size);
+	ImGui::Checkbox("Show navMesh", &showNavMesh);
 
 	if (ImGui::Button("Generate"))
 	{
@@ -71,10 +73,13 @@ void NavMesh::ShowNavMesh()
 
 void NavMesh::DebugDraw()
 {
+	if (!showNavMesh)
+		return;
+
 	for (const NavMeshNode& node : nodes)
 	{
 		glm::vec4 targetColor = node.isColliding ? glm::vec4(1.0f, 0.1f, 0.1f, 1) : glm::vec4(0.1f, 0.1f, 1, 1);
 		Gizmos::SetCurrentColor(targetColor);
-		Gizmos::DrawCubeWireframe(node.position, glm::vec3(0, 0, 0), glm::vec3(nodeSize, nodeSize, nodeSize));
+		Gizmos::DrawCubeWireframe(node.GetPosition(), glm::vec3(0, 0, 0), glm::vec3(nodeSize, nodeSize, nodeSize));
 	}
 }
