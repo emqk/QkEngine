@@ -36,7 +36,7 @@ GameManager::GameManager()
 	playerObj->name = "Player";
 
 	//Ground
-	const float worldSize = 20;
+	const float worldSize = 40;
 	GameObject* ground = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, -1.25f, 0));
 	StaticMeshComponent* groundSprite = ground->AddComponent<StaticMeshComponent>();
 	if (groundSprite != nullptr)
@@ -46,14 +46,14 @@ GameManager::GameManager()
 		groundSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 		groundSprite->color = glm::vec4(0.4f, 0.85f, 0.4f, 1);
 	}
-	ground->transform.SetGlobalScale(glm::vec3(worldSize, 1, worldSize));
+	ground->transform.SetGlobalScale(glm::vec3(worldSize, 2, worldSize));
 	BoxColliderComponent* groundCollider = ground->AddComponent<BoxColliderComponent>();
-	groundCollider->SetExtents(glm::vec3(worldSize, 1, worldSize));
+	groundCollider->SetExtents(glm::vec3(worldSize, 2, worldSize));
 
 	//Trees
 	for (size_t i = 0; i < 10; i++)
 	{
-		GameObject* treeBase = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(Random::RandomFloat(-worldSize, worldSize), 0, Random::RandomFloat(-worldSize, worldSize)));
+		GameObject* treeBase = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(Random::RandomFloat(-worldSize / 2, worldSize / 2), 0, Random::RandomFloat(-worldSize / 2, worldSize / 2)));
 		BoxColliderComponent* treeCollision = treeBase->AddComponent<BoxColliderComponent>();
 		treeCollision->SetExtents(glm::vec3(0.3f, 5, 0.3f));
 		treeBase->name = "Tree";

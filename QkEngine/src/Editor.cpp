@@ -9,6 +9,7 @@
 #include "InputManager.h"
 #include "Profiler.h"
 #include "Lighting.h"
+#include "Navigation/NavMesh.h"
 
 #include <memory>
 #include <algorithm>
@@ -33,6 +34,7 @@ bool Editor::showHierarchy = true;
 bool Editor::showInspector = true;
 bool Editor::showLightingWindow = true;
 bool Editor::showProfiler = true;
+bool Editor::showNavigationWindow = true;;
 bool Editor::showSelectAssetWindow = false;
 bool Editor::showCameraWindow = true;
 
@@ -215,6 +217,10 @@ void Editor::EnableDockingBackground()
             {
                 showProfiler = !showProfiler;
             }
+            if (ImGui::MenuItem("Navigation"))
+            {
+                showNavigationWindow = !showNavigationWindow;
+            }
             if (ImGui::MenuItem("Camera settings"))
             {
                 showCameraWindow = !showCameraWindow;
@@ -271,6 +277,9 @@ void Editor::ShowEnabledWindows()
 
     if (showLightingWindow)
         Lighting::ShowWindow();
+
+    if (showNavigationWindow)
+        NavMesh::ShowNavMesh();
 
     //Viewport
     {

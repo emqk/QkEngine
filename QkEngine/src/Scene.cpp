@@ -13,6 +13,7 @@
 #include "Profiler.h"
 #include "Window.h"
 #include "Gizmos.h"
+#include "Navigation/NavMesh.h"
 
 #include <limits>
 #include <chrono>
@@ -310,7 +311,9 @@ void Scene::DrawGizmos()
         }
 
         Editor::DrawSelectedGameObject();
+        NavMesh::DebugDraw();
     }
+
 }
 
 Camera& Scene::GetCamera()

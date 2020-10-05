@@ -78,6 +78,7 @@ private:
 	static bool showInspector;
 	static bool showLightingWindow;
 	static bool showProfiler;
+	static bool showNavigationWindow;
 	static bool showSelectAssetWindow;
 	static bool showCameraWindow;
 
