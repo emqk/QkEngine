@@ -37,6 +37,11 @@ glm::vec3 Bounds::Extents() const
 	return extents;
 }
 
+glm::vec3 Bounds::ExtentsHalf() const
+{
+    return extents / 2.0f;
+}
+
 bool Bounds::Intersects(const glm::vec3& point, const glm::vec3& offset) const
 {
     if (   extents.x + offset.x >= point.x && offset.x - extents.x <= point.x

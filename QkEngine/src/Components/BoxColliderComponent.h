@@ -27,6 +27,7 @@ public:
 	glm::vec3 GetLocalPosition() const;
 	glm::vec3 GetCenter() const;
 	glm::vec3 GetExtents() const;
+	glm::vec3 GetExtentsHalf() const;
 
 	bool IsTrigger() const;
 

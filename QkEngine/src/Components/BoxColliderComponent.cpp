@@ -97,6 +97,11 @@ glm::vec3 BoxColliderComponent::GetExtents() const
 	return bounds.Extents();
 }
 
+glm::vec3 BoxColliderComponent::GetExtentsHalf() const
+{
+	return bounds.ExtentsHalf();
+}
+
 bool BoxColliderComponent::IsTrigger() const
 {
 	return isTrigger;

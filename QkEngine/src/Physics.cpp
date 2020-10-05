@@ -26,7 +26,7 @@ void Physics::Perform()
 	}
 }
 
-std::vector<BoxColliderComponent*> Physics::BoxCast(const glm::vec3& pos, const glm::vec3& extents)
+std::vector<BoxColliderComponent*> Physics::BoxCast(const glm::vec3& pos, const glm::vec3& halfExtents)
 {
 	std::vector<BoxColliderComponent*> result;
 	
@@ -38,10 +38,10 @@ std::vector<BoxColliderComponent*> Physics::BoxCast(const glm::vec3& pos, const 
 			continue;
 		
 		glm::vec3 otherObjectPosition = otherBoxColl->GetLocalPosition();
-		glm::vec3 otherExtents = otherBoxColl->GetExtents();
+		glm::vec3 otherExtents = otherBoxColl->GetExtentsHalf();
 	
 		glm::vec3 delta = pos - otherObjectPosition;
-		glm::vec3 extentsSum = extents + otherExtents;
+		glm::vec3 extentsSum = halfExtents + otherExtents;
 	
 		glm::vec3 intersection = glm::vec3(abs(delta.x) - extentsSum.x, abs(delta.y) - extentsSum.y, abs(delta.z) - extentsSum.z);
 	
@@ -89,10 +89,10 @@ void Physics::CheckCollisionFor(BoxColliderComponent* boxCollider,std::vector<Bo
 			continue;
 
 		glm::vec3 currentPosition = boxCollider->GetGlobalPosition();
-		glm::vec3 extents = boxCollider->GetExtents();
+		glm::vec3 extents = boxCollider->GetExtentsHalf();
 
 		glm::vec3 otherObjectPosition = otherBoxColl->GetGlobalPosition();
-		glm::vec3 otherExtents = otherBoxColl->GetExtents();
+		glm::vec3 otherExtents = otherBoxColl->GetExtentsHalf();
 
 		glm::vec3 delta = currentPosition - otherObjectPosition;
 		glm::vec3 extentsSum = extents + otherExtents;

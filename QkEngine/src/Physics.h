@@ -11,7 +11,7 @@ public:
 
 	static void Perform();
 
-	static std::vector<BoxColliderComponent*> BoxCast(const glm::vec3& pos, const glm::vec3& extents);
+	static std::vector<BoxColliderComponent*> BoxCast(const glm::vec3& pos, const glm::vec3& halfExtents);
 
 	static void RegisterCollider(BoxColliderComponent* comp);
 	static void UnRegisterCollider(BoxColliderComponent* comp);

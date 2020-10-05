@@ -14,6 +14,7 @@ public:
 
 	void SetExtents(const glm::vec3& newExtents);
 	glm::vec3 Extents() const;
+	glm::vec3 ExtentsHalf() const;
 	bool Intersects(const glm::vec3& point, const glm::vec3& offset) const;
 
 private:
