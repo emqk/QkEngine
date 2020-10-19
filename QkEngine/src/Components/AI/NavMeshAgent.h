@@ -1,5 +1,6 @@
 #pragma once
 #include "../Component.h"
+#include "../../Navigation/NavMeshNode.h"
 #include <glm\ext\vector_float3.hpp>
 #include <vector>
 
@@ -17,12 +18,15 @@ public:
 	void Update(const float& deltaTime) override;
 	void ShowOnInspector() override;
 
-	void SetPath(const std::vector<glm::vec3>& newPath);
+	void SetPath(const std::vector<NavMeshNode*>& newPath);
 
 protected:
-	bool MoveTo(const glm::vec3& position, const float& deltaTime);
+	bool FollowPath(const float& deltaTime);
+	bool MoveTo(const glm::vec3& position, const float& speed);
+
+	float movementSpeed = 3;
 
 private:
-	std::vector<glm::vec3> path;
-	float movementSpeed = 3;
+	std::vector<NavMeshNode*> path;
+	int currentPathIndex = 0;
 };

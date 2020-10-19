@@ -7,6 +7,7 @@
 #include "../Components/PlayerComponent.h"
 #include "../Components/Lighting/DirectionalLightComponent.h"
 #include "../Components/Lighting/PointLightComponent.h"
+#include "../Components/AI/NavMeshAgent.h"
 #include "../Random.h"
 
 #include <iostream>
@@ -81,6 +82,20 @@ GameManager::GameManager()
 		treeLeaves->transform.SetLocalPosition(glm::vec3(0, 0, 2));
 	}
 
+	//NavMesh agents
+	for (size_t i = 0; i < 1; i++)
+	{
+		GameObject* agent = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(Random::RandomFloat(-worldSize / 2, worldSize / 2), 0.5f, Random::RandomFloat(-worldSize / 2, worldSize / 2)));
+		agent->name = "NavMeshAgent";
+		StaticMeshComponent* agentSprite = agent->AddComponent<StaticMeshComponent>();
+		if (agentSprite != nullptr)
+		{
+			agentSprite->SetMeshNew("Cube.obj->Cube");
+			agentSprite->SetTexture(ResourceManager::GetTexture("gizmoSelectTexture.jpg"));
+			agentSprite->SetShader(ResourceManager::GetShader("StandardShader"));
+		}
+		agent->AddComponent<NavMeshAgentComponent>();
+	}
 }
 
 GameManager::~GameManager()

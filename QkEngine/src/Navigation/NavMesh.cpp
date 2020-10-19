@@ -51,11 +51,11 @@ void NavMesh::CheckCollisions()
 	});
 }
 
-std::vector<NavMeshNode*> NavMesh::GetPathTest()
+std::vector<NavMeshNode*> NavMesh::GetPath(const glm::vec3& startPos, const glm::vec3& endPos)
 {
 	std::chrono::steady_clock::time_point currentSampleStartTime = std::chrono::steady_clock::now();
 
-	std::vector<NavMeshNode*> path = GetPath(GetNodeAt2DIndex(0, 0), GetNodeAt2DIndex(9, 9));
+	std::vector<NavMeshNode*> path = GetPath(GetNodeFromPosition(startPos), GetNodeFromPosition(endPos));
 
 	std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
 	std::chrono::duration<float, std::milli> dur = endTime - currentSampleStartTime;
@@ -67,6 +67,12 @@ std::vector<NavMeshNode*> NavMesh::GetPathTest()
 
 std::vector<NavMeshNode*> NavMesh::GetPath(NavMeshNode* startNode, NavMeshNode* endNode)
 {
+	if (startNode == nullptr || endNode == nullptr)
+	{
+		std::cout << "Can't find path - startNode == nullptr or endNode == nullptr\n";
+		return {};
+	}
+
 	std::vector<NavMeshNode*> openSet;
 	std::vector<NavMeshNode*> closedSet;
 	openSet.push_back(startNode);
@@ -116,7 +122,7 @@ std::vector<NavMeshNode*> NavMesh::GetPath(NavMeshNode* startNode, NavMeshNode* 
 		}
 	}
 
-	return std::vector<NavMeshNode*>();
+	return {};
 }
 
 void NavMesh::ShowNavMesh()
@@ -152,6 +158,13 @@ void NavMesh::DebugDraw()
 		Gizmos::SetCurrentColor(targetColor);
 		Gizmos::DrawCubeWireframe(node.GetPosition(), glm::vec3(0, 0, 0), glm::vec3(nodeSize, nodeSize, nodeSize));
 	}
+}
+
+NavMeshNode* NavMesh::GetNodeFromPosition(const glm::vec3& position)
+{
+	int x = (position.x - startPos.x) / nodeSize;
+	int y = (position.z - startPos.z) / nodeSize;
+	return GetNodeAt2DIndex(x, y);
 }
 
 NavMeshNode* NavMesh::GetNodeAt2DIndex(const int& x, const int& y)
@@ -199,6 +212,7 @@ std::vector<NavMeshNode*> NavMesh::RetracePath(NavMeshNode* startNode, NavMeshNo
 		currNode = currNode->parent;
 	}
 
+	std::reverse(path.begin(), path.end());
 	std::cout << "Retraced Path size: " << path.size() << "\n";
 
 	return std::move(path);

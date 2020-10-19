@@ -1,6 +1,8 @@
 #include "NavMeshAgent.h"
 #include "../../GameObject.h"
 #include "../../Navigation/NavMesh.h"
+#include "../../Scene.h"
+#include "../PlayerComponent.h"
 
 NavMeshAgentComponent::NavMeshAgentComponent(GameObject* _parent) : Component(_parent)
 {
@@ -11,7 +13,7 @@ NavMeshAgentComponent::~NavMeshAgentComponent()
 {
 }
 
-NavMeshAgentComponent::NavMeshAgentComponent(const NavMeshAgentComponent& comp) : Component(comp), movementSpeed(comp.movementSpeed), path(comp.path)
+NavMeshAgentComponent::NavMeshAgentComponent(const NavMeshAgentComponent& comp) : Component(comp), movementSpeed(comp.movementSpeed), path(comp.path), currentPathIndex(comp.currentPathIndex)
 {
 }
 
@@ -25,18 +27,11 @@ std::unique_ptr<Component> NavMeshAgentComponent::MakeCopy(GameObject* newParent
 
 void NavMeshAgentComponent::Update(const float& deltaTime)
 {
+	GameObject* player = Scene::GetCurrentScene().FindObjectWithComponent<PlayerComponent>();
+	SetPath(NavMesh::GetPath(parent->transform.GetGlobalPosition(), player->transform.GetGlobalPosition()));
 	if (path.size() > 0)
 	{
-		MoveTo(path[0], deltaTime);
-	}
-	else
-	{
-		std::vector<glm::vec3> pos;
-		for (auto n : NavMesh::GetPathTest())
-		{
-			pos.push_back(n->position);
-		}
-		SetPath(pos);
+		FollowPath(deltaTime);
 	}
 }
 
@@ -45,16 +40,36 @@ void NavMeshAgentComponent::ShowOnInspector()
 	ImGui::DragFloat("Movement speed", &movementSpeed, 0.1f);
 }
 
-void NavMeshAgentComponent::SetPath(const std::vector<glm::vec3>& newPath)
+void NavMeshAgentComponent::SetPath(const std::vector<NavMeshNode*>& newPath)
 {
 	path = newPath;
+	currentPathIndex = 0;
 }
 
-bool NavMeshAgentComponent::MoveTo(const glm::vec3& position, const float& deltaTime)
+bool NavMeshAgentComponent::FollowPath(const float& deltaTime)
 {
-	float frameDistance = movementSpeed * deltaTime;
+	if (currentPathIndex >= 0 && currentPathIndex < path.size())
+	{
+		if (MoveTo(path[currentPathIndex]->position, movementSpeed * deltaTime))
+		{
+			currentPathIndex++;
+		}
+
+		return false;
+	}
+
+	if (currentPathIndex >= path.size())
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool NavMeshAgentComponent::MoveTo(const glm::vec3& position, const float& speed)
+{
 	float distToTarget = glm::length(position - parent->transform.GetGlobalPosition());
-	if (distToTarget <= frameDistance)
+	if (distToTarget <= speed)
 	{
 		parent->transform.SetGlobalPosition(position);
 		return true;
@@ -62,7 +77,7 @@ bool NavMeshAgentComponent::MoveTo(const glm::vec3& position, const float& delta
 	else
 	{
 		glm::vec3 dirToTarget = glm::normalize(position - parent->transform.GetGlobalPosition());
-		parent->transform.Translate(dirToTarget * frameDistance);
+		parent->transform.Translate(dirToTarget * speed);
 	}
 
 	return false;
