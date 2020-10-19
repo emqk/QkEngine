@@ -43,7 +43,7 @@ ObjectTransformType Editor::currentObjectTransformType = ObjectTransformType::No
 
 
 const std::vector<std::string> Editor::availableComponents = {"PointLightComponent", "DirectionalLightComponent", "StaticMeshComponent", "BoxColliderComponent", "MoveComponent",
-                                                              "AnimatedSpriteComponent"};
+                                                              "AnimatedSpriteComponent", "NavMeshAgentComponent" };
 
 
 void Editor::Init(GLFWwindow* window)

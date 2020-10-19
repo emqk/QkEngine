@@ -13,6 +13,7 @@ public:
 	static void Generate(const glm::vec3& _startPos, const int& _width, const float& _nodeSize);
 	static void CheckCollisions();
 
+	static std::vector<NavMeshNode*> GetPathTest();
 	static std::vector<NavMeshNode*> GetPath(NavMeshNode* startNode, NavMeshNode* endNode);
 
 	static void ShowNavMesh();
