@@ -13,10 +13,17 @@ public:
 	static void Generate(const glm::vec3& _startPos, const int& _width, const float& _nodeSize);
 	static void CheckCollisions();
 
+	static std::vector<NavMeshNode*> GetPath(NavMeshNode* startNode, NavMeshNode* endNode);
+
 	static void ShowNavMesh();
 	static void DebugDraw();
 
 private:
+	static NavMeshNode* GetNodeAt2DIndex(const int& x, const int& y);
+	static std::vector<NavMeshNode*> GetNeighbours(const NavMeshNode const* node);
+
+	static std::vector<NavMeshNode*> RetracePath(NavMeshNode* startNode, NavMeshNode* endNode);
+	static int GetDistance(const NavMeshNode* nodeA, const NavMeshNode* nodeB);
 
 	static std::vector<NavMeshNode> nodes;
 
