@@ -88,7 +88,7 @@ std::vector<NavMeshNode*> NavMesh::GetPath(const glm::vec3& startPos, const glm:
 	std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
 	std::chrono::duration<float, std::milli> dur = endTime - currentSampleStartTime;
 	float sampleDuration = dur.count();
-	//std::cout << "Path found in: " << sampleDuration << "ms. Path size: " << path.size() << "\n";
+	std::cout << "Path found in: " << sampleDuration << "ms. Path size: " << path.size() << "\n";
 
 	return path;
 }
@@ -98,6 +98,12 @@ std::vector<NavMeshNode*> NavMesh::GetPath(NavMeshNode* startNode, NavMeshNode* 
 	if (startNode == nullptr || endNode == nullptr)
 	{
 		std::cout << "Can't find path - startNode == nullptr or endNode == nullptr\n";
+		return {};
+	}
+
+	if (endNode->isColliding)
+	{
+		std::cout << "Can't find path - end node is not walkable!\n";
 		return {};
 	}
 
@@ -158,9 +164,9 @@ void NavMesh::ShowNavMesh()
 	ImGui::Begin("Navigation");
 
 	//Default values
-	static glm::vec3 position;
-	static int w = 10;
-	static float size = 2;
+	static glm::vec3 position(-20, 1, -20);
+	static int w = 40;
+	static float size = 1;
 
 	ImGui::InputFloat3("Start location", &position.x, 3);
 	ImGui::InputInt("Number of nodes in row", &w);
@@ -254,8 +260,6 @@ std::vector<NavMeshNode*> NavMesh::RetracePath(NavMeshNode* startNode, NavMeshNo
 	}
 
 	std::reverse(path.begin(), path.end());
-	std::cout << "Retraced Path size: " << path.size() << "\n";
-
 	return std::move(path);
 }
 
