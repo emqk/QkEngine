@@ -21,6 +21,8 @@ public:
 	static void DebugDraw();
 
 private:
+	static void RefreshCollisionForNode(NavMeshNode* node);
+
 	static NavMeshNode* GetNodeFromPosition(const glm::vec3& position);
 	static NavMeshNode* GetNodeAt2DIndex(const int& x, const int& y);
 	static std::vector<NavMeshNode*> GetNeighbours(const NavMeshNode const* node);

@@ -60,7 +60,7 @@ void NavMesh::RegenerateChunk(const glm::vec3& _startPos, const glm::vec3& _endP
 		for (size_t x = startNode->gridX; x <= endNode->gridX; x++)
 		{
 			NavMeshNode* currNode = GetNodeAt2DIndex(x, y);
-			currNode->isColliding = Physics::BoxCastCheck(currNode->GetPosition(), glm::vec3(nodeSize, nodeSize, nodeSize) / 2.0f);
+			RefreshCollisionForNode(currNode);
 		}
 	}
 
@@ -75,7 +75,7 @@ void NavMesh::CheckCollisions()
 	std::for_each(std::execution::par, nodes.begin(), nodes.end(),
 	[](NavMeshNode& currNode)
 	{
-		currNode.isColliding = Physics::BoxCastCheck(currNode.GetPosition(), glm::vec3(nodeSize, nodeSize, nodeSize) / 2.0f);
+		RefreshCollisionForNode(&currNode);
 	});
 }
 
@@ -186,6 +186,20 @@ void NavMesh::DebugDraw()
 		Gizmos::SetCurrentColor(targetColor);
 		Gizmos::DrawCubeWireframe(node.GetPosition(), glm::vec3(0, 0, 0), glm::vec3(nodeSize, nodeSize, nodeSize));
 	}
+}
+
+void NavMesh::RefreshCollisionForNode(NavMeshNode* node)
+{
+	std::vector<BoxColliderComponent*> colliders = Physics::BoxCast(node->GetPosition(), glm::vec3(nodeSize, nodeSize, nodeSize) / 2.0f);
+	for (const BoxColliderComponent* coll : colliders)
+	{
+		if (!coll->IsIgnoringNavigation())
+		{
+			node->isColliding = true;
+			return;
+		}
+	}
+	node->isColliding = false;
 }
 
 NavMeshNode* NavMesh::GetNodeFromPosition(const glm::vec3& position)

@@ -30,7 +30,8 @@ BoxColliderComponent::~BoxColliderComponent()
 }
 
 BoxColliderComponent::BoxColliderComponent(const BoxColliderComponent& comp)
-	: Component(comp), bounds(comp.bounds), center(comp.center), isTrigger(comp.isTrigger), isPushable(comp.isPushable), isDynamicObstacle(comp.isDynamicObstacle)
+	: Component(comp), bounds(comp.bounds), center(comp.center), isTrigger(comp.isTrigger), isPushable(comp.isPushable)
+	, isDynamicObstacle(comp.isDynamicObstacle), ignoreNavigation(comp.ignoreNavigation)
 {
 	Physics::RegisterCollider(this);
 }
@@ -58,6 +59,9 @@ void BoxColliderComponent::ShowOnInspector()
 {
 	//Is Dynamic navMesh obstacle
 	ImGui::Checkbox("Is Dynamic Obstacle", &isDynamicObstacle);
+
+	//Should ignore navigation?
+	ImGui::Checkbox("Ignore Navigation", &ignoreNavigation);
 
 	//Pushable
 	ImGui::Checkbox("Is Pushable", &isPushable);
@@ -116,6 +120,11 @@ glm::vec3 BoxColliderComponent::GetExtentsHalf() const
 bool BoxColliderComponent::IsTrigger() const
 {
 	return isTrigger;
+}
+
+bool BoxColliderComponent::IsIgnoringNavigation() const
+{
+	return ignoreNavigation;
 }
 
 void BoxColliderComponent::SetExtents(const glm::vec3& newExtents)

@@ -30,6 +30,7 @@ public:
 	glm::vec3 GetExtentsHalf() const;
 
 	bool IsTrigger() const;
+	bool IsIgnoringNavigation() const;
 
 	void SetExtents(const glm::vec3& newExtents);
 
@@ -37,6 +38,7 @@ private:
 	void OnTrigger();
 
 	bool isDynamicObstacle = false;
+	bool ignoreNavigation = false;
 	bool isPushable = false;
 	bool isTrigger = false;
 	glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
