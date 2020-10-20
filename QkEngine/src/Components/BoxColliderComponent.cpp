@@ -2,6 +2,7 @@
 #include "StaticMeshComponent.h"
 #include "../GameObject.h"
 #include "../Physics.h"
+#include "../Navigation/NavMesh.h"
 #include "../Gizmos.h"
 
 BoxColliderComponent::BoxColliderComponent(GameObject* _parent) : Component(_parent)
@@ -28,7 +29,8 @@ BoxColliderComponent::~BoxColliderComponent()
 	Physics::UnRegisterCollider(this);
 }
 
-BoxColliderComponent::BoxColliderComponent(const BoxColliderComponent& comp) : Component(comp), bounds(comp.bounds), center(comp.center), isTrigger(comp.isTrigger), isPushable(comp.isPushable)
+BoxColliderComponent::BoxColliderComponent(const BoxColliderComponent& comp)
+	: Component(comp), bounds(comp.bounds), center(comp.center), isTrigger(comp.isTrigger), isPushable(comp.isPushable), isDynamicObstacle(comp.isDynamicObstacle)
 {
 	Physics::RegisterCollider(this);
 }
@@ -44,11 +46,20 @@ void BoxColliderComponent::Update(const float& deltaTime)
 
 void BoxColliderComponent::LateUpdate(const float& deltaTime)
 {
+	if (isDynamicObstacle)
+	{
+		glm::vec3 topLeft = parent->transform.GetGlobalPosition() + center - GetExtentsHalf();
+		glm::vec3 bottomRight = parent->transform.GetGlobalPosition() + center + GetExtentsHalf();
+		NavMesh::RegenerateChunk(topLeft, bottomRight);
+	}
 }
 
 void BoxColliderComponent::ShowOnInspector()
 {
-	//Trigger
+	//Is Dynamic navMesh obstacle
+	ImGui::Checkbox("Is Dynamic Obstacle", &isDynamicObstacle);
+
+	//Pushable
 	ImGui::Checkbox("Is Pushable", &isPushable);
 
 	//Trigger

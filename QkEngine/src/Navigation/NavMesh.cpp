@@ -42,6 +42,34 @@ void NavMesh::Generate(const glm::vec3& _startPos, const int& _width, const floa
 	std::cout << "NavMesh generated in: " << sampleDuration << "ms!\n";
 }
 
+void NavMesh::RegenerateChunk(const glm::vec3& _startPos, const glm::vec3& _endPos)
+{
+	std::chrono::steady_clock::time_point currentSampleStartTime = std::chrono::steady_clock::now();
+
+	const NavMeshNode* startNode = GetNodeFromPosition(_startPos + glm::vec3(-nodeSize, 0, -nodeSize));
+	const NavMeshNode* endNode = GetNodeFromPosition(_endPos + glm::vec3(nodeSize, 0, nodeSize));
+
+	if (!startNode || !endNode)
+	{
+		std::cout << "NavMesh chunk can't be regenerated!: startNode == nullptr or endNode == nullptr!\n";
+		return;
+	}
+
+	for (size_t y = startNode->gridY; y <= endNode->gridY; y++)
+	{
+		for (size_t x = startNode->gridX; x <= endNode->gridX; x++)
+		{
+			NavMeshNode* currNode = GetNodeAt2DIndex(x, y);
+			currNode->isColliding = Physics::BoxCastCheck(currNode->GetPosition(), glm::vec3(nodeSize, nodeSize, nodeSize) / 2.0f);
+		}
+	}
+
+	std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
+	std::chrono::duration<float, std::milli> dur = endTime - currentSampleStartTime;
+	float sampleDuration = dur.count();
+	std::cout << "NavMesh chunk regenerated in: " << sampleDuration << "ms.\n";
+}
+
 void NavMesh::CheckCollisions()
 {
 	std::for_each(std::execution::par, nodes.begin(), nodes.end(),
@@ -60,7 +88,7 @@ std::vector<NavMeshNode*> NavMesh::GetPath(const glm::vec3& startPos, const glm:
 	std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
 	std::chrono::duration<float, std::milli> dur = endTime - currentSampleStartTime;
 	float sampleDuration = dur.count();
-	std::cout << "Path found in: " << sampleDuration << "ms. Path size: " << path.size() << "\n";
+	//std::cout << "Path found in: " << sampleDuration << "ms. Path size: " << path.size() << "\n";
 
 	return path;
 }
@@ -192,7 +220,6 @@ std::vector<NavMeshNode*> NavMesh::GetNeighbours(const NavMeshNode const* node)
 
 			if (checkX >= 0 && checkX < width && checkY >= 0 && checkY < width)
 			{
-				//std::cout << "getting node " << checkX << "x " << checkY << "y" << "\n";
 				result.push_back(GetNodeAt2DIndex(checkX, checkY));
 			}
 		}
