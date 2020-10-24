@@ -10,9 +10,12 @@
 #include "Camera.h"
 #include "ResourceManager.h"
 #include "Model.h"
+#include "Serialization/Serialization.h"
 
 class Scene
 {
+	friend Serializer;
+
 public:
 	Scene();
 	~Scene();
