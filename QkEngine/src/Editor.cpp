@@ -10,6 +10,7 @@
 #include "Profiler.h"
 #include "Lighting.h"
 #include "Navigation/NavMesh.h"
+#include "Serialization/Serialization.h"
 
 #include <memory>
 #include <algorithm>
@@ -190,6 +191,18 @@ void Editor::EnableDockingBackground()
 
     if (ImGui::BeginMenuBar())
     {
+        if (ImGui::BeginMenu("File"))
+        {
+            if (ImGui::MenuItem("Serialize"))
+            {
+                Serializer::Serialize();
+            }
+            if (ImGui::MenuItem("Deserialize"))
+            {
+                Serializer::Deserialize();
+            }
+            ImGui::EndMenu();
+        }
         if (ImGui::BeginMenu("Create"))
         {
             if (ImGui::MenuItem("Empty", "Ctrl+E"))
