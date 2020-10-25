@@ -216,7 +216,14 @@ void Scene::EnterGameMode()
 
             objectsCopy.push_back(std::move(newObj));
         }
+    }
 
+    for (std::unique_ptr<GameObject>& obj : objects)
+    {
+        for (std::unique_ptr<Component>& comp : obj->components)
+        {
+            comp->Start();
+        }
     }
 }
 

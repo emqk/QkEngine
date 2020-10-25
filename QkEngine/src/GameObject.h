@@ -14,6 +14,7 @@
 class GameObject
 {
 	friend Transform;
+	friend class Scene;
 
 public:
 	GameObject();
