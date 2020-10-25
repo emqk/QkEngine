@@ -6,6 +6,8 @@
 
 class PlayerComponent : public Component
 {
+	friend Serializer;
+
 public:
 	PlayerComponent(GameObject* _parent);
 	~PlayerComponent();

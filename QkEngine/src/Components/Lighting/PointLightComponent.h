@@ -4,6 +4,8 @@
 
 class PointLightComponent : public Component
 {
+	friend class Serializer;
+
 public:
 	PointLightComponent(GameObject* _parent);
 	~PointLightComponent();

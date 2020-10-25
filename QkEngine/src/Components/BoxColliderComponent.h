@@ -2,12 +2,14 @@
 
 #include "Component.h"
 #include "../Bounds.h"
+#include "../Serialization/Serialization.h"
 
 class Physics;
 
 class BoxColliderComponent : public Component
 {
 	friend Physics;
+	friend Serializer;
 
 public:
 	BoxColliderComponent(GameObject* _parent);

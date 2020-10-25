@@ -6,6 +6,8 @@
 
 class NavMeshAgentComponent : public Component
 {
+	friend class Serializer;
+
 public:
 	NavMeshAgentComponent(GameObject* _parent);
 	~NavMeshAgentComponent();

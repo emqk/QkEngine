@@ -2,6 +2,10 @@
 #include <iostream>
 #include "../Scene.h"
 #include "../Components/Lighting/DirectionalLightComponent.h"
+#include "../Components/Lighting/PointLightComponent.h"
+#include "../Components/BoxColliderComponent.h"
+#include "../Components/PlayerComponent.h"
+#include "../Components/AI/NavMeshAgent.h"
 
 void Serializer::Serialize()
 {
@@ -34,7 +38,6 @@ void Serializer::Serialize()
             const char* compName = currComp->name.c_str();
             savingComponent.AddMember("Type", GenericStringRef(compName), allocator);
 
-            //StaticMesh
             if (StaticMeshComponent* staticMeshComp = dynamic_cast<StaticMeshComponent*>(currComp))
             {
                 const char* meshName = staticMeshComp->GetMeshNew() != nullptr ? staticMeshComp->GetMeshNew()->name.c_str() : "";
@@ -53,12 +56,32 @@ void Serializer::Serialize()
                 SerializeVec3("Specular", staticMeshComp->specular, savingComponent, allocator);
                 savingComponent.AddMember("Shininess", staticMeshComp->shininess, allocator);
             }
-            //DirectionalLight
             else if (DirectionalLightComponent* directionalLightComp = dynamic_cast<DirectionalLightComponent*>(currComp))
             {
                 SerializeVec3("Color", directionalLightComp->GetColor(), savingComponent, allocator);
             }
-
+            else if (PointLightComponent* pointLightComponent = dynamic_cast<PointLightComponent*>(currComp))
+            {
+                SerializeVec3("Color", pointLightComponent->GetColor(), savingComponent, allocator);
+                savingComponent.AddMember("Intensity", pointLightComponent->intensity, allocator);
+            }
+            else if (BoxColliderComponent* boxCollider = dynamic_cast<BoxColliderComponent*>(currComp))
+            {
+                savingComponent.AddMember("DynamicObstacle", boxCollider->isDynamicObstacle, allocator);
+                savingComponent.AddMember("IgnoreNavigation", boxCollider->ignoreNavigation, allocator);
+                savingComponent.AddMember("Pushable", boxCollider->isPushable, allocator);
+                savingComponent.AddMember("Trigger", boxCollider->isTrigger, allocator);
+                SerializeVec3("Center", boxCollider->GetCenter(), savingComponent, allocator);
+                SerializeVec3("Extents", boxCollider->GetExtents(), savingComponent, allocator);
+            }
+            else if (PlayerComponent* playerComponent = dynamic_cast<PlayerComponent*>(currComp))
+            {
+                savingComponent.AddMember("MoveSpeed", playerComponent->moveSpeed, allocator);
+            }
+            else if (NavMeshAgentComponent* navAgentComponent = dynamic_cast<NavMeshAgentComponent*>(currComp))
+            {
+                savingComponent.AddMember("MoveSpeed", navAgentComponent->movementSpeed, allocator);
+            }
 
             components.PushBack(savingComponent, allocator);
         }
@@ -130,7 +153,6 @@ void Serializer::Deserialize()
                     {
                         auto typeName = itrComp->GetObject()["Type"].GetString();
                         std::cout << "typeName: " << typeName << std::endl;
-                        //StaticMesh
                         if (strcmp(typeName, "StaticMeshComponent") == 0)
                         {
                             StaticMeshComponent* meshComp = instance->AddComponent<StaticMeshComponent>();
@@ -147,11 +169,36 @@ void Serializer::Deserialize()
                             meshComp->specular = DeserializeVec3(itrComp->GetObject()["Specular"].GetObject());
                             meshComp->shininess = itrComp->GetObject()["Shininess"].GetDouble();
                         }
-                        //DirectionalLight
                         else if (strcmp(typeName, "DirectionalLightComponent") == 0)
                         {
                             DirectionalLightComponent* dirLightComp = instance->AddComponent<DirectionalLightComponent>();
                             dirLightComp->SetColor(DeserializeVec3(itrComp->GetObject()["Color"].GetObject()));
+                        }
+                        else if (strcmp(typeName, "PointLightComponent") == 0)
+                        {
+                            PointLightComponent* pointLightComp = instance->AddComponent<PointLightComponent>();
+                            pointLightComp->lightColor = DeserializeVec3(itrComp->GetObject()["Color"].GetObject());
+                            pointLightComp->intensity = itrComp->GetObject()["Intensity"].GetDouble();
+                        }
+                        else if (strcmp(typeName, "BoxColliderComponent") == 0)
+                        {
+                            BoxColliderComponent* boxCollComp = instance->AddComponent<BoxColliderComponent>();
+                            boxCollComp->isDynamicObstacle = itrComp->GetObject()["DynamicObstacle"].GetBool();
+                            boxCollComp->ignoreNavigation = itrComp->GetObject()["IgnoreNavigation"].GetBool();
+                            boxCollComp->isPushable = itrComp->GetObject()["Pushable"].GetBool();
+                            boxCollComp->isTrigger = itrComp->GetObject()["Trigger"].GetBool();
+                            boxCollComp->center = DeserializeVec3(itrComp->GetObject()["Center"].GetObject());
+                            boxCollComp->bounds.SetExtents(DeserializeVec3(itrComp->GetObject()["Extents"].GetObject()));
+                        }
+                        else if (strcmp(typeName, "PlayerComponent") == 0)
+                        {
+                            PlayerComponent* playerComp = instance->AddComponent<PlayerComponent>();
+                            playerComp->moveSpeed = itrComp->GetObject()["MoveSpeed"].GetDouble();
+                        }
+                        else if (strcmp(typeName, "NavMeshAgentComponent") == 0)
+                        {
+                            NavMeshAgentComponent* navAgentComp = instance->AddComponent<NavMeshAgentComponent>();
+                            navAgentComp->movementSpeed = itrComp->GetObject()["MoveSpeed"].GetDouble();
                         }
                     }
                 }

@@ -15,16 +15,16 @@ PlayerComponent::PlayerComponent(GameObject* _parent) : Component(_parent)
 {
 	name = "PlayerComponent";
 
-	boxColliderComponent = parent->AddComponent<BoxColliderComponent>();
-	boxColliderComponent->SetExtents(glm::vec3(0.5f, 1, 0.5f));
+	//boxColliderComponent = parent->AddComponent<BoxColliderComponent>();
+	//boxColliderComponent->SetExtents(glm::vec3(0.5f, 1, 0.5f));
 
-	moveComponent = parent->AddComponent<MoveComponent>();
+	//moveComponent = parent->AddComponent<MoveComponent>();
 
-	animatedSpriteComponent = parent->AddComponent<AnimatedSpriteComponent>();
-	animatedSpriteComponent->SetMeshNew("Human/Human.obj->Plane");
-	animatedSpriteComponent->SetTexture(ResourceManager::GetTexture("Adventurer/adventurer-idle-00.png"));
-	animatedSpriteComponent->SetShader(ResourceManager::GetShader("StandardShader"));
-	animatedSpriteComponent->SetCurrentAnimation(ResourceManager::GetSpriteAnimation("Idle"));
+	//animatedSpriteComponent = parent->AddComponent<AnimatedSpriteComponent>();
+	//animatedSpriteComponent->SetMeshNew("Human/Human.obj->Plane");
+	//animatedSpriteComponent->SetTexture(ResourceManager::GetTexture("Adventurer/adventurer-idle-00.png"));
+	//animatedSpriteComponent->SetShader(ResourceManager::GetShader("StandardShader"));
+	//animatedSpriteComponent->SetCurrentAnimation(ResourceManager::GetSpriteAnimation("Idle"));
 }
 
 PlayerComponent::~PlayerComponent()
