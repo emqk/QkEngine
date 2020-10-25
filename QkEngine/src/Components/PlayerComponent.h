@@ -15,6 +15,7 @@ public:
 	PlayerComponent(const PlayerComponent& comp);
 	PlayerComponent& operator=(const PlayerComponent& comp) = delete;
 
+	void Start() override;
 	void Update(const float& deltaTime) override;
 	void LateUpdate(const float& deltaTime) override;
 

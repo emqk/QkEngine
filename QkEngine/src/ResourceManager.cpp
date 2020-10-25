@@ -17,7 +17,10 @@ std::unordered_map<std::string, irrklang::ISoundSource*> ResourceManager::audioC
 
 void ResourceManager::LoadSpriteAnimation(std::vector<Texture*> _textures, const char* name)
 {
-	spriteAnimationMap[name] = std::move(std::make_unique<SpriteAnimation>(_textures));
+	auto anim = std::make_unique<SpriteAnimation>(_textures);
+	anim->name = name;
+	spriteAnimationMap[name] = std::move(anim);
+
 	std::cout << "Loaded animation: " << name << "\n";
 }
 

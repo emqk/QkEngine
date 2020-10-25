@@ -15,6 +15,7 @@ public:
 	Component(const Component& comp);
 	Component& operator=(const Component& comp) = delete;
 
+	virtual void Start() {};
 	virtual void Update(const float& deltaTime) {};
 	virtual void LateUpdate(const float& deltaTime) {};
 

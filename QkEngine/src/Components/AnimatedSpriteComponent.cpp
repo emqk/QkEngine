@@ -11,7 +11,7 @@ AnimatedSpriteComponent::~AnimatedSpriteComponent()
 }
 
 AnimatedSpriteComponent::AnimatedSpriteComponent(const AnimatedSpriteComponent& comp)
-	: StaticMeshComponent(comp), currentAnimation(comp.currentAnimation), timeToChangeFrame(comp.timeToChangeFrame), currFrame(comp.currFrame), currTime(comp.currTime)
+	: StaticMeshComponent(comp), currentAnimation(comp.currentAnimation), frameTime(comp.frameTime), currFrame(comp.currFrame), currTime(comp.currTime)
 {
 }
 
@@ -29,7 +29,7 @@ void AnimatedSpriteComponent::Update(const float& deltaTime)
 	if (currentAnimation != nullptr)
 	{
 		currTime += deltaTime;
-		if (currTime > timeToChangeFrame)
+		if (currTime > frameTime)
 		{
 			currFrame++;
 			if (currFrame >= currentAnimation->GetFramesCount())
@@ -47,9 +47,9 @@ void AnimatedSpriteComponent::LateUpdate(const float& deltaTime)
 
 void AnimatedSpriteComponent::ShowOnInspector()
 {
-	ImGui::DragFloat("Frame time", &timeToChangeFrame, 0.025f);
-	if (timeToChangeFrame < 0)
-		timeToChangeFrame = 0;
+	ImGui::DragFloat("Frame time", &frameTime, 0.025f);
+	if (frameTime < 0)
+		frameTime = 0;
 
 	StaticMeshComponent::ShowOnInspector();
 }

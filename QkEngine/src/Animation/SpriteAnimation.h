@@ -7,6 +7,8 @@
 
 class SpriteAnimation
 {
+	friend class Serializer;
+
 public:
 	SpriteAnimation(std::vector<Texture*> _textures);
 	~SpriteAnimation();
@@ -18,6 +20,8 @@ public:
 
 	size_t GetFramesCount();
 	Texture* GetTexture(const size_t index);
+
+	std::string name;
 
 private:
 	std::vector<Texture*> textures;

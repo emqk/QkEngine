@@ -5,6 +5,8 @@
 
 class AnimatedSpriteComponent : public StaticMeshComponent
 {
+	friend class Serializer;
+
 public:
 	AnimatedSpriteComponent(GameObject* _parent);
 	~AnimatedSpriteComponent();
@@ -24,7 +26,7 @@ public:
 private:
 	SpriteAnimation* currentAnimation = nullptr;
 
-	float timeToChangeFrame = 0.15f;
+	float frameTime = 0.15f;
 	size_t currFrame = 0;
 	float currTime = 0;
 };

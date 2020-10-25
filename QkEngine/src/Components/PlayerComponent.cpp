@@ -15,16 +15,23 @@ PlayerComponent::PlayerComponent(GameObject* _parent) : Component(_parent)
 {
 	name = "PlayerComponent";
 
-	//boxColliderComponent = parent->AddComponent<BoxColliderComponent>();
-	//boxColliderComponent->SetExtents(glm::vec3(0.5f, 1, 0.5f));
-
-	//moveComponent = parent->AddComponent<MoveComponent>();
-
-	//animatedSpriteComponent = parent->AddComponent<AnimatedSpriteComponent>();
-	//animatedSpriteComponent->SetMeshNew("Human/Human.obj->Plane");
-	//animatedSpriteComponent->SetTexture(ResourceManager::GetTexture("Adventurer/adventurer-idle-00.png"));
-	//animatedSpriteComponent->SetShader(ResourceManager::GetShader("StandardShader"));
-	//animatedSpriteComponent->SetCurrentAnimation(ResourceManager::GetSpriteAnimation("Idle"));
+	if (!boxColliderComponent)
+	{
+		boxColliderComponent = parent->AddComponent<BoxColliderComponent>();
+		boxColliderComponent->SetExtents(glm::vec3(0.5f, 1, 0.5f));
+	}
+	if (!moveComponent)
+	{
+		moveComponent = parent->AddComponent<MoveComponent>();
+	}
+	if (!animatedSpriteComponent)
+	{
+		animatedSpriteComponent = parent->AddComponent<AnimatedSpriteComponent>();
+		animatedSpriteComponent->SetMeshNew("Human/Human.obj->Plane");
+		animatedSpriteComponent->SetTexture(ResourceManager::GetTexture("Adventurer/adventurer-idle-00.png"));
+		animatedSpriteComponent->SetShader(ResourceManager::GetShader("StandardShader"));
+		animatedSpriteComponent->SetCurrentAnimation(ResourceManager::GetSpriteAnimation("Idle"));
+	}
 }
 
 PlayerComponent::~PlayerComponent()
@@ -41,6 +48,11 @@ PlayerComponent::PlayerComponent(const PlayerComponent& comp) : Component(comp)
 	boxColliderComponent = parent->GetComponent<BoxColliderComponent>();
 	moveComponent = parent->GetComponent<MoveComponent>();
 	animatedSpriteComponent = parent->GetComponent<AnimatedSpriteComponent>();
+}
+
+void PlayerComponent::Start()
+{
+	std::cout << "START\n";
 }
 
 void PlayerComponent::Update(const float& deltaTime)

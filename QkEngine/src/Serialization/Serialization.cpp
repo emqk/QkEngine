@@ -38,8 +38,9 @@ void Serializer::Serialize()
             const char* compName = currComp->name.c_str();
             savingComponent.AddMember("Type", GenericStringRef(compName), allocator);
 
-            if (StaticMeshComponent* staticMeshComp = dynamic_cast<StaticMeshComponent*>(currComp))
-            {
+            if (strcmp(compName, "StaticMeshComponent") == 0)
+            {             
+                StaticMeshComponent* staticMeshComp = dynamic_cast<StaticMeshComponent*>(currComp);
                 const char* meshName = staticMeshComp->GetMeshNew() != nullptr ? staticMeshComp->GetMeshNew()->name.c_str() : "";
                 savingComponent.AddMember("Mesh", GenericStringRef(meshName), allocator);
 
@@ -55,6 +56,31 @@ void Serializer::Serialize()
                 SerializeVec4("Color", staticMeshComp->color, savingComponent, allocator);
                 SerializeVec3("Specular", staticMeshComp->specular, savingComponent, allocator);
                 savingComponent.AddMember("Shininess", staticMeshComp->shininess, allocator);
+            }
+            else if (strcmp(compName, "AnimatedSpriteComponent") == 0)
+            {
+                AnimatedSpriteComponent* animatedSpriteComp = dynamic_cast<AnimatedSpriteComponent*>(currComp);
+                const char* meshName = animatedSpriteComp->GetMeshNew() != nullptr ? animatedSpriteComp->GetMeshNew()->name.c_str() : "";
+                savingComponent.AddMember("Mesh", GenericStringRef(meshName), allocator);
+
+                const char* textureName = animatedSpriteComp->GetTexture() != nullptr ? animatedSpriteComp->GetTexture()->name.c_str() : "";
+                savingComponent.AddMember("Texture", GenericStringRef(textureName), allocator);
+
+                const char* specularTextureName = animatedSpriteComp->GetSpecularTexture() != nullptr ? animatedSpriteComp->GetSpecularTexture()->name.c_str() : "";
+                savingComponent.AddMember("SpecularTexture", GenericStringRef(specularTextureName), allocator);
+
+                const char* shaderName = animatedSpriteComp->GetShader() != nullptr ? animatedSpriteComp->GetShader()->name.c_str() : "";
+                savingComponent.AddMember("Shader", GenericStringRef(shaderName), allocator);
+
+                const char* animationName = animatedSpriteComp->currentAnimation != nullptr ? animatedSpriteComp->currentAnimation->name.c_str() : "";
+                std::cout << std::endl << "Saved Anim: " << animationName << std::endl << std::endl;
+
+                savingComponent.AddMember("Animation", GenericStringRef(animationName), allocator);
+
+                SerializeVec4("Color", animatedSpriteComp->color, savingComponent, allocator);
+                SerializeVec3("Specular", animatedSpriteComp->specular, savingComponent, allocator);
+                savingComponent.AddMember("Shininess", animatedSpriteComp->shininess, allocator);
+                savingComponent.AddMember("FrameTime", animatedSpriteComp->frameTime, allocator);
             }
             else if (DirectionalLightComponent* directionalLightComp = dynamic_cast<DirectionalLightComponent*>(currComp))
             {
@@ -82,7 +108,10 @@ void Serializer::Serialize()
             {
                 savingComponent.AddMember("MoveSpeed", navAgentComponent->movementSpeed, allocator);
             }
-
+            else if (MoveComponent* moveComponent = dynamic_cast<MoveComponent*>(currComp))
+            {
+                SerializeVec3("MoveVec", moveComponent->moveVec, savingComponent, allocator);
+            }
             components.PushBack(savingComponent, allocator);
         }
 
@@ -169,6 +198,27 @@ void Serializer::Deserialize()
                             meshComp->specular = DeserializeVec3(itrComp->GetObject()["Specular"].GetObject());
                             meshComp->shininess = itrComp->GetObject()["Shininess"].GetDouble();
                         }
+                        else if (strcmp(typeName, "AnimatedSpriteComponent") == 0)
+                        {
+                            AnimatedSpriteComponent* animatedSpriteComp = instance->AddComponent<AnimatedSpriteComponent>();
+                            auto meshName = itrComp->GetObject()["Mesh"].GetString();
+                            animatedSpriteComp->SetMeshNew(meshName);
+                            auto textureName = itrComp->GetObject()["Texture"].GetString();
+                            animatedSpriteComp->SetTexture(textureName);
+                            auto specularTextureName = itrComp->GetObject()["SpecularTexture"].GetString();
+                            animatedSpriteComp->SetSpecularTexture(specularTextureName);
+                            auto shaderName = itrComp->GetObject()["Shader"].GetString();
+                            animatedSpriteComp->SetShader(shaderName);
+                            auto animationName = itrComp->GetObject()["Animation"].GetString();
+                            std::cout << "Anim: " << animationName << std::endl;
+
+                            animatedSpriteComp->SetCurrentAnimation(ResourceManager::GetSpriteAnimation(animationName));
+
+                            animatedSpriteComp->color = DeserializeVec4(itrComp->GetObject()["Color"].GetObject());
+                            animatedSpriteComp->specular = DeserializeVec3(itrComp->GetObject()["Specular"].GetObject());
+                            animatedSpriteComp->shininess = itrComp->GetObject()["Shininess"].GetDouble();
+                            animatedSpriteComp->frameTime = itrComp->GetObject()["FrameTime"].GetDouble();
+                        }
                         else if (strcmp(typeName, "DirectionalLightComponent") == 0)
                         {
                             DirectionalLightComponent* dirLightComp = instance->AddComponent<DirectionalLightComponent>();
@@ -199,6 +249,11 @@ void Serializer::Deserialize()
                         {
                             NavMeshAgentComponent* navAgentComp = instance->AddComponent<NavMeshAgentComponent>();
                             navAgentComp->movementSpeed = itrComp->GetObject()["MoveSpeed"].GetDouble();
+                        }
+                        else if (strcmp(typeName, "MoveComponent") == 0)
+                        {
+                            MoveComponent* moveComp = instance->AddComponent<MoveComponent>();
+                            moveComp->moveVec = DeserializeVec3(itrComp->GetObject()["MoveVec"].GetObject());
                         }
                     }
                 }

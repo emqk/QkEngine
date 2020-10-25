@@ -4,6 +4,8 @@
 
 class MoveComponent : public Component
 {
+	friend class Serializer;
+
 public:
 	MoveComponent(GameObject* _parent);
 	~MoveComponent();
