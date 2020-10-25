@@ -1,6 +1,7 @@
 #include "Serialization.h"
 #include <iostream>
 #include "../Scene.h"
+#include "../Components/Lighting/DirectionalLightComponent.h"
 
 void Serializer::Serialize()
 {
@@ -11,21 +12,58 @@ void Serializer::Serialize()
     Value array(kArrayType);
     for (const std::unique_ptr<GameObject>& obj : Scene::GetCurrentScene().objects)
     {
+        Value object(kObjectType);
+
+        object.AddMember("Name", GenericStringRef(obj->name.c_str()), allocator);
+
+        //Transform
         glm::vec3 pos = obj->transform.GetLocalPosition();
         glm::quat rot = obj->transform.GetLocalRotation();
         glm::vec3 scale = obj->transform.GetLocalScale();
-        Value object(kObjectType);
+        SerializeVec3("Position", pos, object, allocator);
+        SerializeVec3("Rotation", glm::vec3(rot.x, rot.y, rot.z), object, allocator);
+        SerializeVec3("Scale", scale, object, allocator);
 
-        Value posObj(kObjectType);
-        SerializeVec3(pos, posObj, allocator);
-        object.AddMember("Position", posObj, allocator);
-        Value rotObj(kObjectType);
-        SerializeVec3(glm::vec3(rot.x, rot.y, rot.z), rotObj, allocator);
-        object.AddMember("Rotation", rotObj, allocator);
-        Value scaleObj(kObjectType);
-        SerializeVec3(scale, scaleObj, allocator);
-        object.AddMember("Scale", scaleObj, allocator);
+        //Components
+        Value components(kArrayType);
+        const std::vector<std::unique_ptr<Component>>* comps = obj->GetAllComponents();
+        for (size_t i = 0; i < comps->size(); i++)
+        {
+            Value savingComponent(kObjectType);
+            Component* currComp = (*comps)[i].get();
+            const char* compName = currComp->name.c_str();
+            savingComponent.AddMember("Type", GenericStringRef(compName), allocator);
 
+            //StaticMesh
+            if (StaticMeshComponent* staticMeshComp = dynamic_cast<StaticMeshComponent*>(currComp))
+            {
+                const char* meshName = staticMeshComp->GetMeshNew() != nullptr ? staticMeshComp->GetMeshNew()->name.c_str() : "";
+                savingComponent.AddMember("Mesh", GenericStringRef(meshName), allocator);
+
+                const char* textureName = staticMeshComp->GetTexture() != nullptr ? staticMeshComp->GetTexture()->name.c_str() : "";
+                savingComponent.AddMember("Texture", GenericStringRef(textureName), allocator);
+
+                const char* specularTextureName = staticMeshComp->GetSpecularTexture() != nullptr ? staticMeshComp->GetSpecularTexture()->name.c_str() : "";
+                savingComponent.AddMember("SpecularTexture", GenericStringRef(specularTextureName), allocator);
+
+                const char* shaderName = staticMeshComp->GetShader() != nullptr ? staticMeshComp->GetShader()->name.c_str() : "";
+                savingComponent.AddMember("Shader", GenericStringRef(shaderName), allocator);
+
+                SerializeVec4("Color", staticMeshComp->color, savingComponent, allocator);
+                SerializeVec3("Specular", staticMeshComp->specular, savingComponent, allocator);
+                savingComponent.AddMember("Shininess", staticMeshComp->shininess, allocator);
+            }
+            //DirectionalLight
+            else if (DirectionalLightComponent* directionalLightComp = dynamic_cast<DirectionalLightComponent*>(currComp))
+            {
+                SerializeVec3("Color", directionalLightComp->GetColor(), savingComponent, allocator);
+            }
+
+
+            components.PushBack(savingComponent, allocator);
+        }
+
+        object.AddMember("Components", components, allocator);
         array.PushBack(object, allocator);
     }
 
@@ -55,10 +93,10 @@ void Serializer::Deserialize()
     if (ifs.is_open())
     {
         std::cout << "Loading\n";
-        /*for (const std::unique_ptr<GameObject>& obj : Scene::GetCurrentScene().objects)
+        for (const std::unique_ptr<GameObject>& obj : Scene::GetCurrentScene().objects)
         {
             Scene::GetCurrentScene().Destroy(obj.get());
-        }*/
+        }
 
         std::ostringstream ss;
         ss << ifs.rdbuf(); // reading data
@@ -66,49 +104,87 @@ void Serializer::Deserialize()
         Document d;
         d.Parse(ss.str().c_str());
 
-        std::cout << "READ: " << d.HasMember("Objects") << std::endl;
         if (d.HasMember("Objects"))
         {
-            std::cout << "IS Arr: " << d["Objects"].IsArray() << std::endl;
             if (d["Objects"].IsArray())
             {
-                int i = 0;
                 for (Value::ConstValueIterator itr = d["Objects"].Begin(); itr != d["Objects"].End(); ++itr)
                 {
+                    GameObject* instance = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0,0,0));
                     auto gameObj = itr->GetObject();
 
-                    //Transform START
-                    //Position
-                    glm::vec3 pos = DeserializeVec3(gameObj["Position"].GetObject());
-                    Scene::GetCurrentScene().objects[i]->transform.SetLocalPosition(pos);
+                    instance->name = itr->GetObject()["Name"].GetString();
 
-                    //Rotation
+                    //Transform
+                    instance->transform.SetLocalPosition(DeserializeVec3(gameObj["Position"].GetObject()));
                     glm::vec3 rot = DeserializeVec3(gameObj["Rotation"].GetObject());
-                    Scene::GetCurrentScene().objects[i]->transform.SetLocalRotation(glm::quat(1, rot.x, rot.y, rot.z));
+                    instance->transform.SetLocalRotation(glm::quat(1, rot.x, rot.y, rot.z));
+                    instance->transform.SetLocalScale(DeserializeVec3(gameObj["Scale"].GetObject()));
 
-                    //Scale
-                    glm::vec3 scale = DeserializeVec3(gameObj["Scale"].GetObject());
-                    Scene::GetCurrentScene().objects[i]->transform.SetLocalScale(scale);
-                    //Transform END
+                    //Components
+                    auto begin = itr->GetObject()["Components"].Begin();
+                    auto end = itr->GetObject()["Components"].End();
+                    std::cout << "count: " << end - begin << std::endl;
 
+                    for (Value::ConstValueIterator itrComp = begin; itrComp != end; ++itrComp)
+                    {
+                        auto typeName = itrComp->GetObject()["Type"].GetString();
+                        std::cout << "typeName: " << typeName << std::endl;
+                        //StaticMesh
+                        if (strcmp(typeName, "StaticMeshComponent") == 0)
+                        {
+                            StaticMeshComponent* meshComp = instance->AddComponent<StaticMeshComponent>();
+                            auto meshName = itrComp->GetObject()["Mesh"].GetString();
+                            meshComp->SetMeshNew(meshName);
+                            auto textureName = itrComp->GetObject()["Texture"].GetString();
+                            meshComp->SetTexture(textureName);
+                            auto specularTextureName = itrComp->GetObject()["SpecularTexture"].GetString();
+                            meshComp->SetSpecularTexture(specularTextureName);
+                            auto shaderName = itrComp->GetObject()["Shader"].GetString();
+                            meshComp->SetShader(shaderName);
 
-                    i++;
+                            meshComp->color = DeserializeVec4(itrComp->GetObject()["Color"].GetObject());
+                            meshComp->specular = DeserializeVec3(itrComp->GetObject()["Specular"].GetObject());
+                            meshComp->shininess = itrComp->GetObject()["Shininess"].GetDouble();
+                        }
+                        //DirectionalLight
+                        else if (strcmp(typeName, "DirectionalLightComponent") == 0)
+                        {
+                            DirectionalLightComponent* dirLightComp = instance->AddComponent<DirectionalLightComponent>();
+                            dirLightComp->SetColor(DeserializeVec3(itrComp->GetObject()["Color"].GetObject()));
+                        }
+                    }
                 }
             }
         }
     }
-    
-
 }
 
-void Serializer::SerializeVec3(const glm::vec3& vec, Value& val, Document::AllocatorType& allocator)
+void Serializer::SerializeVec3(const char* name, const glm::vec3& vec, Value& val, Document::AllocatorType& allocator)
 {
-    val.AddMember("x", vec.x, allocator);
-    val.AddMember("y", vec.y, allocator);
-    val.AddMember("z", vec.z, allocator);
+    Value newObj(kObjectType);
+    newObj.AddMember("x", vec.x, allocator);
+    newObj.AddMember("y", vec.y, allocator);
+    newObj.AddMember("z", vec.z, allocator);
+    val.AddMember(GenericStringRef(name), newObj, allocator);
 }
 
 glm::vec3 Serializer::DeserializeVec3(const GenericObject<true, Value>& obj)
 {
     return glm::vec3(obj["x"].GetDouble(), obj["y"].GetDouble(), obj["z"].GetDouble());
+}
+
+void Serializer::SerializeVec4(const char* name, const glm::vec4& vec, Value& saveTo, Document::AllocatorType& allocator)
+{
+    Value newObj(kObjectType);
+    newObj.AddMember("x", vec.x, allocator);
+    newObj.AddMember("y", vec.y, allocator);
+    newObj.AddMember("z", vec.z, allocator);
+    newObj.AddMember("w", vec.w, allocator);
+    saveTo.AddMember(GenericStringRef(name), newObj, allocator);
+}
+
+glm::vec4 Serializer::DeserializeVec4(const GenericObject<true, Value>& obj)
+{
+    return glm::vec4(obj["x"].GetDouble(), obj["y"].GetDouble(), obj["z"].GetDouble(), obj["w"].GetDouble());
 }

@@ -18,6 +18,8 @@ public:
 
 	std::unique_ptr<Component> MakeCopy(GameObject* newParent) const override;
 
+	void SetColor(const glm::vec3& color);
+
 	glm::vec3 GetPosition() const;
 	glm::vec3 GetColor() const;
 

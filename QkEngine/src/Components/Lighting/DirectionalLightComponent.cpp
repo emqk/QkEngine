@@ -40,6 +40,11 @@ std::unique_ptr<Component> DirectionalLightComponent::MakeCopy(GameObject* newPa
 	return std::move(comp);
 }
 
+void DirectionalLightComponent::SetColor(const glm::vec3& color)
+{
+	lightColor = color;
+}
+
 glm::vec3 DirectionalLightComponent::GetPosition() const
 {
 	return parent->transform.GetGlobalPosition();
