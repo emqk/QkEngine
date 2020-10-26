@@ -1,11 +1,24 @@
-﻿  Serialization.cpp
+﻿  Renderer.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(44,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(207,94): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(227,104): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(228,104): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(239,100): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(254,96): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(259,102): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(274,64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.cpp(37,62): warning C4244: 'argument': conversion from 'T' to 'GLsizei', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.cpp(37,51): warning C4244: 'argument': conversion from 'T' to 'GLsizei', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.cpp(45,83): warning C4244: 'argument': conversion from 'T' to 'GLsizei', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Renderer.cpp(45,72): warning C4244: 'argument': conversion from 'T' to 'GLsizei', possible loss of data
+          with
+          [
+              T=float
+          ]
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe

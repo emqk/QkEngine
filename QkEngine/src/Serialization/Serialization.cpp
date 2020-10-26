@@ -1,5 +1,6 @@
 #include "Serialization.h"
 #include <iostream>
+#include <algorithm>
 #include "../Scene.h"
 #include "../Components/Lighting/DirectionalLightComponent.h"
 #include "../Components/Lighting/PointLightComponent.h"
@@ -28,6 +29,17 @@ void Serializer::Serialize()
         SerializeVec3("Position", pos, object, allocator);
         SerializeVec3("Rotation", glm::vec3(rot.x, rot.y, rot.z), object, allocator);
         SerializeVec3("Scale", scale, object, allocator);
+        //Save parent
+        int parentIndex = -1;
+        for (size_t i = 0; i < Scene::GetCurrentScene().objects.size(); i++)
+        {
+            GameObject* par = obj.get()->transform.GetParent();
+            if (par == nullptr)
+                break;
+            if (Scene::GetCurrentScene().objects[i].get() == par)
+                parentIndex = i;
+        }
+        object.AddMember("Parent", parentIndex, allocator);
 
         //Components
         Value components(kArrayType);
@@ -135,7 +147,6 @@ void Serializer::Serialize()
 
     d.Accept(writer);
 
-    // Output {"project":"rapidjson","stars":11}
     std::cout << buffer.GetString() << std::endl;
 
     std::fstream file("Project.json", std::ios::out | std::ios::trunc);
@@ -157,6 +168,7 @@ void Serializer::Deserialize()
         {
             Scene::GetCurrentScene().Destroy(obj.get());
         }
+        Scene::GetCurrentScene().DestroyPostponed();
 
         std::ostringstream ss;
         ss << ifs.rdbuf(); // reading data
@@ -264,6 +276,25 @@ void Serializer::Deserialize()
                             moveComp->moveVec = DeserializeVec3(itrComp->GetObject()["MoveVec"].GetObject());
                         }
                     }
+                }
+            }
+        }
+
+        //Parenting
+        if (d.HasMember("Objects"))
+        {
+            if (d["Objects"].IsArray())
+            {
+                int i = 0;
+                for (Value::ConstValueIterator itr = d["Objects"].Begin(); itr != d["Objects"].End(); ++itr)
+                {
+                    auto gameObj = itr->GetObject();
+                    int parentIndex = gameObj["Parent"].GetInt();
+                    if (parentIndex >= 0)
+                    {
+                        Scene::GetCurrentScene().objects[i]->transform.SetParent(Scene::GetCurrentScene().objects[parentIndex].get());
+                    }
+                    i++;
                 }
             }
         }

@@ -83,12 +83,9 @@ void Editor::Init(GLFWwindow* window)
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init((char*)glGetString(0x82E9));
 
-
     //Setup editor textures
     playButtonTex = ResourceManager::GetTexture("Editor/PlayIcon.png");
     stopButtonTex = ResourceManager::GetTexture("Editor/StopIcon.png");
-
-
 }
 
 void Editor::Update()

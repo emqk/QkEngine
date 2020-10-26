@@ -234,8 +234,6 @@ void Scene::ExitGameMode()
 
     std::cout << "\tENTER::EDITOR_MODE" << std::endl;
 
-
-
     inGameMode = false;
     for (std::unique_ptr<GameObject>& obj : objects)
     {
