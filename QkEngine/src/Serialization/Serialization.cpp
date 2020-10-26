@@ -6,6 +6,7 @@
 #include "../Components/BoxColliderComponent.h"
 #include "../Components/PlayerComponent.h"
 #include "../Components/AI/NavMeshAgent.h"
+#include "../Lighting.h"
 
 void Serializer::Serialize()
 {
@@ -120,6 +121,13 @@ void Serializer::Serialize()
     }
 
     d.AddMember("Objects", array, allocator);
+
+    //Lighting
+    Value lightingObj(kObjectType);
+    SerializeVec3("AmbientColor", Lighting::ambientLightColor, lightingObj, allocator);
+    SerializeVec3("FogColor", Lighting::fogColor, lightingObj, allocator);
+    lightingObj.AddMember("FogDensity", Lighting::fogDensity, allocator);
+    d.AddMember("Lighting", lightingObj, allocator);
 
     // 3. Stringify the DOM
     StringBuffer buffer;
@@ -259,6 +267,11 @@ void Serializer::Deserialize()
                 }
             }
         }
+
+        auto lighting = d["Lighting"].GetObject();
+        Lighting::ambientLightColor = DeserializeVec3(lighting["AmbientColor"].GetObject());
+        Lighting::fogColor = DeserializeVec3(lighting["FogColor"].GetObject());
+        Lighting::fogDensity = lighting["FogDensity"].GetDouble();
     }
 }
 
@@ -272,6 +285,11 @@ void Serializer::SerializeVec3(const char* name, const glm::vec3& vec, Value& va
 }
 
 glm::vec3 Serializer::DeserializeVec3(const GenericObject<true, Value>& obj)
+{
+    return glm::vec3(obj["x"].GetDouble(), obj["y"].GetDouble(), obj["z"].GetDouble());
+}
+
+glm::vec3 Serializer::DeserializeVec3(const GenericObject<false, Value>& obj)
 {
     return glm::vec3(obj["x"].GetDouble(), obj["y"].GetDouble(), obj["z"].GetDouble());
 }

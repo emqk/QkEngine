@@ -12,6 +12,7 @@
 #include "Components/Lighting/DirectionalLightComponent.h"
 #include "Components/Lighting/PointLightComponent.h"
 #include "Components/AI/NavMeshAgent.h"
+#include "Components/PlayerComponent.h"
 
 #include "Scene.h"
 
@@ -240,6 +241,10 @@ void GameObject::ShowComponentsToAdd(const char* componentName)
 	else if (strcmp(componentName, "AnimatedSpriteComponent") == 0)
 	{
 		AddComponent<AnimatedSpriteComponent>();
+	}
+	else if (strcmp(componentName, "PlayerComponent") == 0)
+	{
+		AddComponent<PlayerComponent>();
 	}
 	else if (strcmp(componentName, "NavMeshAgentComponent") == 0)
 	{

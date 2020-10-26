@@ -9,6 +9,8 @@
 
 class Lighting
 {
+	friend class Serializer;
+
 public:
 	Lighting() = delete;
 	~Lighting() = delete;
