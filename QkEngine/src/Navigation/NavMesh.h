@@ -6,6 +6,8 @@
 
 class NavMesh
 {
+	friend class Serializer;
+
 public:
 	NavMesh() = delete;
 	~NavMesh() = delete;

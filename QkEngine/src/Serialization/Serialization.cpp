@@ -8,6 +8,7 @@
 #include "../Components/PlayerComponent.h"
 #include "../Components/AI/NavMeshAgent.h"
 #include "../Lighting.h"
+#include "../Navigation/NavMesh.h"
 
 void Serializer::Serialize()
 {
@@ -140,6 +141,27 @@ void Serializer::Serialize()
     SerializeVec3("FogColor", Lighting::fogColor, lightingObj, allocator);
     lightingObj.AddMember("FogDensity", Lighting::fogDensity, allocator);
     d.AddMember("Lighting", lightingObj, allocator);
+
+    //Navigation
+    Value navigationObj(kObjectType);
+    SerializeVec3("StartPos", NavMesh::startPos, navigationObj, allocator);
+    navigationObj.AddMember("Width", NavMesh::width, allocator);
+    navigationObj.AddMember("NodeSize", NavMesh::nodeSize, allocator);
+
+    Value navigationNodesArr(kArrayType);
+    for (const NavMeshNode& node : NavMesh::nodes)
+    {
+        Value nodeObj(kObjectType);
+        SerializeVec3("Position", node.position, nodeObj, allocator);
+        nodeObj.AddMember("Colliding", node.isColliding, allocator);
+        nodeObj.AddMember("GridX", node.gridX, allocator);
+        nodeObj.AddMember("GridY", node.gridY, allocator);
+        navigationNodesArr.PushBack(nodeObj, allocator);
+    }
+    navigationObj.AddMember("Nodes", navigationNodesArr, allocator);
+
+    d.AddMember("Navigation", navigationObj, allocator);
+
 
     // 3. Stringify the DOM
     StringBuffer buffer;
@@ -299,10 +321,29 @@ void Serializer::Deserialize()
             }
         }
 
+        //Lighting
         auto lighting = d["Lighting"].GetObject();
         Lighting::ambientLightColor = DeserializeVec3(lighting["AmbientColor"].GetObject());
         Lighting::fogColor = DeserializeVec3(lighting["FogColor"].GetObject());
         Lighting::fogDensity = lighting["FogDensity"].GetDouble();
+
+        //Navigation
+        auto navigation = d["Navigation"].GetObject();
+        NavMesh::startPos = DeserializeVec3(navigation["StartPos"].GetObject());
+        NavMesh::width = navigation["Width"].GetInt();
+        NavMesh::nodeSize = navigation["NodeSize"].GetDouble();
+        NavMesh::nodes.clear();
+        for (Value::ConstValueIterator itr = navigation["Nodes"].Begin(); itr != navigation["Nodes"].End(); ++itr)
+        {
+            NavMeshNode node = NavMeshNode(
+                DeserializeVec3(itr->GetObject()["Position"].GetObject())
+                , itr->GetObject()["GridX"].GetInt()
+                , itr->GetObject()["GridY"].GetInt());
+
+            node.isColliding = itr->GetObject()["Colliding"].GetBool();
+
+            NavMesh::nodes.push_back( node );
+        }
     }
 }
 
