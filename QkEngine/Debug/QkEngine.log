@@ -1,15 +1,8 @@
-﻿  Serialization.cpp
+﻿  Editor.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(44,36): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(241,94): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(261,104): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(262,104): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(273,100): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(288,96): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(293,102): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(328,64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(334,61): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     Creating library C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.lib and object C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exp
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(399,52): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(408,27): warning C4018: '<': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Editor.cpp(545,72): warning C4018: '<': signed/unsigned mismatch
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe

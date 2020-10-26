@@ -192,11 +192,25 @@ void Editor::EnableDockingBackground()
         {
             if (ImGui::MenuItem("Serialize"))
             {
-                Serializer::Serialize();
+                if (!Scene::IsInGameMode())
+                {
+                    Serializer::Serialize();
+                }
+                else
+                {
+                    std::cout << "Can't serialize in game mode!\n";
+                }
             }
             if (ImGui::MenuItem("Deserialize"))
             {
-                Serializer::Deserialize();
+                if (!Scene::IsInGameMode())
+                {
+                    Serializer::Deserialize();
+                }
+                else
+                {
+                    std::cout << "Can't deserialize in game mode!\n";
+                }
             }
             ImGui::EndMenu();
         }
