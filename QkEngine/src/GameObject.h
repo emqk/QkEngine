@@ -15,6 +15,7 @@ class GameObject
 {
 	friend Transform;
 	friend class Scene;
+	friend class Serializer;
 
 public:
 	GameObject();

@@ -22,6 +22,7 @@ void Serializer::Serialize()
         Value object(kObjectType);
 
         object.AddMember("Name", GenericStringRef(obj->name.c_str()), allocator);
+        object.AddMember("Active", obj->IsActive(), allocator);
 
         //Transform
         glm::vec3 pos = obj->transform.GetLocalPosition();
@@ -208,6 +209,7 @@ void Serializer::Deserialize()
                     auto gameObj = itr->GetObject();
 
                     instance->name = itr->GetObject()["Name"].GetString();
+                    instance->isActive = itr->GetObject()["Active"].GetBool();
 
                     //Transform
                     instance->transform.SetLocalPosition(DeserializeVec3(gameObj["Position"].GetObject()));
