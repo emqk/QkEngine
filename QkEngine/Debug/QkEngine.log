@@ -1,13 +1,4 @@
-﻿  Serialization.cpp
+﻿  Camera.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(44,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(243,94): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(263,104): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(264,104): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(275,100): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(290,96): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(295,102): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(330,64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Serialization\Serialization.cpp(336,61): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe

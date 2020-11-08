@@ -62,11 +62,9 @@ void InputManager::Update()
 {
 	pressedKeyboardButtonsUp.clear();
 	pressedKeyboardButtonsDown.clear();
-	pressedKeyboardButtons.clear();
 
 	pressedMouseButtonsUp.clear();
 	pressedMouseButtonsDown.clear();
-	pressedMouseButtons.clear();
 
 	//Keyboard
 	for (size_t i = 0; i <= 348; i++)
