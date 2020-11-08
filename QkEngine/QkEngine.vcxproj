@@ -243,6 +243,10 @@
   <ItemGroup>
     <None Include="src\Shaders\StandardShader.fs" />
     <None Include="src\Shaders\StandardShader.vs" />
+    <None Include="src\Shaders\UIShader.fs" />
+    <None Include="src\Shaders\UIShader.vs" />
+    <None Include="src\Shaders\UnlitShader.fs" />
+    <None Include="src\Shaders\UnlitShader.vs" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\green.jpg" />

@@ -83,6 +83,7 @@ Scene::Scene()
     //Shaders
     ResourceManager::LoadShader("StandardShader");
     ResourceManager::LoadShader("UnlitShader");
+    ResourceManager::LoadShader("UIShader");
 
     //Audio
     ResourceManager::LoadAudioClip("Jump.wav");
@@ -294,6 +295,7 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
     sampleName = "Draw time";
     Profiler::BeginSample(sampleName);
     Renderer::DrawNew();
+    Renderer::DrawUI();
     Profiler::EndSample();
 
     //Draw gizmos

@@ -135,7 +135,9 @@ void PlayerComponent::LateUpdate(const float& deltaTime)
 	glm::vec3 playerPos = parent->transform.GetLocalPosition();
 
 	camera->SetLocalPosition(parent->transform.GetGlobalPosition() + glm::vec3(0, 7, 10));
-	camera->SetLocalRotation(glm::quat(1, -30, 0, 0));
+	//camera->SetLocalRotation(glm::quat(1, -30, 0, 0));
+	glm::quat targetRot = glm::lookAt(camera->GetLocalPosition(), parent->transform.GetGlobalPosition(), glm::vec3(0, 1, 0));
+	camera->SetLocalRotation(Transform::ConvertQuaternionToQuaternionEulerAngles(targetRot));
 }
 
 void PlayerComponent::ShowOnInspector()
