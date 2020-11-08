@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "ResourceManager.h"
 #include "Editor.h"
+#include "Window.h"
 
 #include <iostream>
 #include <memory>
@@ -104,7 +105,18 @@ void Camera::Update(const float& deltaTime)
 
 void Camera::ProcessInput(const float& deltaTime)
 {
-	if (InputManager::GetMouseKey(GLFW_MOUSE_BUTTON_2) && Editor::IsMouseOverViewport())
+	if (InputManager::GetMouseKeyDown(GLFW_MOUSE_BUTTON_2) && Editor::IsMouseOverViewport())
+	{
+		wasLastFrameMousePressed = true;
+		Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_DISABLED);
+	}
+
+	if(InputManager::GetMouseKeyUp(GLFW_MOUSE_BUTTON_2))
+	{
+		wasLastFrameMousePressed = false;
+		Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_NORMAL);
+	}
+	else if (wasLastFrameMousePressed && InputManager::GetMouseKey(GLFW_MOUSE_BUTTON_2))
 	{
 		//Movement
 		glm::vec3 moveVec(0.0f, 0.0f, 0.0f);
@@ -131,11 +143,6 @@ void Camera::ProcessInput(const float& deltaTime)
 			glm::vec2 diff = InputManager::GetMouseMoveDifference();
 			SetLocalRotation(GetLocalRotation() + glm::quat(0, -diff.y, diff.x, 0) * rotationSpeed * deltaTime);
 		}
-		wasLastFrameMousePressed = true;
-	}
-	else
-	{
-		wasLastFrameMousePressed = false;
 	}
 }
 
