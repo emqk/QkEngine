@@ -34,6 +34,7 @@ SpriteAnimation* ResourceManager::GetSpriteAnimation(const char* name)
 		{
 			std::cout << "animation: " << p.first << "\n";
 		}
+		return nullptr;
 	}
 
 	return spriteAnimationMap[name].get();

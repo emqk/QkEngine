@@ -64,7 +64,7 @@ void PlayerComponent::Update(const float& deltaTime)
 		std::cout << "MoveComp is nullptr!\n";
 	}
 
-	bool isGrounded = false;
+	isGrounded = false;
 	std::vector<BoxColliderComponent*> collidingWith = Physics::BoxCast(parent->transform.GetLocalPosition() + groundDetectorOffset, groundDetectorScale / 2.0f);
 	for (const BoxColliderComponent* col : collidingWith)
 	{
@@ -89,29 +89,15 @@ void PlayerComponent::Update(const float& deltaTime)
 	if (InputManager::GetKey(GLFW_KEY_S))
 		moveVec += -parent->transform.GetForward();
 
-
 	float moveVecLength = glm::length(moveVec);
 	if (moveVecLength > 0.0f)
 	{
 		moveVec = glm::normalize(moveVec);
-		SpriteAnimation* anim = ResourceManager::GetSpriteAnimation("Run");
-		animatedSpriteComponent->SetCurrentAnimation(anim);
 		glm::vec3 currScale = parent->transform.GetLocalScale();
 		if (moveVec.x >= 0.0f)
 			parent->transform.SetGlobalScale(glm::vec3(abs(currScale.x), currScale.y, currScale.z));
 		else if (moveVec.x < 0.0f)
 			parent->transform.SetGlobalScale(glm::vec3(-abs(currScale.x), currScale.y, currScale.z));
-	}
-	else
-	{
-		SpriteAnimation* anim = ResourceManager::GetSpriteAnimation("Idle");
-		animatedSpriteComponent->SetCurrentAnimation(anim);
-	}
-
-	if (!isGrounded)
-	{
-		SpriteAnimation* anim = ResourceManager::GetSpriteAnimation("Jump");
-		animatedSpriteComponent->SetCurrentAnimation(anim);
 	}
 	
 	//movement
@@ -138,6 +124,7 @@ void PlayerComponent::Update(const float& deltaTime)
 	}
 
 	parent->Move(glm::vec3(0, currentGravity, 0) * deltaTime);
+	ControlAnimations(moveVec);
 }
 
 void PlayerComponent::LateUpdate(const float& deltaTime)
@@ -172,4 +159,28 @@ std::unique_ptr<Component> PlayerComponent::MakeCopy(GameObject* newParent) cons
 	comp->animatedSpriteComponent = comp->parent->GetComponent<AnimatedSpriteComponent>();
 
 	return std::move(comp);
+}
+
+void PlayerComponent::ControlAnimations(const glm::vec3& moveVec)
+{
+	if (!animatedSpriteComponent)
+		return;
+
+	float moveVecLength = glm::length(moveVec);
+	if (moveVecLength > 0.0f)
+	{
+		SpriteAnimation* anim = ResourceManager::GetSpriteAnimation("Run");
+		animatedSpriteComponent->SetCurrentAnimation(anim);
+	}
+	else
+	{
+		SpriteAnimation* anim = ResourceManager::GetSpriteAnimation("Idle");
+		animatedSpriteComponent->SetCurrentAnimation(anim);
+	}
+
+	if (!isGrounded)
+	{
+		SpriteAnimation* anim = ResourceManager::GetSpriteAnimation("Jump");
+		animatedSpriteComponent->SetCurrentAnimation(anim);
+	}
 }

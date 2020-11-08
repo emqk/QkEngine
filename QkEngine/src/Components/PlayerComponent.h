@@ -23,12 +23,17 @@ public:
 	void ShowOnGizmos() override;
 	std::unique_ptr<Component> MakeCopy(GameObject* newParent) const override;
 
+protected:
+	void ControlAnimations(const glm::vec3& moveVec);
+
 private:
 	float moveSpeed = 5;
 	const float minGravity = -9.81f;
 	float currentGravity = 0;
 	glm::vec3 groundDetectorOffset{ 0, -1, 0 };
 	glm::vec3 groundDetectorScale{ 0.5f, 0.1f, 0.5f };
+	
+	bool isGrounded = false;
 
 	BoxColliderComponent* boxColliderComponent = nullptr;
 	MoveComponent* moveComponent = nullptr;
