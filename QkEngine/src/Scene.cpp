@@ -295,7 +295,11 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
     sampleName = "Draw time";
     Profiler::BeginSample(sampleName);
     Renderer::DrawNew();
-    Renderer::DrawUI(glm::vec2(0.05f, 0.05f), glm::vec2(0.2f, 0.2f));
+    //Test UI rendering
+    for (size_t i = 0; i < 1; i++)
+    {
+        Renderer::DrawUI(glm::vec2(0.5f, 0.5f), glm::vec2(0.5f, 0.5f));
+    }
     Profiler::EndSample();
 
     //Draw gizmos

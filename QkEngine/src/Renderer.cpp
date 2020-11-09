@@ -273,15 +273,14 @@ void Renderer::DrawUI(glm::vec2 topLeft, glm::vec2 size)
     uiShader->SetInt("texture_diffuse1", 0);
     tex->Use();
 
-    //Adjust given position and size to screen coords
-    topLeft = glm::vec2(topLeft.x * 2 - 1, -topLeft.y * 2 + 1);
-    size *= 2;
+    uiShader->SetVec3("topLeft", topLeft.x, topLeft.y, 0.0f);
+    uiShader->SetVec3("size", size.x, size.y, 0.0f);
 
     float vertices[] = {
-         topLeft.x + size.x, topLeft.y,          0.0f,    1.0f, 1.0f, // top right
-         topLeft.x + size.x, topLeft.y - size.y, 0.0f,    1.0f, 0.0f, // bottom right
-         topLeft.x,          topLeft.y - size.y, 0.0f,    0.0f, 0.0f, // bottom left
-         topLeft.x,          topLeft.y,          0.0f,    0.0f, 1.0f  // top left 
+         1.0f, 1.0f, 0.0f,    1.0f, 1.0f, // top right
+         1.0f,-1.0f, 0.0f,    1.0f, 0.0f, // bottom right
+        -1.0f,-1.0f, 0.0f,    0.0f, 0.0f, // bottom left
+        -1.0f, 1.0f, 0.0f,    0.0f, 1.0f  // top left 
     };
     unsigned int indices[] = {
         0, 1, 3, // first triangle
@@ -318,6 +317,7 @@ void Renderer::DrawUI(glm::vec2 topLeft, glm::vec2 size)
 
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
     glActiveTexture(GL_TEXTURE0);
 }
 
