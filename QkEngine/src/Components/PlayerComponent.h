@@ -3,6 +3,7 @@
 #include "AnimatedSpriteComponent.h"
 #include "BoxColliderComponent.h"
 #include "MoveComponent.h"
+#include "../UI/Widget.h"
 
 class PlayerComponent : public Component
 {
@@ -34,6 +35,8 @@ private:
 	glm::vec3 groundDetectorScale{ 0.5f, 0.1f, 0.5f };
 	
 	bool isGrounded = false;
+
+	Widget* playerWidget = nullptr;
 
 	BoxColliderComponent* boxColliderComponent = nullptr;
 	MoveComponent* moveComponent = nullptr;

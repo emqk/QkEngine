@@ -1,15 +1,4 @@
-﻿  Window.cpp
+﻿  PlayerComponent.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Scene.h(44,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Window.cpp(56,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Window.cpp(81,121): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Window.cpp(81,92): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe

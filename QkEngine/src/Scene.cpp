@@ -96,7 +96,6 @@ Scene::Scene()
     //InstantiateModel(ResourceManager::GetModel("Chair/School Chair Offset.fbx"));
     //InstantiateModel(ResourceManager::GetModel("Terrain.obj"));
 
-    widgets.push_back(std::make_unique<Widget>(glm::vec2(0.1f, 0.1f), glm::vec2(0.5f, 0.5f)));
     Renderer::Init();
 }
 
@@ -190,6 +189,11 @@ const std::vector<std::unique_ptr<GameObject>>* const Scene::GetObjectsPtr() con
     return &objects;
 }
 
+size_t Scene::GetNumberOfWidgets() const
+{
+    return widgets.size();
+}
+
 
 const bool& Scene::IsInGameMode()
 {
@@ -254,6 +258,7 @@ void Scene::ExitGameMode()
     }
     objectsCopy.clear();
     objectsCopyActiveData.clear();
+    widgets.clear();
 }
 
 void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _view)

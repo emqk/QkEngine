@@ -50,10 +50,19 @@ public:
 		objects.emplace_back(std::make_unique<T>());
 		GameObject* newObjPtr = objects.back().get();
 		newObjPtr->transform.SetLocalPosition(localPosition);
-		std::cout << "[INSTANTIATE] Object size: " << objects.size() << "\n";
+		std::cout << "[GAME_OBJECT INSTANTIATE] Object size: " << objects.size() << "\n";
 		return newObjPtr;
 	}
+	template<typename T>
+	T* InstantiateWidget(const glm::vec2& position, const glm::vec2& size)
+	{
+		widgets.emplace_back(std::make_unique<Widget>(position, size));
+		std::cout << "[WIDGET INSTANTIATE] Widget Object size: " << widgets.size() << "\n";
+		return widgets.back().get();
+	}
+
 	GameObject* DuplicateGameObject(const GameObject* obj);
+
 
 	void Destroy(GameObject* obj);
 
@@ -63,6 +72,7 @@ public:
 	GameObject* Raycast();
 
 	const std::vector<std::unique_ptr<GameObject>>* const GetObjectsPtr() const;
+	size_t GetNumberOfWidgets() const;
 
 	static const bool& IsInGameMode();
 	void EnterGameMode();
@@ -79,12 +89,12 @@ private:
 	void DuplicateChilds(const GameObject* obj, GameObject* parent);
 	void DuplicateChildsCopy(GameObject* obj, GameObject* parent);
 
-	std::vector<std::unique_ptr<Widget>> widgets;
-
 	std::vector<std::unique_ptr<GameObject>> objects;
 	std::vector<std::unique_ptr<GameObject>> objectsCopy; //In game mode
 	std::vector<bool> objectsCopyActiveData; //In game mode
 	std::vector<GameObject*> objectsToDestroy;
+
+	std::vector<std::unique_ptr<Widget>> widgets;
 
 	Camera camera;
 

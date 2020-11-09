@@ -1,15 +1,11 @@
 #include "Widget.h"
 #include "../ResourceManager.h"
 
-Widget::Widget() : position({ 0,0 }), scale({ 0.1f, 0.1f })
-{
-	texture = ResourceManager::GetTexture("Editor/StopIcon.png");
-}
+Widget::Widget() : position({ 0,0 }), scale({ 0.1f, 0.1f }), texture(ResourceManager::GetTexture("Editor/StopIcon.png"))
+{}
 
-Widget::Widget(const glm::vec2 & _position, const glm::vec2& _scale) : position(_position), scale(_scale)
-{
-	texture = ResourceManager::GetTexture("Editor/StopIcon.png");
-}
+Widget::Widget(const glm::vec2 & _position, const glm::vec2& _scale) : position(_position), scale(_scale), texture(ResourceManager::GetTexture("Editor/StopIcon.png"))
+{}
 
 Widget::~Widget()
 {

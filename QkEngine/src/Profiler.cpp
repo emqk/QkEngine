@@ -20,7 +20,7 @@ void Profiler::ShowData()
 
 	//Text stats
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)\n", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::Text("Number of GameObjects: %u", Scene::GetCurrentScene().GetObjectsPtr()->size());
+	ImGui::Text("Number of GameObjects: %u, Number of Widgets: %u", Scene::GetCurrentScene().GetObjectsPtr()->size(), Scene::GetCurrentScene().GetNumberOfWidgets());
 	ImGui::Text("Last frame draw calls: %u | To draw container size: %u", Renderer::GetDrawCallsLastFrame(), Renderer::GetToDrawContainerSize());
 	ImGui::Text("Last frame vertices: %u", Renderer::GetDrawnVerticesLastFrame());
 	ImGui::Text("Last frame active directional lights: %u / %u", Renderer::GetEnabledDirectionalLightsLastFrame(), Renderer::maxDirectionalLights);

@@ -55,6 +55,8 @@ void PlayerComponent::Start()
 	boxColliderComponent = parent->GetComponent<BoxColliderComponent>();
 	moveComponent = parent->GetComponent<MoveComponent>();
 	animatedSpriteComponent = parent->GetComponent<AnimatedSpriteComponent>();
+
+	playerWidget = Scene::GetCurrentScene().InstantiateWidget<Widget>(glm::vec2(0.9f, 0.9f), glm::vec2(0.1f, 0.1f));
 }
 
 void PlayerComponent::Update(const float& deltaTime)
@@ -125,6 +127,7 @@ void PlayerComponent::Update(const float& deltaTime)
 
 	parent->Move(glm::vec3(0, currentGravity, 0) * deltaTime);
 	ControlAnimations(moveVec);
+	playerWidget->SetTexture(ResourceManager::GetTexture(animatedSpriteComponent->GetTexture()->name.c_str()));
 }
 
 void PlayerComponent::LateUpdate(const float& deltaTime)
@@ -138,6 +141,7 @@ void PlayerComponent::LateUpdate(const float& deltaTime)
 	//camera->SetLocalRotation(glm::quat(1, -30, 0, 0));
 	glm::quat targetRot = glm::lookAt(camera->GetLocalPosition(), parent->transform.GetGlobalPosition(), glm::vec3(0, 1, 0));
 	camera->SetLocalRotation(Transform::ConvertQuaternionToQuaternionEulerAngles(targetRot));
+
 }
 
 void PlayerComponent::ShowOnInspector()
