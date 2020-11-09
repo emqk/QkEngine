@@ -15,7 +15,9 @@ public:
 	static void DrawNew();
 	static void DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color);
 
+	static void PrepareDrawUI();
 	static void DrawUI(glm::vec2 topLeft, glm::vec2 size);
+	static void EndDrawUI();
 
 	static void AddSpriteToDraw(StaticMeshComponent* comp);
 	static void RemoveSpriteToDraw(StaticMeshComponent* comp);
@@ -39,7 +41,9 @@ private:
 	static unsigned int framebuffer;
 	static unsigned int textureColorbuffer;
 
-	
+	//Buffers for UI
+	static unsigned int UI_VBO, UI_VAO, UI_EBO;
+
 	static size_t drawCallsLastFrame;
 	static size_t drawVerticesLastFrame;
 	static size_t enabledDirectionalLightsLastFrame;

@@ -16,6 +16,7 @@
 
 unsigned int Renderer::framebuffer;
 unsigned int Renderer::textureColorbuffer;
+unsigned int Renderer::UI_VBO, Renderer::UI_VAO, Renderer::UI_EBO;
 size_t Renderer::drawCallsLastFrame = 0;
 size_t Renderer::drawVerticesLastFrame = 0;
 size_t Renderer::enabledDirectionalLightsLastFrame = 0;
@@ -262,41 +263,29 @@ void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot,
     glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
 }
 
-void Renderer::DrawUI(glm::vec2 topLeft, glm::vec2 size)
+void Renderer::PrepareDrawUI()
 {
-    unsigned int VBO, VAO, EBO;
-    glm::mat4 projection = glm::ortho(0.0f, Window::GetCurrentWindow()->GetWindowSize().x, 0.0f, Window::GetCurrentWindow()->GetWindowSize().y);
-    Shader* uiShader = ResourceManager::GetShader("UIShader");
-    uiShader->Use();
-
-    Texture* tex = ResourceManager::GetTexture("Editor/StopIcon.png");
-    uiShader->SetInt("texture_diffuse1", 0);
-    tex->Use();
-
-    uiShader->SetVec3("topLeft", topLeft.x, topLeft.y, 0.0f);
-    uiShader->SetVec3("size", size.x, size.y, 0.0f);
-
     float vertices[] = {
-         1.0f, 1.0f, 0.0f,    1.0f, 1.0f, // top right
-         1.0f,-1.0f, 0.0f,    1.0f, 0.0f, // bottom right
-        -1.0f,-1.0f, 0.0f,    0.0f, 0.0f, // bottom left
-        -1.0f, 1.0f, 0.0f,    0.0f, 1.0f  // top left 
+     1.0f, 1.0f, 0.0f,    1.0f, 1.0f, // top right
+     1.0f,-1.0f, 0.0f,    1.0f, 0.0f, // bottom right
+    -1.0f,-1.0f, 0.0f,    0.0f, 0.0f, // bottom left
+    -1.0f, 1.0f, 0.0f,    0.0f, 1.0f  // top left 
     };
     unsigned int indices[] = {
         0, 1, 3, // first triangle
         1, 2, 3  // second triangle
     };
 
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
+    glGenVertexArrays(1, &UI_VAO);
+    glGenBuffers(1, &UI_VBO);
+    glGenBuffers(1, &UI_EBO);
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(VAO);
+    glBindVertexArray(UI_VAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, UI_VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, UI_EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
@@ -310,14 +299,30 @@ void Renderer::DrawUI(glm::vec2 topLeft, glm::vec2 size)
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
     glBindVertexArray(0);
+}
+
+void Renderer::DrawUI(glm::vec2 topLeft, glm::vec2 size)
+{
+    Shader* uiShader = ResourceManager::GetShader("UIShader");
+    uiShader->Use();
+
+    Texture* tex = ResourceManager::GetTexture("Editor/StopIcon.png");
+    uiShader->SetInt("texture_diffuse1", 0);
+    tex->Use();
+
+    uiShader->SetVec3("topLeft", topLeft.x, topLeft.y, 0.0f);
+    uiShader->SetVec3("size", size.x, size.y, 0.0f);
 
     glUseProgram(uiShader->ID);
-    glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+    glBindVertexArray(UI_VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
 
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
-    glDeleteBuffers(1, &EBO);
+void Renderer::EndDrawUI()
+{
+    glDeleteVertexArrays(1, &UI_VAO);
+    glDeleteBuffers(1, &UI_VBO);
+    glDeleteBuffers(1, &UI_EBO);
     glActiveTexture(GL_TEXTURE0);
 }
 
