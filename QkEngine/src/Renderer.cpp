@@ -301,17 +301,18 @@ void Renderer::PrepareDrawUI()
     glBindVertexArray(0);
 }
 
-void Renderer::DrawUI(glm::vec2 topLeft, glm::vec2 size)
+void Renderer::DrawUI(const Widget* widget)
 {
     Shader* uiShader = ResourceManager::GetShader("UIShader");
     uiShader->Use();
 
-    Texture* tex = ResourceManager::GetTexture("Editor/StopIcon.png");
     uiShader->SetInt("texture_diffuse1", 0);
-    tex->Use();
+    widget->GetTexture()->Use();
 
-    uiShader->SetVec3("topLeft", topLeft.x, topLeft.y, 0.0f);
-    uiShader->SetVec3("size", size.x, size.y, 0.0f);
+    glm::vec2 widgetPosition = widget->GetPosition();
+    glm::vec2 widgetSize = widget->GetSize();
+    uiShader->SetVec2("topLeft", widgetPosition.x, widgetPosition.y);
+    uiShader->SetVec2("size", widgetSize.x, widgetSize.y);
 
     glUseProgram(uiShader->ID);
     glBindVertexArray(UI_VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized

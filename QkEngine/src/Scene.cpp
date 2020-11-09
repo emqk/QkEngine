@@ -71,12 +71,12 @@ Scene::Scene()
     ResourceManager::LoadSpriteAnimation(std::move(run), "Run");
     //Jump
     std::vector<Texture*> jump;
+    ResourceManager::LoadModel("Human/Human.obj");
+    ResourceManager::LoadModel("Vegetation/Tree.fbx");
     jump.push_back(ResourceManager::GetTexture("Adventurer/adventurer-jump-03.png"));
     ResourceManager::LoadSpriteAnimation(std::move(jump), "Jump");
 
     //Models
-    ResourceManager::LoadModel("Human/Human.obj");
-    ResourceManager::LoadModel("Vegetation/Tree.fbx");
     ResourceManager::LoadModel("Arrow.fbx");
     ResourceManager::LoadModel("Cube.obj");
 
@@ -96,7 +96,7 @@ Scene::Scene()
     //InstantiateModel(ResourceManager::GetModel("Chair/School Chair Offset.fbx"));
     //InstantiateModel(ResourceManager::GetModel("Terrain.obj"));
 
-
+    widgets.push_back(std::make_unique<Widget>(glm::vec2(0.1f, 0.1f), glm::vec2(0.5f, 0.5f)));
     Renderer::Init();
 }
 
@@ -300,7 +300,11 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
     //Draw UI
     Profiler::BeginSample("UI Draw time");
     Renderer::PrepareDrawUI();
-    Renderer::DrawUI(glm::vec2(0.5f, 0.5f), glm::vec2(0.5f, 0.5f));
+    //Renderer::DrawUI(glm::vec2(0.5f, 0.5f), glm::vec2(0.5f, 0.5f));
+    for (const auto& w : widgets)
+    {
+        Renderer::DrawUI(w.get());
+    }
     Renderer::EndDrawUI();
     Profiler::EndSample();
 

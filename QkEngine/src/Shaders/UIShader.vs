@@ -3,8 +3,8 @@ layout (location = 0) in vec2 vertex;
 layout (location = 1) in vec2 aTexCoord;
 out vec2 TexCoords;
 
-uniform vec3 topLeft;
-uniform vec3 size;
+uniform vec2 topLeft;
+uniform vec2 size;
 
 void main()
 {

@@ -15,6 +15,7 @@ public:
 
     void Use() const;
 
+    void SetVec2(const char* name, float x, float y) const;
     void SetVec3(const char* name, float r, float g, float b) const;
     void SetVec4(const char* name, float r, float g, float b, float a) const;
 

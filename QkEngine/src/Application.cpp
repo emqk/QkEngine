@@ -31,9 +31,10 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
     scroll_yoffset = yoffset;
 }
 
+Window window;
+
 int main()
 {
-    Window window;
     window.Init();
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))

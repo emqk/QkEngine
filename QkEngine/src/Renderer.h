@@ -1,8 +1,10 @@
 #pragma once
 class GameObject;
+class Widget;
 class Shader;
 
 #include "Components/StaticMeshComponent.h"
+#include "UI/Widget.h"
 #include <vector>
 #include <glm/gtc/quaternion.hpp>
 
@@ -16,7 +18,7 @@ public:
 	static void DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color);
 
 	static void PrepareDrawUI();
-	static void DrawUI(glm::vec2 topLeft, glm::vec2 size);
+	static void DrawUI(const Widget* widget);
 	static void EndDrawUI();
 
 	static void AddSpriteToDraw(StaticMeshComponent* comp);
