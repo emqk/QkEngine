@@ -21,9 +21,10 @@ public:
 	GLFWwindow& GetGLFWWindow();
 
 	void SetCursorMode(const int& mode);
+	glm::vec2 GetCursorPositionOnViewport() const;
 
 	glm::vec2 GetWindowSize() const;
-	glm::vec2 GetGLFWWindowPosition();
+	glm::vec2 GetGLFWWindowPosition() const;
 
 private:
 	void RefreshMousePosition(GLFWwindow* window);

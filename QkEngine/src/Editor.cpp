@@ -130,7 +130,7 @@ void Editor::Update()
         //Hide cursor
         else if (InputManager::GetMouseKeyDown(GLFW_MOUSE_BUTTON_1) && IsMouseOverViewport())
         {
-            Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_DISABLED);
+            //Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_DISABLED);
         }
         if (InputManager::GetKeyDown(GLFW_KEY_ESCAPE))
         {
@@ -659,13 +659,13 @@ void Editor::EnterGameMode()
 {
     Select(nullptr);
     Scene::GetCurrentScene().EnterGameMode();
-    glfwSetInputMode(&Window::GetCurrentWindow()->GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    //Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_DISABLED);
 }
 
 void Editor::ExitGameMode()
 {
     Scene::GetCurrentScene().ExitGameMode();
-    glfwSetInputMode(&Window::GetCurrentWindow()->GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    Window::GetCurrentWindow()->SetCursorMode(GLFW_CURSOR_NORMAL);
 }
 
 void Editor::UpdateGizmosTransformations()

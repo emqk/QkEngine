@@ -291,6 +291,8 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
 
             obj->LateUpdate(deltaTime);
         }
+
+        UpdateWidgetInteraction();
     }
 
     DestroyPostponed();
@@ -305,7 +307,6 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
     //Draw UI
     Profiler::BeginSample("UI Draw time");
     Renderer::PrepareDrawUI();
-    //Renderer::DrawUI(glm::vec2(0.5f, 0.5f), glm::vec2(0.5f, 0.5f));
     for (const auto& w : widgets)
     {
         Renderer::DrawUI(w.get());
@@ -317,6 +318,35 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
     Profiler::BeginSample("Gizmos");
     DrawGizmos();
     Profiler::EndSample();
+}
+
+void Scene::UpdateWidgetInteraction()
+{
+    for (std::unique_ptr<Widget>& widget : widgets)
+    {
+        glm::vec2 cursorPos = Window::GetCurrentWindow()->GetCursorPositionOnViewport() / Editor::GetViewportSize();
+        glm::vec2 widgetPos = widget->GetPosition();
+        glm::vec2 widgetSize = widget->GetSize();
+
+        if (cursorPos.x >= widgetPos.x && cursorPos.x <= widgetPos.x + widgetSize.x
+            && cursorPos.y >= widgetPos.y && cursorPos.y <= widgetPos.y + widgetSize.y)
+        {
+            if (!widget->isCursorOn)
+            {
+                widget->OnCursorEnter();
+                widget->isCursorOn = true;
+            }
+        }
+        else
+        {
+            if (widget->isCursorOn)
+            {
+                widget->OnCursorExit();
+                widget->isCursorOn = false;
+            }
+
+        }
+    }
 }
 
 void Scene::DrawGizmos()

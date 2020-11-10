@@ -124,12 +124,19 @@ void Window::SetCursorMode(const int& mode)
     glfwSetInputMode(window, GLFW_CURSOR, mode);
 }
 
+glm::vec2 Window::GetCursorPositionOnViewport() const
+{
+    glm::vec2 windowPos = GetGLFWWindowPosition();
+    glm::vec2 viewportPos = Editor::GetViewportPosition();
+    return glm::vec2(mousePosX - viewportPos.x + windowPos.x, mousePosY - viewportPos.y + windowPos.y);
+}
+
 glm::vec2 Window::GetWindowSize() const
 {
     return glm::vec2(winWidth, winHeight);
 }
 
-glm::vec2 Window::GetGLFWWindowPosition()
+glm::vec2 Window::GetGLFWWindowPosition() const
 {
     int x = 0, y = 0;
     glfwGetWindowPos(window, &x, &y);

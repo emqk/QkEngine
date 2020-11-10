@@ -16,6 +16,11 @@ public:
 	glm::vec2 GetPosition() const;
 	glm::vec2 GetSize() const;
 
+	virtual void OnCursorEnter();
+	virtual void OnCursorExit();
+
+	bool isCursorOn = false;
+
 private:
 	Texture* texture;
 

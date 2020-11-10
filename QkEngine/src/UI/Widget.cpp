@@ -30,3 +30,17 @@ glm::vec2 Widget::GetSize() const
 {
 	return scale;
 }
+
+void Widget::OnCursorEnter()
+{
+	std::cout << "Cursor enter!\n";
+	Texture* tex = ResourceManager::GetTexture("Editor/StopIcon.png");
+	SetTexture(tex);
+}
+
+void Widget::OnCursorExit()
+{
+	std::cout << "Cursor exit!\n";
+	Texture* tex = ResourceManager::GetTexture("Editor/PlayIcon.png");
+	SetTexture(tex);
+}

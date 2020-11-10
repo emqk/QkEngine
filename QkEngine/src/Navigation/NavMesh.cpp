@@ -15,7 +15,7 @@ bool NavMesh::showNavMesh = true;
 
 void NavMesh::Generate(const glm::vec3& _startPos, const int& _width, const float& _nodeSize)
 {
-	std::chrono::steady_clock::time_point currentSampleStartTime = std::chrono::steady_clock::now();
+	//std::chrono::steady_clock::time_point currentSampleStartTime = std::chrono::steady_clock::now();
 
 	startPos = _startPos;
 	width = _width;
@@ -35,16 +35,16 @@ void NavMesh::Generate(const glm::vec3& _startPos, const int& _width, const floa
 
 	CheckCollisions();
 
-	std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
-	std::chrono::duration<float, std::milli> dur = endTime - currentSampleStartTime;
-	float sampleDuration = dur.count();
+	//std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
+	//std::chrono::duration<float, std::milli> dur = endTime - currentSampleStartTime;
+	//float sampleDuration = dur.count();
 
-	std::cout << "NavMesh generated in: " << sampleDuration << "ms!\n";
+	//std::cout << "NavMesh generated in: " << sampleDuration << "ms!\n";
 }
 
 void NavMesh::RegenerateChunk(const glm::vec3& _startPos, const glm::vec3& _endPos)
 {
-	std::chrono::steady_clock::time_point currentSampleStartTime = std::chrono::steady_clock::now();
+	//std::chrono::steady_clock::time_point currentSampleStartTime = std::chrono::steady_clock::now();
 
 	const NavMeshNode* startNode = GetNodeFromPosition(_startPos + glm::vec3(-nodeSize, 0, -nodeSize));
 	const NavMeshNode* endNode = GetNodeFromPosition(_endPos + glm::vec3(nodeSize, 0, nodeSize));
@@ -64,10 +64,10 @@ void NavMesh::RegenerateChunk(const glm::vec3& _startPos, const glm::vec3& _endP
 		}
 	}
 
-	std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
-	std::chrono::duration<float, std::milli> dur = endTime - currentSampleStartTime;
-	float sampleDuration = dur.count();
-	std::cout << "NavMesh chunk regenerated in: " << sampleDuration << "ms.\n";
+	//std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
+	//std::chrono::duration<float, std::milli> dur = endTime - currentSampleStartTime;
+	//float sampleDuration = dur.count();
+	//std::cout << "NavMesh chunk regenerated in: " << sampleDuration << "ms.\n";
 }
 
 void NavMesh::CheckCollisions()
@@ -81,14 +81,14 @@ void NavMesh::CheckCollisions()
 
 std::vector<NavMeshNode*> NavMesh::GetPath(const glm::vec3& startPos, const glm::vec3& endPos)
 {
-	std::chrono::steady_clock::time_point currentSampleStartTime = std::chrono::steady_clock::now();
+	//std::chrono::steady_clock::time_point currentSampleStartTime = std::chrono::steady_clock::now();
 
 	std::vector<NavMeshNode*> path = GetPath(GetNodeFromPosition(startPos), GetNodeFromPosition(endPos));
 
-	std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
-	std::chrono::duration<float, std::milli> dur = endTime - currentSampleStartTime;
-	float sampleDuration = dur.count();
-	std::cout << "Path found in: " << sampleDuration << "ms. Path size: " << path.size() << "\n";
+	//std::chrono::steady_clock::time_point endTime = std::chrono::steady_clock::now();
+	//std::chrono::duration<float, std::milli> dur = endTime - currentSampleStartTime;
+	//float sampleDuration = dur.count();
+	//std::cout << "Path found in: " << sampleDuration << "ms. Path size: " << path.size() << "\n";
 
 	return path;
 }

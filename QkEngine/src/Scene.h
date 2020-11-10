@@ -83,6 +83,8 @@ private:
 	static Scene* currentScene;
 	static bool inGameMode;
 
+	void UpdateWidgetInteraction();
+
 	void DrawGizmos();
 
 	void DestroyPostponed();
