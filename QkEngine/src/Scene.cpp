@@ -14,6 +14,7 @@
 #include "Window.h"
 #include "Gizmos.h"
 #include "Navigation/NavMesh.h"
+#include "InputManager.h"
 
 #include <limits>
 #include <chrono>
@@ -32,6 +33,10 @@ Scene::Scene()
     ResourceManager::LoadTexture("Editor/StopIcon.png");
     ResourceManager::LoadTexture("gizmoSelectTexture.jpg");
     
+    ResourceManager::LoadTexture("Grey.png");
+    ResourceManager::LoadTexture("Dark.png");
+
+
     //backpack
     //ResourceManager::LoadTexture("backpack/diffuse.jpg");
     //ResourceManager::LoadTexture("backpack/normal.png");
@@ -336,6 +341,15 @@ void Scene::UpdateWidgetInteraction()
                 widget->OnCursorEnter();
                 widget->isCursorOn = true;
             }
+
+            if(InputManager::GetMouseKeyDown(GLFW_MOUSE_BUTTON_1))
+            {
+                widget->OnPressed();
+            }
+            else if (widget->isPressed && InputManager::GetMouseKeyUp(GLFW_MOUSE_BUTTON_1))
+            {
+                widget->OnReleased();
+            }
         }
         else
         {
@@ -345,6 +359,10 @@ void Scene::UpdateWidgetInteraction()
                 widget->isCursorOn = false;
             }
 
+            if (widget->isPressed)
+            {
+                widget->OnPressedCancel();
+            }
         }
     }
 }

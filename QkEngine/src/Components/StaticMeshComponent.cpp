@@ -124,7 +124,7 @@ Shader* StaticMeshComponent::GetShader()
 	return shader;
 }
 
-const Texture* StaticMeshComponent::GetTexture()
+Texture* StaticMeshComponent::GetTexture()
 {
 	return texture;
 }
@@ -140,7 +140,7 @@ void StaticMeshComponent::SetSpecularTexture(Texture* tex)
 	specularTexture = tex;
 }
 
-const Texture* StaticMeshComponent::GetSpecularTexture()
+Texture* StaticMeshComponent::GetSpecularTexture()
 {
 	return specularTexture;
 }

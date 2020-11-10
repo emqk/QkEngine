@@ -3,7 +3,7 @@
 #include "AnimatedSpriteComponent.h"
 #include "BoxColliderComponent.h"
 #include "MoveComponent.h"
-#include "../UI/Widget.h"
+#include "../UI/ButtonWidget.h"
 
 class PlayerComponent : public Component
 {
@@ -37,6 +37,7 @@ private:
 	bool isGrounded = false;
 
 	Widget* playerWidget = nullptr;
+	ButtonWidget* playerButtonWidget = nullptr;
 
 	BoxColliderComponent* boxColliderComponent = nullptr;
 	MoveComponent* moveComponent = nullptr;

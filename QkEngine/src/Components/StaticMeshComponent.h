@@ -28,11 +28,11 @@ public:
 
 	void SetTexture(const char* texPath);
 	void SetTexture(Texture* tex);
-	const Texture* GetTexture();
+	Texture* GetTexture();
 
 	void SetSpecularTexture(const char* texPath);
 	void SetSpecularTexture(Texture* tex);
-	const Texture* GetSpecularTexture();
+	Texture* GetSpecularTexture();
 
 	glm::vec4 color;
 	glm::vec3 specular{0.5, 0.5f, 0.5f};

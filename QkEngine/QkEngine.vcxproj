@@ -193,6 +193,7 @@
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Transform.cpp" />
+    <ClCompile Include="src\UI\ButtonWidget.cpp" />
     <ClCompile Include="src\UI\Widget.cpp" />
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
@@ -239,6 +240,7 @@
     <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Transform.h" />
+    <ClInclude Include="src\UI\ButtonWidget.h" />
     <ClInclude Include="src\UI\Widget.h" />
     <ClInclude Include="src\Window.h" />
   </ItemGroup>

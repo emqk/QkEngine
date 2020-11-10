@@ -1,10 +1,10 @@
 #include "Widget.h"
 #include "../ResourceManager.h"
 
-Widget::Widget() : position({ 0,0 }), scale({ 0.1f, 0.1f }), texture(ResourceManager::GetTexture("Editor/StopIcon.png"))
+Widget::Widget() : position({ 0,0 }), size({ 0.1f, 0.1f }), texture(ResourceManager::GetTexture("Editor/StopIcon.png"))
 {}
 
-Widget::Widget(const glm::vec2 & _position, const glm::vec2& _scale) : position(_position), scale(_scale), texture(ResourceManager::GetTexture("Editor/StopIcon.png"))
+Widget::Widget(const glm::vec2 & _position, const glm::vec2& _size) : position(_position), size(_size), texture(ResourceManager::GetTexture("Editor/StopIcon.png"))
 {}
 
 Widget::~Widget()
@@ -28,19 +28,25 @@ glm::vec2 Widget::GetPosition() const
 
 glm::vec2 Widget::GetSize() const
 {
-	return scale;
+	return size;
+}
+
+void Widget::OnPressed()
+{
+}
+
+void Widget::OnPressedCancel()
+{
+}
+
+void Widget::OnReleased()
+{
 }
 
 void Widget::OnCursorEnter()
 {
-	std::cout << "Cursor enter!\n";
-	Texture* tex = ResourceManager::GetTexture("Editor/StopIcon.png");
-	SetTexture(tex);
 }
 
 void Widget::OnCursorExit()
 {
-	std::cout << "Cursor exit!\n";
-	Texture* tex = ResourceManager::GetTexture("Editor/PlayIcon.png");
-	SetTexture(tex);
 }

@@ -56,9 +56,9 @@ public:
 	template<typename T>
 	T* InstantiateWidget(const glm::vec2& position, const glm::vec2& size)
 	{
-		widgets.emplace_back(std::make_unique<Widget>(position, size));
+		widgets.emplace_back(std::make_unique<T>(position, size));
 		std::cout << "[WIDGET INSTANTIATE] Widget Object size: " << widgets.size() << "\n";
-		return widgets.back().get();
+		return reinterpret_cast<T*>(widgets.back().get());
 	}
 
 	GameObject* DuplicateGameObject(const GameObject* obj);
