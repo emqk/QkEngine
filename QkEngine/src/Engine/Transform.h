@@ -33,6 +33,8 @@ public:
 
 	const glm::mat4& GetModel() const;
 
+	bool MoveTo(const glm::vec3& position, const float& speed);
+
 	void SetLocalPosition(const glm::vec3& newPosition);
 	void SetLocalRotation(const glm::quat& newRotation);
 	void SetLocalScale(const glm::vec3& newScale);

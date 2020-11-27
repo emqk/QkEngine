@@ -1,6 +1,7 @@
 Debug
 Release
-QkEngine/Debug
-QkEngine/Release
+QkEngine\Debug
+QkEngine\Release
 .vs
 .git
+.obj

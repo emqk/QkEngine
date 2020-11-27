@@ -109,6 +109,23 @@ const glm::mat4& Transform::GetModel() const
 	return myModel;
 }
 
+bool Transform::MoveTo(const glm::vec3& position, const float& speed)
+{
+	float distToTarget = glm::length(position - GetGlobalPosition());
+	if (distToTarget <= speed)
+	{
+		SetGlobalPosition(position);
+		return true;
+	}
+	else
+	{
+		glm::vec3 dirToTarget = glm::normalize(position - GetGlobalPosition());
+		Translate(dirToTarget * speed);
+	}
+
+	return false;
+}
+
 glm::vec3 Transform::GetLocalPosition() const
 {
 	return localPosition;

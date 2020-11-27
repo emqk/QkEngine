@@ -50,7 +50,7 @@ bool NavMeshAgentComponent::FollowPath(const float& deltaTime)
 {
 	if (currentPathIndex >= 0 && currentPathIndex < path.size())
 	{
-		if (MoveTo(path[currentPathIndex]->position, movementSpeed * deltaTime))
+		if (parent->transform.MoveTo(path[currentPathIndex]->position, movementSpeed * deltaTime))
 		{
 			currentPathIndex++;
 		}
@@ -61,23 +61,6 @@ bool NavMeshAgentComponent::FollowPath(const float& deltaTime)
 	if (currentPathIndex >= path.size())
 	{
 		return true;
-	}
-
-	return false;
-}
-
-bool NavMeshAgentComponent::MoveTo(const glm::vec3& position, const float& speed)
-{
-	float distToTarget = glm::length(position - parent->transform.GetGlobalPosition());
-	if (distToTarget <= speed)
-	{
-		parent->transform.SetGlobalPosition(position);
-		return true;
-	}
-	else
-	{
-		glm::vec3 dirToTarget = glm::normalize(position - parent->transform.GetGlobalPosition());
-		parent->transform.Translate(dirToTarget * speed);
 	}
 
 	return false;

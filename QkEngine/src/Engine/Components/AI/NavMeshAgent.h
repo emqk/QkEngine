@@ -24,7 +24,6 @@ public:
 
 protected:
 	bool FollowPath(const float& deltaTime);
-	bool MoveTo(const glm::vec3& position, const float& speed);
 
 	float movementSpeed = 3;
 
