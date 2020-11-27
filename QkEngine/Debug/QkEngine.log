@@ -1,3 +1,4 @@
-﻿  ResourceManager.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+﻿  PlatformComponent.cpp
+     Creating library C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.lib and object C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exp
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe

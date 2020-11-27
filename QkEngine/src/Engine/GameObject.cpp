@@ -6,6 +6,7 @@
 #include <glm\ext\matrix_float4x4.hpp>
 #include <glm\ext\vector_float3.hpp>
 
+//Engine
 #include "Components/AnimatedSpriteComponent.h"
 #include "Components/MoveComponent.h"
 #include "Components/BoxColliderComponent.h"
@@ -13,6 +14,10 @@
 #include "Components/Lighting/PointLightComponent.h"
 #include "Components/AI/NavMeshAgent.h"
 #include "Components/PlayerComponent.h"
+
+//Game Components
+#include "../Game/Components/PlatformComponent.h"
+
 
 #include "Scene.h"
 
@@ -249,6 +254,10 @@ void GameObject::ShowComponentsToAdd(const char* componentName)
 	else if (strcmp(componentName, "NavMeshAgentComponent") == 0)
 	{
 		AddComponent<NavMeshAgentComponent>();
+	}
+	else if (strcmp(componentName, "PlatformComponent") == 0)
+	{
+		AddComponent<PlatformComponent>();
 	}
 	else
 	{
