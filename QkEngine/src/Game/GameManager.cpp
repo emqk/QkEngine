@@ -1,14 +1,14 @@
 #include "GameManager.h"
 
-#include "../Scene.h"
-#include "../ResourceManager.h"
-#include "../Components/BoxColliderComponent.h"
-#include "../Components/MoveComponent.h"
-#include "../Components/PlayerComponent.h"
-#include "../Components/Lighting/DirectionalLightComponent.h"
-#include "../Components/Lighting/PointLightComponent.h"
-#include "../Components/AI/NavMeshAgent.h"
-#include "../Random.h"
+#include "../Engine/Scene.h"
+#include "../Engine/ResourceManager.h"
+#include "../Engine/Components/BoxColliderComponent.h"
+#include "../Engine/Components/MoveComponent.h"
+#include "../Engine/Components/PlayerComponent.h"
+#include "../Engine/Components/Lighting/DirectionalLightComponent.h"
+#include "../Engine/Components/Lighting/PointLightComponent.h"
+#include "../Engine/Components/AI/NavMeshAgent.h"
+#include "../Engine/Random.h"
 
 #include <iostream>
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <array>
-#include "../GameObject.h"
+#include "../Engine/GameObject.h"
 
 class GameManager
 {
