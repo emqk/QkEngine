@@ -94,6 +94,117 @@ void Physics::UnRegisterCollider(BoxColliderComponent* comp)
     }
 }
 
+GameObject* Physics::RaycastMesh(const Ray& ray)
+{
+	GameObject* nearestObj = nullptr;
+	//float nearestDist = std::numeric_limits<float>::max();
+	float biggestDot = -1;
+
+	const auto& objects = Scene::GetCurrentScene().GetObjectsPtr();
+	for (const std::unique_ptr<GameObject>& targetObj : *objects)
+	{
+		StaticMeshComponent* objStaticMeshComponent = targetObj->GetComponent<StaticMeshComponent>();
+		Mesh* meshNewFromComponent = nullptr;
+		if (objStaticMeshComponent != nullptr)
+		{
+			meshNewFromComponent = objStaticMeshComponent->GetMeshNew();
+		}
+		if (meshNewFromComponent == nullptr)
+			continue;
+
+		glm::vec3 targetObjPos = targetObj->transform.GetGlobalPosition();
+		float distanceToObj = glm::distance(ray.GetOrigin(), targetObjPos);
+		glm::vec3 toRay = glm::normalize(targetObjPos - ray.GetOrigin());
+		float dotToObj = glm::dot(ray.GetDirection(), toRay);
+
+		if (Physics::Raycast(ray, meshNewFromComponent->GetBounds(), targetObj->transform.GetGlobalPosition()))
+		{
+			if (dotToObj > biggestDot)
+			{
+				biggestDot = dotToObj;
+				//nearestDist = distanceToObj;
+				nearestObj = targetObj.get();
+			}
+		}
+	}
+
+	return nearestObj;
+}
+
+GameObject* Physics::RaycastBoxCollider(const Ray& ray)
+{
+	GameObject* nearestObj = nullptr;
+	float biggestDot = -1;
+
+	const auto& objects = Scene::GetCurrentScene().GetObjectsPtr();
+	for (const std::unique_ptr<GameObject>& targetObj : *objects)
+	{
+		BoxColliderComponent* boxCollider = targetObj->GetComponent<BoxColliderComponent>();
+		if (boxCollider == nullptr)
+			continue;
+
+		glm::vec3 targetObjPos = targetObj->transform.GetGlobalPosition();
+		float distanceToObj = glm::distance(ray.GetOrigin(), targetObjPos);
+		glm::vec3 toRay = glm::normalize(targetObjPos - ray.GetOrigin());
+		float dotToObj = glm::dot(ray.GetDirection(), toRay);
+
+		if (Physics::Raycast(ray, boxCollider->bounds, targetObj->transform.GetGlobalPosition()))
+		{
+			if (dotToObj > biggestDot)
+			{
+				biggestDot = dotToObj;
+				nearestObj = targetObj.get();
+			}
+		}
+	}
+
+	return nearestObj;
+}
+
+bool Physics::Raycast(const Ray& ray, Bounds bounds, glm::vec3 pos)
+{
+	glm::vec3 min = -bounds.Extents() + pos;
+	glm::vec3 max = bounds.Extents() + pos;
+
+	glm::vec3 origin = ray.GetOrigin();
+	glm::vec3 direction = ray.GetDirection();
+
+	float tmin = (min.x - origin.x) / direction.x;
+	float tmax = (max.x - origin.x) / direction.x;
+
+	if (tmin > tmax) std::swap(tmin, tmax);
+
+	float tymin = (min.y - origin.y) / direction.y;
+	float tymax = (max.y - origin.y) / direction.y;
+
+	if (tymin > tymax) std::swap(tymin, tymax);
+
+	if ((tmin > tymax) || (tymin > tmax))
+		return false;
+
+	if (tymin > tmin)
+		tmin = tymin;
+
+	if (tymax < tmax)
+		tmax = tymax;
+
+	float tzmin = (min.z - origin.z) / direction.z;
+	float tzmax = (max.z - origin.z) / direction.z;
+
+	if (tzmin > tzmax) std::swap(tzmin, tzmax);
+
+	if ((tmin > tzmax) || (tzmin > tmax))
+		return false;
+
+	if (tzmin > tmin)
+		tmin = tzmin;
+
+	if (tzmax < tmax)
+		tmax = tzmax;
+
+	return true;
+}
+
 void Physics::CheckCollisionFor(BoxColliderComponent* boxCollider,std::vector<BoxColliderComponent*>& deep)
 {
 	if (std::find(deep.begin(), deep.end(), boxCollider) == deep.end())

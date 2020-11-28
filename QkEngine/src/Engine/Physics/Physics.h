@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Components/BoxColliderComponent.h"
+#include "Ray.h"
 #include <vector>
 
 class Physics
@@ -17,6 +18,9 @@ public:
 	static void RegisterCollider(BoxColliderComponent* comp);
 	static void UnRegisterCollider(BoxColliderComponent* comp);
 
+	static GameObject* RaycastMesh(const Ray& ray);
+	static GameObject* RaycastBoxCollider(const Ray& ray);
+	static bool Raycast(const Ray& ray, Bounds bounds, glm::vec3 pos);
 
 protected:
 	static void CheckCollisionFor(BoxColliderComponent* boxCollider, std::vector<BoxColliderComponent*>& deep);

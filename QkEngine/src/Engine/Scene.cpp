@@ -113,50 +113,6 @@ void Scene::OnLoad()
 {
     currentScene = this;
 }
-bool intersect(const Ray& r, Bounds bounds, glm::vec3 pos)
-{
-    glm::vec3 min = -bounds.Extents() + pos;
-    glm::vec3 max = bounds.Extents() + pos;
-
-    glm::vec3 origin = r.GetOrigin();
-    glm::vec3 direction = r.GetDirection();
-
-    float tmin = (min.x - origin.x) / direction.x;
-    float tmax = (max.x - origin.x) / direction.x;
-
-    if (tmin > tmax) std::swap(tmin, tmax);
-
-    float tymin = (min.y - origin.y) / direction.y;
-    float tymax = (max.y - origin.y) / direction.y;
-
-    if (tymin > tymax) std::swap(tymin, tymax);
-
-    if ((tmin > tymax) || (tymin > tmax))
-        return false;
-
-    if (tymin > tmin)
-        tmin = tymin;
-
-    if (tymax < tmax)
-        tmax = tymax;
-
-    float tzmin = (min.z - r.GetOrigin().z) / r.GetDirection().z;
-    float tzmax = (max.z - r.GetOrigin().z) / r.GetDirection().z;
-
-    if (tzmin > tzmax) std::swap(tzmin, tzmax);
-
-    if ((tmin > tzmax) || (tzmin > tmax))
-        return false;
-
-    if (tzmin > tmin)
-        tmin = tzmin;
-
-    if (tzmax < tmax)
-        tmax = tzmax;
-
-    return true;
-}
-
 
 GameObject* Scene::Raycast()
 {
@@ -176,60 +132,12 @@ GameObject* Scene::Raycast()
     glm::vec3 ray_wor = (glm::inverse(view) * ray_eye);
     auto rayNorm = glm::normalize(ray_wor);
 
-    GameObject* nearestObj = nullptr;
-    float nearestDist = std::numeric_limits<float>::max();
-    //  std::cout << "Ray: " << ray_wor.x << "x " << ray_wor.y << "y " << ray_wor.z << "z" << std::endl;
-     // std::cout << "Nor: " << rayNorm.x << "x " << rayNorm.y << "y " << rayNorm.z << "z" << std::endl;
+    glm::vec3 camPos = camera.GetLocalPosition();
 
-    for (std::unique_ptr<GameObject>& targetObj : objects)
-    {
-        StaticMeshComponent* objStaticMeshComponent = targetObj->GetComponent<StaticMeshComponent>();
-        Mesh* meshNewFromComponent = nullptr;
-        if (objStaticMeshComponent != nullptr)
-        {
-            meshNewFromComponent = objStaticMeshComponent->GetMeshNew();
-        }
-        if (meshNewFromComponent == nullptr)
-            continue;
+    Ray ray(camPos, rayNorm);
+    GameObject* hitObj = Physics::RaycastMesh(ray);
 
-        glm::vec3 camPos = camera.GetLocalPosition();
-        glm::vec3 targetObjPos = targetObj->transform.GetGlobalPosition();
-        //  std::cout << "CamPos: " << camPos.x << "x " << camPos.y << "y " << camPos.z << "z" << std::endl;
-        //  std::cout << "targetObjPos: " << targetObjPos.x << "x " << targetObjPos.y << "y " << targetObjPos.z << "z" << std::endl;
-        //  std::cout << "DistZ: " << glm::abs(camPos.z - targetObjPos.z) << "z" << std::endl;
-
-        float distanceToObj = glm::distance(camPos, targetObjPos);
-        //float distanceRayToObj = glm::distance(rayNorm * distanceToObj + camPos, targetObjPos);
-        // std::cout << "DistToObj: " << distanceToObj << std::endl;
-       //  std::cout << "Dist Ray: " << distanceRayToObj << std::endl;
-
-        glm::vec3 rayToTargetObjVec = rayNorm * distanceToObj + camPos;
-        //std::cout << "rayHit: " << rayToTargetObjVec.x << "x " << rayToTargetObjVec.y << "y " << rayToTargetObjVec.z << "z" << std::endl;
-
-        //rayToTargetObjVec -= targetObjPos;
-        //if (glm::abs(rayToTargetObjVec.x) < 2 && glm::abs(rayToTargetObjVec.y) < 2 && glm::abs(rayToTargetObjVec.z) < 2)
-
-        Ray ray(camPos, rayNorm);
-        if (intersect(ray, meshNewFromComponent->GetBounds(), targetObj->transform.GetGlobalPosition()))
-        {
-            if (distanceToObj < nearestDist)
-            {
-                nearestDist = distanceToObj;
-                nearestObj = targetObj.get();
-            }
-        }
-
-        //if (meshNewFromComponent->GetBounds().Intersects(rayToTargetObjVec, targetObjPos))
-        //{
-        //    if (distanceRayToObj < nearestDist)
-        //    {
-        //        nearestDist = distanceRayToObj;
-        //        nearestObj = targetObj.get();
-        //    }
-        //}
-    }
-
-    return nearestObj;
+    return hitObj;
 }
 
 const std::vector<std::unique_ptr<GameObject>>* const Scene::GetObjectsPtr() const
