@@ -1,4 +1,6 @@
-﻿  PlatformComponent.cpp
+﻿  Scene.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Game\Components\PlatformComponent.cpp(33,20): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.cpp(442,42): warning C4114: same type qualifier used more than once
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe

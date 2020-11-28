@@ -9,7 +9,8 @@
 #include <glm\ext\matrix_transform.hpp>
 
 #include "ResourceManager.h"
-#include "Physics.h"
+#include "Physics/Physics.h"
+#include "Physics/Ray.h"
 #include "Profiler.h"
 #include "Window.h"
 #include "Gizmos.h"
@@ -112,6 +113,50 @@ void Scene::OnLoad()
 {
     currentScene = this;
 }
+bool intersect(const Ray& r, Bounds bounds, glm::vec3 pos)
+{
+    glm::vec3 min = -bounds.Extents() + pos;
+    glm::vec3 max = bounds.Extents() + pos;
+
+    glm::vec3 origin = r.GetOrigin();
+    glm::vec3 direction = r.GetDirection();
+
+    float tmin = (min.x - origin.x) / direction.x;
+    float tmax = (max.x - origin.x) / direction.x;
+
+    if (tmin > tmax) std::swap(tmin, tmax);
+
+    float tymin = (min.y - origin.y) / direction.y;
+    float tymax = (max.y - origin.y) / direction.y;
+
+    if (tymin > tymax) std::swap(tymin, tymax);
+
+    if ((tmin > tymax) || (tymin > tmax))
+        return false;
+
+    if (tymin > tmin)
+        tmin = tymin;
+
+    if (tymax < tmax)
+        tmax = tymax;
+
+    float tzmin = (min.z - r.GetOrigin().z) / r.GetDirection().z;
+    float tzmax = (max.z - r.GetOrigin().z) / r.GetDirection().z;
+
+    if (tzmin > tzmax) std::swap(tzmin, tzmax);
+
+    if ((tmin > tzmax) || (tzmin > tmax))
+        return false;
+
+    if (tzmin > tmin)
+        tmin = tzmin;
+
+    if (tzmax < tmax)
+        tmax = tzmax;
+
+    return true;
+}
+
 
 GameObject* Scene::Raycast()
 {
@@ -154,7 +199,7 @@ GameObject* Scene::Raycast()
         //  std::cout << "DistZ: " << glm::abs(camPos.z - targetObjPos.z) << "z" << std::endl;
 
         float distanceToObj = glm::distance(camPos, targetObjPos);
-        float distanceRayToObj = glm::distance(rayNorm * distanceToObj + camPos, targetObjPos);
+        //float distanceRayToObj = glm::distance(rayNorm * distanceToObj + camPos, targetObjPos);
         // std::cout << "DistToObj: " << distanceToObj << std::endl;
        //  std::cout << "Dist Ray: " << distanceRayToObj << std::endl;
 
@@ -164,26 +209,24 @@ GameObject* Scene::Raycast()
         //rayToTargetObjVec -= targetObjPos;
         //if (glm::abs(rayToTargetObjVec.x) < 2 && glm::abs(rayToTargetObjVec.y) < 2 && glm::abs(rayToTargetObjVec.z) < 2)
 
-        Shader* objShader = objStaticMeshComponent->GetShader();
-        if (meshNewFromComponent->GetBounds().Intersects(rayToTargetObjVec, targetObjPos))
+        Ray ray(camPos, rayNorm);
+        if (intersect(ray, meshNewFromComponent->GetBounds(), targetObj->transform.GetGlobalPosition()))
         {
-            //std::cout << "\tYes! Ray is hitting object!\n";
-
-      /*      if(objShader != nullptr)
-                objShader->SetVec4("_FragColor", 0.0f, 0.2f, 0.0f, 0.0f);*/
-
-            if (distanceRayToObj < nearestDist)
+            if (distanceToObj < nearestDist)
             {
-                nearestDist = distanceRayToObj;
+                nearestDist = distanceToObj;
                 nearestObj = targetObj.get();
             }
         }
-        else
-        {
-            //std::cout << "\No! Ray is not hitting object!\n";
-            //if (objShader != nullptr)
-            //    objShader->SetVec4("_FragColor", 0.0f, 0.0f, 0.0f, 0.0f);
-        }
+
+        //if (meshNewFromComponent->GetBounds().Intersects(rayToTargetObjVec, targetObjPos))
+        //{
+        //    if (distanceRayToObj < nearestDist)
+        //    {
+        //        nearestDist = distanceRayToObj;
+        //        nearestObj = targetObj.get();
+        //    }
+        //}
     }
 
     return nearestObj;

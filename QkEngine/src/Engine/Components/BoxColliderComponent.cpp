@@ -1,7 +1,7 @@
 #include "BoxColliderComponent.h"
 #include "StaticMeshComponent.h"
 #include "../GameObject.h"
-#include "../Physics.h"
+#include "../Physics/Physics.h"
 #include "../Navigation/NavMesh.h"
 #include "../Gizmos.h"
 

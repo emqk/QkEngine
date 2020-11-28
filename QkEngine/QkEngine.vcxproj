@@ -168,6 +168,7 @@
     <ClCompile Include="src\Engine\Components\StaticMeshComponent.cpp" />
     <ClCompile Include="src\Engine\Editor.cpp" />
     <ClCompile Include="src\Engine\GameObject.cpp" />
+    <ClCompile Include="src\Engine\Physics\Ray.cpp" />
     <ClCompile Include="src\Game\Components\PlatformComponent.cpp" />
     <ClCompile Include="src\Game\GameManager.cpp" />
     <ClCompile Include="src\Engine\Gizmos.cpp" />
@@ -184,7 +185,7 @@
     <ClCompile Include="src\Engine\Model.cpp" />
     <ClCompile Include="src\Engine\Navigation\NavMesh.cpp" />
     <ClCompile Include="src\Engine\Navigation\NavMeshNode.cpp" />
-    <ClCompile Include="src\Engine\Physics.cpp" />
+    <ClCompile Include="src\Engine\Physics\Physics.cpp" />
     <ClCompile Include="src\Engine\Profiler.cpp" />
     <ClCompile Include="src\Engine\Random.cpp" />
     <ClCompile Include="src\Engine\Renderer.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="src\Engine\Components\StaticMeshComponent.h" />
     <ClInclude Include="src\Engine\Editor.h" />
     <ClInclude Include="src\Engine\GameObject.h" />
+    <ClInclude Include="src\Engine\Physics\Ray.h" />
     <ClInclude Include="src\Game\Components\PlatformComponent.h" />
     <ClInclude Include="src\Game\GameManager.h" />
     <ClInclude Include="src\Engine\Gizmos.h" />
@@ -231,7 +233,7 @@
     <ClInclude Include="src\Engine\Model.h" />
     <ClInclude Include="src\Engine\Navigation\NavMesh.h" />
     <ClInclude Include="src\Engine\Navigation\NavMeshNode.h" />
-    <ClInclude Include="src\Engine\Physics.h" />
+    <ClInclude Include="src\Engine\Physics\Physics.h" />
     <ClInclude Include="src\Engine\Profiler.h" />
     <ClInclude Include="src\Engine\Random.h" />
     <ClInclude Include="src\Engine\Renderer.h" />
