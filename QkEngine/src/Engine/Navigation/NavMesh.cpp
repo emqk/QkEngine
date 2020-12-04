@@ -190,7 +190,7 @@ void NavMesh::DebugDraw()
 	{
 		glm::vec4 targetColor = node.isColliding ? glm::vec4(1.0f, 0.1f, 0.1f, 1) : glm::vec4(0.1f, 0.1f, 1, 1);
 		Gizmos::SetCurrentColor(targetColor);
-		Gizmos::DrawCubeWireframe(node.GetPosition(), glm::vec3(0, 0, 0), glm::vec3(nodeSize, nodeSize, nodeSize));
+		Gizmos::DrawCube(node.GetPosition(), glm::vec3(0, 0, 0), glm::vec3(nodeSize, nodeSize, nodeSize));
 	}
 }
 

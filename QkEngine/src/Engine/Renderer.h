@@ -15,7 +15,7 @@ public:
 	~Renderer() = delete;
 
 	static void DrawNew();
-	static void DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color);
+	static void DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color, const bool& wirefame = true);
 
 	static void PrepareDrawUI();
 	static void DrawUI(const Widget* widget);

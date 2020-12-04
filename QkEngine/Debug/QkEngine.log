@@ -1,6 +1,17 @@
-﻿  Scene.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
+﻿  NavMesh.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.cpp(360,42): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(58,38): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(60,39): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(213,8): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(214,8): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(228,68): warning C4114: same type qualifier used more than once
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe

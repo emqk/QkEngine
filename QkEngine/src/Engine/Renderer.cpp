@@ -237,12 +237,15 @@ void Renderer::DrawNew()
     }
 }
 
-void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color)
+void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color, const bool& wirefame)
 {
     //Set wireframe mode only for this mesh
     int polygonMode;
-    glGetIntegerv(GL_POLYGON_MODE, &polygonMode);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    if (wirefame)
+    {
+        glGetIntegerv(GL_POLYGON_MODE, &polygonMode);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    }
 
     glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
     //float sinCalc = cos(timeValue);
@@ -264,7 +267,8 @@ void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot,
     glActiveTexture(GL_TEXTURE0);
 
     //Go back to draw mode before this mesh
-    glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
+    if(wirefame)
+        glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
 }
 
 void Renderer::PrepareDrawUI()

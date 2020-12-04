@@ -42,3 +42,9 @@ void Gizmos::DrawCubeWireframe(const glm::vec3& pos, const glm::quat& rot, const
     Mesh* componentMesh = ResourceManager::GetMeshNew("Cube.obj->Cube");
     Renderer::DrawMeshNewAtLocation(pos, rot, localScale, *componentMesh, *defaultTexture, *defaultShader, currentColor);
 }
+
+void Gizmos::DrawCube(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale)
+{
+    Mesh* componentMesh = ResourceManager::GetMeshNew("Cube.obj->Cube");
+    Renderer::DrawMeshNewAtLocation(pos, rot, localScale, *componentMesh, *defaultTexture, *defaultShader, currentColor, false);
+}
