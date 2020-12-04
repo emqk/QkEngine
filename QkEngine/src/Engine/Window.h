@@ -36,8 +36,8 @@ private:
 
 	GLFWwindow* window;
 
-	const int winWidth = 1920;
-	const int winHeight = 1080;
+	int winWidth = 800;
+	int winHeight = 600;
 
 	// timing
 	float deltaTime = 0.0f;
