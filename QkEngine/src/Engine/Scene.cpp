@@ -301,7 +301,7 @@ void Scene::UpdateWidgetInteraction()
 {
     for (std::unique_ptr<Widget>& widget : widgets)
     {
-        glm::vec2 cursorPos = Window::GetCurrentWindow()->GetCursorPositionOnViewport() / Editor::GetViewportSize();
+        glm::vec2 cursorPos = Window::GetCurrentWindow()->GetCursorPositionNormalized();
         glm::vec2 widgetPos = widget->GetPosition();
         glm::vec2 widgetSize = widget->GetSize();
 

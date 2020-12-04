@@ -23,7 +23,7 @@ public:
 	void ResetDeltaTime();
 
 	void SetCursorMode(const int& mode);
-	glm::vec2 GetCursorPositionOnViewport() const;
+	glm::vec2 GetCursorPositionNormalized() const;
 
 	glm::vec2 GetWindowSize() const;
 	glm::vec2 GetGLFWWindowPosition() const;
@@ -40,7 +40,7 @@ private:
 	const int winHeight = 1080;
 
 	// timing
-	float deltaTime = 0.0f;	// time between current frame and last frame
+	float deltaTime = 0.0f;
 	float lastFrame = 0.0f;
 
 	//glm::mat4 projection = glm::mat4(1.0f);
@@ -49,6 +49,6 @@ private:
 	double mousePosX, mousePosY;
 
 	static Window* instance;
-	static constexpr bool isItBuild = false;
+	static constexpr bool isItBuild = true;
 	bool shouldResetDeltaTime = false;
 };
