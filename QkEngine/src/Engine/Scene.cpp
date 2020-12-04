@@ -230,8 +230,8 @@ void Scene::ExitGameMode()
 void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _view)
 {
     //Update
-    std::string sampleName = "Update time";
-    Profiler::BeginSample(sampleName);
+    if(!Window::IsItBuild())
+        Profiler::BeginSample("Update time");
 
     projection = _projection;
     view = _view;
@@ -262,28 +262,39 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
     }
 
     DestroyPostponed();
-    Profiler::EndSample();
+    if (!Window::IsItBuild())
+        Profiler::EndSample();
 
     //Draw
-    sampleName = "Draw time";
-    Profiler::BeginSample(sampleName);
+    if (!Window::IsItBuild())
+        Profiler::BeginSample("Draw time");
+
     Renderer::DrawNew();
-    Profiler::EndSample();
+
+    if (!Window::IsItBuild())
+        Profiler::EndSample();
 
     //Draw UI
-    Profiler::BeginSample("UI Draw time");
+    if (!Window::IsItBuild())
+        Profiler::BeginSample("UI Draw time");
+
     Renderer::PrepareDrawUI();
     for (const auto& w : widgets)
     {
         Renderer::DrawUI(w.get());
     }
     Renderer::EndDrawUI();
-    Profiler::EndSample();
+    
+    if (!Window::IsItBuild())
+        Profiler::EndSample();
 
     //Draw gizmos
-    Profiler::BeginSample("Gizmos");
-    DrawGizmos();
-    Profiler::EndSample();
+    if (!Window::IsItBuild())
+    {
+        Profiler::BeginSample("Gizmos");
+        DrawGizmos();
+        Profiler::EndSample();
+    }
 }
 
 void Scene::UpdateWidgetInteraction()

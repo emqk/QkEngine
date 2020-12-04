@@ -27,7 +27,7 @@ void Window::Init()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(winWidth, winHeight, "Qk Engine 0.001", nullptr /*glfwGetPrimaryMonitor()*/, nullptr);
+    window = glfwCreateWindow(winWidth, winHeight, "Qk Engine 0.001", Window::IsItBuild() ? glfwGetPrimaryMonitor() : nullptr, nullptr);
     if (!window)
     {
         glfwTerminate();
