@@ -20,11 +20,15 @@ public:
 	static Window* GetCurrentWindow();
 	GLFWwindow& GetGLFWWindow();
 
+	void ResetDeltaTime();
+
 	void SetCursorMode(const int& mode);
 	glm::vec2 GetCursorPositionOnViewport() const;
 
 	glm::vec2 GetWindowSize() const;
 	glm::vec2 GetGLFWWindowPosition() const;
+
+	static bool IsItBuild();
 
 private:
 	void RefreshMousePosition(GLFWwindow* window);
@@ -45,4 +49,6 @@ private:
 	double mousePosX, mousePosY;
 
 	static Window* instance;
+	static constexpr bool isItBuild = true;
+	bool shouldResetDeltaTime = false;
 };

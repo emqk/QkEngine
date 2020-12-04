@@ -32,7 +32,7 @@ GameManager::GameManager()
 	sunObj->transform.SetLocalScale(glm::vec3(0.25f));
 
 	//Player
-	playerObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 9, 0));
+	playerObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 20, 0));
 	PlayerComponent* playerComp = playerObj->AddComponent<PlayerComponent>();
 	playerObj->name = "Player";
 

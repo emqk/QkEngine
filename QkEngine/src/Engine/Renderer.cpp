@@ -28,6 +28,15 @@ Texture* Renderer::defaultSpecularTexture = nullptr;
 void Renderer::Init()
 {
     glm::vec2 winSize = Window::GetCurrentWindow()->GetWindowSize();
+
+    //Defaults
+    defaultSpecularTexture = ResourceManager::GetTexture("gizmoSelectTexture.jpg");
+    if (defaultSpecularTexture == nullptr)
+        assert("defaultSpecularTexture is nullptr!");
+
+    if (Window::IsItBuild())
+        return;
+
     // framebuffer configuration
 // -------------------------
     glGenFramebuffers(1, &framebuffer);
@@ -50,11 +59,6 @@ void Renderer::Init()
         std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-
-    //Defaults
-    defaultSpecularTexture = ResourceManager::GetTexture("gizmoSelectTexture.jpg");
-    if (defaultSpecularTexture == nullptr)
-        assert("defaultSpecularTexture is nullptr!");
 }
 
 void Renderer::Pre()

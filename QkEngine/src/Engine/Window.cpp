@@ -45,7 +45,9 @@ void Window::Init()
 
 void Window::Run()
 {
-    Editor::Init(window);
+    if(!IsItBuild())
+        Editor::Init(window);
+
     Gizmos::Init();
 
     while (!glfwWindowShouldClose(window))
@@ -56,6 +58,12 @@ void Window::Run()
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
+
+        if (shouldResetDeltaTime)
+        {
+            deltaTime = 0;
+            shouldResetDeltaTime = false;
+        }
 
         Scene& currentScene = Scene::GetCurrentScene();
 
@@ -83,14 +91,19 @@ void Window::Run()
 
 
         Renderer::Post();
-        Editor::Update();
+        if (!IsItBuild())
+            Editor::Update();
 
         glfwSwapBuffers(window);
     }
 
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+    if (!IsItBuild())
+    {
+        // ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+    }
+
     glfwTerminate();
 }
 
@@ -119,6 +132,11 @@ GLFWwindow& Window::GetGLFWWindow()
     return *window;
 }
 
+void Window::ResetDeltaTime()
+{
+    shouldResetDeltaTime = true;
+}
+
 void Window::SetCursorMode(const int& mode)
 {
     glfwSetInputMode(window, GLFW_CURSOR, mode);
@@ -141,4 +159,9 @@ glm::vec2 Window::GetGLFWWindowPosition() const
     int x = 0, y = 0;
     glfwGetWindowPos(window, &x, &y);
     return glm::vec2(x, y);
+}
+
+bool Window::IsItBuild()
+{
+    return isItBuild;
 }

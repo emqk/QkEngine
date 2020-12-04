@@ -95,7 +95,6 @@ Scene::Scene()
     ResourceManager::LoadAudioClip("Jump.wav");
 
     camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f));
-    GameManager gameManager = GameManager();
 
     //InstantiateModel(ResourceManager::GetModel("backpack/backpack.obj"));
    // InstantiateModel(ResourceManager::GetModel("House/House.fbx"));
@@ -103,6 +102,16 @@ Scene::Scene()
     //InstantiateModel(ResourceManager::GetModel("Terrain.obj"));
 
     Renderer::Init();
+
+    if (Window::IsItBuild())
+    {
+        Serializer::Deserialize();
+        EnterGameMode();
+    }
+    else
+    {
+        //GameManager gameManager = GameManager();
+    }
 }
 
 Scene::~Scene()
@@ -162,6 +171,7 @@ void Scene::EnterGameMode()
         return;
 
     std::cout<<"\tENTER::GAME_MODE"<<std::endl;
+    Window::GetCurrentWindow()->ResetDeltaTime();
 
     inGameMode = true;
     objectsCopy.clear();

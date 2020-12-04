@@ -305,16 +305,17 @@ void Editor::ShowEnabledWindows()
     if (showNavigationWindow)
         NavMesh::ShowNavMesh();
 
+
     //Viewport
     {
         ImGui::Begin("Viewport");
         // Using a Child allow to fill all the space of the window.
         // It also alows customization
         ImGui::BeginChild("GameRender");
-
+    
         //Refresh is mouse on viewport
         isMouseOverViewport = ImGui::IsWindowHovered();
-
+    
         // Get the size of the child (i.e. the whole draw size of the windows).
         ImVec2 wsize = ImVec2(viewportSize.x, viewportSize.y);
         ImVec2 wpos = ImGui::GetWindowPos();
@@ -322,9 +323,12 @@ void Editor::ShowEnabledWindows()
         // Because I use the texture from OpenGL, I need to invert the V from the UV.
         ImGui::Image((void*)(intptr_t)Renderer::GetFrameBufferTextureID(), wsize, ImVec2(0, 1), ImVec2(1, 0));
         ImGui::EndChild();
-
+    
         ImGui::End();
     }
+    
+
+
 
     //Tools
     {

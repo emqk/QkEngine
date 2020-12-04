@@ -1,6 +1,6 @@
 #include "NavMesh.h"
 #include "../Gizmos.h"
-#include "../Physics.h"
+#include "../Physics/Physics.h"
 #include "../imgui/imgui.h"
 #include <iostream>
 #include <chrono>
