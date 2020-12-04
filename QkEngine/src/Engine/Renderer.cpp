@@ -240,7 +240,7 @@ void Renderer::DrawNew()
 void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color, const bool& wirefame)
 {
     //Set wireframe mode only for this mesh
-    int polygonMode;
+    int polygonMode = 0;
     if (wirefame)
     {
         glGetIntegerv(GL_POLYGON_MODE, &polygonMode);

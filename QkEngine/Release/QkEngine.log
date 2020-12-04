@@ -1,16 +1,24 @@
 ﻿C:\Programy\Visual Studio 2019\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (OpenGLRenderer.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  PlayerComponent.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
-  Scene.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
+  NavMesh.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.cpp(360,42): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(58,38): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(60,39): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(213,8): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(214,8): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(228,68): warning C4114: same type qualifier used more than once
      Creating library C:\Users\emis\source\repos\QkEngine\Release\QkEngine.lib and object C:\Users\emis\source\repos\QkEngine\Release\QkEngine.exp
   Generating code
-  2 of 5832 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+  0 of 5833 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    66 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Release\QkEngine.exe

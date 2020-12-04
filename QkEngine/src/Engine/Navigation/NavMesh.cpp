@@ -97,13 +97,13 @@ std::vector<NavMeshNode*> NavMesh::GetPath(NavMeshNode* startNode, NavMeshNode* 
 {
 	if (startNode == nullptr || endNode == nullptr)
 	{
-		std::cout << "Can't find path - startNode == nullptr or endNode == nullptr\n";
+		//std::cout << "Can't find path - startNode == nullptr or endNode == nullptr\n";
 		return {};
 	}
 
 	if (endNode->isColliding)
 	{
-		std::cout << "Can't find path - end node is not walkable!\n";
+		//std::cout << "Can't find path - end node is not walkable!\n";
 		return {};
 	}
 

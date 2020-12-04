@@ -347,6 +347,10 @@ void Serializer::Deserialize()
             NavMesh::nodes.push_back( node );
         }
     }
+    else
+    {
+        std::cout << "Can't find scene file!\n";
+    }
 }
 
 void Serializer::SerializeVec3(const char* name, const glm::vec3& vec, Value& val, Document::AllocatorType& allocator)

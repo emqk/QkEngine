@@ -43,7 +43,7 @@ SpriteAnimation* ResourceManager::GetSpriteAnimation(const char* name)
 void ResourceManager::LoadTexture(const char* texturePath)
 {
 	std::unique_ptr<Texture> texture = std::make_unique<Texture>();
-	std::string fullPath = std::string( "../QkEngine/Resources/") + std::string(texturePath);
+	std::string fullPath = std::string( "Resources/") + std::string(texturePath);
 	std::cout << "Loading texture: " << fullPath.c_str() << "\n";
 	bool loaded = texture->LoadTextureFromFile(fullPath.c_str());
 
@@ -80,7 +80,7 @@ std::vector<std::string> ResourceManager::GetTexturesName()
 void ResourceManager::LoadModel(const char* meshPath)
 {
 	std::cout << "Loading model: " << meshPath << "\n";
-	std::string fullPath = std::string("../QkEngine/Resources/") + std::string(meshPath);
+	std::string fullPath = std::string("Resources/") + std::string(meshPath);
     std::unique_ptr<Model> model = std::make_unique<Model>(fullPath, meshPath);
 
     modelMap[meshPath] = std::move(model);
@@ -128,7 +128,7 @@ std::vector<std::string> ResourceManager::GetMeshesNewName()
 
 void ResourceManager::LoadShader(const char* shaderPath)
 {
-	std::string fullPath = std::string("../QkEngine/src/Engine/Shaders/") + std::string(shaderPath);
+	std::string fullPath = std::string("Shaders/") + std::string(shaderPath);
 	std::string fullPathVS = fullPath + std::string(".vs");
 	std::string fullPathFS = fullPath + std::string(".fs");
 	
@@ -172,7 +172,7 @@ std::vector<std::string> ResourceManager::GetShadersName()
 
 void ResourceManager::LoadAudioClip(const char* audioClipPath)
 {
-	std::string fullPath = std::string("../QkEngine/Resources/Audio/") + std::string(audioClipPath);
+	std::string fullPath = std::string("Resources/Audio/") + std::string(audioClipPath);
 	std::cout << "Loading audioClip: " << fullPath.c_str() << "\n";
 	irrklang::ISoundSource* audioClip = AudioManager::GetSoundEngine()->addSoundSourceFromFile(fullPath.c_str(), irrklang::E_STREAM_MODE::ESM_AUTO_DETECT, true);
 

@@ -116,6 +116,10 @@ std::string Shader::GetFileSource(const char* shaderPath)
         }
         shaderFile.close();
     }
+    else
+    {
+        std::cout << "Can't find shader! - " << shaderPath << "\n";
+    }
 
     return str;
 }
