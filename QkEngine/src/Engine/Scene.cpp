@@ -33,6 +33,7 @@ Scene::Scene()
     ResourceManager::LoadTexture("Editor/PlayIcon.png");
     ResourceManager::LoadTexture("Editor/StopIcon.png");
     ResourceManager::LoadTexture("gizmoSelectTexture.jpg");
+    ResourceManager::LoadTexture("Dust.png");
     
     ResourceManager::LoadTexture("Grey.png");
     ResourceManager::LoadTexture("Dark.png");
@@ -198,10 +199,10 @@ void Scene::EnterGameMode()
     }
 
 
-    Texture* tex = ResourceManager::GetTexture("Dark.png");
+    Texture* tex = ResourceManager::GetTexture("Adventurer/adventurer-idle-00.png");
     Shader* shader = ResourceManager::GetShader("StandardShader");
     Mesh* mesh = ResourceManager::GetMeshNew("Human/Human.obj->Plane");
-    particleSystem = std::make_unique<ParticleSystem>(tex, mesh, shader, 1000);
+    particleSystem = std::make_unique<ParticleSystem>(tex, mesh, shader, 20);
 }
 
 void Scene::ExitGameMode()

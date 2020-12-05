@@ -11,7 +11,7 @@ ParticleSystem::ParticleSystem(Texture* tex, Mesh* mesh, Shader* shader, const i
 	for (size_t i = 0; i < amount; i++)
 	{
 		glm::vec3 particleDirection = glm::normalize(glm::vec3(Random::RandomFloat(-100, 100), Random::RandomFloat(-100, 100), Random::RandomFloat(-100, 100)));
-		float speed = Random::RandomFloat(0.1f, 0.1f);
+		float speed = Random::RandomFloat(1, 1);
 		particles.emplace_back(std::make_unique<Particle>(particleDirection, speed, glm::vec4(1, 1, 1, 1)));
 	}
 }

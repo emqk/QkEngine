@@ -1,7 +1,4 @@
 ﻿C:\Programy\Visual Studio 2019\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (OpenGLRenderer.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Application.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
   Camera.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
@@ -62,8 +59,8 @@ C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Window.cpp(96,92): warni
           ]
      Creating library C:\Users\emis\source\repos\QkEngine\Release\QkEngine.lib and object C:\Users\emis\source\repos\QkEngine\Release\QkEngine.exp
   Generating code
-  10 of 5942 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  9 of 5942 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    54 functions had inline decision re-evaluated but remain unchanged
+    53 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Release\QkEngine.exe

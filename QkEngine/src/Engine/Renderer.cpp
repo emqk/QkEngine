@@ -307,26 +307,41 @@ void Renderer::DrawParticleSystem(const ParticleSystem* particleSystem)
 
     //Draw
     Shader* shader = particleSystem->GetShader();
+    shader->Use();
     const std::vector<std::unique_ptr<Particle>>& particles = particleSystem->GetParticles();
-
-    glm::mat4 model = glm::mat4(1.0f);
 
     for (const std::unique_ptr<Particle>& particle : particles)
     {
+      
+        glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, particle->GetPosition());
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 
-        shader->SetMat4("model", model);
         glm::vec4 color = particle->GetColor();
-        shader->SetVec4("_FragColor", color.r, color.g, color.b, color.a);
+        //shader->SetVec4("material.diffuse", 1, color.g, color.b, color.a);
+        //shader->SetVec3("material.specularColor", 1.0f, 1.0f, 1.0f);
+        //shader->SetFloat("material.shininess", 1);
+        //shader->SetInt("material.texture_diffuse1", 0);
+        //particleSystem->GetTexture()->Use();
+
+        //Specular texture
+        //shader->SetInt("material.texture_specular1", 1);
+        //glActiveTexture(GL_TEXTURE1);
+        //glBindTexture(GL_TEXTURE_2D, specularTexture->GetID());
+
+        shader->SetMat4("model", model);
+
 
         // draw mesh
         glBindVertexArray(P_VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
+
+        glActiveTexture(GL_TEXTURE0);
+
     }
 
 
