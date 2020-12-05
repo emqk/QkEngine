@@ -196,6 +196,12 @@ void Scene::EnterGameMode()
             comp->Start();
         }
     }
+
+
+    Texture* tex = ResourceManager::GetTexture("Dark.png");
+    Shader* shader = ResourceManager::GetShader("StandardShader");
+    Mesh* mesh = ResourceManager::GetMeshNew("Human/Human.obj->Plane");
+    particleSystem = std::make_unique<ParticleSystem>(tex, mesh, shader, 1000);
 }
 
 void Scene::ExitGameMode()
@@ -247,6 +253,9 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
             obj->Update(deltaTime);
         }
 
+        if(particleSystem)
+            particleSystem->Update(deltaTime);
+
         Physics::Perform();
         
         //LateUpdate
@@ -261,6 +270,7 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
         UpdateWidgetInteraction();
     }
 
+
     DestroyPostponed();
     if (!Window::IsItBuild())
         Profiler::EndSample();
@@ -270,6 +280,8 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
         Profiler::BeginSample("Draw time");
 
     Renderer::DrawNew();
+    if(particleSystem)
+        Renderer::DrawParticleSystem(particleSystem.get());
 
     if (!Window::IsItBuild())
         Profiler::EndSample();

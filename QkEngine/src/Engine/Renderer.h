@@ -5,6 +5,7 @@ class Shader;
 
 #include "Components/StaticMeshComponent.h"
 #include "UI/Widget.h"
+#include "Particles/ParticleSystem.h"
 #include <vector>
 #include <glm/gtc/quaternion.hpp>
 
@@ -16,6 +17,9 @@ public:
 
 	static void DrawNew();
 	static void DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color, const bool& wirefame = true);
+
+	static void DrawParticleSystem(const ParticleSystem* particleSystem);
+
 
 	static void PrepareDrawUI();
 	static void DrawUI(const Widget* widget);
@@ -45,6 +49,8 @@ private:
 
 	//Buffers for UI
 	static unsigned int UI_VBO, UI_VAO, UI_EBO;
+	//Buffers for Particles
+	static unsigned int P_VBO, P_VAO, P_EBO;
 
 	static size_t drawCallsLastFrame;
 	static size_t drawVerticesLastFrame;

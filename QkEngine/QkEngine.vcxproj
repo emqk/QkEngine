@@ -168,6 +168,9 @@
     <ClCompile Include="src\Engine\Components\StaticMeshComponent.cpp" />
     <ClCompile Include="src\Engine\Editor.cpp" />
     <ClCompile Include="src\Engine\GameObject.cpp" />
+    <ClCompile Include="src\Engine\Particles\Particle.cpp" />
+    <ClCompile Include="src\Engine\Particles\ParticleManager.cpp" />
+    <ClCompile Include="src\Engine\Particles\ParticleSystem.cpp" />
     <ClCompile Include="src\Engine\Physics\Ray.cpp" />
     <ClCompile Include="src\Game\Components\PlatformComponent.cpp" />
     <ClCompile Include="src\Game\GameManager.cpp" />
@@ -215,6 +218,9 @@
     <ClInclude Include="src\Engine\Components\StaticMeshComponent.h" />
     <ClInclude Include="src\Engine\Editor.h" />
     <ClInclude Include="src\Engine\GameObject.h" />
+    <ClInclude Include="src\Engine\Particles\Particle.h" />
+    <ClInclude Include="src\Engine\Particles\ParticleManager.h" />
+    <ClInclude Include="src\Engine\Particles\ParticleSystem.h" />
     <ClInclude Include="src\Engine\Physics\Ray.h" />
     <ClInclude Include="src\Game\Components\PlatformComponent.h" />
     <ClInclude Include="src\Game\GameManager.h" />

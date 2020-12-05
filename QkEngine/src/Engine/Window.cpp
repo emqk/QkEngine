@@ -1,4 +1,4 @@
-#include "Window.h"
+﻿#include "Window.h"
 #include "Scene.h"
 #include "InputManager.h"
 #include "Editor.h"
@@ -32,7 +32,7 @@ void Window::Init()
 
     winWidth = mode->width;
     winHeight = mode->height;
-    std::cout << "Screen size: " << mode->width << " x " << mode->height << "\n";
+    std::cout << "Screen size: " << winWidth << " x " << winHeight << "\n";
 
     window = glfwCreateWindow(winWidth, winHeight, "Qk Engine 0.01", Window::IsItBuild() ? primaryMonitor : nullptr, nullptr);
     if (!window)
