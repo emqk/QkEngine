@@ -25,8 +25,9 @@ void ParticleSystem::Update(const float& deltaTime)
 	}
 
 	scale -= deltaTime / 2.0f;
+	color.a -= deltaTime / 2.0f;
 
-	if (scale.x <= 0 || scale.y <= 0 || scale.z <= 0)
+	if (scale.x <= 0 || scale.y <= 0 || scale.z <= 0 || color.a <= 0)
 	{
 		shouldBeDead = true;
 	}

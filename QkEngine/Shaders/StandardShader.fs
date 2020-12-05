@@ -82,7 +82,7 @@ void main()
     for(int i = 0; i < NR_POINT_LIGHTS; i++)
         lightResult += CalcPointLight(pointLights[i], norm, FragPos, viewDir);     
     
-    vec4 result = vec4(lightResult, 1.0);
+    vec4 result = vec4(lightResult, material.diffuse.a);
     float fogStrength = min(depth * _FogDensity, 1.0f);
     FragColor = result + (fogColor - result) * fogStrength;
 } 
