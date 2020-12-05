@@ -9,7 +9,7 @@
 class ParticleSystem
 {
 public:
-	ParticleSystem(Texture* tex, Mesh* mesh, Shader* shader, const int& amount);
+	ParticleSystem(const glm::vec3& pos, Texture* tex, Mesh* mesh, Shader* shader, const glm::vec4& _color, const int& amount);
 	~ParticleSystem();
 
 	ParticleSystem(const ParticleSystem& particleSystem) = delete;
@@ -24,6 +24,8 @@ public:
 	Texture* GetTexture() const;
 	Mesh* GetMesh() const;
 	Shader* GetShader() const;
+	glm::vec4 GetColor() const;
+	glm::vec3 GetPosition() const;
 
 private:
 
@@ -32,4 +34,6 @@ private:
 	Texture* particleTexture;
 	Mesh* particleMesh;
 	Shader* particleShader;
+	glm::vec4 color;
+	glm::vec3 position;
 };

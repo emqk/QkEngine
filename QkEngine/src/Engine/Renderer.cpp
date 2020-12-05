@@ -272,12 +272,22 @@ void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot,
         glPolygonMode(GL_FRONT_AND_BACK, polygonMode);
 }
 
+void Renderer::DrawParticles()
+{
+    for (const std::unique_ptr<ParticleSystem>& particleSystem : ParticleManager::particleSystems)
+    {
+        DrawParticleSystem(particleSystem.get());
+    }
+}
+
 void Renderer::DrawParticleSystem(const ParticleSystem* particleSystem)
 {
     //Draw
     Shader* shader = particleSystem->GetShader();
-    shader->SetVec4("material.diffuse", 1, 1, 1, 1);
-    shader->SetVec3("material.specularColor", 1.0f, 1.0f, 1.0f);
+    glm::vec4 color = particleSystem->GetColor();
+    glm::vec3 particleSystemPosition = particleSystem->GetPosition();
+    shader->SetVec4("material.diffuse", color.r, color.g, color.b, color.a);
+    shader->SetVec3("material.specularColor", 0.0f, 0.0f, 0.0f);
     shader->SetFloat("material.shininess", 32);
     shader->SetInt("material.texture_diffuse1", 0);
     particleSystem->GetTexture()->Use();
@@ -293,23 +303,11 @@ void Renderer::DrawParticleSystem(const ParticleSystem* particleSystem)
     for (const std::unique_ptr<Particle>& particle : particles)
     {
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, particle->GetPosition());
+        model = glm::translate(model, particle->GetPosition() + particleSystemPosition);
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
-
-        //glm::vec4 color = particle->GetColor();
-        //shader->SetVec4("material.diffuse", 1, color.g, color.b, color.a);
-        //shader->SetVec3("material.specularColor", 1.0f, 1.0f, 1.0f);
-        //shader->SetFloat("material.shininess", 1);
-        //shader->SetInt("material.texture_diffuse1", 0);
-        //particleSystem->GetTexture()->Use();
-
-        //Specular texture
-        //shader->SetInt("material.texture_specular1", 1);
-        //glActiveTexture(GL_TEXTURE1);
-        //glBindTexture(GL_TEXTURE_2D, specularTexture->GetID());
 
         shader->SetMat4("model", model);
 

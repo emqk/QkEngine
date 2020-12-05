@@ -98,8 +98,6 @@ private:
 
 	std::vector<std::unique_ptr<Widget>> widgets;
 
-	std::unique_ptr<ParticleSystem> particleSystem;
-
 	Camera camera;
 
 	glm::mat4 projection;

@@ -199,10 +199,10 @@ void Scene::EnterGameMode()
     }
 
 
-    Texture* tex = ResourceManager::GetTexture("Adventurer/adventurer-idle-00.png");
+    Texture* tex = ResourceManager::GetTexture("Dust.png");
     Shader* shader = ResourceManager::GetShader("StandardShader");
     Mesh* mesh = ResourceManager::GetMeshNew("Human/Human.obj->Plane");
-    particleSystem = std::make_unique<ParticleSystem>(tex, mesh, shader, 30);
+    ParticleManager::SpawnEmitter(std::make_unique<ParticleSystem>(glm::vec3(0, 10, 0), tex, mesh, shader, glm::vec4(1,1,1,1), 20));
 }
 
 void Scene::ExitGameMode()
@@ -254,9 +254,7 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
             obj->Update(deltaTime);
         }
 
-        if(particleSystem)
-            particleSystem->Update(deltaTime);
-
+        ParticleManager::Update(deltaTime);
         Physics::Perform();
         
         //LateUpdate
@@ -281,8 +279,7 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
         Profiler::BeginSample("Draw time");
 
     Renderer::DrawNew();
-    if(particleSystem)
-        Renderer::DrawParticleSystem(particleSystem.get());
+    Renderer::DrawParticles();
 
     if (!Window::IsItBuild())
         Profiler::EndSample();

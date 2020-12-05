@@ -1,7 +1,7 @@
 #include "Particle.h"
 
-Particle::Particle(const glm::vec3& dir, const float& moveSpeed, const glm::vec4& _color) 
-	: direction(dir), speed(moveSpeed), color(_color), position(glm::vec3(0,0,0))
+Particle::Particle(const glm::vec3& dir, const float& moveSpeed) 
+	: direction(dir), speed(moveSpeed), position(glm::vec3(0,0,0))
 {
 }
 
@@ -22,11 +22,6 @@ glm::vec3 Particle::GetPosition()
 glm::vec3 Particle::GetDirection()
 {
 	return direction;
-}
-
-glm::vec4 Particle::GetColor()
-{
-	return color;
 }
 
 float Particle::GetSpeed()

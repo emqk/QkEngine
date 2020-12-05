@@ -5,7 +5,7 @@ class Shader;
 
 #include "Components/StaticMeshComponent.h"
 #include "UI/Widget.h"
-#include "Particles/ParticleSystem.h"
+#include "Particles/ParticleManager.h"
 #include <vector>
 #include <glm/gtc/quaternion.hpp>
 
@@ -18,8 +18,7 @@ public:
 	static void DrawNew();
 	static void DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color, const bool& wirefame = true);
 
-	static void DrawParticleSystem(const ParticleSystem* particleSystem);
-
+	static void DrawParticles();
 
 	static void PrepareDrawUI();
 	static void DrawUI(const Widget* widget);
@@ -44,6 +43,8 @@ public:
 	static const size_t maxPointLights = 4;
 
 private:
+	static void DrawParticleSystem(const ParticleSystem* particleSystem);
+
 	static unsigned int framebuffer;
 	static unsigned int textureColorbuffer;
 
