@@ -1,20 +1,4 @@
 ﻿C:\Programy\Visual Studio 2019\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: The intermediate directory (Release\) contains files shared from another project (OpenGLRenderer.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Camera.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
-  Editor.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Editor.cpp(403,52): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Editor.cpp(412,27): warning C4018: '<': signed/unsigned mismatch
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Editor.cpp(549,72): warning C4018: '<': signed/unsigned mismatch
-  InputManager.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
-  Model.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
   Renderer.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
@@ -38,29 +22,10 @@ C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Renderer.cpp(56,72): war
           [
               T=float
           ]
-  Scene.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.cpp(383,42): warning C4114: same type qualifier used more than once
-  Window.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Window.cpp(65,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Window.cpp(96,121): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Window.cpp(96,92): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
      Creating library C:\Users\emis\source\repos\QkEngine\Release\QkEngine.lib and object C:\Users\emis\source\repos\QkEngine\Release\QkEngine.exp
   Generating code
-  9 of 5942 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  63 of 5942 functions ( 1.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    53 functions had inline decision re-evaluated but remain unchanged
+    79 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Release\QkEngine.exe

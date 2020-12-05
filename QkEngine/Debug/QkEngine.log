@@ -1,3 +1,24 @@
-﻿  ParticleSystem.cpp
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Particles\ParticleSystem.cpp(11,23): warning C4018: '<': signed/unsigned mismatch
+﻿  Renderer.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Renderer.cpp(48,62): warning C4244: 'argument': conversion from 'T' to 'GLsizei', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Renderer.cpp(48,51): warning C4244: 'argument': conversion from 'T' to 'GLsizei', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Renderer.cpp(56,83): warning C4244: 'argument': conversion from 'T' to 'GLsizei', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Renderer.cpp(56,72): warning C4244: 'argument': conversion from 'T' to 'GLsizei', possible loss of data
+          with
+          [
+              T=float
+          ]
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe

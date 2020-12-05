@@ -274,45 +274,24 @@ void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot,
 
 void Renderer::DrawParticleSystem(const ParticleSystem* particleSystem)
 {
-    float vertices[] = {
-      1.0f, 1.0f, 0.0f,    1.0f, 1.0f, // top right
-      1.0f,-1.0f, 0.0f,    1.0f, 0.0f, // bottom right
-     -1.0f,-1.0f, 0.0f,    0.0f, 0.0f, // bottom left
-     -1.0f, 1.0f, 0.0f,    0.0f, 1.0f  // top left 
-    };
-    unsigned int indices[] = {
-        0, 1, 3, // first triangle
-        1, 2, 3  // second triangle
-    };
-
-    //Prepare
-    glGenVertexArrays(1, &P_VAO);
-    glGenBuffers(1, &P_VBO);
-    glGenBuffers(1, &P_EBO);
-    glBindVertexArray(P_VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, P_VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, P_EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-
     //Draw
     Shader* shader = particleSystem->GetShader();
-    shader->Use();
+    shader->SetVec4("material.diffuse", 1, 1, 1, 1);
+    shader->SetVec3("material.specularColor", 1.0f, 1.0f, 1.0f);
+    shader->SetFloat("material.shininess", 32);
+    shader->SetInt("material.texture_diffuse1", 0);
+    particleSystem->GetTexture()->Use();
+
+    //Specular texture
+    shader->SetInt("material.texture_specular1", 1);
+    glActiveTexture(GL_TEXTURE1);
+    Texture* specTex = ResourceManager::GetTexture("gizmoSelectTexture.jpg");
+    glBindTexture(GL_TEXTURE_2D, specTex->GetID());
+
     const std::vector<std::unique_ptr<Particle>>& particles = particleSystem->GetParticles();
 
     for (const std::unique_ptr<Particle>& particle : particles)
     {
-      
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, particle->GetPosition());
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -320,7 +299,7 @@ void Renderer::DrawParticleSystem(const ParticleSystem* particleSystem)
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 
-        glm::vec4 color = particle->GetColor();
+        //glm::vec4 color = particle->GetColor();
         //shader->SetVec4("material.diffuse", 1, color.g, color.b, color.a);
         //shader->SetVec3("material.specularColor", 1.0f, 1.0f, 1.0f);
         //shader->SetFloat("material.shininess", 1);
@@ -334,17 +313,13 @@ void Renderer::DrawParticleSystem(const ParticleSystem* particleSystem)
 
         shader->SetMat4("model", model);
 
-
         // draw mesh
-        glBindVertexArray(P_VAO);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
-
-        glActiveTexture(GL_TEXTURE0);
-
+        glBindVertexArray(particleSystem->GetMesh()->GetVAO());
+        glDrawElements(GL_TRIANGLES, particleSystem->GetMesh()->GetIndices().size(), GL_UNSIGNED_INT, 0);
     }
 
-
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
     // always good practice to set everything back to defaults once configured.
     glActiveTexture(GL_TEXTURE0);
 }

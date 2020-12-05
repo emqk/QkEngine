@@ -202,7 +202,7 @@ void Scene::EnterGameMode()
     Texture* tex = ResourceManager::GetTexture("Adventurer/adventurer-idle-00.png");
     Shader* shader = ResourceManager::GetShader("StandardShader");
     Mesh* mesh = ResourceManager::GetMeshNew("Human/Human.obj->Plane");
-    particleSystem = std::make_unique<ParticleSystem>(tex, mesh, shader, 20);
+    particleSystem = std::make_unique<ParticleSystem>(tex, mesh, shader, 30);
 }
 
 void Scene::ExitGameMode()
