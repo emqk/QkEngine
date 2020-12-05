@@ -197,12 +197,6 @@ void Scene::EnterGameMode()
             comp->Start();
         }
     }
-
-
-    Texture* tex = ResourceManager::GetTexture("Dust.png");
-    Shader* shader = ResourceManager::GetShader("StandardShader");
-    Mesh* mesh = ResourceManager::GetMeshNew("Human/Human.obj->Plane");
-    ParticleManager::SpawnEmitter(std::make_unique<ParticleSystem>(glm::vec3(0, 10, 0), tex, mesh, shader, glm::vec4(1,1,1,1), 20));
 }
 
 void Scene::ExitGameMode()

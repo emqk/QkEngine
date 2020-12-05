@@ -13,4 +13,12 @@ void ParticleManager::Update(const float& deltaTime)
 	{
 		pSystem->Update(deltaTime);
 	}
+
+	for (int i = particleSystems.size() - 1; i >= 0; i--)
+	{
+		if (particleSystems[i]->ShouldBeDead())
+		{
+			particleSystems.erase(particleSystems.begin() + i);
+		}
+	}
 }

@@ -283,9 +283,11 @@ void Renderer::DrawParticles()
 void Renderer::DrawParticleSystem(const ParticleSystem* particleSystem)
 {
     //Draw
+    glm::vec3 particleSystemPosition = particleSystem->GetPosition();
+    glm::vec3 particleSystemScale = particleSystem->GetScale();
+
     Shader* shader = particleSystem->GetShader();
     glm::vec4 color = particleSystem->GetColor();
-    glm::vec3 particleSystemPosition = particleSystem->GetPosition();
     shader->SetVec4("material.diffuse", color.r, color.g, color.b, color.a);
     shader->SetVec3("material.specularColor", 0.0f, 0.0f, 0.0f);
     shader->SetFloat("material.shininess", 32);
@@ -307,7 +309,7 @@ void Renderer::DrawParticleSystem(const ParticleSystem* particleSystem)
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-        model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+        model = glm::scale(model, particleSystemScale);
 
         shader->SetMat4("model", model);
 
