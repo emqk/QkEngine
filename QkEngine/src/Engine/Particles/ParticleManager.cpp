@@ -22,3 +22,8 @@ void ParticleManager::Update(const float& deltaTime)
 		}
 	}
 }
+
+size_t ParticleManager::GetEmittersCount()
+{
+	return particleSystems.size();
+}

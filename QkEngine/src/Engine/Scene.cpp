@@ -232,7 +232,7 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
 {
     //Update
     if(!Window::IsItBuild())
-        Profiler::BeginSample("Update time");
+        Profiler::BeginSample("Update");
 
     projection = _projection;
     view = _view;
@@ -268,29 +268,26 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
     if (!Window::IsItBuild())
         Profiler::EndSample();
 
-    //Draw
+    /////////Draw
+
     if (!Window::IsItBuild())
-        Profiler::BeginSample("Draw time");
+        Profiler::BeginSample("Draw");
 
     Renderer::DrawNew();
     Renderer::DrawParticles();
 
-    if (!Window::IsItBuild())
-        Profiler::EndSample();
-
     //Draw UI
-    if (!Window::IsItBuild())
-        Profiler::BeginSample("UI Draw time");
-
     Renderer::PrepareDrawUI();
     for (const auto& w : widgets)
     {
         Renderer::DrawUI(w.get());
     }
     Renderer::EndDrawUI();
-    
+
     if (!Window::IsItBuild())
         Profiler::EndSample();
+
+    ////////End Draw
 
     //Draw gizmos
     if (!Window::IsItBuild())

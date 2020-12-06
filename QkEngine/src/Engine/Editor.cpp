@@ -90,7 +90,7 @@ void Editor::Init(GLFWwindow* window)
 
 void Editor::Update()
 {
-    Profiler::BeginSample("Editor(exclude render)");
+    Profiler::BeginSample("Editor");
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();

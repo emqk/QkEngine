@@ -20,18 +20,19 @@ void Profiler::ShowData()
 
 	//Text stats
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)\n", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	ImGui::Text("Number of GameObjects: %u, Number of Widgets: %u", Scene::GetCurrentScene().GetObjectsPtr()->size(), Scene::GetCurrentScene().GetNumberOfWidgets());
-	ImGui::Text("Last frame draw calls: %u | To draw container size: %u", Renderer::GetDrawCallsLastFrame(), Renderer::GetToDrawContainerSize());
-	ImGui::Text("Last frame vertices: %u", Renderer::GetDrawnVerticesLastFrame());
-	ImGui::Text("Last frame active directional lights: %u / %u", Renderer::GetEnabledDirectionalLightsLastFrame(), Renderer::maxDirectionalLights);
-	ImGui::Text("Last frame active point lights: %u / %u  |  any state: %u", Renderer::GetEnabledPointLightsLastFrame(), Renderer::maxPointLights, Lighting::GetPointLights().size());
-
+	ImGui::Text("Number of GameObjects: %u, Widgets: %u, Particle Emitters: %u"
+		, Scene::GetCurrentScene().GetObjectsPtr()->size(), Scene::GetCurrentScene().GetNumberOfWidgets(), ParticleManager::GetEmittersCount());
+	ImGui::Text("Last frame draw calls: %u, vertices %u | To draw container size: %u"
+		, Renderer::GetDrawCallsLastFrame(), Renderer::GetDrawnVerticesLastFrame(), Renderer::GetToDrawContainerSize());
+	ImGui::Text("Last frame directional lights (active/max): %u / %u, directional lights (active/max/anyState): %u / %u / %u"
+		, Renderer::GetEnabledDirectionalLightsLastFrame()
+		, Renderer::maxDirectionalLights, Renderer::GetEnabledPointLightsLastFrame(), Renderer::maxPointLights, Lighting::GetPointLights().size());
 	//Histograms
 	int i = 0;
 	for (const std::pair<std::string, ProfileData>& p : datas)
 	{
 		const std::vector<float>& currentTimes = p.second.histogramTimes;
-		ImGui::PlotHistogram(p.first.c_str(), currentTimes.data(), currentTimes.size(), 0, (std::to_string(currentTimes.back()) + std::string("ms")).c_str(), 0.0f, 17.0f, ImVec2(375, 85));
+		ImGui::PlotHistogram(p.first.c_str(), currentTimes.data(), currentTimes.size(), 0, (std::to_string(currentTimes.back()) + std::string("ms")).c_str(), 0.0f, 17.0f, ImVec2(375, 70));
 		if (i % 2 == 0)
 		{
 			ImGui::SameLine();

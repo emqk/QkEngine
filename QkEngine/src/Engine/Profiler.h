@@ -4,7 +4,6 @@
 
 struct ProfileData
 {
-	//float time;
 	std::vector<float> histogramTimes;
 };
 
