@@ -300,8 +300,10 @@ void Renderer::DrawParticleSystem(const ParticleSystem* particleSystem)
     Texture* specTex = ResourceManager::GetTexture("gizmoSelectTexture.jpg");
     glBindTexture(GL_TEXTURE_2D, specTex->GetID());
 
+    glBindVertexArray(particleSystem->GetMesh()->GetVAO());
+    const size_t indicesSize = particleSystem->GetMesh()->GetIndices().size();
+   
     const std::vector<std::unique_ptr<Particle>>& particles = particleSystem->GetParticles();
-
     for (const std::unique_ptr<Particle>& particle : particles)
     {
         glm::mat4 model = glm::mat4(1.0f);
@@ -314,8 +316,7 @@ void Renderer::DrawParticleSystem(const ParticleSystem* particleSystem)
         shader->SetMat4("model", model);
 
         // draw mesh
-        glBindVertexArray(particleSystem->GetMesh()->GetVAO());
-        glDrawElements(GL_TRIANGLES, particleSystem->GetMesh()->GetIndices().size(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
     }
 
     glBindVertexArray(0);
