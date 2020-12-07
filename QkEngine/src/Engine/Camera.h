@@ -28,6 +28,7 @@ public:
 
 	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
+	void SetClearColor(const glm::vec4& newColor);
 	glm::vec4 GetClearColor();
 
 	glm::mat4 projection = glm::mat4(1.0f);

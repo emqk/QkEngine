@@ -157,6 +157,11 @@ void Camera::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	ReceiveScrollInput(xoffset, yoffset);
 }
 
+void Camera::SetClearColor(const glm::vec4& newColor)
+{
+	clearColor = newColor;
+}
+
 glm::vec4 Camera::GetClearColor()
 {
 	return clearColor;

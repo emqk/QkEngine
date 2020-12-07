@@ -136,6 +136,11 @@ void Serializer::Serialize(std::string fileName)
 
     d.AddMember("Objects", array, allocator);
 
+    //Camera
+    Value cameraObj(kObjectType);
+    SerializeVec4("ClearColor", Scene::GetCurrentScene().GetCamera().GetClearColor(), cameraObj, allocator);
+    d.AddMember("Camera", cameraObj, allocator);
+
     //Lighting
     Value lightingObj(kObjectType);
     SerializeVec3("AmbientColor", Lighting::ambientLightColor, lightingObj, allocator);
@@ -323,6 +328,10 @@ void Serializer::Deserialize(std::string fileName)
             }
         }
 
+        //Camera
+        auto camera = d["Camera"].GetObject();
+        Scene::GetCurrentScene().GetCamera().SetClearColor(DeserializeVec4(camera["ClearColor"].GetObject()));
+
         //Lighting
         auto lighting = d["Lighting"].GetObject();
         Lighting::ambientLightColor = DeserializeVec3(lighting["AmbientColor"].GetObject());
@@ -383,6 +392,11 @@ void Serializer::SerializeVec4(const char* name, const glm::vec4& vec, Value& sa
 }
 
 glm::vec4 Serializer::DeserializeVec4(const GenericObject<true, Value>& obj)
+{
+    return glm::vec4(obj["x"].GetDouble(), obj["y"].GetDouble(), obj["z"].GetDouble(), obj["w"].GetDouble());
+}
+
+glm::vec4 Serializer::DeserializeVec4(const GenericObject<false, Value>& obj)
 {
     return glm::vec4(obj["x"].GetDouble(), obj["y"].GetDouble(), obj["z"].GetDouble(), obj["w"].GetDouble());
 }

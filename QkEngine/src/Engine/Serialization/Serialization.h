@@ -26,4 +26,5 @@ private:
 
 	static void SerializeVec4(const char* name, const glm::vec4& vec, Value& saveTo, Document::AllocatorType& allocator);
 	static glm::vec4 DeserializeVec4(const GenericObject<true, Value>& obj);
+	static glm::vec4 DeserializeVec4(const GenericObject<false, Value>& obj);
 };
