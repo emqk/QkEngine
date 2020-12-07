@@ -106,7 +106,7 @@ Scene::Scene()
 
     if (Window::IsItBuild())
     {
-        Serializer::Deserialize();
+        Serializer::Deserialize("Project");
         EnterGameMode();
     }
     else

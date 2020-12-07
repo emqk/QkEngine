@@ -10,7 +10,7 @@
 #include "../Lighting.h"
 #include "../Navigation/NavMesh.h"
 
-void Serializer::Serialize()
+void Serializer::Serialize(std::string fileName)
 {
     // 1. Parse a JSON string into DOM.
     Document d(kObjectType);
@@ -172,7 +172,7 @@ void Serializer::Serialize()
 
     std::cout << buffer.GetString() << std::endl;
 
-    std::fstream file("Project.json", std::ios::out | std::ios::trunc);
+    std::fstream file(fileName + ".json", std::ios::out | std::ios::trunc);
     if (file.is_open())
     {
         std::cout << "Saving!\n";
@@ -181,9 +181,9 @@ void Serializer::Serialize()
     }
 }
 
-void Serializer::Deserialize()
+void Serializer::Deserialize(std::string fileName)
 {
-    std::ifstream ifs("Project.json", std::ios::in);
+    std::ifstream ifs(fileName + ".json", std::ios::in);
     if (ifs.is_open())
     {
         std::cout << "Loading\n";

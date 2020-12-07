@@ -194,7 +194,7 @@ void Editor::EnableDockingBackground()
             {
                 if (!Scene::IsInGameMode())
                 {
-                    Serializer::Serialize();
+                    Serializer::Serialize("Project");
                 }
                 else
                 {
@@ -205,7 +205,7 @@ void Editor::EnableDockingBackground()
             {
                 if (!Scene::IsInGameMode())
                 {
-                    Serializer::Deserialize();
+                    Serializer::Deserialize("Project");
                 }
                 else
                 {

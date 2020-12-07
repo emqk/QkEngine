@@ -16,8 +16,8 @@ public:
 	Serializer() = delete;
 	~Serializer() = delete;
 
-	static void Serialize();
-	static void Deserialize();
+	static void Serialize(std::string fileName);
+	static void Deserialize(std::string fileName);
 
 private:
 	static void SerializeVec3(const char* name, const glm::vec3& vec, Value& val, Document::AllocatorType& allocator);
