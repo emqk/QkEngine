@@ -34,6 +34,7 @@ Scene::Scene()
     ResourceManager::LoadTexture("Editor/StopIcon.png");
     ResourceManager::LoadTexture("gizmoSelectTexture.jpg");
     ResourceManager::LoadTexture("Dust.png");
+    ResourceManager::LoadTexture("Vegetation/Birch.png");
     
     ResourceManager::LoadTexture("Grey.png");
     ResourceManager::LoadTexture("Dark.png");
@@ -80,13 +81,14 @@ Scene::Scene()
     //Jump
     std::vector<Texture*> jump;
     ResourceManager::LoadModel("Human/Human.obj");
-    ResourceManager::LoadModel("Vegetation/Tree.fbx");
     jump.push_back(ResourceManager::GetTexture("Adventurer/adventurer-jump-03.png"));
     ResourceManager::LoadSpriteAnimation(std::move(jump), "Jump");
 
     //Models
     ResourceManager::LoadModel("Arrow.fbx");
     ResourceManager::LoadModel("Cube.obj");
+    ResourceManager::LoadModel("Vegetation/Tree.fbx");
+    ResourceManager::LoadModel("Vegetation/Birch.obj");
 
     //Shaders
     ResourceManager::LoadShader("StandardShader");

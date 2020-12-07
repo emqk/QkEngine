@@ -71,11 +71,11 @@ void BoxColliderComponent::ShowOnInspector()
 
 	//Bounds
 	glm::vec3 boundsExtents = bounds.Extents();
-	ImGui::InputFloat3("Extents", &boundsExtents.x, 3);
+	ImGui::DragFloat3("Extents", &boundsExtents.x, 0.1f);
 	bounds.SetExtents(boundsExtents);
 
 	//Position offset
-	ImGui::InputFloat3("Center", &center.x, 3);
+	ImGui::DragFloat3("Center", &center.x, 0.1f);
 }
 
 void BoxColliderComponent::ShowOnGizmos()

@@ -47,6 +47,12 @@ void ResourceManager::LoadTexture(const char* texturePath)
 	std::cout << "Loading texture: " << fullPath.c_str() << "\n";
 	bool loaded = texture->LoadTextureFromFile(fullPath.c_str());
 
+	if (!loaded)
+	{
+		std::cout << "Texture can not be loaded!\n";
+		return;
+	}
+
 	texture->name = texturePath;
 	textureMap[texturePath] = std::move(texture);
 }
@@ -61,6 +67,8 @@ Texture* ResourceManager::GetTexture(const char* texturePath)
         {
             std::cout << "texture: " << p.first << "\n";
         }
+
+		return nullptr;
     }
 
 	return textureMap[texturePath].get();
