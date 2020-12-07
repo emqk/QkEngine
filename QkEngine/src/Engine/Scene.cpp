@@ -37,6 +37,7 @@ Scene::Scene()
     
     ResourceManager::LoadTexture("Grey.png");
     ResourceManager::LoadTexture("Dark.png");
+    ResourceManager::LoadTexture("White.png");
 
 
     //backpack

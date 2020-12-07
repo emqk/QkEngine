@@ -11,6 +11,7 @@
 #include "Lighting.h"
 #include "Navigation/NavMesh.h"
 #include "Serialization/Serialization.h"
+#include "Components/BoxColliderComponent.h"
 
 #include <memory>
 #include <algorithm>
@@ -219,7 +220,18 @@ void Editor::EnableDockingBackground()
             if (ImGui::MenuItem("Empty", "Ctrl+E"))
             {
                 GameObject* newObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
-                newObj->name = "empty";
+                newObj->name = "Empty";
+            }
+            if (ImGui::MenuItem("Cube"))
+            {
+                GameObject* newObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
+                StaticMeshComponent* meshComp = newObj->AddComponent<StaticMeshComponent>();
+                meshComp->SetMeshNew("Cube.obj->Cube");
+                meshComp->SetTexture("White.png");
+                meshComp->SetShader("StandardShader");
+                BoxColliderComponent* boxCollComp = newObj->AddComponent<BoxColliderComponent>();
+                boxCollComp->SetExtents(glm::vec3(1, 1, 1));
+                newObj->name = "Cube";
             }
             ImGui::EndMenu();
         }
