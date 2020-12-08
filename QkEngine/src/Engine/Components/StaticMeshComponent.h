@@ -17,6 +17,7 @@ public:
 	void Update(const float& deltaTime) override;
 	void LateUpdate(const float& deltaTime) override;
 
+	void ShowOnGizmos() override;
 	void ShowOnInspector() override;
 	
 	void SetMeshNew(const char* meshPath);
@@ -33,6 +34,8 @@ public:
 	void SetSpecularTexture(const char* texPath);
 	void SetSpecularTexture(Texture* tex);
 	Texture* GetSpecularTexture();
+
+	Bounds GetBounds() const;
 
 	glm::vec4 color;
 	glm::vec3 specular{0.5, 0.5f, 0.5f};

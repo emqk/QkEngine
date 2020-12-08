@@ -39,9 +39,15 @@ void StaticMeshComponent::LateUpdate(const float& deltaTime)
 {
 }
 
+void StaticMeshComponent::ShowOnGizmos()
+{
+	Gizmos::SetCurrentColor(glm::vec4(1,1,1,1));
+	Gizmos::DrawCubeWireframe(parent->transform.GetGlobalPosition(), parent->transform.GetGlobalEulerAngles(), GetBounds().ExtentsHalf());
+}
+
 void StaticMeshComponent::ShowOnInspector()
 {
-	//MeshNEW
+	//Mesh
 	std::string buttonStr = "No Mesh";
 	if (meshNew != nullptr)
 		buttonStr = meshNew->name;
@@ -143,6 +149,13 @@ void StaticMeshComponent::SetSpecularTexture(Texture* tex)
 Texture* StaticMeshComponent::GetSpecularTexture()
 {
 	return specularTexture;
+}
+
+Bounds StaticMeshComponent::GetBounds() const
+{
+	Bounds scaledBounds;
+	scaledBounds.SetExtents(meshNew->GetBounds().Extents() * parent->transform.GetGlobalScale());
+	return scaledBounds;
 }
 
 std::unique_ptr<Component> StaticMeshComponent::MakeCopy(GameObject* newParent) const

@@ -98,7 +98,7 @@ GameObject* Physics::RaycastMesh(const Ray& ray)
 {
 	GameObject* nearestObj = nullptr;
 	//float nearestDist = std::numeric_limits<float>::max();
-	float biggestDot = -1;
+	float biggestDot = -2;
 
 	const auto& objects = Scene::GetCurrentScene().GetObjectsPtr();
 	for (const std::unique_ptr<GameObject>& targetObj : *objects)
@@ -112,17 +112,14 @@ GameObject* Physics::RaycastMesh(const Ray& ray)
 		if (meshNewFromComponent == nullptr)
 			continue;
 
-		glm::vec3 targetObjPos = targetObj->transform.GetGlobalPosition();
-		float distanceToObj = glm::distance(ray.GetOrigin(), targetObjPos);
-		glm::vec3 toRay = glm::normalize(targetObjPos - ray.GetOrigin());
+		glm::vec3 toRay = glm::normalize(targetObj->transform.GetGlobalPosition() - ray.GetOrigin());
 		float dotToObj = glm::dot(ray.GetDirection(), toRay);
 
-		if (Physics::Raycast(ray, meshNewFromComponent->GetBounds(), targetObj->transform.GetGlobalPosition()))
+		if (Physics::Raycast(ray, objStaticMeshComponent->GetBounds(), targetObj->transform.GetGlobalPosition()))
 		{
 			if (dotToObj > biggestDot)
 			{
 				biggestDot = dotToObj;
-				//nearestDist = distanceToObj;
 				nearestObj = targetObj.get();
 			}
 		}
@@ -134,7 +131,7 @@ GameObject* Physics::RaycastMesh(const Ray& ray)
 GameObject* Physics::RaycastBoxCollider(const Ray& ray)
 {
 	GameObject* nearestObj = nullptr;
-	float biggestDot = -1;
+	float biggestDot = -2;
 
 	const auto& objects = Scene::GetCurrentScene().GetObjectsPtr();
 	for (const std::unique_ptr<GameObject>& targetObj : *objects)
@@ -143,12 +140,11 @@ GameObject* Physics::RaycastBoxCollider(const Ray& ray)
 		if (boxCollider == nullptr)
 			continue;
 
-		glm::vec3 targetObjPos = targetObj->transform.GetGlobalPosition();
-		float distanceToObj = glm::distance(ray.GetOrigin(), targetObjPos);
-		glm::vec3 toRay = glm::normalize(targetObjPos - ray.GetOrigin());
+		glm::vec3 centerPos = targetObj->transform.GetGlobalPosition() + boxCollider->center;
+		glm::vec3 toRay = glm::normalize(centerPos - ray.GetOrigin());
 		float dotToObj = glm::dot(ray.GetDirection(), toRay);
 
-		if (Physics::Raycast(ray, boxCollider->bounds, targetObj->transform.GetGlobalPosition()))
+		if (Physics::Raycast(ray, boxCollider->bounds, centerPos))
 		{
 			if (dotToObj > biggestDot)
 			{
@@ -163,8 +159,8 @@ GameObject* Physics::RaycastBoxCollider(const Ray& ray)
 
 bool Physics::Raycast(const Ray& ray, Bounds bounds, glm::vec3 pos)
 {
-	glm::vec3 min = -bounds.Extents() + pos;
-	glm::vec3 max = bounds.Extents() + pos;
+	glm::vec3 min = -bounds.ExtentsHalf() + pos;
+	glm::vec3 max = bounds.ExtentsHalf() + pos;
 
 	glm::vec3 origin = ray.GetOrigin();
 	glm::vec3 direction = ray.GetDirection();
