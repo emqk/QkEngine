@@ -23,6 +23,11 @@ void ParticleManager::Update(const float& deltaTime)
 	}
 }
 
+void ParticleManager::Clear()
+{
+	particleSystems.clear();
+}
+
 size_t ParticleManager::GetEmittersCount()
 {
 	return particleSystems.size();

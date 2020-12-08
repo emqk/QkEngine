@@ -230,6 +230,7 @@ void Scene::ExitGameMode()
     objectsCopy.clear();
     objectsCopyActiveData.clear();
     widgets.clear();
+    ParticleManager::Clear();
 }
 
 void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _view)

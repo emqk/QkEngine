@@ -12,6 +12,8 @@ public:
 	static void SpawnEmitter(std::unique_ptr<ParticleSystem> particleSystem);
 	static void Update(const float& deltaTime);
 
+	static void Clear();
+
 	static size_t GetEmittersCount();
 
 private:
