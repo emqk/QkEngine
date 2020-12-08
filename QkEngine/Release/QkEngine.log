@@ -55,6 +55,7 @@ C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(2
               T=float
           ]
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(228,68): warning C4114: same type qualifier used more than once
+  ParticleManager.cpp
   Physics.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
@@ -90,7 +91,7 @@ C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warn
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.cpp(376,42): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.cpp(377,42): warning C4114: same type qualifier used more than once
   Serialization.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
@@ -103,9 +104,9 @@ C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Serialization\Serializat
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Serialization\Serialization.cpp(300,102): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Serialization\Serialization.cpp(339,64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Serialization\Serialization.cpp(345,61): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Compiling...
   ButtonWidget.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
-  Compiling...
   Widget.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
   Window.cpp
@@ -130,8 +131,8 @@ C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warn
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
      Creating library C:\Users\emis\source\repos\QkEngine\Release\QkEngine.lib and object C:\Users\emis\source\repos\QkEngine\Release\QkEngine.exp
   Generating code
-  898 of 6016 functions (14.9%) were compiled, the rest were copied from previous compilation.
-    6 functions were new in current compilation
-    397 functions had inline decision re-evaluated but remain unchanged
+  48 of 6020 functions ( 0.8%) were compiled, the rest were copied from previous compilation.
+    4 functions were new in current compilation
+    102 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Release\QkEngine.exe
