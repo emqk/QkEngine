@@ -112,7 +112,7 @@ Scene::Scene()
 
     if (Window::IsItBuild())
     {
-        Serializer::Deserialize("Project");
+        Serializer::Deserialize("DayScene");
         EnterGameMode();
     }
     else
