@@ -4,12 +4,12 @@
 ParticleSystem::ParticleSystem(const glm::vec3& pos, const glm::vec3& _scale, Texture* tex, Mesh* mesh, Shader* shader, const glm::vec4& _color, const int& amount)
 	: position(pos), scale(_scale), particleTexture(tex), particleMesh(mesh), particleShader(shader), color(_color)
 {
+	std::uniform_real_distribution<float> directionDistr(-100, 100);
 	particles.reserve(amount);
 	for (size_t i = 0; i < amount; i++)
 	{
-		glm::vec3 particleDirection = glm::normalize(glm::vec3(Random::RandomFloat(-100, 100), Random::RandomFloat(-100, 100), Random::RandomFloat(-100, 100)));
-		float speed = Random::RandomFloat(1, 1);
-		particles.emplace_back(std::make_unique<Particle>(particleDirection, speed));
+		glm::vec3 particleDirection = glm::normalize(glm::vec3(Random::RandomFloat(directionDistr), Random::RandomFloat(directionDistr), Random::RandomFloat(directionDistr)));
+		particles.emplace_back(std::make_unique<Particle>(particleDirection, 1));
 	}
 }
 

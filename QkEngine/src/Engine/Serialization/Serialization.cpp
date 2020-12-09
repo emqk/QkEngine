@@ -358,7 +358,7 @@ void Serializer::Deserialize(std::string fileName)
     }
     else
     {
-        std::cout << "Can't find scene file!\n";
+        std::cout << "Can't find scene file: " << fileName << "\n";
     }
 }
 

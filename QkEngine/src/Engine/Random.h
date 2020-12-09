@@ -8,6 +8,7 @@ public:
 	~Random() = delete;
 
 	static float RandomFloat(const float& min, const float& max);
+	static float RandomFloat(const std::uniform_real_distribution<float>& distr);
 
 private:
 
