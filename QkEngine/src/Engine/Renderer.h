@@ -40,7 +40,7 @@ public:
 	static unsigned int GetFrameBufferTextureID();
 
 	static const size_t maxDirectionalLights = 1;
-	static const size_t maxPointLights = 4;
+	static const size_t maxPointLights = 16;
 
 private:
 	static void DrawParticleSystem(const ParticleSystem* particleSystem);

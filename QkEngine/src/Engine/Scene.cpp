@@ -88,6 +88,8 @@ Scene::Scene()
     ResourceManager::LoadModel("Arrow.fbx");
     ResourceManager::LoadModel("Cube.obj");
     ResourceManager::LoadModel("Fence.fbx");
+    ResourceManager::LoadModel("Rock1.fbx");
+    ResourceManager::LoadModel("Sphere.fbx");
     ResourceManager::LoadModel("Vegetation/Tree.fbx");
     ResourceManager::LoadModel("Vegetation/Birch.obj");
 

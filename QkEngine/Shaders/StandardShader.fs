@@ -39,7 +39,7 @@ struct PointLight
 };
 
 
-#define NR_POINT_LIGHTS 4  
+#define NR_POINT_LIGHTS 16  
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform DirLight dirLight;
 

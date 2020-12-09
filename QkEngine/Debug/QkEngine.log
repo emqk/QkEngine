@@ -1,14 +1,62 @@
-﻿  Editor.cpp
+﻿  NavMeshAgent.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Components\AI\NavMeshAgent.cpp(51,48): warning C4018: '<': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Components\AI\NavMeshAgent.cpp(61,23): warning C4018: '>=': signed/unsigned mismatch
+  BoxColliderComponent.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
+  PlayerComponent.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
+  StaticMeshComponent.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+  Editor.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Editor.cpp(415,52): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Editor.cpp(424,27): warning C4018: '<': signed/unsigned mismatch
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Editor.cpp(561,72): warning C4018: '<': signed/unsigned mismatch
+  GameObject.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\GameObject.cpp(133,60): warning C4018: '<': signed/unsigned mismatch
+  Gizmos.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
   InputManager.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
+  Lighting.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
+  Mesh.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
   Model.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
+  NavMesh.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(58,38): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(60,39): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(213,8): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(214,8): warning C4244: 'initializing': conversion from 'T' to 'int', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.cpp(228,68): warning C4114: same type qualifier used more than once
+  Physics.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
+  Profiler.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
   Renderer.cpp
@@ -38,7 +86,19 @@ C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Renderer.cpp(56,72): war
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
-C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.cpp(377,42): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.cpp(378,42): warning C4114: same type qualifier used more than once
+  Serialization.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Navigation\NavMesh.h(30,67): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Serialization\Serialization.cpp(248,94): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Serialization\Serialization.cpp(268,104): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Serialization\Serialization.cpp(269,104): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Serialization\Serialization.cpp(280,100): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Serialization\Serialization.cpp(295,96): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Serialization\Serialization.cpp(300,102): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Serialization\Serialization.cpp(339,64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Serialization\Serialization.cpp(345,61): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   Window.cpp
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
 C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
@@ -53,5 +113,12 @@ C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Window.cpp(96,92): warni
           [
               T=float
           ]
+  PlatformComponent.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Game\Components\PlatformComponent.cpp(33,20): warning C4018: '>=': signed/unsigned mismatch
+  GameManager.cpp
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Transform.h(28,47): warning C4114: same type qualifier used more than once
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\Scene.h(44,36): warning C4114: same type qualifier used more than once
   Generating Code...
+C:\Users\emis\source\repos\QkEngine\QkEngine\src\Engine\GameObject.cpp(198): warning C4172: returning address of local variable or temporary
   QkEngine.vcxproj -> C:\Users\emis\source\repos\QkEngine\Debug\QkEngine.exe
