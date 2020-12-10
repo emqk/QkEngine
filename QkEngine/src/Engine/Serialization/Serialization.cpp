@@ -9,6 +9,7 @@
 #include "../Components/AI/NavMeshAgent.h"
 #include "../Lighting.h"
 #include "../Navigation/NavMesh.h"
+#include "../Window.h"
 
 void Serializer::Serialize(std::string fileName)
 {
@@ -191,6 +192,7 @@ void Serializer::Deserialize(std::string fileName)
     std::ifstream ifs(fileName + ".json", std::ios::in);
     if (ifs.is_open())
     {
+        Window::GetCurrentWindow()->ResetDeltaTime();
         std::cout << "Loading\n";
         for (const std::unique_ptr<GameObject>& obj : Scene::GetCurrentScene().objects)
         {
@@ -355,6 +357,10 @@ void Serializer::Deserialize(std::string fileName)
 
             NavMesh::nodes.push_back( node );
         }
+
+
+        //Invoke Start() for all object on loaded scene
+        Scene::GetCurrentScene().InvokeStart();
     }
     else
     {

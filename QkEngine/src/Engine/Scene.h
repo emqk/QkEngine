@@ -78,6 +78,7 @@ public:
 	void EnterGameMode();
 	void ExitGameMode();
 
+	void InvokeStart();
 
 private:
 	static Scene* currentScene;

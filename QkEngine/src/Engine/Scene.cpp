@@ -196,13 +196,7 @@ void Scene::EnterGameMode()
         }
     }
 
-    for (std::unique_ptr<GameObject>& obj : objects)
-    {
-        for (std::unique_ptr<Component>& comp : obj->components)
-        {
-            comp->Start();
-        }
-    }
+    InvokeStart();
 }
 
 void Scene::ExitGameMode()
@@ -233,6 +227,17 @@ void Scene::ExitGameMode()
     objectsCopyActiveData.clear();
     widgets.clear();
     ParticleManager::Clear();
+}
+
+void Scene::InvokeStart()
+{
+    for (std::unique_ptr<GameObject>& obj : objects)
+    {
+        for (std::unique_ptr<Component>& comp : obj->components)
+        {
+            comp->Start();
+        }
+    }
 }
 
 void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _view)
