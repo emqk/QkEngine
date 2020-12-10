@@ -172,6 +172,7 @@
     <ClCompile Include="src\Engine\Particles\ParticleManager.cpp" />
     <ClCompile Include="src\Engine\Particles\ParticleSystem.cpp" />
     <ClCompile Include="src\Engine\Physics\Ray.cpp" />
+    <ClCompile Include="src\Game\Components\MainMenuComponent.cpp" />
     <ClCompile Include="src\Game\Components\PlatformComponent.cpp" />
     <ClCompile Include="src\Game\GameManager.cpp" />
     <ClCompile Include="src\Engine\Gizmos.cpp" />
@@ -222,6 +223,7 @@
     <ClInclude Include="src\Engine\Particles\ParticleManager.h" />
     <ClInclude Include="src\Engine\Particles\ParticleSystem.h" />
     <ClInclude Include="src\Engine\Physics\Ray.h" />
+    <ClInclude Include="src\Game\Components\MainMenuComponent.h" />
     <ClInclude Include="src\Game\Components\PlatformComponent.h" />
     <ClInclude Include="src\Game\GameManager.h" />
     <ClInclude Include="src\Engine\Gizmos.h" />
