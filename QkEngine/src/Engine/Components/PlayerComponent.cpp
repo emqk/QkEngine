@@ -130,7 +130,8 @@ void PlayerComponent::Update(const float& deltaTime)
 		Texture* tex = ResourceManager::GetTexture("Dust.png");
 		Shader* shader = ResourceManager::GetShader("StandardShader");
 		Mesh* mesh = ResourceManager::GetMeshNew("Human/Human.obj->Plane");
-		ParticleManager::SpawnEmitter(std::make_unique<ParticleSystem>(GetParent()->transform.GetGlobalPosition() + groundDetectorOffset , glm::vec3(0.5f, 0.5f, 0.5f), tex, mesh, shader, glm::vec4(1, 1, 1, 1), 10000));
+		ParticleManager::SpawnEmitter(std::make_unique<ParticleSystem>
+			(GetParent()->transform.GetGlobalPosition() + groundDetectorOffset , glm::vec3(0.5f, 0.5f, 0.5f), tex, mesh, shader, glm::vec4(1, 1, 1, 1), 10));
 	}
 
 	parent->Move(glm::vec3(0, currentGravity, 0) * deltaTime);

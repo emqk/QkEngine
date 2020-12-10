@@ -3,6 +3,7 @@
 
 MainMenuComponent::MainMenuComponent(GameObject* _parent) : Component(_parent), playButtonWidget(nullptr)
 {
+	name = "MainMenuComponent";
 }
 
 MainMenuComponent::~MainMenuComponent()

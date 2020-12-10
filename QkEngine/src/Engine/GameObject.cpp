@@ -17,7 +17,7 @@
 
 //Game Components
 #include "../Game/Components/PlatformComponent.h"
-
+#include "../Game/Components/MainMenuComponent.h"
 
 #include "Scene.h"
 
@@ -258,6 +258,10 @@ void GameObject::ShowComponentsToAdd(const char* componentName)
 	else if (strcmp(componentName, "PlatformComponent") == 0)
 	{
 		AddComponent<PlatformComponent>();
+	}
+	else if (strcmp(componentName, "MainMenuComponent") == 0)
+	{
+		AddComponent<MainMenuComponent>();
 	}
 	else
 	{
