@@ -79,6 +79,7 @@ public:
 	void ExitGameMode();
 
 	void InvokeStart();
+	void ClearWidgets();
 
 private:
 	static Scene* currentScene;

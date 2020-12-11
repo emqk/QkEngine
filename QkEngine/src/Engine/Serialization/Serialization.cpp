@@ -192,6 +192,8 @@ void Serializer::Deserialize(std::string fileName)
     std::ifstream ifs(fileName + ".json", std::ios::in);
     if (ifs.is_open())
     {
+        Scene::GetCurrentScene().ClearWidgets();
+
         Window::GetCurrentWindow()->ResetDeltaTime();
         std::cout << "Loading\n";
         for (const std::unique_ptr<GameObject>& obj : Scene::GetCurrentScene().objects)

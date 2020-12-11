@@ -225,7 +225,7 @@ void Scene::ExitGameMode()
     }
     objectsCopy.clear();
     objectsCopyActiveData.clear();
-    widgets.clear();
+    ClearWidgets();
     ParticleManager::Clear();
 }
 
@@ -238,6 +238,11 @@ void Scene::InvokeStart()
             comp->Start();
         }
     }
+}
+
+void Scene::ClearWidgets()
+{
+    widgets.clear();
 }
 
 void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _view)
