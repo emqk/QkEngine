@@ -54,3 +54,11 @@ void ButtonWidget::SetOnClick(std::function<void()> action)
 {
 	onClick = action;
 }
+
+void ButtonWidget::SetTextures(Texture* newNormalTexture, Texture* newHoverTexture, Texture* newPressedTexture)
+{
+	SetTexture(newNormalTexture);
+	normalTexture = newNormalTexture;
+	hoverTexture = newHoverTexture;
+	pressedTexture = newPressedTexture;
+}

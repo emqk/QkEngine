@@ -40,6 +40,11 @@ Scene::Scene()
     ResourceManager::LoadTexture("Dark.png");
     ResourceManager::LoadTexture("White.png");
 
+    //Buttons
+    ResourceManager::LoadTexture("Buttons/PlayIcon.png");
+    ResourceManager::LoadTexture("Buttons/PlayIconHover.png");
+    ResourceManager::LoadTexture("Buttons/PlayIconPressed.png");
+
 
     //backpack
     //ResourceManager::LoadTexture("backpack/diffuse.jpg");

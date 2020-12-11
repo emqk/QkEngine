@@ -18,6 +18,8 @@ public:
 
 	void SetOnClick(std::function<void()> action);
 
+	void SetTextures(Texture* newNormalTexture, Texture* newHoverTexture, Texture* newPressedTexture);
+
 private:
 	Texture* normalTexture;
 	Texture* hoverTexture;
