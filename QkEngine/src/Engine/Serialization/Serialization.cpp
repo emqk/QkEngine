@@ -10,6 +10,7 @@
 #include "../Lighting.h"
 #include "../Navigation/NavMesh.h"
 #include "../Window.h"
+#include "../../Game/Components/MainMenuComponent.h"
 
 void Serializer::Serialize(std::string fileName)
 {
@@ -127,6 +128,10 @@ void Serializer::Serialize(std::string fileName)
             else if (MoveComponent* moveComponent = dynamic_cast<MoveComponent*>(currComp))
             {
                 SerializeVec3("MoveVec", moveComponent->moveVec, savingComponent, allocator);
+            }
+            else if (MainMenuComponent* mainMenuComponent = dynamic_cast<MainMenuComponent*>(currComp))
+            {
+                //Nothing for now...
             }
             components.PushBack(savingComponent, allocator);
         }
@@ -308,6 +313,10 @@ void Serializer::Deserialize(std::string fileName)
                             MoveComponent* moveComp = instance->AddComponent<MoveComponent>();
                             moveComp->moveVec = DeserializeVec3(itrComp->GetObject()["MoveVec"].GetObject());
                         }
+                        else if (strcmp(typeName, "MainMenuComponent") == 0)
+                        {
+                            MainMenuComponent* mainMenuComp = instance->AddComponent<MainMenuComponent>();
+                        }
                     }
                 }
             }
@@ -361,8 +370,11 @@ void Serializer::Deserialize(std::string fileName)
         }
 
 
-        //Invoke Start() for all object on loaded scene
-        Scene::GetCurrentScene().InvokeStart();
+        //Invoke Start() for all object on loaded scene if in gameMode
+        if (Scene::GetCurrentScene().inGameMode)
+        {
+            Scene::GetCurrentScene().InvokeStart();
+        }
     }
     else
     {

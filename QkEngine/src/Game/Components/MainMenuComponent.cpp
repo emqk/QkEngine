@@ -24,7 +24,7 @@ std::unique_ptr<Component> MainMenuComponent::MakeCopy(GameObject* newParent) co
 
 void MainMenuComponent::Start()
 {
-	playButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.1f, 0.1f), glm::vec2(0.2f, 0.1f));
+	playButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.1f, 0.1f), glm::vec2(0.1f, 0.1f));
 	playButtonWidget->SetTextures(
 		  ResourceManager::GetTexture("Buttons/PlayIcon.png")
 		, ResourceManager::GetTexture("Buttons/PlayIconHover.png")
