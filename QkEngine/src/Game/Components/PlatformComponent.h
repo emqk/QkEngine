@@ -5,6 +5,8 @@
 
 class PlatformComponent : public Component
 {
+	friend class Serializer;
+
 public:
 	PlatformComponent(GameObject* _parent);
 	~PlatformComponent();
@@ -18,6 +20,9 @@ public:
 	void Update(const float& deltaTime) override;
 	void ShowOnInspector() override;
 	virtual void ShowOnGizmos() override;
+
+	std::array<glm::vec3, 2> GetWaypoints() const;
+	void SetWaypoints(const std::array<glm::vec3, 2>& newWayponits);
 
 private:
 	//Exposed

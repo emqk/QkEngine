@@ -49,3 +49,13 @@ void PlatformComponent::ShowOnGizmos()
 	Gizmos::SetCurrentColor(glm::vec4(0.75f, 0.75f, 1.0f, 1.0f));
 	Gizmos::DrawCubeWireframe(waypoints[1], glm::quat(0,0,0,0), glm::vec3(0.5f, 0.5f, 0.5f));
 }
+
+std::array<glm::vec3, 2> PlatformComponent::GetWaypoints() const
+{
+	return waypoints;
+}
+
+void PlatformComponent::SetWaypoints(const std::array<glm::vec3, 2>& newWayponits)
+{
+	waypoints = newWayponits;
+}

@@ -11,6 +11,8 @@
 #include "../Navigation/NavMesh.h"
 #include "../Window.h"
 #include "../../Game/Components/MainMenuComponent.h"
+#include "../../Game/Components/PlatformComponent.h"
+
 
 void Serializer::Serialize(std::string fileName)
 {
@@ -90,8 +92,6 @@ void Serializer::Serialize(std::string fileName)
                 savingComponent.AddMember("Shader", GenericStringRef(shaderName), allocator);
 
                 const char* animationName = animatedSpriteComp->currentAnimation != nullptr ? animatedSpriteComp->currentAnimation->name.c_str() : "";
-                std::cout << std::endl << "Saved Anim: " << animationName << std::endl << std::endl;
-
                 savingComponent.AddMember("Animation", GenericStringRef(animationName), allocator);
 
                 SerializeVec4("Color", animatedSpriteComp->color, savingComponent, allocator);
@@ -132,6 +132,13 @@ void Serializer::Serialize(std::string fileName)
             else if (MainMenuComponent* mainMenuComponent = dynamic_cast<MainMenuComponent*>(currComp))
             {
                 //Nothing for now...
+            }
+            else if (PlatformComponent* platformComponent = dynamic_cast<PlatformComponent*>(currComp))
+            {
+                std::array<glm::vec3, 2> waypoints = platformComponent->GetWaypoints();
+                SerializeVec3("WaypointA", waypoints[0], savingComponent, allocator);
+                SerializeVec3("WaypointB", waypoints[1], savingComponent, allocator);
+                savingComponent.AddMember("MoveSpeed", platformComponent->moveSpeed, allocator);
             }
             components.PushBack(savingComponent, allocator);
         }
@@ -181,7 +188,7 @@ void Serializer::Serialize(std::string fileName)
 
     d.Accept(writer);
 
-    std::cout << buffer.GetString() << std::endl;
+    //std::cout << buffer.GetString() << std::endl;
 
     std::fstream file(fileName + ".json", std::ios::out | std::ios::trunc);
     if (file.is_open())
@@ -316,6 +323,14 @@ void Serializer::Deserialize(std::string fileName)
                         else if (strcmp(typeName, "MainMenuComponent") == 0)
                         {
                             MainMenuComponent* mainMenuComp = instance->AddComponent<MainMenuComponent>();
+                        }
+                        else if (strcmp(typeName, "PlatformComponent") == 0)
+                        {
+                            PlatformComponent* platformComp = instance->AddComponent<PlatformComponent>();
+                            glm::vec3 waypointA = DeserializeVec3(itrComp->GetObject()["WaypointA"].GetObject());
+                            glm::vec3 waypointB = DeserializeVec3(itrComp->GetObject()["WaypointB"].GetObject());
+                            platformComp->SetWaypoints({ waypointA, waypointB });
+                            platformComp->moveSpeed = itrComp->GetObject()["MoveSpeed"].GetDouble();
                         }
                     }
                 }
