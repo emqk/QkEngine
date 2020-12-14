@@ -10,7 +10,7 @@ std::unordered_map<std::string, std::unique_ptr<Shader>> ResourceManager::shader
 std::unordered_map<std::string, std::unique_ptr<SpriteAnimation>> ResourceManager::spriteAnimationMap;
 
 std::unordered_map<std::string, std::unique_ptr<Model>> ResourceManager::modelMap;
-std::unordered_map<std::string, std::unique_ptr<Mesh>> ResourceManager::meshNewMap;
+std::unordered_map<std::string, std::unique_ptr<Mesh>> ResourceManager::meshMap;
 
 std::unordered_map<std::string, irrklang::ISoundSource*> ResourceManager::audioClipMap;
 
@@ -111,22 +111,22 @@ void ResourceManager::LoadMesh(Model* model)
         std::unique_ptr<Mesh> mesh = std::make_unique<Mesh>(currMesh->GetVertices(), currMesh->GetIndices(), currMesh->GetBounds(), id);
 		std::cout << "\tLoaded mesh: " << currMesh->name << "\n";
 
-        meshNewMap[id] = std::move(mesh);
+        meshMap[id] = std::move(mesh);
     }
 }
 
-Mesh* ResourceManager::GetMeshNew(const char* shortMeshPath)
+Mesh* ResourceManager::GetMesh(const char* shortMeshPath)
 {
-    if (meshNewMap.find(shortMeshPath) == meshNewMap.end())
-        std::cout << "Can't find (shortPath) meshNew: " << shortMeshPath << "\n";
+    if (meshMap.find(shortMeshPath) == meshMap.end())
+        std::cout << "Can't find (shortPath) mesh: " << shortMeshPath << "\n";
 
-    return meshNewMap[shortMeshPath].get();
+    return meshMap[shortMeshPath].get();
 }
 
-std::vector<std::string> ResourceManager::GetMeshesNewName()
+std::vector<std::string> ResourceManager::GetMeshesName()
 {
     std::vector<std::string> names;
-    for (const std::pair<const std::string, std::unique_ptr<Mesh>>& p : meshNewMap)
+    for (const std::pair<const std::string, std::unique_ptr<Mesh>>& p : meshMap)
     {
         names.push_back(p.first);
     }

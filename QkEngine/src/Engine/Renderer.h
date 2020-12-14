@@ -15,8 +15,8 @@ public:
 	Renderer() = delete;
 	~Renderer() = delete;
 
-	static void DrawNew();
-	static void DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color, const bool& wirefame = true);
+	static void Draw();
+	static void DrawMeshAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color, const bool& wirefame = true);
 
 	static void DrawParticles();
 
@@ -58,7 +58,7 @@ private:
 	static size_t enabledDirectionalLightsLastFrame;
 	static size_t enabledPointLightsLastFrame;
 
-	static std::vector<StaticMeshComponent*> StaticMeshComponents;
+	static std::vector<StaticMeshComponent*> staticMeshComponents;
 
 	//Defaults
 	static Texture* defaultSpecularTexture;

@@ -15,7 +15,7 @@ public:
 	static void ResetDefaultColor();
 
 	static void PrepareToRender();
-	static void DrawMeshNewWireframe(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& mesh);
+	static void DrawMeshWireframe(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& mesh);
 	static void DrawCubeWireframe(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale);
 	static void DrawCube(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale);
 

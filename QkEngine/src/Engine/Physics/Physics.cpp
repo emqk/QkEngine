@@ -104,12 +104,12 @@ GameObject* Physics::RaycastMesh(const Ray& ray)
 	for (const std::unique_ptr<GameObject>& targetObj : *objects)
 	{
 		StaticMeshComponent* objStaticMeshComponent = targetObj->GetComponent<StaticMeshComponent>();
-		Mesh* meshNewFromComponent = nullptr;
+		Mesh* meshFromComponent = nullptr;
 		if (objStaticMeshComponent != nullptr)
 		{
-			meshNewFromComponent = objStaticMeshComponent->GetMeshNew();
+			meshFromComponent = objStaticMeshComponent->GetMesh();
 		}
-		if (meshNewFromComponent == nullptr)
+		if (meshFromComponent == nullptr)
 			continue;
 
 		glm::vec3 toRay = glm::normalize(targetObj->transform.GetGlobalPosition() - ray.GetOrigin());

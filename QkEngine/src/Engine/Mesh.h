@@ -30,7 +30,7 @@ public:
     std::string name;
 
 private:
-    void BindMeshNew();
+    void BindMesh();
 
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;

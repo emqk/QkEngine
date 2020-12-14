@@ -17,13 +17,13 @@ StaticMeshComponent::StaticMeshComponent(GameObject* _parent) : Component(_paren
 StaticMeshComponent::~StaticMeshComponent()
 {
 	Renderer::RemoveSpriteToDraw(this);
-	meshNew = nullptr;
+	mesh = nullptr;
 	texture = nullptr;
 	shader = nullptr;
 }
 
 StaticMeshComponent::StaticMeshComponent(const StaticMeshComponent& comp)
-	: Component(comp), meshNew(comp.meshNew)
+	: Component(comp), mesh(comp.mesh)
 	, texture(comp.texture), specularTexture(comp.specularTexture)
 	, shader(comp.shader)
 	, color(comp.color), specular(comp.specular), shininess(comp.shininess)
@@ -49,14 +49,14 @@ void StaticMeshComponent::ShowOnInspector()
 {
 	//Mesh
 	std::string buttonStr = "No Mesh";
-	if (meshNew != nullptr)
-		buttonStr = meshNew->name;
+	if (mesh != nullptr)
+		buttonStr = mesh->name;
 
 	ImGui::Text("Mesh:");
 	ImGui::SameLine();
 	if (ImGui::Button(buttonStr.c_str()))
 	{
-		std::function<void(std::string)> fun = [&](const std::string& texName) { this->SetMeshNew(texName.c_str()); };
+		std::function<void(std::string)> fun = [&](const std::string& texName) { this->SetMesh(texName.c_str()); };
 		Editor::ShowSelectAssetWindow(AssetWindowType::MeshesNew, fun);
 	}
 
@@ -109,15 +109,15 @@ void StaticMeshComponent::ShowOnInspector()
 	ImGui::DragFloat("Shininess", &shininess, 1.0f, 0.0f, 256.0f);
 }
 
-void StaticMeshComponent::SetMeshNew(const char* meshPath)
+void StaticMeshComponent::SetMesh(const char* meshPath)
 {
 	std::cout << "Mesh set: " << meshPath << std::endl;
-	meshNew = ResourceManager::GetMeshNew(meshPath);
+	mesh = ResourceManager::GetMesh(meshPath);
 }
 
-Mesh* StaticMeshComponent::GetMeshNew()
+Mesh* StaticMeshComponent::GetMesh()
 {
-	return meshNew;
+	return mesh;
 }
 
 void StaticMeshComponent::SetShader(Shader* _shader)
@@ -154,7 +154,7 @@ Texture* StaticMeshComponent::GetSpecularTexture()
 Bounds StaticMeshComponent::GetBounds() const
 {
 	Bounds scaledBounds;
-	scaledBounds.SetExtents(meshNew->GetBounds().Extents() * parent->transform.GetGlobalScale());
+	scaledBounds.SetExtents(mesh->GetBounds().Extents() * parent->transform.GetGlobalScale());
 	return scaledBounds;
 }
 

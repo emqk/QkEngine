@@ -11,8 +11,8 @@ BoxColliderComponent::BoxColliderComponent(GameObject* _parent) : Component(_par
 	StaticMeshComponent* staticMeshComponent = parent->GetComponent<StaticMeshComponent>();
 	if (staticMeshComponent != nullptr)
 	{
-		if (staticMeshComponent->GetMeshNew() != nullptr)
-			SetExtents(staticMeshComponent->GetMeshNew()->GetBounds().Extents());
+		if (staticMeshComponent->GetMesh() != nullptr)
+			SetExtents(staticMeshComponent->GetMesh()->GetBounds().Extents());
 		else
 			SetExtents(glm::vec3(1, 1, 1));
 	}

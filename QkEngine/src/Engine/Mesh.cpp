@@ -15,7 +15,7 @@ Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, cons
     bounds = _bounds;
     name = _name;
 
-    BindMeshNew();
+    BindMesh();
 }
 
 Mesh::~Mesh()
@@ -25,7 +25,7 @@ Mesh::~Mesh()
     glDeleteBuffers(1, &EBO);
 }
 
-void Mesh::BindMeshNew()
+void Mesh::BindMesh()
 {
     // create buffers/arrays
     glGenVertexArrays(1, &VAO);

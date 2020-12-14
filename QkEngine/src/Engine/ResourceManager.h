@@ -33,8 +33,8 @@ public:
 	static void LoadModel(const char* meshPath);
 	static Model* GetModel(const char* meshPath);
 	static void LoadMesh(Model* model);
-	static Mesh* GetMeshNew(const char* meshPath);
-	static std::vector<std::string> GetMeshesNewName();
+	static Mesh* GetMesh(const char* meshPath);
+	static std::vector<std::string> GetMeshesName();
 
 	static void LoadShader(const char* shaderPath);
 	static std::vector<Shader*> GetAllShaders();
@@ -51,7 +51,7 @@ private:
 	static std::unordered_map<std::string, std::unique_ptr<SpriteAnimation>> spriteAnimationMap;
 
 	static std::unordered_map<std::string, std::unique_ptr<Model>> modelMap;
-	static std::unordered_map<std::string, std::unique_ptr<Mesh>> meshNewMap;
+	static std::unordered_map<std::string, std::unique_ptr<Mesh>> meshMap;
 
 	static std::unordered_map<std::string, irrklang::ISoundSource*> audioClipMap;
 };

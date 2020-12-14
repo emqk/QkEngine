@@ -295,7 +295,7 @@ void Scene::Update(const float& deltaTime, glm::mat4 _projection, glm::mat4 _vie
     if (!Window::IsItBuild())
         Profiler::BeginSample("Draw");
 
-    Renderer::DrawNew();
+    Renderer::Draw();
     Renderer::DrawParticles();
 
     //Draw UI
@@ -398,7 +398,7 @@ void Scene::InstantiateModel(const Model const* model)
         GameObject* obj = Instantiate<GameObject>(glm::vec3(0, 0, 0));
         StaticMeshComponent* spriteComp = obj->AddComponent<StaticMeshComponent>();
         std::string meshName = model->GetShortDirectory() + "->" + mesh.name;
-        spriteComp->SetMeshNew(meshName.c_str());
+        spriteComp->SetMesh(meshName.c_str());
         spriteComp->SetShader("StandardShader");
         spriteComp->SetTexture("Cube.jpg");
         obj->name = mesh.name;

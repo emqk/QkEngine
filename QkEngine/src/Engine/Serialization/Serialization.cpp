@@ -60,7 +60,7 @@ void Serializer::Serialize(std::string fileName)
             if (strcmp(compName, "StaticMeshComponent") == 0)
             {             
                 StaticMeshComponent* staticMeshComp = dynamic_cast<StaticMeshComponent*>(currComp);
-                const char* meshName = staticMeshComp->GetMeshNew() != nullptr ? staticMeshComp->GetMeshNew()->name.c_str() : "";
+                const char* meshName = staticMeshComp->GetMesh() != nullptr ? staticMeshComp->GetMesh()->name.c_str() : "";
                 savingComponent.AddMember("Mesh", GenericStringRef(meshName), allocator);
 
                 const char* textureName = staticMeshComp->GetTexture() != nullptr ? staticMeshComp->GetTexture()->name.c_str() : "";
@@ -79,7 +79,7 @@ void Serializer::Serialize(std::string fileName)
             else if (strcmp(compName, "AnimatedSpriteComponent") == 0)
             {
                 AnimatedSpriteComponent* animatedSpriteComp = dynamic_cast<AnimatedSpriteComponent*>(currComp);
-                const char* meshName = animatedSpriteComp->GetMeshNew() != nullptr ? animatedSpriteComp->GetMeshNew()->name.c_str() : "";
+                const char* meshName = animatedSpriteComp->GetMesh() != nullptr ? animatedSpriteComp->GetMesh()->name.c_str() : "";
                 savingComponent.AddMember("Mesh", GenericStringRef(meshName), allocator);
 
                 const char* textureName = animatedSpriteComp->GetTexture() != nullptr ? animatedSpriteComp->GetTexture()->name.c_str() : "";
@@ -251,7 +251,7 @@ void Serializer::Deserialize(std::string fileName)
                         {
                             StaticMeshComponent* meshComp = instance->AddComponent<StaticMeshComponent>();
                             auto meshName = itrComp->GetObject()["Mesh"].GetString();
-                            meshComp->SetMeshNew(meshName);
+                            meshComp->SetMesh(meshName);
                             auto textureName = itrComp->GetObject()["Texture"].GetString();
                             meshComp->SetTexture(textureName);
                             auto specularTextureName = itrComp->GetObject()["SpecularTexture"].GetString();
@@ -267,7 +267,7 @@ void Serializer::Deserialize(std::string fileName)
                         {
                             AnimatedSpriteComponent* animatedSpriteComp = instance->AddComponent<AnimatedSpriteComponent>();
                             auto meshName = itrComp->GetObject()["Mesh"].GetString();
-                            animatedSpriteComp->SetMeshNew(meshName);
+                            animatedSpriteComp->SetMesh(meshName);
                             auto textureName = itrComp->GetObject()["Texture"].GetString();
                             animatedSpriteComp->SetTexture(textureName);
                             auto specularTextureName = itrComp->GetObject()["SpecularTexture"].GetString();

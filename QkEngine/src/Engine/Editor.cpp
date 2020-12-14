@@ -226,7 +226,7 @@ void Editor::EnableDockingBackground()
             {
                 GameObject* newObj = Scene::GetCurrentScene().Instantiate<GameObject>(glm::vec3(0, 0, 0));
                 StaticMeshComponent* meshComp = newObj->AddComponent<StaticMeshComponent>();
-                meshComp->SetMeshNew("Cube.obj->Cube");
+                meshComp->SetMesh("Cube.obj->Cube");
                 meshComp->SetTexture("White.png");
                 meshComp->SetShader("StandardShader");
                 BoxColliderComponent* boxCollComp = newObj->AddComponent<BoxColliderComponent>();
@@ -514,7 +514,7 @@ void Editor::ShowSelectAssetWindow()
     }
     else if (currAssetWindowType == AssetWindowType::MeshesNew)
     {
-        assetsName = ResourceManager::GetMeshesNewName();
+        assetsName = ResourceManager::GetMeshesName();
         assetTypeStr = "MeshesNew";
     }
     else if (currAssetWindowType == AssetWindowType::Shaders)
@@ -638,13 +638,13 @@ void Editor::DrawSelectedGameObject()
         StaticMeshComponent* spriteComp = selectedObj->GetComponent<StaticMeshComponent>();
         if (spriteComp)
         {
-            Mesh* mesh = spriteComp->GetMeshNew();
+            Mesh* mesh = spriteComp->GetMesh();
             if (mesh != nullptr)
             {
                 glm::vec3 localPosition = selectedObj->transform.GetLocalPosition();
                 Bounds bounds = mesh->GetBounds();
                 Gizmos::SetCurrentColor(Gizmos::meshWireframeColor);
-                Gizmos::DrawMeshNewWireframe(
+                Gizmos::DrawMeshWireframe(
                     selectedObj->transform.GetGlobalPosition()
                     , selectedObj->transform.GetGlobalEulerAngles()
                     , selectedObj->transform.GetGlobalScale() * 1.001f

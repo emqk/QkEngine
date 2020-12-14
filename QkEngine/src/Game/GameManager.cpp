@@ -22,7 +22,7 @@ GameManager::GameManager()
 	StaticMeshComponent* sunSprite = sunObj->AddComponent<StaticMeshComponent>();
 	if (sunSprite != nullptr)
 	{
-		sunSprite->SetMeshNew("Arrow.fbx->Cone");
+		sunSprite->SetMesh("Arrow.fbx->Cone");
 		sunSprite->SetTexture(ResourceManager::GetTexture("gizmoSelectTexture.jpg"));
 		sunSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 
@@ -42,7 +42,7 @@ GameManager::GameManager()
 	StaticMeshComponent* groundSprite = ground->AddComponent<StaticMeshComponent>();
 	if (groundSprite != nullptr)
 	{
-		groundSprite->SetMeshNew("Cube.obj->Cube");
+		groundSprite->SetMesh("Cube.obj->Cube");
 		groundSprite->SetTexture(ResourceManager::GetTexture("gizmoSelectTexture.jpg"));
 		groundSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 		groundSprite->color = glm::vec4(0.4f, 0.85f, 0.4f, 1);
@@ -63,7 +63,7 @@ GameManager::GameManager()
 		StaticMeshComponent* treeBaseSprite = treeBase->AddComponent<StaticMeshComponent>();
 		if (treeBaseSprite != nullptr)
 		{
-			treeBaseSprite->SetMeshNew("Vegetation/Tree.fbx->Cylinder");
+			treeBaseSprite->SetMesh("Vegetation/Tree.fbx->Cylinder");
 			treeBaseSprite->SetTexture(ResourceManager::GetTexture("gizmoSelectTexture.jpg"));
 			treeBaseSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 			treeBaseSprite->color = glm::vec4(0.43f, 0.286f, 0.035f, 1);
@@ -73,7 +73,7 @@ GameManager::GameManager()
 		StaticMeshComponent* treeLeavesSprite = treeLeaves->AddComponent<StaticMeshComponent>();
 		if (treeLeavesSprite != nullptr)
 		{
-			treeLeavesSprite->SetMeshNew("Vegetation/Tree.fbx->Icosphere");
+			treeLeavesSprite->SetMesh("Vegetation/Tree.fbx->Icosphere");
 			treeLeavesSprite->SetTexture(ResourceManager::GetTexture("gizmoSelectTexture.jpg"));
 			treeLeavesSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 			treeLeavesSprite->color = glm::vec4(0.278f, 0.5f, 0.039f, 1);
@@ -90,7 +90,7 @@ GameManager::GameManager()
 		StaticMeshComponent* agentSprite = agent->AddComponent<StaticMeshComponent>();
 		if (agentSprite != nullptr)
 		{
-			agentSprite->SetMeshNew("Cube.obj->Cube");
+			agentSprite->SetMesh("Cube.obj->Cube");
 			agentSprite->SetTexture(ResourceManager::GetTexture("gizmoSelectTexture.jpg"));
 			agentSprite->SetShader(ResourceManager::GetShader("StandardShader"));
 		}

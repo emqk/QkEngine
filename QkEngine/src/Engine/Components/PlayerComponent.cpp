@@ -27,7 +27,7 @@ PlayerComponent::PlayerComponent(GameObject* _parent) : Component(_parent)
 	//if (!animatedSpriteComponent)
 	//{
 	//	animatedSpriteComponent = parent->AddComponent<AnimatedSpriteComponent>();
-	//	animatedSpriteComponent->SetMeshNew("Human/Human.obj->Plane");
+	//	animatedSpriteComponent->SetMesh("Human/Human.obj->Plane");
 	//	animatedSpriteComponent->SetTexture(ResourceManager::GetTexture("Adventurer/adventurer-idle-00.png"));
 	//	animatedSpriteComponent->SetShader(ResourceManager::GetShader("StandardShader"));
 	//	animatedSpriteComponent->SetCurrentAnimation(ResourceManager::GetSpriteAnimation("Idle"));
@@ -129,7 +129,7 @@ void PlayerComponent::Update(const float& deltaTime)
 		//Spawn particle
 		Texture* tex = ResourceManager::GetTexture("Dust.png");
 		Shader* shader = ResourceManager::GetShader("StandardShader");
-		Mesh* mesh = ResourceManager::GetMeshNew("Human/Human.obj->Plane");
+		Mesh* mesh = ResourceManager::GetMesh("Human/Human.obj->Plane");
 		ParticleManager::SpawnEmitter(std::make_unique<ParticleSystem>
 			(GetParent()->transform.GetGlobalPosition() + groundDetectorOffset , glm::vec3(0.5f, 0.5f, 0.5f), tex, mesh, shader, glm::vec4(1, 1, 1, 1), 10));
 	}

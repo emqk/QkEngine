@@ -32,19 +32,19 @@ void Gizmos::PrepareToRender()
     defaultShader->SetMat4("view", Scene::GetCurrentScene().GetCamera().view);
 }
 
-void Gizmos::DrawMeshNewWireframe(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& mesh)
+void Gizmos::DrawMeshWireframe(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& mesh)
 {
-    Renderer::DrawMeshNewAtLocation(pos, rot, localScale, mesh, *defaultTexture, *defaultShader, currentColor);
+    Renderer::DrawMeshAtLocation(pos, rot, localScale, mesh, *defaultTexture, *defaultShader, currentColor);
 }
 
 void Gizmos::DrawCubeWireframe(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale)
 {
-    Mesh* componentMesh = ResourceManager::GetMeshNew("Cube.obj->Cube");
-    Renderer::DrawMeshNewAtLocation(pos, rot, localScale, *componentMesh, *defaultTexture, *defaultShader, currentColor);
+    Mesh* componentMesh = ResourceManager::GetMesh("Cube.obj->Cube");
+    Renderer::DrawMeshAtLocation(pos, rot, localScale, *componentMesh, *defaultTexture, *defaultShader, currentColor);
 }
 
 void Gizmos::DrawCube(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale)
 {
-    Mesh* componentMesh = ResourceManager::GetMeshNew("Cube.obj->Cube");
-    Renderer::DrawMeshNewAtLocation(pos, rot, localScale, *componentMesh, *defaultTexture, *defaultShader, currentColor, false);
+    Mesh* componentMesh = ResourceManager::GetMesh("Cube.obj->Cube");
+    Renderer::DrawMeshAtLocation(pos, rot, localScale, *componentMesh, *defaultTexture, *defaultShader, currentColor, false);
 }

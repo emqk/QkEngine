@@ -22,7 +22,7 @@ size_t Renderer::drawCallsLastFrame = 0;
 size_t Renderer::drawVerticesLastFrame = 0;
 size_t Renderer::enabledDirectionalLightsLastFrame = 0;
 size_t Renderer::enabledPointLightsLastFrame = 0;
-std::vector<StaticMeshComponent*> Renderer::StaticMeshComponents;
+std::vector<StaticMeshComponent*> Renderer::staticMeshComponents;
 
 Texture* Renderer::defaultSpecularTexture = nullptr;
 
@@ -78,7 +78,7 @@ unsigned int Renderer::GetFrameBufferTextureID()
     return textureColorbuffer;
 }
 
-void Renderer::DrawNew()
+void Renderer::Draw()
 {
     drawCallsLastFrame = 0;
     drawVerticesLastFrame = 0;
@@ -166,17 +166,17 @@ void Renderer::DrawNew()
         shader->SetMat4("view", Scene::GetCurrentScene().GetCamera().view);
     }
 
-    for (StaticMeshComponent* comp : StaticMeshComponents)
+    for (StaticMeshComponent* comp : staticMeshComponents)
     {
         if (!comp->IsActive())
             continue;
 
-        Mesh* componentMeshNew = comp->GetMeshNew();
+        Mesh* componentMesh = comp->GetMesh();
         const Texture* componentTexture = comp->GetTexture();
         const Texture* specularTexture = comp->GetSpecularTexture();
         Shader* componentShader = comp->GetShader();
 
-        if (componentMeshNew == nullptr)
+        if (componentMesh == nullptr)
         {
             //std::cout << "Can't render StaticMeshComponent: Mesh is null!\n";
             continue;
@@ -225,8 +225,8 @@ void Renderer::DrawNew()
 
 
         // draw mesh
-        glBindVertexArray(componentMeshNew->GetVAO());
-        glDrawElements(GL_TRIANGLES, componentMeshNew->GetIndices().size(), GL_UNSIGNED_INT, 0);
+        glBindVertexArray(componentMesh->GetVAO());
+        glDrawElements(GL_TRIANGLES, componentMesh->GetIndices().size(), GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
 
         // always good practice to set everything back to defaults once configured.
@@ -234,11 +234,11 @@ void Renderer::DrawNew()
 
 
         ++drawCallsLastFrame;
-        drawVerticesLastFrame += componentMeshNew->GetVertices().size();
+        drawVerticesLastFrame += componentMesh->GetVertices().size();
     }
 }
 
-void Renderer::DrawMeshNewAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color, const bool& wirefame)
+void Renderer::DrawMeshAtLocation(const glm::vec3& pos, const glm::quat& rot, const glm::vec3& localScale, const Mesh& componentMesh, const Texture& componentTexture, const Shader& componentShader, const glm::vec4& color, const bool& wirefame)
 {
     //Set wireframe mode only for this mesh
     int polygonMode = 0;
@@ -391,23 +391,23 @@ void Renderer::EndDrawUI()
 
 void Renderer::AddSpriteToDraw(StaticMeshComponent* comp)
 {
-    StaticMeshComponents.push_back(comp);
+    staticMeshComponents.push_back(comp);
     //std::cout << "SpriteCompnent added to 'To Draw' container\n";
 }
 
 void Renderer::RemoveSpriteToDraw(StaticMeshComponent* comp)
 {
-    std::vector<StaticMeshComponent*>::iterator it = std::find(StaticMeshComponents.begin(), StaticMeshComponents.end(), comp);
-    if (it != StaticMeshComponents.end())
+    std::vector<StaticMeshComponent*>::iterator it = std::find(staticMeshComponents.begin(), staticMeshComponents.end(), comp);
+    if (it != staticMeshComponents.end())
     {
-        StaticMeshComponents.erase(it);
-        //std::cout << "StaticMeshComponent removed from renderer: " << StaticMeshComponents.size() << "\n";
+        staticMeshComponents.erase(it);
+        //std::cout << "StaticMeshComponent removed from renderer: " << staticMeshComponents.size() << "\n";
     }
 }
 
 size_t Renderer::GetToDrawContainerSize()
 {
-    return StaticMeshComponents.size();
+    return staticMeshComponents.size();
 }
 
 size_t Renderer::GetDrawCallsLastFrame()
