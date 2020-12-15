@@ -57,7 +57,7 @@ void Window::Run()
 
     Gizmos::Init();
 
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window) && !shouldBeClosed)
     {
         glfwPollEvents();
         InputManager::Update();
@@ -112,6 +112,11 @@ void Window::Run()
     }
 
     glfwTerminate();
+}
+
+void Window::Close()
+{
+    shouldBeClosed = true;
 }
 
 void Window::ProcessInput()

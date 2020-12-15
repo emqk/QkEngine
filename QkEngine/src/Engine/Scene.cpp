@@ -41,9 +41,14 @@ Scene::Scene()
     ResourceManager::LoadTexture("White.png");
 
     //Buttons
+    //Play
     ResourceManager::LoadTexture("Buttons/PlayIcon.png");
     ResourceManager::LoadTexture("Buttons/PlayIconHover.png");
     ResourceManager::LoadTexture("Buttons/PlayIconPressed.png");
+    //Exit
+    ResourceManager::LoadTexture("Buttons/ExitIcon.png");
+    ResourceManager::LoadTexture("Buttons/ExitIconHover.png");
+    ResourceManager::LoadTexture("Buttons/ExitIconPressed.png");
 
 
     //backpack

@@ -14,6 +14,7 @@ public:
 
 	void Init();
 	void Run();
+	void Close();
 
 	void ProcessInput();
 
@@ -51,4 +52,5 @@ private:
 	static Window* instance;
 	static constexpr bool isItBuild = false;
 	bool shouldResetDeltaTime = false;
+	bool shouldBeClosed = false;
 };

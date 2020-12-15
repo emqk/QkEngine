@@ -1,7 +1,8 @@
 #include "MainMenuComponent.h"
 #include "../../Engine/Scene.h"
+#include "../../Engine/Window.h"
 
-MainMenuComponent::MainMenuComponent(GameObject* _parent) : Component(_parent), playButtonWidget(nullptr)
+MainMenuComponent::MainMenuComponent(GameObject* _parent) : Component(_parent), playButtonWidget(nullptr), exitButtonWidget(nullptr)
 {
 	name = "MainMenuComponent";
 }
@@ -10,7 +11,7 @@ MainMenuComponent::~MainMenuComponent()
 {
 }
 
-MainMenuComponent::MainMenuComponent(const MainMenuComponent& comp) : Component(comp), playButtonWidget(nullptr)
+MainMenuComponent::MainMenuComponent(const MainMenuComponent& comp) : Component(comp), playButtonWidget(nullptr), exitButtonWidget(nullptr)
 {
 }
 
@@ -32,6 +33,17 @@ void MainMenuComponent::Start()
 	playButtonWidget->SetOnClick([&]()
 		{
 			Serializer::Deserialize("DayScene");
+		}
+	);
+
+	exitButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.1f, 0.2f), glm::vec2(0.1f, 0.1f));
+	exitButtonWidget->SetTextures(
+		ResourceManager::GetTexture("Buttons/ExitIcon.png")
+		, ResourceManager::GetTexture("Buttons/ExitIconHover.png")
+		, ResourceManager::GetTexture("Buttons/ExitIconPressed.png"));
+	exitButtonWidget->SetOnClick([&]()
+		{
+			Window::GetCurrentWindow()->Close();
 		}
 	);
 }

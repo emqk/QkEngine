@@ -195,7 +195,7 @@ void Editor::EnableDockingBackground()
             {
                 if (!Scene::IsInGameMode())
                 {
-                    Serializer::Serialize("DayScene");
+                    Serializer::Serialize("MainMenuScene");
                 }
                 else
                 {
@@ -206,7 +206,7 @@ void Editor::EnableDockingBackground()
             {
                 if (!Scene::IsInGameMode())
                 {
-                    Serializer::Deserialize("DayScene");
+                    Serializer::Deserialize("MainMenuScene");
                 }
                 else
                 {
