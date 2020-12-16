@@ -1,9 +1,9 @@
 #pragma once
-#include "Component.h"
-#include "AnimatedSpriteComponent.h"
-#include "BoxColliderComponent.h"
-#include "MoveComponent.h"
-#include "../UI/ButtonWidget.h"
+#include "../../Engine/Components/Component.h"
+#include "../../Engine/Components/AnimatedSpriteComponent.h"
+#include "../../Engine/Components/BoxColliderComponent.h"
+#include "../../Engine/Components/MoveComponent.h"
+#include "../../Engine/UI/ButtonWidget.h"
 
 class PlayerComponent : public Component
 {

@@ -1,37 +1,19 @@
 ﻿#include "PlayerComponent.h"
-#include "../GameObject.h"
-#include "../ResourceManager.h"
-#include "../Audio/AudioManager.h"
-#include "../InputManager.h"
-#include "../Scene.h"
-#include "../Camera.h"
-#include "../Gizmos.h"
-#include "../Physics/Physics.h"
-#include "../Transform.h"
+#include "../../Engine/GameObject.h"
+#include "../../Engine/ResourceManager.h"
+#include "../../Engine/Audio/AudioManager.h"
+#include "../../Engine/InputManager.h"
+#include "../../Engine/Scene.h"
+#include "../../Engine/Camera.h"
+#include "../../Engine/Gizmos.h"
+#include "../../Engine/Physics/Physics.h"
+#include "../../Engine/Transform.h"
 
 #include <iostream>
 
 PlayerComponent::PlayerComponent(GameObject* _parent) : Component(_parent)
 {
 	name = "PlayerComponent";
-
-	//if (!boxColliderComponent)
-	//{
-	//	boxColliderComponent = parent->AddComponent<BoxColliderComponent>();
-	//	boxColliderComponent->SetExtents(glm::vec3(0.5f, 1, 0.5f));
-	//}
-	//if (!moveComponent)
-	//{
-	//	moveComponent = parent->AddComponent<MoveComponent>();
-	//}
-	//if (!animatedSpriteComponent)
-	//{
-	//	animatedSpriteComponent = parent->AddComponent<AnimatedSpriteComponent>();
-	//	animatedSpriteComponent->SetMesh("Human/Human.obj->Plane");
-	//	animatedSpriteComponent->SetTexture(ResourceManager::GetTexture("Adventurer/adventurer-idle-00.png"));
-	//	animatedSpriteComponent->SetShader(ResourceManager::GetShader("StandardShader"));
-	//	animatedSpriteComponent->SetCurrentAnimation(ResourceManager::GetSpriteAnimation("Idle"));
-	//}
 }
 
 PlayerComponent::~PlayerComponent()

@@ -5,7 +5,7 @@
 #include "../Components/Lighting/DirectionalLightComponent.h"
 #include "../Components/Lighting/PointLightComponent.h"
 #include "../Components/BoxColliderComponent.h"
-#include "../Components/PlayerComponent.h"
+#include "../../Game/Components/PlayerComponent.h"
 #include "../Components/AI/NavMeshAgent.h"
 #include "../Lighting.h"
 #include "../Navigation/NavMesh.h"

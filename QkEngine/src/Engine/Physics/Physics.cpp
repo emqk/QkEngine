@@ -2,7 +2,7 @@
 #include "../GameObject.h"
 #include "../Scene.h"
 #include "../Components/MoveComponent.h"
-#include "../Components/PlayerComponent.h"
+#include "../../Game/Components/PlayerComponent.h"
 
 #include <iostream>
 #include <algorithm>

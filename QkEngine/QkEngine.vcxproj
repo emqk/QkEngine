@@ -163,7 +163,7 @@
     <ClCompile Include="src\Engine\Components\Component.cpp" />
     <ClCompile Include="src\Engine\Components\Lighting\DirectionalLightComponent.cpp" />
     <ClCompile Include="src\Engine\Components\MoveComponent.cpp" />
-    <ClCompile Include="src\Engine\Components\PlayerComponent.cpp" />
+    <ClCompile Include="src\Game\Components\PlayerComponent.cpp" />
     <ClCompile Include="src\Engine\Components\Lighting\PointLightComponent.cpp" />
     <ClCompile Include="src\Engine\Components\StaticMeshComponent.cpp" />
     <ClCompile Include="src\Engine\Editor.cpp" />
@@ -214,7 +214,7 @@
     <ClInclude Include="src\Engine\Components\Component.h" />
     <ClInclude Include="src\Engine\Components\Lighting\DirectionalLightComponent.h" />
     <ClInclude Include="src\Engine\Components\MoveComponent.h" />
-    <ClInclude Include="src\Engine\Components\PlayerComponent.h" />
+    <ClInclude Include="src\Game\Components\PlayerComponent.h" />
     <ClInclude Include="src\Engine\Components\Lighting\PointLightComponent.h" />
     <ClInclude Include="src\Engine\Components\StaticMeshComponent.h" />
     <ClInclude Include="src\Engine\Editor.h" />

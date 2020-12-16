@@ -4,7 +4,7 @@
 #include "../Engine/ResourceManager.h"
 #include "../Engine/Components/BoxColliderComponent.h"
 #include "../Engine/Components/MoveComponent.h"
-#include "../Engine/Components/PlayerComponent.h"
+#include "Components/PlayerComponent.h"
 #include "../Engine/Components/Lighting/DirectionalLightComponent.h"
 #include "../Engine/Components/Lighting/PointLightComponent.h"
 #include "../Engine/Components/AI/NavMeshAgent.h"

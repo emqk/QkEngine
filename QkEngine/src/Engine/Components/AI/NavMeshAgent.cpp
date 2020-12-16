@@ -2,7 +2,7 @@
 #include "../../GameObject.h"
 #include "../../Navigation/NavMesh.h"
 #include "../../Scene.h"
-#include "../PlayerComponent.h"
+#include "../../../Game/Components/PlayerComponent.h"
 
 NavMeshAgentComponent::NavMeshAgentComponent(GameObject* _parent) : Component(_parent)
 {
