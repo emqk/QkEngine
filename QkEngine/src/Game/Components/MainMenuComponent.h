@@ -21,5 +21,6 @@ public:
 
 private:
 	ButtonWidget* playButtonWidget;
+	ButtonWidget* playSecButtonWidget;
 	ButtonWidget* exitButtonWidget;
 };

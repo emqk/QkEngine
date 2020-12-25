@@ -130,7 +130,7 @@ Scene::Scene()
 
     if (Window::IsItBuild())
     {
-        Serializer::Deserialize("NightScene");
+        Serializer::Deserialize("MainMenuScene");
         EnterGameMode();
     }
     else

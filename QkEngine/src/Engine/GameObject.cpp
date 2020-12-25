@@ -13,7 +13,7 @@
 #include "Components/Lighting/DirectionalLightComponent.h"
 #include "Components/Lighting/PointLightComponent.h"
 #include "Components/AI/NavMeshAgent.h"
-#include "Components/PlayerComponent.h"
+#include "../Game/Components/PlayerComponent.h"
 
 //Game Components
 #include "../Game/Components/PlatformComponent.h"

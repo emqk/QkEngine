@@ -51,7 +51,7 @@ void NavMesh::RegenerateChunk(const glm::vec3& _startPos, const glm::vec3& _endP
 
 	if (!startNode || !endNode)
 	{
-		std::cout << "NavMesh chunk can't be regenerated!: startNode == nullptr or endNode == nullptr!\n";
+		//std::cout << "NavMesh chunk can't be regenerated!: startNode == nullptr or endNode == nullptr!\n";
 		return;
 	}
 

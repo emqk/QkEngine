@@ -39,8 +39,8 @@ void PlayerComponent::Start()
 	animatedSpriteComponent = parent->GetComponent<AnimatedSpriteComponent>();
 
 	playerWidget = Scene::GetCurrentScene().InstantiateWidget<Widget>(glm::vec2(0.9f, 0.9f), glm::vec2(0.1f, 0.1f));
-	playerButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.5f, 0.7f), glm::vec2(0.2f, 0.1f));
-	playerButtonWidget->SetOnClick([&]() { moveSpeed += 0.5f; std::cout << "[PLAYER_COMPONENT LAMBDA] Speed up player!\n"; });
+	playerButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.05f, 0.9f), glm::vec2(0.05f, 0.05f));
+	playerButtonWidget->SetOnClick([&]() { moveSpeed += 1.0f; std::cout << "[PLAYER_COMPONENT LAMBDA] Speed up player!\n"; });
 }
 
 void PlayerComponent::Update(const float& deltaTime)

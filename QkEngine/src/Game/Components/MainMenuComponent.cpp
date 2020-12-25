@@ -2,7 +2,7 @@
 #include "../../Engine/Scene.h"
 #include "../../Engine/Window.h"
 
-MainMenuComponent::MainMenuComponent(GameObject* _parent) : Component(_parent), playButtonWidget(nullptr), exitButtonWidget(nullptr)
+MainMenuComponent::MainMenuComponent(GameObject* _parent) : Component(_parent), playButtonWidget(nullptr), playSecButtonWidget(nullptr)/*, exitButtonWidget(nullptr)*/
 {
 	name = "MainMenuComponent";
 }
@@ -11,7 +11,7 @@ MainMenuComponent::~MainMenuComponent()
 {
 }
 
-MainMenuComponent::MainMenuComponent(const MainMenuComponent& comp) : Component(comp), playButtonWidget(nullptr), exitButtonWidget(nullptr)
+MainMenuComponent::MainMenuComponent(const MainMenuComponent& comp) : Component(comp), playButtonWidget(nullptr), playSecButtonWidget(nullptr)/*, exitButtonWidget(nullptr)*/
 {
 }
 
@@ -25,7 +25,7 @@ std::unique_ptr<Component> MainMenuComponent::MakeCopy(GameObject* newParent) co
 
 void MainMenuComponent::Start()
 {
-	playButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.1f, 0.1f), glm::vec2(0.4f, 0.4f));
+	playButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.05f, 0.3f), glm::vec2(0.4f, 0.4f));
 	playButtonWidget->SetTextures(
 		  ResourceManager::GetTexture("Buttons/Map1Icon.png")
 		, ResourceManager::GetTexture("Buttons/Map1Hover.png")
@@ -36,14 +36,25 @@ void MainMenuComponent::Start()
 		}
 	);
 
-	exitButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.1f, 0.7f), glm::vec2(0.1f, 0.1f));
-	exitButtonWidget->SetTextures(
-		ResourceManager::GetTexture("Buttons/ExitIcon.png")
-		, ResourceManager::GetTexture("Buttons/ExitIconHover.png")
-		, ResourceManager::GetTexture("Buttons/ExitIconPressed.png"));
-	exitButtonWidget->SetOnClick([&]()
+	playSecButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.55f, 0.3f), glm::vec2(0.4f, 0.4f));
+	playSecButtonWidget->SetTextures(
+		ResourceManager::GetTexture("Buttons/Map2Icon.png")
+		, ResourceManager::GetTexture("Buttons/Map2Hover.png")
+		, ResourceManager::GetTexture("Buttons/Map2Pressed.png"));
+	playSecButtonWidget->SetOnClick([&]()
 		{
-			Window::GetCurrentWindow()->Close();
+			Serializer::Deserialize("NightScene");
 		}
 	);
+
+	//exitButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.1f, 0.7f), glm::vec2(0.1f, 0.1f));
+	//exitButtonWidget->SetTextures(
+	//	ResourceManager::GetTexture("Buttons/ExitIcon.png")
+	//	, ResourceManager::GetTexture("Buttons/ExitIconHover.png")
+	//	, ResourceManager::GetTexture("Buttons/ExitIconPressed.png"));
+	//exitButtonWidget->SetOnClick([&]()
+	//	{
+	//		Window::GetCurrentWindow()->Close();
+	//	}
+	//);
 }
