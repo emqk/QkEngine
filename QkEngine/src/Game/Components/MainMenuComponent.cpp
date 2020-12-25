@@ -25,18 +25,18 @@ std::unique_ptr<Component> MainMenuComponent::MakeCopy(GameObject* newParent) co
 
 void MainMenuComponent::Start()
 {
-	playButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.1f, 0.1f), glm::vec2(0.1f, 0.1f));
+	playButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.1f, 0.1f), glm::vec2(0.4f, 0.4f));
 	playButtonWidget->SetTextures(
-		  ResourceManager::GetTexture("Buttons/PlayIcon.png")
-		, ResourceManager::GetTexture("Buttons/PlayIconHover.png")
-		, ResourceManager::GetTexture("Buttons/PlayIconPressed.png"));
+		  ResourceManager::GetTexture("Buttons/Map1Icon.png")
+		, ResourceManager::GetTexture("Buttons/Map1Hover.png")
+		, ResourceManager::GetTexture("Buttons/Map1Pressed.png"));
 	playButtonWidget->SetOnClick([&]()
 		{
 			Serializer::Deserialize("DayScene");
 		}
 	);
 
-	exitButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.1f, 0.2f), glm::vec2(0.1f, 0.1f));
+	exitButtonWidget = Scene::GetCurrentScene().InstantiateWidget<ButtonWidget>(glm::vec2(0.1f, 0.7f), glm::vec2(0.1f, 0.1f));
 	exitButtonWidget->SetTextures(
 		ResourceManager::GetTexture("Buttons/ExitIcon.png")
 		, ResourceManager::GetTexture("Buttons/ExitIconHover.png")

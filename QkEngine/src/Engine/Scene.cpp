@@ -50,6 +50,14 @@ Scene::Scene()
     ResourceManager::LoadTexture("Buttons/ExitIconHover.png");
     ResourceManager::LoadTexture("Buttons/ExitIconPressed.png");
 
+    //MainMenu
+    ResourceManager::LoadTexture("Buttons/Map1Icon.png");
+    ResourceManager::LoadTexture("Buttons/Map1Hover.png");
+    ResourceManager::LoadTexture("Buttons/Map1Pressed.png");
+    ResourceManager::LoadTexture("Buttons/Map2Icon.png");
+    ResourceManager::LoadTexture("Buttons/Map2Hover.png");
+    ResourceManager::LoadTexture("Buttons/Map2Pressed.png");
+
 
     //backpack
     //ResourceManager::LoadTexture("backpack/diffuse.jpg");
@@ -122,7 +130,7 @@ Scene::Scene()
 
     if (Window::IsItBuild())
     {
-        Serializer::Deserialize("DayScene");
+        Serializer::Deserialize("NightScene");
         EnterGameMode();
     }
     else
