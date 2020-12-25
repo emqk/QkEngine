@@ -47,7 +47,7 @@ private:
 	double mousePosX, mousePosY;
 
 	static Window* instance;
-	static constexpr bool isItBuild = false;
+	static constexpr bool isItBuild = true;
 	bool shouldResetDeltaTime = false;
 	bool shouldBeClosed = false;
 };

@@ -34,7 +34,7 @@ void Window::Init()
     winHeight = mode->height;
     std::cout << "Screen size: " << winWidth << " x " << winHeight << "\n";
 
-    window = glfwCreateWindow(winWidth, winHeight, "Qk Engine 0.01", Window::IsItBuild() ? primaryMonitor : nullptr, nullptr);
+    window = glfwCreateWindow(winWidth, winHeight, "Qk Engine", Window::IsItBuild() ? primaryMonitor : nullptr, nullptr);
     if (!window)
     {
         glfwTerminate();

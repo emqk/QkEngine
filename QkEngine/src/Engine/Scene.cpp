@@ -110,6 +110,10 @@ Scene::Scene()
     ResourceManager::LoadModel("Sphere.fbx");
     ResourceManager::LoadModel("Vegetation/Tree.fbx");
     ResourceManager::LoadModel("Vegetation/Birch.obj");
+    ResourceManager::LoadModel("Buildings/Buiilding Area.obj");
+    ResourceManager::LoadTexture("Buildings/Building Area.jpg");
+    ResourceManager::LoadModel("Buildings/Grocery.obj");
+    ResourceManager::LoadTexture("Buildings/Grocery.png");
 
     //Shaders
     ResourceManager::LoadShader("StandardShader");
